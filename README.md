@@ -26,6 +26,4 @@ Technologies used:
   - TypeScript 5.0.3
   - HTML 5/CSS 3
 
-## YouTube Channel
 
-   For a detailed step-by-step explanation of the login implementation, please visit https://youtu.be/uKaDrojacqw.
