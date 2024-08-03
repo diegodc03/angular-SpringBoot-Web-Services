@@ -1,0 +1,12 @@
+body {
+    font-family: Arial, sans-serif;
+    height: 10vh;
+}
+#welcomeMessage {
+    color: green;
+    font-size: 1.2em;
+}
+#errorMessage {
+    color: red;
+    font-size: 1.2em;
+}
