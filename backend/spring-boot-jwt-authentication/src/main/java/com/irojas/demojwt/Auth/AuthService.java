@@ -47,12 +47,10 @@ public class AuthService {
         String token=jwtService.getToken(user);
         
         return new AuthResponse(token);
-
     }
 
     public AuthResponse register(RegisterRequest request) {
-        
-        
+                
         User user = new User();
 	    user.setUsername(request.getUsername());
 	    user.setPassword(passwordEncoder.encode( request.getPassword()));
@@ -61,12 +59,9 @@ public class AuthService {
 	    user.setCountry(request.getCountry());
 	    user.setRole(Role.USER);
         
-
         userRepository.save(user);
 
-               
         return new AuthResponse(jwtService.getToken(user));
-        
     }
     
     
@@ -96,6 +91,7 @@ public class AuthService {
     	}
    	    return false;
     }
+    
     
     public Authentication authenticate(String username, String password) {
 		UserDetails userDetails = this.loadUserByUsername(username);
@@ -142,9 +138,45 @@ public class AuthService {
 	    		return true;
 	    	}
 		}	
-		
 		return false;
 	}
     
+	
+	public void changeUserData(String token, ChangeUserData changeData) {
+		
+		if (token == null || changeData == null) {
+	        throw new IllegalArgumentException("Token and change data must not be null");
+	    }
+
+	    if (!jwtService.isTokenValid(token)) {
+	        throw new SecurityException("Invalid token");
+	    }
+		
+		if(jwtService.isTokenValid(token)) {
+			
+			String username = jwtService.getUsernameFromToken(token);
+			Optional<User> optionalUser = userRepository.findByUsername(username);
+			
+			if(optionalUser.isPresent()) {
+	    		//Usuario existente y token valido
+	    		    		
+	    		User user = optionalUser.get();
+	    		
+	    		if(!changeData.getCountry().isBlank()) {
+	    			user.setCountry(changeData.country);
+	    		}
+	    		if(!changeData.getFirstname().isBlank()) {
+	    			user.setFirstname(changeData.getFirstname());
+	    		}
+	    		if(!changeData.getLastname().isBlank()) {
+	    			user.setLastname(changeData.getLastname());
+	    		}
+	    		
+	    		userRepository.save(user);
+	    	}
+		}
+	}
+	
+	
 
 }

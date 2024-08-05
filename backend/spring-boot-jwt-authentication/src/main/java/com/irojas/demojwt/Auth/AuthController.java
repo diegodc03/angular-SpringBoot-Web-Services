@@ -85,7 +85,26 @@ public class AuthController {
 	   	return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized: No token provided");
     
     
-    
-    
     }
-}
+    
+    
+    @PostMapping(value = "changeUserData")
+    public ResponseEntity<String> changeUserData(@RequestBody ChangeUserData userData, HttpServletRequest requestHeader) {
+    	
+    	String authorizationHeader = requestHeader.getHeader(HttpHeaders.AUTHORIZATION);
+    	
+    	if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+   	        String token = authorizationHeader.substring(7); // Extrae el token sin "Bearer "
+   	        
+   	        authService.changeUserData(token, userData);
+   	        
+   	 
+   	 }
+   	return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized: No token provided");
+    	
+    	
+   
+    }
+    
+}  
+
