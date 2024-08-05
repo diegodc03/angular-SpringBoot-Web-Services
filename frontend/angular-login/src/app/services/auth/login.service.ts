@@ -4,6 +4,7 @@ import { LoginRequest } from './loginRequest';
 import  {  Observable, throwError, catchError, BehaviorSubject , tap, map} from 'rxjs';
 import { User } from './user';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class LoginService {
   currentUserLoginOn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   currentUserData: BehaviorSubject<String> =new BehaviorSubject<String>("");
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient, private router: Router) { 
     this.currentUserLoginOn=new BehaviorSubject<boolean>(sessionStorage.getItem("token")!=null);
     this.currentUserData=new BehaviorSubject<String>(sessionStorage.getItem("token") || "");
   }
@@ -35,6 +36,7 @@ export class LoginService {
   logout():void{
     sessionStorage.removeItem("token");
     this.currentUserLoginOn.next(false);
+    this.router.navigate(['/login']);
   }
 
   private handleError(error:HttpErrorResponse){
@@ -87,8 +89,35 @@ export class LoginService {
     return this.http.get<any>(`${environment.urlToken}/validate-token`, { headers });
   }
 
-  
- 
 
+  deleteUser(): void {
+
+    // Send a DELETE request to the backend
+    const token = sessionStorage.getItem('token');
+    console.log("LoginService.deleteUser token: ", token);
+    if (!token) {
+      console.error('No token found. You are not logged in. Please log in to access this page.');
+      return;
+    }
+
+    // Configure the headers with the token
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+
+    console.log('Deleting the user...');
+
+    this.http.delete(`${environment.urlHost}auth/deleteUser`, { headers }).subscribe({
+      next: (response) => {
+        console.log('User deleted:', response);
+        this.logout();
+      },
+      error: (error) => {
+        console.error('Error deleting the user:', error);
+      }
+    });
+    
+  }
 
 }

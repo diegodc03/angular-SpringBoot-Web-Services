@@ -48,8 +48,6 @@ export class PrivateZoneComponent implements OnInit {
     console.log('Change password');
     this.router.navigateByUrl('/dashboard/changePassword');
     //WE change the page to change password
-
-
   }
 
   changePersonalInfo(){
@@ -60,6 +58,7 @@ export class PrivateZoneComponent implements OnInit {
 
   deleteAccount(){
     console.log('Delete account');
+    this.loginService.deleteUser();
   }
   
 

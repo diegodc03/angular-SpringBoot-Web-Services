@@ -47,39 +47,31 @@ export class ChangePasswordComponent implements OnInit {
     if (this.changePasswordForm.valid) {
       const payload = {
         currentPassword: this.currentPassword?.value!,
-      newPassword: this.newPassword?.value!,
-      confirmPassword: this.confirmPassword?.value!
+        newPassword: this.newPassword?.value!,
+        confirmPassword: this.confirmPassword?.value!
       };
       
-      this.loginService.checkLogin().subscribe({
-        next: (response) => {
-          console.log('Usuario logueado:', response);
-          // Maneja la respuesta del backend
-        },
-        error: (error) => {
-          console.error('No hay usuario logueado:', error);
-          // Maneja el error (p.ej., redirige al usuario al login)
-        }
-      });
+      
 
       this.passwordChangeService.changePassword(payload).subscribe({
         next: (response) => {
-          console.log('Contraseña correctamente cambiada:', response);
-          this.loginService.logout();
-          // Maneja la respuesta del backend
+          if (response.error) {
+            this.errorMessage = response.error;
+            console.error('Error:', response.error);
+          } else {
+            console.log('Contraseña correctamente cambiada:', response);
+            this.loginService.logout();
+            this.router.navigate(['/login']);
+          }
         },
         error: (error) => {
           console.error('No se ha conseguido cambiar la contraseña:', error);
           // Maneja el error (p.ej., redirige al usuario al login)
           this.loginService.logout();
+         
         }
       });
 
-
-      
-
-
-      
     }
   }
 }

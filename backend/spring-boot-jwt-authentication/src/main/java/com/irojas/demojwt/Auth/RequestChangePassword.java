@@ -4,6 +4,7 @@ public class RequestChangePassword {
 	String currentPassword;
 	String newPassword;
 
+
 	
 
 	public String getCurrentPassword() {
@@ -18,12 +19,13 @@ public class RequestChangePassword {
 	public void setNewPassword(String newPassword) {
 		this.newPassword = newPassword;
 	}
-	
+
 	
 	public RequestChangePassword(String currentPassword, String newPassword) {
 		super();
 		this.currentPassword = currentPassword;
 		this.newPassword = newPassword;
+
 
 	}
 	

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators} from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute  } from '@angular/router';
 import { LoginService } from 'src/app/services/auth/login.service';
 import { LoginRequest } from 'src/app/services/auth/loginRequest';
 
@@ -10,14 +10,31 @@ import { LoginRequest } from 'src/app/services/auth/loginRequest';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  
   loginError:string="";
+  loginSuccess: String="";
+
   loginForm=this.formBuilder.group({
     username:['',[Validators.required,Validators.email]],
     password: ['',Validators.required],
   })
-  constructor(private formBuilder:FormBuilder, private router:Router, private loginService: LoginService) { }
+  constructor(private formBuilder:FormBuilder, private router:Router, private loginService: LoginService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      if (params['error'] === 'passwordChangeFailed') {
+        this.loginError = 'No se pudo cambiar la contraseña, no era igual. Por favor, inténtelo de nuevo.';
+      }
+      
+    });
+
+    this.loginService.currentUserLoginOn.subscribe({
+      next: (userLoginOn) => {
+        if (!userLoginOn) {
+          this.router.navigate(['/login']);
+        }
+      }
+    });
   }
 
   get email(){

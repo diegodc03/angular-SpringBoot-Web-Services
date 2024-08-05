@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,6 +51,8 @@ public class AuthController {
     	 if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
     	        String token = authorizationHeader.substring(7); // Extrae el token sin "Bearer "
     	        
+    	       
+    	        
     	        if (authService.changePassword(request.getCurrentPassword(), request.getNewPassword(), token)) {
     	            return ResponseEntity.ok("Password changed successfully");
     	        }
@@ -61,4 +64,28 @@ public class AuthController {
     }
     
     
+    
+    @DeleteMapping(value = "deleteUser")
+    public ResponseEntity<String> deleteUser(HttpServletRequest requestHeader){
+		
+    	System.out.println("34534534");
+    	String authorizationHeader = requestHeader.getHeader(HttpHeaders.AUTHORIZATION);
+    	
+	   	 if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+	   	        String token = authorizationHeader.substring(7); // Extrae el token sin "Bearer "
+	   	        
+	   	        
+	   	        
+	   	        if(authService.deleteUser(token)) {
+	   	        	return ResponseEntity.ok("User Deleted");
+	   	        }
+	   	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized: No token provided");
+	   	 
+	   	 }
+	   	return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized: No token provided");
+    
+    
+    
+    
+    }
 }

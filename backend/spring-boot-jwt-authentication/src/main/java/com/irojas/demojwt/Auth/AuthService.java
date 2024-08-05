@@ -125,6 +125,26 @@ public class AuthService {
 		return new org.springframework.security.core.userdetails.User(userEntity.getUsername(), userEntity.getPassword(),authorityList);
 	}
 	
+	
+	public boolean deleteUser(String token) throws UsernameNotFoundException {
+		
+		if(jwtService.isTokenValid(token)) {
+			
+			String username = jwtService.getUsernameFromToken(token);
+			Optional<User> optionalUser = userRepository.findByUsername(username);
+			
+			if(optionalUser.isPresent()) {
+	    		//Usuario existente y token valido
+	    		    		
+	    		User user = optionalUser.get();
+	    		
+	    		userRepository.delete(user);
+	    		return true;
+	    	}
+		}	
+		
+		return false;
+	}
     
 
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable, of } from 'rxjs';
+import { Observable, of,  throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { LoginService} from 'src/app/services/auth/login.service';
 import { HttpHeaders } from '@angular/common/http';
@@ -16,8 +16,10 @@ export class PasswordChangeServiceService {
   changePassword(payload: { currentPassword: string, newPassword: string, confirmPassword: string }): Observable<any> {
     // Validación local antes de enviar al backend
     const validationError = this.validatePasswords(payload.newPassword, payload.confirmPassword);
-    if (validationError) {
-      return of({ error: validationError });
+    console.log('Validation error:', validationError);
+
+    if (!validationError) {
+      return of({ error: "Las contraseñas no coinciden" });
     }
 
     const currentPassword = payload.currentPassword;
@@ -25,7 +27,7 @@ export class PasswordChangeServiceService {
 
     const token = sessionStorage.getItem('token');
     if (!token) {
-      return of({ error: 'No token found. You are not logged in. Please log in to access this page.' });
+      return throwError(() => new Error('No token found. You are not logged in. Please log in to access this page.'));
     }else{
       // Enviar solicitud al backend
       this.loginService.checkLogin();
@@ -36,24 +38,32 @@ export class PasswordChangeServiceService {
         });
 
     
-
-      return this.http.post(this.apiUrl, { currentPassword, newPassword}, { headers });
+      console.log('Change password service, the last');
+      return this.http.post(this.apiUrl, { currentPassword, newPassword }, { headers }).pipe(
+        map(response => {
+          // Puedes manejar la respuesta aquí si es necesario
+          return response;
+        }),
+        catchError(error => {
+          // Manejar errores del backend
+          console.error('Error changing password:', error);
+          return throwError(() => new Error('Error changing password'));
+        })
+      );
     
-    }
-
-    
-      
+    } 
   }
 
-  private validatePasswords(newPassword: string, confirmPassword: string): string | null {
+  private validatePasswords(newPassword: string, confirmPassword: string):boolean {
+    console.log(newPassword, confirmPassword);
     if (newPassword !== confirmPassword) {
-      return 'Las contraseñas no coinciden';
+      return false;
     }
     /*
     if (newPassword.length < 8) {
       return 'La contraseña debe tener al menos 8 caracteres';
     }*/
-    return null;
+    return true;
   }
 
 
