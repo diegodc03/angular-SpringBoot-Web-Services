@@ -33,8 +33,11 @@ public class Product {
 	private String description;
 	
 	private Double price;
-
-	private Boolean hasSizes; // Indica si el producto tiene varias tallas
+	
+	private Boolean isShirt; // Indica si el producto tiene varias tallas
+	
+	private int totalStock;
+	
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Tshirt> tshirts;
@@ -64,12 +67,20 @@ public class Product {
 		this.price = price;
 	}
 
-	public Boolean getHasSizes() {
-		return hasSizes;
+	public int getTotalStock() {
+		return totalStock;
 	}
 
-	public void setHasSizes(Boolean hasSizes) {
-		this.hasSizes = hasSizes;
+	public void setTotalStock(int totalStock) {
+		this.totalStock = totalStock;
+	}
+
+	public Boolean getIsTshirt() {
+		return isShirt;
+	}
+
+	public void setIsTshirt(Boolean isShirt) {
+		this.isShirt = isShirt;
 	}
 
 	public List<Tshirt> getTshirts() {
@@ -81,12 +92,12 @@ public class Product {
 	}
 	
 
-	public Product(String name, String description, Double price, Boolean hasSizes, List<Tshirt> tshirts) {
+	public Product(String name, String description, Double price, Boolean isShirt, List<Tshirt> tshirts) {
 		super();
 		this.name = name;
 		this.description = description;
 		this.price = price;
-		this.hasSizes = hasSizes;
+		this.isShirt = isShirt;
 		this.tshirts = tshirts;
 	}
 

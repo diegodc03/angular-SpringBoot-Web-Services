@@ -31,25 +31,46 @@ public class ControllerInventary {
 	    public List<Product> getAllProducts() {
 	        return productService.getAllProducts();
 	    }
-
-	    @GetMapping("/{id}")
+	    
+	    
+	    @GetMapping("/inventary")
 	    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
 	        Optional<Product> product = productService.getProdcutById(id);
 	        return product.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 	    }
+	    
+	    @GetMapping("/price-ascending")
+	    public List<Product> getProductsByPriceAscending() {
+	        return productService.getProductByPriceAscending();
+	    }
+	    
+	    @GetMapping("/price-descending")
+	    public List<Product> getProductsByPriceDescending() {
+	        return productService.getProductByPriceDescending();
+	    }
+	    
+	    @GetMapping("/stock-ascending")
+	    public List<Product> getProductsByStockAscending() {
+	        return productService.getProductByStockAscending();
+	    }
+	    
+	    @GetMapping("/stock-descending")
+	    public List<Product> getProductsByStockDescending() {
+	        return productService.getProductByStockDescending();
+	    }
 
-	    @PostMapping
+	    @PostMapping("/add-product")
 	    public Product addProduct(@RequestBody Product product) {
 	        return productService.addProduct(product);
 	    }
 
-	    @DeleteMapping("/{id}")
+	    @DeleteMapping("/delete-product")
 	    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
 	        productService.deleteProduct(id);
 	        return ResponseEntity.noContent().build();
 	    }
 
-	    @PutMapping("/{id}")
+	    @PutMapping("/update-prodcut")
 	    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product productDetails) {
 	        Product updatedProduct = productService.updateProduct(id, productDetails);
 	        return ResponseEntity.ok(updatedProduct);

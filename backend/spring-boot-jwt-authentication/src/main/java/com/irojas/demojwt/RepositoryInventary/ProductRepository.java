@@ -6,4 +6,7 @@ import com.irojas.demojwt.ModelInventary.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Long>{
 	
+	
+	
+	
 }
