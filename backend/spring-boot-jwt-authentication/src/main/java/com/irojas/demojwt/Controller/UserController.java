@@ -1,4 +1,4 @@
-package com.irojas.demojwt.User;
+package com.irojas.demojwt.Controller;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.irojas.demojwt.Jwt.JwtService;
+import com.irojas.demojwt.ModelDTO.UserDTO;
+import com.irojas.demojwt.ModelDTO.UserRequest;
+import com.irojas.demojwt.ModelDTO.UserResponse;
+import com.irojas.demojwt.Service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.irojas.demojwt.Auth;
+package com.irojas.demojwt.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +15,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.irojas.demojwt.Jwt.JwtService;
-import com.irojas.demojwt.User.Role;
-import com.irojas.demojwt.User.User;
-import com.irojas.demojwt.User.UserRepository;
-
+import com.irojas.demojwt.Model.Role;
+import com.irojas.demojwt.Model.User;
+import com.irojas.demojwt.ModelDTO.AuthResponse;
+import com.irojas.demojwt.ModelDTO.ChangeUserData;
+import com.irojas.demojwt.ModelDTO.LoginRequest;
+import com.irojas.demojwt.ModelDTO.RegisterRequest;
+import com.irojas.demojwt.Repsository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -163,7 +166,7 @@ public class AuthService {
 	    		User user = optionalUser.get();
 	    		
 	    		if(!changeData.getCountry().isBlank()) {
-	    			user.setCountry(changeData.country);
+	    			user.setCountry(changeData.getCountry());
 	    		}
 	    		if(!changeData.getFirstname().isBlank()) {
 	    			user.setFirstname(changeData.getFirstname());

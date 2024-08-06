@@ -1,4 +1,4 @@
-package com.irojas.demojwt.Auth;
+package com.irojas.demojwt.ModelDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

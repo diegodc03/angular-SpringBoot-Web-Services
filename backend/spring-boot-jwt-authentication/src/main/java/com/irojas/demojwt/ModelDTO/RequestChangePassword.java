@@ -1,4 +1,4 @@
-package com.irojas.demojwt.Auth;
+package com.irojas.demojwt.ModelDTO;
 
 public class RequestChangePassword {
 	String currentPassword;

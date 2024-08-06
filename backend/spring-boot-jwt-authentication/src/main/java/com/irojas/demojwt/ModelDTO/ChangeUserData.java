@@ -1,11 +1,11 @@
-package com.irojas.demojwt.Auth;
+package com.irojas.demojwt.ModelDTO;
 
 public class ChangeUserData {
 	
 
-    String firstname;
-    String lastname;
-    String country;
+    private String firstname;
+    private String lastname;
+    private String country;
     
 	
 	public String getFirstname() {

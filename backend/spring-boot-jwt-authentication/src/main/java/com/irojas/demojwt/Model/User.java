@@ -1,4 +1,4 @@
-package com.irojas.demojwt.User;
+package com.irojas.demojwt.Model;
 
 import java.util.Collection;
 import java.util.List;
@@ -31,15 +31,15 @@ public class User implements UserDetails {
     
 	@Id
     @GeneratedValue
-    Integer id;
+    private Integer id;
     @Basic
     @Column(nullable = false)
-    String username;
+    private String username;
     @Column(nullable = false)
-    String lastname;
-    String firstname;
-    String country;
-    String password;
+    private String lastname;
+    private String firstname;
+    private String country;
+    private String password;
     @Enumerated(EnumType.STRING) 
     Role role;
 

@@ -1,4 +1,4 @@
-package com.irojas.demojwt.Auth;
+package com.irojas.demojwt.Controller;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -10,6 +10,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.irojas.demojwt.ModelDTO.AuthResponse;
+import com.irojas.demojwt.ModelDTO.ChangeUserData;
+import com.irojas.demojwt.ModelDTO.LoginRequest;
+import com.irojas.demojwt.ModelDTO.RegisterRequest;
+import com.irojas.demojwt.ModelDTO.RequestChangePassword;
+import com.irojas.demojwt.Service.AuthService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

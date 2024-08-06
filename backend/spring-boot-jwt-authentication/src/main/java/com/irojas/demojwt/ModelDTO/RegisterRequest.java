@@ -1,4 +1,4 @@
-package com.irojas.demojwt.User;
+package com.irojas.demojwt.ModelDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,26 +9,26 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO {
-    int id;
-    
-	String username;
+public class RegisterRequest {
+    String username;
+    String password;
     String firstname;
     String lastname;
     String country;
     
     
-    public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+    
 	public String getUsername() {
 		return username;
 	}
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	public String getFirstname() {
 		return firstname;
@@ -50,10 +50,20 @@ public class UserDTO {
 	}
 	
 	
-	public UserDTO() {
+	
+	public RegisterRequest(String username, String password, String firstname, String lastname, String country) {
 		super();
+		this.username = username;
+		this.password = password;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.country = country;
 	}
 	
-	
-	
+    
+    
+    
+    
+    
+    
 }

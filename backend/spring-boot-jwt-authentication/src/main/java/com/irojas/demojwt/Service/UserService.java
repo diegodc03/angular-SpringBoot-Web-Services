@@ -1,9 +1,17 @@
-package com.irojas.demojwt.User;
+package com.irojas.demojwt.Service;
 import java.util.Optional;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import com.irojas.demojwt.Model.Role;
+import com.irojas.demojwt.Model.User;
+import com.irojas.demojwt.ModelDTO.UserDTO;
+import com.irojas.demojwt.ModelDTO.UserRequest;
+import com.irojas.demojwt.ModelDTO.UserResponse;
+import com.irojas.demojwt.Repsository.UserRepository;
+
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
@@ -30,7 +38,7 @@ public class UserService {
 	    user.setCountry(userRequest.getCountry());
 	    user.setRole(Role.USER);
         
-        userRepository.updateUser(user.id, user.firstname, user.lastname, user.country);
+        userRepository.updateUser(user.getId(), user.getFirstname(), user.getLastname(), user.getCountry());
 
         return new UserResponse("El usuario se registró satisfactoriamente");
     }
