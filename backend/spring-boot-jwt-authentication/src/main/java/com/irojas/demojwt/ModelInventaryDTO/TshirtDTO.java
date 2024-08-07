@@ -4,6 +4,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 public class TshirtDTO {
 	 @NotNull
 	 @Size(min = 1, max = 100)
@@ -57,7 +59,7 @@ public class TshirtDTO {
 	}
 
 	
-	
+
 	public TshirtDTO(@NotNull @Size(min = 1, max = 100) String size, @NotNull @Size(min = 1, max = 50) String color,
 			@NotNull @Size(min = 1, max = 50) String material, @NotNull @Min(0) Integer stock) {
 		super();

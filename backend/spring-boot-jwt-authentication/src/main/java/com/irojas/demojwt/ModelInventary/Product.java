@@ -2,6 +2,9 @@ package com.irojas.demojwt.ModelInventary;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,7 +43,9 @@ public class Product {
 	
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Tshirt> tshirts;
+    @JsonManagedReference
+    @JsonIgnoreProperties(value="product")
+    private List<Garment> garments;
 
     
 	public String getName() {
@@ -83,22 +88,22 @@ public class Product {
 		this.isShirt = isShirt;
 	}
 
-	public List<Tshirt> getTshirts() {
-		return tshirts;
+	public List<Garment> getTshirts() {
+		return garments;
 	}
 
-	public void setTshirts(List<Tshirt> tshirts) {
-		this.tshirts = tshirts;
+	public void setTshirts(List<Garment> garments) {
+		this.garments = garments;
 	}
 	
 
-	public Product(String name, String description, Double price, Boolean isShirt, List<Tshirt> tshirts) {
+	public Product(String name, String description, Double price, Boolean isShirt, List<Garment> garments) {
 		super();
 		this.name = name;
 		this.description = description;
 		this.price = price;
 		this.isShirt = isShirt;
-		this.tshirts = tshirts;
+		this.garments = garments;
 	}
 
 	public Product() {

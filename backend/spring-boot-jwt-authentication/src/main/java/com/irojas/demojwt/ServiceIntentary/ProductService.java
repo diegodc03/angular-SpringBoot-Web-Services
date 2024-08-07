@@ -10,7 +10,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.irojas.demojwt.ModelInventary.Product;
-import com.irojas.demojwt.ModelInventary.Tshirt;
+import com.irojas.demojwt.ModelInventary.Size;
+import com.irojas.demojwt.ModelInventary.Garment;
 import com.irojas.demojwt.ModelInventaryDTO.ProductDTO;
 import com.irojas.demojwt.ModelInventaryDTO.TshirtDTO;
 import com.irojas.demojwt.RepositoryInventary.ProductRepository;
@@ -31,8 +32,9 @@ public class ProductService {
 	
 	
 	// Métodos a realizar
-	public List<Product> getAllProducts(){	
-		return productRepository.findAll();
+	public List<Product> getAllProducts(){
+		List<Product> p = productRepository.findAll();
+		return p;
 	}
 		
 		
@@ -108,25 +110,29 @@ public class ProductService {
 
 	        // in lambda can use a variable created out of lambda if is not final. we can use a array
 	        if(productDTO.getIsTshirt() && productDTO.getTshirts() != null) {
-	        	List<Tshirt> tshirts = productDTO.getTshirts().stream().map(tshirtDTO -> {
+	        	List<Garment> garments = productDTO.getTshirts().stream().map(tshirtDTO -> {
 		            stock[0] += tshirtDTO.getStock();   
-		            
-	        		Tshirt tshirt = new Tshirt();
-		            tshirt.setSize(tshirtDTO.getSize());
-		            tshirt.setColor(tshirtDTO.getColor());
-		            tshirt.setMaterial(tshirtDTO.getMaterial());
-		            tshirt.setStock(tshirtDTO.getStock());
-		            tshirt.setProduct(product);
-		            return tshirt;
+
+	        		Garment garment = new Garment();
+	        		
+	        		
+	        		Size size = Size.valueOf(tshirtDTO.getSize().toUpperCase());
+		            if(size != null) {
+		            	garment.setSize(size);
+		            }
+		            garment.setColor(tshirtDTO.getColor());
+		            garment.setMaterial(tshirtDTO.getMaterial());
+		            garment.setStock(tshirtDTO.getStock());
+		            garment.setProduct(product);
+		            return garment;
 		            
 		        }).collect(Collectors.toList());
 	        	
 	        	product.setTotalStock(stock[0]);
-		        product.setTshirts(tshirts);
+		        product.setTshirts(garments);
 	        }else {
 	        	product.setTshirts(new ArrayList<>());
 	        }
-	        
 	        // Automaticamnete las camisetas se guardan asociadas al producto cuando se guardan
 	        return productRepository.save(product);
 	    }
@@ -151,27 +157,31 @@ public class ProductService {
 	        product.setTotalStock(productDetailsDTO.getTotalStock());
 	        
 	        // Add the thirts added
-	        List<Tshirt> p = product.getTshirts();
+	        List<Garment> existingTshirts = product.getTshirts();
 	       
 
 	        if (productDetailsDTO.getIsTshirt()) {
-	            List<Tshirt> updatedTshirts = new ArrayList<>();
 
 	            // Procesar cada tshirtDTO recibido
 	            for (TshirtDTO tshirtDTO : productDetailsDTO.getTshirts()) {
 	            	
-	                Tshirt tshirt = new Tshirt();
-	                stock[0] += tshirtDTO.getStock();
-	                tshirt.setSize(tshirtDTO.getSize());
-	                tshirt.setColor(tshirtDTO.getColor());
-	                tshirt.setMaterial(tshirtDTO.getMaterial());
-	                tshirt.setStock(tshirtDTO.getStock());
-	                tshirt.setProduct(product); // Asocia el nuevo tshirt con el producto
-	                updatedTshirts.add(tshirt);
-	                p.add(tshirt);
+	            	// Comprobar si ya existe una camiseta con la misma talla
+	                existingTshirts.removeIf(existingTshirt -> existingTshirt.getSize().equals(tshirtDTO.getSize()));
+	            	
+	                Garment garment = new Garment();
 	                
-	            }
+	                stock[0] += tshirtDTO.getStock();
+	                Size size = Size.valueOf(tshirtDTO.getSize().toUpperCase());
+		            if(size != null) {
+		            	garment.setSize(size);
+		            }
+	                garment.setColor(tshirtDTO.getColor());
+	                garment.setMaterial(tshirtDTO.getMaterial());
+	                garment.setStock(tshirtDTO.getStock());
+	                garment.setProduct(product); // Asocia el nuevo tshirt con el producto
 
+	                existingTshirts.add(garment);
+	            }
 	            // Asigna la nueva lista de tshirts al producto
 	            //product.setTshirts(updatedTshirts);
 	            product.setTotalStock(stock[0]);

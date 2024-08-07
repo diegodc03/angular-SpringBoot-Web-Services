@@ -1,6 +1,11 @@
 package com.irojas.demojwt.ModelInventary;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,13 +24,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name="tshirt", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
-public class Tshirt {
+public class Garment {
 	
 	 @Id
 	 @GeneratedValue(strategy = GenerationType.IDENTITY)
 	 private Long id;
-
-	 private String size;
+	 
+	 @Enumerated(EnumType.STRING)
+	 private Size size;
 	    
 	 private String color;
 	    
@@ -34,17 +40,19 @@ public class Tshirt {
 	 private Integer stock;
 
 	 @ManyToOne
-	 @JoinColumn(name = "product_id")
+	 @JoinColumn(name = "garments")
+	 @JsonManagedReference
+	 @JsonIgnoreProperties(value="garments")
 	 private Product product;
 
 	
 	 // Getters y Setters 
 	 
-	 public String getSize() {
+	 public Size getSize() {
 		return size;
 	}
 
-	public void setSize(String size) {
+	public void setSize(Size size) {
 		this.size = size;
 	}
 
@@ -81,7 +89,7 @@ public class Tshirt {
 	}
 
 	
-	public Tshirt(String size, String color, String material, Integer stock, Product product) {
+	public Garment(Size size, String color, String material, Integer stock, Product product) {
 		super();
 		this.size = size;
 		this.color = color;
@@ -90,7 +98,7 @@ public class Tshirt {
 		this.product = product;
 	}
 
-	public Tshirt() {
+	public Garment() {
 		// TODO Auto-generated constructor stub
 	}
 

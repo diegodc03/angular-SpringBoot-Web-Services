@@ -37,22 +37,25 @@ public class ControllerInventary {
 	}
 
 
-		@GetMapping
+		@GetMapping("all-inventary")
 	    public List<Product> getAllProducts() {
-	        return productService.getAllProducts();
+			List<Product> allProducts = productService.getAllProducts();
+	        return allProducts;
 	    }
 	    
 	    
-	    @GetMapping("/inventary")
+	    @GetMapping("/inventary/{id}")
 	    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
 	        Optional<Product> product = productService.getProdcutById(id);
 	        return product.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 	    }
 	    
+	    
 	    @GetMapping("/price-ascending")
 	    public List<Product> getProductsByPriceAscending() {
 	        return productService.getProductByPriceAscending();
 	    }
+	    
 	    
 	    @GetMapping("/price-descending")
 	    public List<Product> getProductsByPriceDescending() {
@@ -77,13 +80,14 @@ public class ControllerInventary {
 	        return p;
 	    }
 
-	    
-	    @DeleteMapping("/delete-product")
+	    // Correcto
+	    @DeleteMapping("/delete-product/{id}")
 	    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
 	        productService.deleteProduct(id);
 	        return ResponseEntity.noContent().build();
 	    }
 
+	    //Correcto
 	    @PutMapping("/update-product/{id}")
 	    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDetailsDTO) {
 	        Product updatedProduct = productService.updateProduct(id, productDetailsDTO);
