@@ -101,6 +101,10 @@ public class Product {
 		this.tshirts = tshirts;
 	}
 
+	public Product() {
+		// TODO Auto-generated constructor stub
+	}
+
     
     
     

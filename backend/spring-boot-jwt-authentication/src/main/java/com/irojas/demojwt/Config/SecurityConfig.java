@@ -45,6 +45,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.OPTIONS).permitAll()
                 .requestMatchers("/auth/**").permitAll()
                 .requestMatchers("/api/**").permitAll()
+                .requestMatchers("/inventary/**").permitAll()
                 .anyRequest().authenticated()
                 )
             .sessionManagement(sessionManager->

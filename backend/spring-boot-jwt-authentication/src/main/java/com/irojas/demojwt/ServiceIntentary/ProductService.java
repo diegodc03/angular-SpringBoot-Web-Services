@@ -1,14 +1,18 @@
 package com.irojas.demojwt.ServiceIntentary;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.irojas.demojwt.ModelInventary.Product;
 import com.irojas.demojwt.ModelInventary.Tshirt;
+import com.irojas.demojwt.ModelInventaryDTO.ProductDTO;
+import com.irojas.demojwt.ModelInventaryDTO.TshirtDTO;
 import com.irojas.demojwt.RepositoryInventary.ProductRepository;
 import com.irojas.demojwt.RepositoryInventary.TshirtRepository;
 
@@ -27,16 +31,14 @@ public class ProductService {
 	
 	
 	// Métodos a realizar
-		public List<Product> getAllProducts(){	
-			return productRepository.findAll();
-		}
+	public List<Product> getAllProducts(){	
+		return productRepository.findAll();
+	}
 		
 		
-		public Optional<Product> getProdcutById(Long id){
-			return productRepository.findById(id);
-		}
-		
-		
+	public Optional<Product> getProdcutById(Long id){
+		return productRepository.findById(id);
+	}
 		
 		
 		public List<Product> getProductByPriceDescending(){
@@ -52,6 +54,7 @@ public class ProductService {
 			return productList;
 		}
 		
+		
 		public List<Product> getProductByPriceAscending(){
 			List<Product> productList = this.getAllProducts();
 			
@@ -63,6 +66,7 @@ public class ProductService {
 			}
 			return productList;
 		}
+		
 		
 		public List<Product> getProductByStockAscending(){
 			List<Product> productList = this.getAllProducts();
@@ -76,6 +80,7 @@ public class ProductService {
 			return productList;
 		}
 		
+		
 		public List<Product> getProductByStockDescending(){
 			
 			List<Product> productList = this.getAllProducts();
@@ -87,49 +92,98 @@ public class ProductService {
 				productList.sort(Comparator.comparing(Product::getTotalStock).reversed());
 			}
 			return productList;
-			
 		}
 		
-		public Product addProduct(Product product) {
-	        // Save the product
-	        Product savedProduct = productRepository.save(product);
+		
+		public Product addProduct(ProductDTO productDTO) {
+	        
+			int[] stock = {0};  
+			
+			Product product = new Product();
+	        product.setName(productDTO.getName());
+	        product.setDescription(productDTO.getDescription());
+	        product.setPrice(productDTO.getPrice());
+	        product.setIsTshirt(productDTO.getIsTshirt());
+	        product.setTotalStock(productDTO.getTotalStock());
 
-	        // If the product is a t-shirt, add the variants
-	        if (product.getIsTshirt() != null && product.getIsTshirt()) {
-	            for (Tshirt tshirt : product.getTshirts()) {
-	            	tshirt.setProduct(savedProduct);
-	                tshirtRepository.save(tshirt);
-	            }
+	        // in lambda can use a variable created out of lambda if is not final. we can use a array
+	        if(productDTO.getIsTshirt() && productDTO.getTshirts() != null) {
+	        	List<Tshirt> tshirts = productDTO.getTshirts().stream().map(tshirtDTO -> {
+		            stock[0] += tshirtDTO.getStock();   
+		            
+	        		Tshirt tshirt = new Tshirt();
+		            tshirt.setSize(tshirtDTO.getSize());
+		            tshirt.setColor(tshirtDTO.getColor());
+		            tshirt.setMaterial(tshirtDTO.getMaterial());
+		            tshirt.setStock(tshirtDTO.getStock());
+		            tshirt.setProduct(product);
+		            return tshirt;
+		            
+		        }).collect(Collectors.toList());
+	        	
+	        	product.setTotalStock(stock[0]);
+		        product.setTshirts(tshirts);
+	        }else {
+	        	product.setTshirts(new ArrayList<>());
 	        }
-	        return savedProduct;
+	        
+	        // Automaticamnete las camisetas se guardan asociadas al producto cuando se guardan
+	        return productRepository.save(product);
 	    }
-
+		
+		
+		
 		
 	    public void deleteProduct(Long id) {
 	        productRepository.deleteById(id);
 	    }
 	    
 
-	    public Product updateProduct(Long id, Product productDetails) {
-	        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
-	        product.setName(productDetails.getName());
-	        product.setDescription(productDetails.getDescription());
-	        product.setPrice(productDetails.getPrice());
-	        product.setIsTshirt(productDetails.getIsTshirt());
-	        product.setTotalStock(productDetails.getTotalStock());
+	    public Product updateProduct(Long id, ProductDTO productDetailsDTO) {
+	    	int[] stock = {0};  
+	    	
+	    	Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
 	        
-	        if (productDetails.getIsTshirt() != null && productDetails.getIsTshirt()) {
-	            product.setTshirts(productDetails.getTshirts());
-	            for (Tshirt tshirt : productDetails.getTshirts()) {
-	            	tshirt.setProduct(product);
-	                tshirtRepository.save(tshirt);
+	        product.setName(productDetailsDTO.getName());
+	        product.setDescription(productDetailsDTO.getDescription());
+	        product.setPrice(productDetailsDTO.getPrice());
+	        product.setIsTshirt(productDetailsDTO.getIsTshirt());
+	        product.setTotalStock(productDetailsDTO.getTotalStock());
+	        
+	        // Add the thirts added
+	        List<Tshirt> p = product.getTshirts();
+	       
+
+	        if (productDetailsDTO.getIsTshirt()) {
+	            List<Tshirt> updatedTshirts = new ArrayList<>();
+
+	            // Procesar cada tshirtDTO recibido
+	            for (TshirtDTO tshirtDTO : productDetailsDTO.getTshirts()) {
+	            	
+	                Tshirt tshirt = new Tshirt();
+	                stock[0] += tshirtDTO.getStock();
+	                tshirt.setSize(tshirtDTO.getSize());
+	                tshirt.setColor(tshirtDTO.getColor());
+	                tshirt.setMaterial(tshirtDTO.getMaterial());
+	                tshirt.setStock(tshirtDTO.getStock());
+	                tshirt.setProduct(product); // Asocia el nuevo tshirt con el producto
+	                updatedTshirts.add(tshirt);
+	                p.add(tshirt);
+	                
 	            }
+
+	            // Asigna la nueva lista de tshirts al producto
+	            //product.setTshirts(updatedTshirts);
+	            product.setTotalStock(stock[0]);
 	        } else {
-	            product.setTshirts(null);;
-	        }
-	        
+	            // Si no es una camiseta, limpia la colección de tshirts
+	            product.setTshirts(new ArrayList<>());
+	        } 
 	        return productRepository.save(product);
-	    }
+	    }  
+	        
+	        
+	        
 	
 	
 }

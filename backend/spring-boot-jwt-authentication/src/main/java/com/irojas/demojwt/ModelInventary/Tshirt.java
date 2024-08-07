@@ -90,6 +90,10 @@ public class Tshirt {
 		this.product = product;
 	}
 
+	public Tshirt() {
+		// TODO Auto-generated constructor stub
+	}
+
 
 	 
 	 	
