@@ -13,7 +13,7 @@ import com.irojas.demojwt.ModelInventary.Product;
 import com.irojas.demojwt.ModelInventary.Size;
 import com.irojas.demojwt.ModelInventary.Garment;
 import com.irojas.demojwt.ModelInventaryDTO.ProductDTO;
-import com.irojas.demojwt.ModelInventaryDTO.TshirtDTO;
+import com.irojas.demojwt.ModelInventaryDTO.GarmentDTO;
 import com.irojas.demojwt.RepositoryInventary.ProductRepository;
 import com.irojas.demojwt.RepositoryInventary.TshirtRepository;
 
@@ -109,8 +109,8 @@ public class ProductService {
 	        product.setTotalStock(productDTO.getTotalStock());
 
 	        // in lambda can use a variable created out of lambda if is not final. we can use a array
-	        if(productDTO.getIsTshirt() && productDTO.getTshirts() != null) {
-	        	List<Garment> garments = productDTO.getTshirts().stream().map(tshirtDTO -> {
+	        if(productDTO.getIsTshirt() && productDTO.getGarments() != null) {
+	        	List<Garment> garments = productDTO.getGarments().stream().map(tshirtDTO -> {
 		            stock[0] += tshirtDTO.getStock();   
 
 	        		Garment garment = new Garment();
@@ -129,9 +129,9 @@ public class ProductService {
 		        }).collect(Collectors.toList());
 	        	
 	        	product.setTotalStock(stock[0]);
-		        product.setTshirts(garments);
+		        product.setGarments(garments);
 	        }else {
-	        	product.setTshirts(new ArrayList<>());
+	        	product.setGarments(new ArrayList<>());
 	        }
 	        // Automaticamnete las camisetas se guardan asociadas al producto cuando se guardan
 	        return productRepository.save(product);
@@ -157,27 +157,27 @@ public class ProductService {
 	        product.setTotalStock(productDetailsDTO.getTotalStock());
 	        
 	        // Add the thirts added
-	        List<Garment> existingTshirts = product.getTshirts();
+	        List<Garment> existingTshirts = product.getGarments();
 	       
 
 	        if (productDetailsDTO.getIsTshirt()) {
 
 	            // Procesar cada tshirtDTO recibido
-	            for (TshirtDTO tshirtDTO : productDetailsDTO.getTshirts()) {
+	            for (GarmentDTO garmentDTO : productDetailsDTO.getGarments()) {
 	            	
 	            	// Comprobar si ya existe una camiseta con la misma talla
-	                existingTshirts.removeIf(existingTshirt -> existingTshirt.getSize().equals(tshirtDTO.getSize()));
+	                existingTshirts.removeIf(existingTshirt -> existingTshirt.getSize().equals(garmentDTO.getSize()));
 	            	
 	                Garment garment = new Garment();
 	                
-	                stock[0] += tshirtDTO.getStock();
-	                Size size = Size.valueOf(tshirtDTO.getSize().toUpperCase());
+	                stock[0] += garmentDTO.getStock();
+	                Size size = Size.valueOf(garmentDTO.getSize().toUpperCase());
 		            if(size != null) {
 		            	garment.setSize(size);
 		            }
-	                garment.setColor(tshirtDTO.getColor());
-	                garment.setMaterial(tshirtDTO.getMaterial());
-	                garment.setStock(tshirtDTO.getStock());
+	                garment.setColor(garmentDTO.getColor());
+	                garment.setMaterial(garmentDTO.getMaterial());
+	                garment.setStock(garmentDTO.getStock());
 	                garment.setProduct(product); // Asocia el nuevo tshirt con el producto
 
 	                existingTshirts.add(garment);
@@ -187,7 +187,7 @@ public class ProductService {
 	            product.setTotalStock(stock[0]);
 	        } else {
 	            // Si no es una camiseta, limpia la colección de tshirts
-	            product.setTshirts(new ArrayList<>());
+	            product.setGarments(new ArrayList<>());
 	        } 
 	        return productRepository.save(product);
 	    }  

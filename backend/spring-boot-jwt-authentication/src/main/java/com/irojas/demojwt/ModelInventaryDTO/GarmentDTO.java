@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-public class TshirtDTO {
+public class GarmentDTO {
 	 @NotNull
 	 @Size(min = 1, max = 100)
 	 private String size;
@@ -60,7 +60,7 @@ public class TshirtDTO {
 
 	
 
-	public TshirtDTO(@NotNull @Size(min = 1, max = 100) String size, @NotNull @Size(min = 1, max = 50) String color,
+	public GarmentDTO(@NotNull @Size(min = 1, max = 100) String size, @NotNull @Size(min = 1, max = 50) String color,
 			@NotNull @Size(min = 1, max = 50) String material, @NotNull @Min(0) Integer stock) {
 		super();
 		this.size = size;

@@ -88,14 +88,14 @@ public class Product {
 		this.isShirt = isShirt;
 	}
 
-	public List<Garment> getTshirts() {
+
+	public List<Garment> getGarments() {
 		return garments;
 	}
 
-	public void setTshirts(List<Garment> garments) {
+	public void setGarments(List<Garment> garments) {
 		this.garments = garments;
 	}
-	
 
 	public Product(String name, String description, Double price, Boolean isShirt, List<Garment> garments) {
 		super();
