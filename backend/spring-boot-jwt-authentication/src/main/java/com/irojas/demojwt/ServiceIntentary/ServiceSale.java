@@ -50,14 +50,11 @@ public class ServiceSale {
 		if(saleDTO == null) {
 			return null;
 		}
-		
 		Sale sale = new Sale();
-		
 		sale.setProduct(saleDTO.getProduct());
 		sale.setQuantity(saleDTO.getQuantity());
 		sale.setSaleDate(saleDTO.getSaleDate());
 		sale.setUnitaryPrice(saleDTO.getUnitaryPrice());
-		
 		// total sale price of the t-shirts
 		sale.setTotalPrice(sale.getQuantity() * sale.getUnitaryPrice());
 		
