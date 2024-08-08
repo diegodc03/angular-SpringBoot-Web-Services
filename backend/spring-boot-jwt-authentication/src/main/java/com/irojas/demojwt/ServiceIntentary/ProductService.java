@@ -14,18 +14,19 @@ import com.irojas.demojwt.ModelInventary.Size;
 import com.irojas.demojwt.ModelInventary.Garment;
 import com.irojas.demojwt.ModelInventaryDTO.ProductDTO;
 import com.irojas.demojwt.ModelInventaryDTO.GarmentDTO;
+import com.irojas.demojwt.RepositoryInventary.GarmentRepository;
 import com.irojas.demojwt.RepositoryInventary.ProductRepository;
-import com.irojas.demojwt.RepositoryInventary.TshirtRepository;
+
 
 
 @Service
 public class ProductService {
 	
 	private ProductRepository productRepository;
-	private TshirtRepository tshirtRepository;
+	private GarmentRepository tshirtRepository;
 	
 	
-	public ProductService (ProductRepository productRepository, TshirtRepository tshirtRepository) {
+	public ProductService (ProductRepository productRepository, GarmentRepository tshirtRepository) {
 		this.productRepository = productRepository;
 		this.tshirtRepository = tshirtRepository;
 	}
