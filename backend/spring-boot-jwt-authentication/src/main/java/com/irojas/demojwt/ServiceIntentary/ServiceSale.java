@@ -1,6 +1,8 @@
 package com.irojas.demojwt.ServiceIntentary;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,19 +39,50 @@ public class ServiceSale {
 	}
 	
 	
-	public List<Sale> getAllSales() {
-		List<Sale> saleList = saleRepository.findAll();
+	public List<SaleList> getAllSales() {
+		List<SaleList> saleList = saleListRepository.findAll();
 		return saleList;
 	}
 	
 	
-	public Sale getSaleById(Long id) {
-		Optional<Sale> optionalSale = saleRepository.findById(id);
+	public SaleList getSaleById(Long id) {
+		Optional<SaleList> optionalSale = saleListRepository.findById(id);
 		if(optionalSale != null && optionalSale.isPresent()) {
-			return optionalSale.get();
+			SaleList s = optionalSale.get();
+			return s;
 		}
 		return null;
 	}
+	
+	
+	public List<SaleList> getProductByNumberOfProductsDescending(){
+		
+		List<SaleList> productsSaleList = this.getAllSales();
+		
+		if(productsSaleList == null || productsSaleList.isEmpty()) {
+			return Collections.emptyList();
+		}else {
+			// Ordenamos por el tamaño de la lista de productos (productsSale) en orden descendente
+	        productsSaleList.sort(Comparator.comparing(saleList -> saleList.getProducts().size(), Comparator.reverseOrder()));
+		}
+		return productsSaleList;
+	}
+	
+	
+	public List<SaleList> getProductByNumberOfProductsAscending(){
+		List<SaleList> productsSaleList = this.getAllSales();
+		
+		if(productsSaleList == null || productsSaleList.isEmpty()) {
+			return Collections.emptyList();
+		}else {
+			// Ordenamos por el tamaño de la lista de productos (productsSale) en orden descendente
+	        productsSaleList.sort(Comparator.comparing(saleList -> saleList.getProducts().size()));
+		}
+		return productsSaleList;
+	}
+	
+	
+	
 	
 	
 	public SaleList addProduct(@Valid SaleListDTO saleListDTO) {
@@ -76,7 +109,7 @@ public class ServiceSale {
 			sale.setSaleDate(saleDTO.getSaleDate());
 			sale.setUnitaryPrice(saleDTO.getUnitaryPrice());
 			// total sale price of the t-shirts
-			sale.setTotalPrice(sale.getQuantity() * sale.getUnitaryPrice());
+			sale.setTotalPrice(saleDTO.getTotalPrice());
 			sale.setGarment(saleDTO.getIsGarment());
 			
 			Optional<Product> optProduct = productRepository.findById(sale.getId_Product());
@@ -91,10 +124,9 @@ public class ServiceSale {
 		            if (garmentsSales == null || garmentsSales.isEmpty()) {
 		                throw new IllegalArgumentException("No se especificaron las tallas para la venta de prendas.");
 		            }
-					
 					for(GarmentSaleDTO g : garmentsSales) {
-						GarmentSale garmentSale = new GarmentSale(g.getSize(), g.getQuantity());
-
+						GarmentSale garmentSale = new GarmentSale(g.getSize(), g.getQuantity());	
+						
 		                // Busca la talla correspondiente en el inventario
 		                Garment garment = p.getGarments().stream()
 		                        .filter(garm -> garm.getSize() == g.getSize())
@@ -106,7 +138,11 @@ public class ServiceSale {
 		                }
 
 		                // Resta la cantidad del stock
+		                
+		                sale.setQuantity(sale.getQuantity() + g.getQuantity());  
 		                garment.setStock(garment.getStock() - g.getQuantity());
+		                
+		                
 		                
 		                // Agrega la venta de prendas a la venta
 		                sale.getGarmentsSales().add(garmentSale);
@@ -117,9 +153,12 @@ public class ServiceSale {
 		            if (p.getTotalStock() < sale.getQuantity()) {
 		                throw new IllegalArgumentException("No hay suficiente stock para el producto.");
 		            }
+		            sale.setTotalPrice(saleDTO.getTotalPrice());
+					sale.setQuantity(saleDTO.getQuantity());
 		            p.setTotalStock(p.getTotalStock() - sale.getQuantity());
 				}
 			}
+			sale.setTotalPrice(sale.getUnitaryPrice() * sale.getQuantity());
 			
 			completeSale.getProducts().add(sale);
 			
@@ -141,14 +180,13 @@ public class ServiceSale {
 	
 	
 	
-	public Sale deleteSale(Long id) {
-		Optional<Sale> optionalSale = saleRepository.findById(id);
+	public SaleList deleteSale(Long id) {
+		Optional<SaleList> optionalSale = saleListRepository.findById(id);
 		if(optionalSale != null && optionalSale.isPresent()) {
-			Sale s = optionalSale.get();
-			saleRepository.delete(s);
+			SaleList s = optionalSale.get();
+			saleListRepository.delete(s);
 			return s;
 		}
 		return null;
-		
 	}
 }

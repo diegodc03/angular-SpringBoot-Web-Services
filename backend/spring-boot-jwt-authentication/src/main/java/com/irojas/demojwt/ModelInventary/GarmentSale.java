@@ -65,4 +65,9 @@ public class GarmentSale {
 		this.size = size;
 		this.quantity = quantity;
 	}
+	
+	public GarmentSale() {
+		super();
+	}
+	
 }

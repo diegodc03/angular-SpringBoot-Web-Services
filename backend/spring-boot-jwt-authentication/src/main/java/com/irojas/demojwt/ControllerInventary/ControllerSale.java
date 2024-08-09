@@ -44,30 +44,31 @@ public class ControllerSale {
 
 
 		@GetMapping("all-sales")
-	    public List<Sale> getAllProducts() {
-			List<Sale> allProducts = saleService.getAllSales();
+	    public List<SaleList> getAllProducts() {
+			List<SaleList> allProducts = saleService.getAllSales();
 	        return allProducts;
 	    }
 	    
-		/*
-	    @GetMapping("/inventary/{id}")
-	    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
-	        Optional<Product> product = productService.getProdcutById(id);
-	        return product.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+		
+	    @GetMapping("/{id}")
+	    public ResponseEntity<SaleList> getProductById(@PathVariable Long id) {
+	        SaleList product = saleService.getSaleById(id);
+	        return ResponseEntity.ok(product);
 	    }
 	    
 	    
-	    @GetMapping("/price-ascending")
-	    public List<Product> getProductsByPriceAscending() {
-	        return productService.getProductByPriceAscending();
+	    @GetMapping("/number-products-sold-ascending")
+	    public List<SaleList> getProductsByPriceAscending() {
+	        return saleService.getProductByNumberOfProductsAscending();
 	    }
 	    
 	    
-	    @GetMapping("/price-descending")
-	    public List<Product> getProductsByPriceDescending() {
-	        return productService.getProductByPriceDescending();
+	    @GetMapping("/number-products-sold-descending")
+	    public List<SaleList> getProductsByPriceDescending() {
+	        return saleService.getProductByNumberOfProductsDescending();
 	    }
 	    
+	    /*
 	    @GetMapping("/stock-ascending")
 	    public List<Product> getProductsByStockAscending() {
 	        return productService.getProductByStockAscending();
