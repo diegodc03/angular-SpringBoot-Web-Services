@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.irojas.demojwt.ModelInventary.Sale;
+import com.irojas.demojwt.ModelInventary.SaleList;
 import com.irojas.demojwt.ModelInventaryDTO.ProductDTO;
 import com.irojas.demojwt.ModelSaleDTO.SaleDTO;
+import com.irojas.demojwt.ModelSaleDTO.SaleListDTO;
 import com.irojas.demojwt.ServiceIntentary.ProductService;
 import com.irojas.demojwt.ServiceIntentary.ServiceSale;
 
@@ -47,7 +49,7 @@ public class ControllerSale {
 	        return allProducts;
 	    }
 	    
-	    /*
+		/*
 	    @GetMapping("/inventary/{id}")
 	    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
 	        Optional<Product> product = productService.getProdcutById(id);
@@ -76,10 +78,11 @@ public class ControllerSale {
 	        return productService.getProductByStockDescending();
 	    }
 	    */
-
+		
+		//Darle al boton de añadir cualquier producto
 	    @PostMapping("/add-sale")
-	    public Sale addProduct(@Valid @RequestBody SaleDTO saleDTO) {
-	    	Sale s = saleService.addProduct(saleDTO);
+	    public SaleList addProduct(@Valid @RequestBody SaleListDTO saleDTO) {
+	    	SaleList s = saleService.addProduct(saleDTO);
 	        return s;
 	    }
 
@@ -94,5 +97,8 @@ public class ControllerSale {
 	        Sale updatedSale = saleService.updateSale(id, saleDTO);
 	        return ResponseEntity.ok(updatedSale);
 	    }
+	    
+	    
+	    
 	
 }

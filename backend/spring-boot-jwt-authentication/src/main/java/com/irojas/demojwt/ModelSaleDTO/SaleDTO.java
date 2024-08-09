@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.irojas.demojwt.ModelInventary.Garment;
 import com.irojas.demojwt.ModelInventary.Product;
 
@@ -21,9 +22,9 @@ public class SaleDTO {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    //@ManyToOne
+    //@JoinColumn(name = "product_id")
+    //private Product product;
     
     private Long id_Product;
 
@@ -52,13 +53,14 @@ public class SaleDTO {
 		this.id = id;
 	}
 
+	/*
 	public Product getProduct() {
 		return product;
 	}
 
 	public void setProduct(Product product) {
 		this.product = product;
-	}
+	}*/
 
 	public Integer getQuantity() {
 		return quantity;

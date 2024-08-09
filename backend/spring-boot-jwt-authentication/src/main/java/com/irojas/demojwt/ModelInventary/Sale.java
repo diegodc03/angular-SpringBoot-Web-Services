@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.irojas.demojwt.ModelSaleDTO.GarmentSaleDTO;
 
 import jakarta.persistence.CascadeType;
@@ -23,10 +25,15 @@ public class Sale {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    //@ManyToOne
+    //@JoinColumn(name = "product_id")
+    //private Product product;
+    
     @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
-
+    @JoinColumn(name = "sale_list_id")
+    @JsonIgnoreProperties("productsSale") // Ignorar referencia inversa en serialización
+    private SaleList saleList; // Nueva referencia a la lista de ventas
+    
     private Integer quantity;
     
     private LocalDateTime saleDate;
@@ -41,11 +48,14 @@ public class Sale {
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "sale_id") // Asocia la venta con las ventas de ropa
+    //@JsonManagedReference
+    @JsonIgnoreProperties(value="GarmentSale")
     private List<GarmentSale> garmentsSales = new ArrayList<>();
     
     
     // Getters and Setters
     
+
     public Long getId() {
     	return id;
     }
@@ -54,12 +64,24 @@ public class Sale {
     	this.id = id;
     }
     
+    
+    
+    
+    /*
 	public Product getProduct() {
 		return product;
 	}
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}*/
+
+	public SaleList getSaleList() {
+		return saleList;
+	}
+
+	public void setSaleList(SaleList saleList) {
+		this.saleList = saleList;
 	}
 
 	public Integer getQuantity() {
@@ -119,9 +141,9 @@ public class Sale {
 		this.garmentsSales = garmentsSales;
 	}
 
-	public Sale(Product product, Integer quantity, LocalDateTime saleDate, Double totalPrice, Long id_Product, boolean isGarment) {
+	public Sale(/*Product product,*/ Integer quantity, LocalDateTime saleDate, Double totalPrice, Long id_Product, boolean isGarment) {
 		super();
-		this.product = product;
+		//this.product = product;
 		this.quantity = quantity;
 		this.saleDate = saleDate;
 		this.totalPrice = totalPrice;

@@ -2,6 +2,7 @@ package com.irojas.demojwt.ModelInventary;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -43,8 +44,9 @@ public class Product {
 	
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    @JsonIgnoreProperties(value="product")
+    //@JsonManagedReference
+    //@JsonIgnoreProperties(value="product")
+    @JsonIgnore
     private List<Garment> garments;
 
     
