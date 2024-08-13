@@ -35,6 +35,7 @@ public class ProductService {
 	// Métodos a realizar
 	public List<Product> getAllProducts(){
 		List<Product> p = productRepository.findAll();
+		
 		return p;
 	}
 		
@@ -111,6 +112,7 @@ public class ProductService {
 
 	        // in lambda can use a variable created out of lambda if is not final. we can use a array
 	        if(productDTO.getIsTshirt() && productDTO.getGarments() != null) {
+	        	System.out.println("fljdsnfñlsdjñfldjhkfñsdjl");
 	        	List<Garment> garments = productDTO.getGarments().stream().map(tshirtDTO -> {
 		            stock[0] += tshirtDTO.getStock();   
 

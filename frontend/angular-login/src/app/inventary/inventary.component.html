@@ -1,0 +1,77 @@
+<!-- inventary.component.html -->
+<div class="container">
+    <h2>Inventario</h2>
+    <div class="form-group">
+      <label for="filterSelect">Filtro:</label>
+      <select class="form-control" id="filterSelect" [(ngModel)]="selectedFilter" (change)="applyFilter()">
+        <option value="none">Ninguno</option>
+        <option value="price-ascending">Precio Ascendente</option>
+        <option value="price-descending">Precio Descendente</option>
+        <option value="stock-ascending">Stock Ascendente</option>
+        <option value="stock-descending">Stock Descendente</option>
+      </select>
+    </div>
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Stock Total</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let product of products; let i = index">
+                <td>{{ product.id }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.description }}</td>
+                <td>{{ product.price | currency }}</td>
+                <td>{{ product.totalStock }}</td>
+                <td>{{ product.isTshirt }}</td>
+                <td>
+                    <a [routerLink]="['/product', product.id]" class="btn btn-primary btn-sm">Ver/Editar</a>
+                    <button class="btn btn-danger btn-sm" (click)="deleteProduct(product.id)">Eliminar</button>
+                    <!-- Toggle button to show garment sizes -->
+                    <button
+                        *ngIf="product.isTshirt"
+                        class="btn btn-info btn-sm"
+                        (click)="toggleGarments(i)"
+                    >
+                        {{ showGarments[i] ? 'Ocultar Tallas' : 'Ver Tallas' }}
+                    </button>
+                </td>
+            
+                <td *ngIf="showGarments[i] && products[i].isTshirt" colspan="5">
+                
+                    <div class="garments-details">
+                        <h5>Detalles de Tallas</h5>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Talla</th>
+                                    <th>Color</th>
+                                    <th>Material</th>
+                                    <th>Stock</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let garment of products[i].garments">
+                                    <td>{{ garment.size }}</td>
+                                    <td>{{ garment.color }}</td>
+                                    <td>{{ garment.material }}</td>
+                                    <td>{{ garment.stock }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            
+            </tr>
+        </tbody>
+    </table>
+      
+    <button class="btn btn-success" routerLink="/add-product">Agregar Producto</button>
+  </div>
+  

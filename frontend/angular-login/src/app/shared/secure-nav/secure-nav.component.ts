@@ -33,7 +33,7 @@ export class SecureNavComponent {
     this.router.navigate(['/index']);
   }
 
-  checkLogin() {
+  checkLogin(){
     //quiero escrinir el token
     console.log('Token desde secureNav :', sessionStorage.getItem('token'));
     // Tengo que poner que compruebe en el back el token

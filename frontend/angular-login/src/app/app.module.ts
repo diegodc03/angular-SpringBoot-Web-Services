@@ -9,7 +9,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LoginComponent } from './auth/login/login.component';
 import { NavComponent } from './shared/nav/nav.component';
 
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { PersonalDetailsComponent } from './components/personal-details/personal-details.component';
@@ -28,6 +28,9 @@ import { SecureHeaderComponent } from './shared/secure-header/secure-header.comp
 import { SecureNavComponent } from './shared/secure-nav/secure-nav.component';
 import { AuthCheckTokenComponent } from './services/auth-check-token/auth-check-token.component';
 import { ChangePasswordComponent } from './pages/password-change/password-change.component';
+import { InventaryComponent } from './inventary/inventary.component';
+import { SecureInventarySaleNavComponent } from './shared/secure-inventary-sale-nav/secure-inventary-sale-nav.component';
+import { SecureInventarySaleLayoutComponent } from './layouts/secure-inventary-sale-layout/secure-inventary-sale-layout.component';
 
 
 
@@ -53,9 +56,13 @@ import { ChangePasswordComponent } from './pages/password-change/password-change
     SecureNavComponent,
     AuthCheckTokenComponent,
     ChangePasswordComponent,
-
-    ],
+    InventaryComponent,
+    SecureInventarySaleNavComponent,
+    SecureInventarySaleLayoutComponent,
+    
+  ],
   imports: [
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,

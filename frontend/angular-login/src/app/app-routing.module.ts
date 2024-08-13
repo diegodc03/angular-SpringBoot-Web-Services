@@ -9,6 +9,8 @@ import { PublicLayoutComponent } from './layouts/public-layout/public-layout.com
 import { SecureLayoutComponent } from './layouts/secure-layout/secure-layout.component';
 import { AuthGuard } from './guards/guard/guard.component';
 import { ChangePasswordComponent } from './pages/password-change/password-change.component';
+import { SecureInventarySaleLayoutComponent } from './layouts/secure-inventary-sale-layout/secure-inventary-sale-layout.component';
+import { InventaryComponent } from './inventary/inventary.component';
 const routes: Routes = [
   {
     path: '',
@@ -29,6 +31,14 @@ const routes: Routes = [
       { path: 'privateServices', component: PrivateZoneComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'changePassword', component: ChangePasswordComponent }
+    ]
+  },
+  {
+    path: 'dashboard/inventarySale',
+    component: SecureInventarySaleLayoutComponent,
+    canActivate: [AuthGuard],
+    children: [
+      { path: 'inventary', component: InventaryComponent }
     ]
   },
   { path: '**', redirectTo: '' }

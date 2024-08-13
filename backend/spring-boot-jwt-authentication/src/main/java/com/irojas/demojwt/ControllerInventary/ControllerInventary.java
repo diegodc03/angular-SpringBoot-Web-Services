@@ -40,6 +40,7 @@ public class ControllerInventary {
 		@GetMapping("all-inventary")
 	    public List<Product> getAllProducts() {
 			List<Product> allProducts = productService.getAllProducts();
+			
 	        return allProducts;
 	    }
 	    
@@ -82,8 +83,10 @@ public class ControllerInventary {
 
 	    // Correcto
 	    @DeleteMapping("/delete-product/{id}")
-	    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-	        productService.deleteProduct(id);
+	    public ResponseEntity<Void> deleteProduct(@PathVariable String id) {
+	    	System.out.println(id);
+	    	Long idLong = Long.parseLong(id);
+	        productService.deleteProduct(idLong);
 	        return ResponseEntity.noContent().build();
 	    }
 
