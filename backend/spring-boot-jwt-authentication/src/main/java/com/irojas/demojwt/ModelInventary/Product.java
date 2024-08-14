@@ -50,6 +50,7 @@ public class Product {
     private List<Garment> garments;
 
     
+    
 	public String getName() {
 		return name;
 	}
