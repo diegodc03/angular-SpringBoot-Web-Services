@@ -45,9 +45,9 @@ public class ControllerInventary {
 	    }
 	    
 	    
-	    @GetMapping("/inventary/{id}")
-	    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
-	        Optional<Product> product = productService.getProdcutById(id);
+	    @GetMapping("/inventary/{publicId}")
+	    public ResponseEntity<Product> getProductById(@PathVariable String publicId) {
+	        Optional<Product> product = productService.getProductByPublicId(publicId);
 	        return product.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 	    }
 	    
@@ -82,18 +82,16 @@ public class ControllerInventary {
 	    }
 
 	    // Correcto
-	    @DeleteMapping("/delete-product/{id}")
-	    public ResponseEntity<Void> deleteProduct(@PathVariable String id) {
-	    	System.out.println(id);
-	    	Long idLong = Long.parseLong(id);
-	        productService.deleteProduct(idLong);
+	    @DeleteMapping("/delete-product/{publicId}")
+	    public ResponseEntity<Void> deleteProduct(@PathVariable String publicId) {
+	        productService.deleteProduct(publicId);
 	        return ResponseEntity.noContent().build();
 	    }
 
 	    //Correcto
-	    @PutMapping("/update-product/{id}")
-	    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDetailsDTO) {
-	        Product updatedProduct = productService.updateProduct(id, productDetailsDTO);
+	    @PutMapping("/update-product/{publicId}")
+	    public ResponseEntity<Product> updateProduct(@PathVariable String publicId, @RequestBody ProductDTO productDetailsDTO) {
+	        Product updatedProduct = productService.updateProduct(publicId, productDetailsDTO);
 	        return ResponseEntity.ok(updatedProduct);
 	    }
 	

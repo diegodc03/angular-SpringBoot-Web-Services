@@ -40,7 +40,11 @@ public class ProductService {
 	}
 		
 		
-	public Optional<Product> getProdcutById(Long id){
+	public Optional<Product> getProductByPublicId(String publicId){
+		return productRepository.findByPublicId(publicId);
+	}
+	
+	public Optional<Product> getProductById(Long id){
 		return productRepository.findById(id);
 	}
 		
@@ -109,6 +113,7 @@ public class ProductService {
 	        product.setPrice(productDTO.getPrice());
 	        product.setIsTshirt(productDTO.getIsTshirt());
 	        product.setTotalStock(productDTO.getTotalStock());
+	        product.setPublicId();;
 
 	        // in lambda can use a variable created out of lambda if is not final. we can use a array
 	        if(productDTO.getIsTshirt() && productDTO.getGarments() != null) {
@@ -143,56 +148,68 @@ public class ProductService {
 		
 		
 		
-	    public void deleteProduct(Long id) {
-	        productRepository.deleteById(id);
+	    public void deleteProduct(String publicId) {
+	    	System.out.println(publicId);
+	    	
+	    	Optional <Product> optDeletingProduct = this.getProductByPublicId(publicId);
+	    	
+	    	if(optDeletingProduct.isPresent()) {
+	    		productRepository.delete(optDeletingProduct.get());
+	    	}
 	    }
 	    
 
-	    public Product updateProduct(Long id, ProductDTO productDetailsDTO) {
+	    public Product updateProduct(String publicId, ProductDTO productDetailsDTO) {
 	    	int[] stock = {0};  
 	    	
-	    	Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+	    	Optional<Product> optProduct = Optional.of(productRepository.findByPublicId(publicId).orElseThrow(() -> new RuntimeException("Product not found")));
 	        
-	        product.setName(productDetailsDTO.getName());
-	        product.setDescription(productDetailsDTO.getDescription());
-	        product.setPrice(productDetailsDTO.getPrice());
-	        product.setIsTshirt(productDetailsDTO.getIsTshirt());
-	        product.setTotalStock(productDetailsDTO.getTotalStock());
-	        
-	        // Add the thirts added
-	        List<Garment> existingTshirts = product.getGarments();
-	       
-
-	        if (productDetailsDTO.getIsTshirt()) {
-
-	            // Procesar cada tshirtDTO recibido
-	            for (GarmentDTO garmentDTO : productDetailsDTO.getGarments()) {
-	            	
-	            	// Comprobar si ya existe una camiseta con la misma talla
-	                existingTshirts.removeIf(existingTshirt -> existingTshirt.getSize().equals(garmentDTO.getSize()));
-	            	
-	                Garment garment = new Garment();
-	                
-	                stock[0] += garmentDTO.getStock();
-	                Size size = Size.valueOf(garmentDTO.getSize().toUpperCase());
-		            if(size != null) {
-		            	garment.setSize(size);
+	    	if(optProduct.isPresent()) {
+	    		Product product = optProduct.get();
+	    	
+	    	
+		        product.setName(productDetailsDTO.getName());
+		        product.setDescription(productDetailsDTO.getDescription());
+		        product.setPrice(productDetailsDTO.getPrice());
+		        product.setIsTshirt(productDetailsDTO.getIsTshirt());
+		        product.setTotalStock(productDetailsDTO.getTotalStock());
+		        
+		        // Add the thirts added
+		        List<Garment> existingTshirts = product.getGarments();
+		       
+	
+		        if (productDetailsDTO.getIsTshirt()) {
+	
+		            // Procesar cada tshirtDTO recibido
+		            for (GarmentDTO garmentDTO : productDetailsDTO.getGarments()) {
+		            	
+		            	// Comprobar si ya existe una camiseta con la misma talla
+		                existingTshirts.removeIf(existingTshirt -> existingTshirt.getSize().equals(garmentDTO.getSize()));
+		            	
+		                Garment garment = new Garment();
+		                
+		                stock[0] += garmentDTO.getStock();
+		                Size size = Size.valueOf(garmentDTO.getSize().toUpperCase());
+			            if(size != null) {
+			            	garment.setSize(size);
+			            }
+		                garment.setColor(garmentDTO.getColor());
+		                garment.setMaterial(garmentDTO.getMaterial());
+		                garment.setStock(garmentDTO.getStock());
+		                garment.setProduct(product); // Asocia el nuevo tshirt con el producto
+	
+		                existingTshirts.add(garment);
 		            }
-	                garment.setColor(garmentDTO.getColor());
-	                garment.setMaterial(garmentDTO.getMaterial());
-	                garment.setStock(garmentDTO.getStock());
-	                garment.setProduct(product); // Asocia el nuevo tshirt con el producto
-
-	                existingTshirts.add(garment);
-	            }
-	            // Asigna la nueva lista de tshirts al producto
-	            //product.setTshirts(updatedTshirts);
-	            product.setTotalStock(stock[0]);
-	        } else {
-	            // Si no es una camiseta, limpia la colección de tshirts
-	            product.setGarments(new ArrayList<>());
-	        } 
-	        return productRepository.save(product);
+		            // Asigna la nueva lista de tshirts al producto
+		            //product.setTshirts(updatedTshirts);
+		            product.setTotalStock(stock[0]);
+		        } else {
+		            // Si no es una camiseta, limpia la colección de tshirts
+		            product.setGarments(new ArrayList<>());
+		        } 
+		        return productRepository.save(product);
+	    	}
+	    	return null;
 	    }  
 	        
 	        

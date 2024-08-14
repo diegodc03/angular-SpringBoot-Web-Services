@@ -1,0 +1,19 @@
+.garment-row {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .garment-row .form-label {
+    font-weight: bold;
+  }
+  
+  .btn-secondary {
+    margin-top: 10px;
+  }
+  
+  .btn-danger {
+    margin-top: 10px;
+  }
+  

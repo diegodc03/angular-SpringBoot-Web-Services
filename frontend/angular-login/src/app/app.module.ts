@@ -31,6 +31,7 @@ import { ChangePasswordComponent } from './pages/password-change/password-change
 import { InventaryComponent } from './inventary/inventary.component';
 import { SecureInventarySaleNavComponent } from './shared/secure-inventary-sale-nav/secure-inventary-sale-nav.component';
 import { SecureInventarySaleLayoutComponent } from './layouts/secure-inventary-sale-layout/secure-inventary-sale-layout.component';
+import { AddProductInventaryComponent } from './pages/add-product-inventary/add-product-inventary.component';
 
 
 
@@ -59,6 +60,7 @@ import { SecureInventarySaleLayoutComponent } from './layouts/secure-inventary-s
     InventaryComponent,
     SecureInventarySaleNavComponent,
     SecureInventarySaleLayoutComponent,
+    AddProductInventaryComponent,
     
   ],
   imports: [

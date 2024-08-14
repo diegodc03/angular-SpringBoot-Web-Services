@@ -1,0 +1,88 @@
+.product-list {
+    margin-top: 20px;
+}
+
+.product-item {
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #ffffff;
+}
+
+.product-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.product-header div {
+    flex: 1;
+}
+
+.product-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.product-details {
+    background-color: #f8f9fa; /* Color de fondo claro */
+    padding: 10px;
+    border-top: 1px solid #dee2e6; /* Línea superior para separar visualmente */
+    background-color: #dbdada;
+    border-radius: 10px;
+}
+
+.details-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Espacio entre los elementos */
+}
+
+.garment-row {
+    display: flex;
+    flex: 1 1 calc(50% - 10px); /* Dos elementos por fila, considerando el espacio de gap */
+    box-sizing: border-box;
+    border-radius: 20px;
+    
+}
+
+.garment-items {
+    width: 100%;
+    border-radius: 20px;
+    background-color: #a19e9e;
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1); /* Sombra ligera para un efecto de profundidad */
+}
+
+.garment-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-left: 5%;
+    margin-right: 5%;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.tittle-details{
+    display: flex;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    justify-content: center; /* Centra horizontalmente */
+}
+
+.margin-button{
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+}
+

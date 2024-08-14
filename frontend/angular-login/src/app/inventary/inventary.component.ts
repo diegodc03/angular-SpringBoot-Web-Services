@@ -24,13 +24,16 @@ export class InventaryComponent implements OnInit {
 
   constructor(private inventaryService: InventaryService) {}
 
-  deleteProduct(id: number): void {
-    this.inventaryService.deleteProduct(id).subscribe(() => {
+  deleteProduct(publicId: string): void {
+    this.inventaryService.deleteProduct(publicId).subscribe(() => {
       this.loadProducts();
     });
   }
 
-  toggleGarments(index: number) {
+  toggleGarments(index: number, event?: Event): void {
+    if (event) {
+        event.stopPropagation(); // Evitar que el clic en el botón propague el evento al contenedor
+    }
     this.showGarments[index] = !this.showGarments[index];
 }
 

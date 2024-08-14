@@ -11,6 +11,8 @@ import { AuthGuard } from './guards/guard/guard.component';
 import { ChangePasswordComponent } from './pages/password-change/password-change.component';
 import { SecureInventarySaleLayoutComponent } from './layouts/secure-inventary-sale-layout/secure-inventary-sale-layout.component';
 import { InventaryComponent } from './inventary/inventary.component';
+import { AddProductInventaryComponent } from './pages/add-product-inventary/add-product-inventary.component';	
+
 const routes: Routes = [
   {
     path: '',
@@ -38,7 +40,9 @@ const routes: Routes = [
     component: SecureInventarySaleLayoutComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: 'inventary', component: InventaryComponent }
+      { path: 'inventary', component: InventaryComponent },
+      { path: 'addProduct', component: AddProductInventaryComponent },
+      { path: '', redirectTo: 'inventary', pathMatch: 'full' }
     ]
   },
   { path: '**', redirectTo: '' }

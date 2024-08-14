@@ -11,7 +11,7 @@ import { Garment } from "../garment/garment.module";
 })
 export class Product { 
 
-  id: number;
+  publicId: string;
   name: string;
   description: string;
   price: number;
@@ -20,8 +20,8 @@ export class Product {
   garments: Garment[];
 
 
-  constructor(@Inject(Number) id: number, @Inject(String) name: string, @Inject(String) description: string, @Inject(Number) price: number, @Inject(Boolean) isTshirt: boolean, @Inject(Number) totalStock: number, @Inject(Garment) garments: Garment[]) {
-    this.id = id;
+  constructor(@Inject(String) publicId: string, @Inject(String) name: string, @Inject(String) description: string, @Inject(Number) price: number, @Inject(Boolean) isTshirt: boolean, @Inject(Number) totalStock: number, @Inject(Garment) garments: Garment[]) {
+    this.publicId = publicId;
     this.name = name;
     this.description = description;
     this.price = price;

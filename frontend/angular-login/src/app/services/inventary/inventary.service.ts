@@ -46,9 +46,9 @@ export class InventaryService {
     return this.http.put<Product>(`${this.apiURL}/update-product/${id}`, productDTO);
   }
 
-  deleteProduct(id: number): Observable<void> {
-    console.log(id);
-    return this.http.delete<void>(`${this.apiURL}/delete-product/${id}`);
+  deleteProduct(publicId: string): Observable<void> {
+    console.log(publicId);
+    return this.http.delete<void>(`${this.apiURL}/delete-product/${publicId}`);
   }
 
 

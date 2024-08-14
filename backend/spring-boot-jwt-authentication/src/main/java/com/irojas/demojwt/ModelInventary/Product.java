@@ -2,6 +2,7 @@ package com.irojas.demojwt.ModelInventary;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -33,24 +34,34 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	private String publicId; // Nuevo campo para el identificador externo
+	
 	private String name;
 	
 	private String description;
 	
 	private Double price;
 	
-	private Boolean isShirt; // Indica si el producto tiene varias tallas
+	private Boolean isTshirt; // Indica si el producto tiene varias tallas
 	
 	private int totalStock;
-	
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    //@JsonManagedReference
     @JsonIgnoreProperties(value="product")
     private List<Garment> garments;
 
     
     
+    // Gatters and Setters
+    
+	public String getPublicId() {
+		return publicId;
+	}
+
+	public void setPublicId() {
+		this.publicId =  UUID.randomUUID().toString();
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -84,11 +95,11 @@ public class Product {
 	}
 
 	public Boolean getIsTshirt() {
-		return isShirt;
+		return isTshirt;
 	}
 
-	public void setIsTshirt(Boolean isShirt) {
-		this.isShirt = isShirt;
+	public void setIsTshirt(Boolean isTshirt) {
+		this.isTshirt = isTshirt;
 	}
 
 
@@ -100,21 +111,20 @@ public class Product {
 		this.garments = garments;
 	}
 
-	public Product(String name, String description, Double price, Boolean isShirt, List<Garment> garments) {
-		super();
+	public Product(String publicId, String name, String description, Double price, Boolean isTshirt, List<Garment> garments) {
+		super();	
+		this.publicId = publicId;
 		this.name = name;
 		this.description = description;
 		this.price = price;
-		this.isShirt = isShirt;
+		this.isTshirt = isTshirt;
 		this.garments = garments;
 	}
 
 	public Product() {
 		// TODO Auto-generated constructor stub
 	}
-
-    
-    
+	
     
 		
 		
