@@ -17,17 +17,21 @@ export class AddProductInventaryComponent {
     this.addProduct = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
-      price: [null, [Validators.required, Validators.min(0)]],
-      totalStock: [{ value: '', disabled: true }],
+      price: [null, [Validators.required, Validators.min(1)]],
+      totalStock: [{ value: '', disabled: false }, Validators.required, Validators.min(0)],
       isTshirt: [false],
       garments: this.fb.array([])
     });
 
-    this.onChanges();
   }
 
   ngOnInit(): void {
-    this.addGarment(); // Añade una entrada de ropa por defecto
+    this.onChanges();
+    // Si `isTshirt` es `true`, añade una entrada de prenda por defecto
+    if (this.addProduct.get('isTshirt')?.value) {
+      this.addGarment();
+      this.addProduct.get('totalStock')?.disable();
+    }
   }
 
   get garments() {
@@ -37,13 +41,20 @@ export class AddProductInventaryComponent {
   onChanges(): void {
     this.addProduct.get('isTshirt')?.valueChanges.subscribe(value => {
       if (value) {
-        this.addGarment(); // Muestra las entradas de ropa si `isTshirt` es verdadero
+        // Si `isTshirt` es verdadero, deshabilita el campo `totalStock` y añade al menos una entrada de prenda
+        this.addProduct.get('totalStock')?.disable();
+        if (this.garments.length === 0) {
+          this.addGarment(); // Añade una entrada de prenda si no hay ninguna
+        }
       } else {
-        this.garments.clear(); // Limpia las entradas de ropa si `isTshirt` es falso
+        // Si `isTshirt` es falso, habilita el campo `totalStock` y limpia las prendas
+        this.addProduct.get('totalStock')?.enable();
+        this.garments.clear(); // Limpia las prendas si `isTshirt` es falso
+        this.updateTotalStock(); // Actualiza el stock total
       }
-      this.updateTotalStock();
     });
   }
+
 
   addGarment(): void {
     this.garments.push(this.fb.group({

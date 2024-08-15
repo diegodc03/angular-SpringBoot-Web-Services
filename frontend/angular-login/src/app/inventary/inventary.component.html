@@ -30,7 +30,7 @@
                 <div class="product-price">{{ product.price | currency }}</div>
                 <div class="product-stock">{{ product.totalStock }}</div>
                 <div class="product-actions">
-                    <a [routerLink]="['/product', product.publicId]" class="btn btn-primary btn-sm">Editar</a>
+                    <a [routerLink]="['/dashboard/inventarySale/update-product/', product.publicId]" class="btn btn-primary btn-sm">Editar</a>
                     <button class="btn btn-danger btn-sm" (click)="deleteProduct(product.publicId)">Eliminar</button>
                     <button
                         *ngIf="product.isTshirt"
@@ -41,7 +41,7 @@
                     </button>
                 </div>
             </div>
-            
+
             <!-- Detalles del producto -->
             <div *ngIf="showGarments[i] && product.isTshirt" class="product-details">
                 <h5 class="tittle-details">Detalles de Tallas</h5>
@@ -60,6 +60,7 @@
     </div>
     
       
-    <button class="btn btn-success margin-button" routerLink="/add-product">Agregar Producto</button>
+    <button class="btn btn-success margin-button" routerLink="/dashboard/inventarySale/add-product">Agregar Producto</button>
   </div>
+  
   

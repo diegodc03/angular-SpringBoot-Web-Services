@@ -18,8 +18,8 @@ export class InventaryService {
     return this.http.get<Product[]>(`${this.apiURL}/all-inventary`);
   }
 
-  getProductById(id: number): Observable<Product> {
-    return this.http.get<Product>(`${this.apiURL}/inventary/${id}`);
+  getProductById(publicIdd: String): Observable<Product> {
+    return this.http.get<Product>(`${this.apiURL}/inventary/${publicIdd}`);
   }
 
   getProductsByPriceAscending(): Observable<Product[]> {
@@ -42,8 +42,8 @@ export class InventaryService {
     return this.http.post<Product>(`${this.apiURL}/add-product`, productDTO);
   }
 
-  updateProduct(id: number, productDTO: ProductDTO): Observable<Product> {
-    return this.http.put<Product>(`${this.apiURL}/update-product/${id}`, productDTO);
+  updateProduct(publicId: String, productDTO: ProductDTO): Observable<Product> {
+    return this.http.put<Product>(`${this.apiURL}/update-product/${publicId}`, productDTO);
   }
 
   deleteProduct(publicId: string): Observable<void> {

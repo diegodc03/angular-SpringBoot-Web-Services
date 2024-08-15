@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.irojas.demojwt.ModelInventary.Garment;
 import com.irojas.demojwt.ModelInventary.Product;
 import com.irojas.demojwt.ModelInventaryDTO.ProductDTO;
 import com.irojas.demojwt.ServiceIntentary.ProductService;
@@ -48,6 +49,15 @@ public class ControllerInventary {
 	    @GetMapping("/inventary/{publicId}")
 	    public ResponseEntity<Product> getProductById(@PathVariable String publicId) {
 	        Optional<Product> product = productService.getProductByPublicId(publicId);
+	        if(product.isPresent()) {
+	        	List<Garment> list = product.get().getGarments();
+		        for(Garment g:list) {
+		        	System.out.println(g.getSize());
+		        	System.out.println(g.getStock());
+		        }
+	        	return ResponseEntity.ok(product.get());
+	        }
+	        
 	        return product.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 	    }
 	    
@@ -91,7 +101,7 @@ public class ControllerInventary {
 	    //Correcto
 	    @PutMapping("/update-product/{publicId}")
 	    public ResponseEntity<Product> updateProduct(@PathVariable String publicId, @RequestBody ProductDTO productDetailsDTO) {
-	        Product updatedProduct = productService.updateProduct(publicId, productDetailsDTO);
+	        Product updatedProduct = productService.updateProduct(publicId, productDetailsDTO); 
 	        return ResponseEntity.ok(updatedProduct);
 	    }
 	

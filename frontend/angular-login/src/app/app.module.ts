@@ -32,6 +32,7 @@ import { InventaryComponent } from './inventary/inventary.component';
 import { SecureInventarySaleNavComponent } from './shared/secure-inventary-sale-nav/secure-inventary-sale-nav.component';
 import { SecureInventarySaleLayoutComponent } from './layouts/secure-inventary-sale-layout/secure-inventary-sale-layout.component';
 import { AddProductInventaryComponent } from './pages/add-product-inventary/add-product-inventary.component';
+import { UpdateProductInventaryComponent } from './pages/update-product-inventary/update-product-inventary.component';
 
 
 
@@ -61,6 +62,7 @@ import { AddProductInventaryComponent } from './pages/add-product-inventary/add-
     SecureInventarySaleNavComponent,
     SecureInventarySaleLayoutComponent,
     AddProductInventaryComponent,
+    UpdateProductInventaryComponent,
     
   ],
   imports: [
