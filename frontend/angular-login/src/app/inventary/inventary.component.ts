@@ -51,7 +51,6 @@ export class InventaryComponent implements OnInit {
       console.log(this.products);
 
       console.log("Productos cargados3");
-      console.log(this.products[16].garments);
 
     });
   }
