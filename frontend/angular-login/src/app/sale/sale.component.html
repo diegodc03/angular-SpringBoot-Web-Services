@@ -10,8 +10,12 @@
     <div class="box">Caja 5</div>-->
 
     <div *ngFor="let product of products; let i = index" class="box">
-        caja {{ i}}
-        
+        caja {{i}}
+        <div class="product-id">{{ product.publicId }}</div>
+            <div class="product-name">{{ product.name }}</div>
+            <div class="product-description">{{ product.description }}</div>
+            <div class="product-price">{{ product.price | currency }}</div>
+            <div class="product-stock">{{ product.totalStock }}</div>
         <!-- Detalles del producto 
         <div class="product-header" (click)="toggleGarments(i)">
             <div class="product-id">{{ product.publicId }}</div>
