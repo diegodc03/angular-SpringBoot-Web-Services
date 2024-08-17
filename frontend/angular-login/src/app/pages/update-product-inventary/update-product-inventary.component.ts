@@ -34,7 +34,18 @@ export class UpdateProductInventaryComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
     this.productId = String(this.route.snapshot.paramMap.get('publicId'));
+    
+    this.updateProductForm = this.fb.group({
+      name: ['', Validators.required],
+      description: ['', Validators.required],
+      price: [0, [Validators.required, Validators.min(0)]],
+      totalStock: [{ value: 0, disabled: true }, Validators.required],
+      isTshirt: [false],
+      garments: this.fb.array([]) // Initialize the FormArray here
+    });
+  
     this.loadProductData();
     this.onChangesTshirt();
   }
@@ -65,6 +76,9 @@ export class UpdateProductInventaryComponent implements OnInit {
   loadProductData(): void {
     this.inventaryService.getProductById(this.productId).subscribe({
       next: (product) => {
+        console.log('Product data:', product);
+        console.log('Form before patchValue:', this.updateProductForm.value);
+  
         this.updateProductForm.patchValue({
           name: product.name,
           description: product.description,
@@ -72,6 +86,9 @@ export class UpdateProductInventaryComponent implements OnInit {
           totalStock: product.totalStock,
           isTshirt: product.isTshirt
         });
+  
+        console.log('Form after patchValue:', this.updateProductForm.value);
+  
         if (product.isTshirt) {
           console.log("Producto es una camiseta");
           console.log(product.garments);
@@ -84,19 +101,25 @@ export class UpdateProductInventaryComponent implements OnInit {
       }
     });
   }
-
-  setGarments(garments: any[]): void {
+  
+  setGarments(garmentsList: any[]): void {
     const garmentsFormArray = this.updateProductForm.get('garments') as FormArray;
+  
+    // Clear existing controls (if any)
     garmentsFormArray.clear();
-    garments.forEach(garment => {
-      garmentsFormArray.push(this.fb.group({
+  
+    garmentsList.forEach(garment => {
+      const garmentGroup = this.fb.group({
         size: [garment.size, Validators.required],
         color: [garment.color, Validators.required],
         material: [garment.material, Validators.required],
         stock: [garment.stock, [Validators.required, Validators.min(0)]]
-      }));
+      });
+  
+      garmentsFormArray.push(garmentGroup);
     });
   }
+  
 
   addGarment(): void {
     this.garments.push(this.fb.group({

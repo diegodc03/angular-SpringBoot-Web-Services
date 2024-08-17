@@ -50,11 +50,6 @@ public class ControllerInventary {
 	    public ResponseEntity<Product> getProductById(@PathVariable String publicId) {
 	        Optional<Product> product = productService.getProductByPublicId(publicId);
 	        if(product.isPresent()) {
-	        	List<Garment> list = product.get().getGarments();
-		        for(Garment g:list) {
-		        	System.out.println(g.getSize());
-		        	System.out.println(g.getStock());
-		        }
 	        	return ResponseEntity.ok(product.get());
 	        }
 	        

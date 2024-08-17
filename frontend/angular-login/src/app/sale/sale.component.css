@@ -1,0 +1,16 @@
+*{
+    margin:30px;
+}
+
+body{
+    font-family: Arial, sans-serif;
+}
+
+.box{
+    width: 300px;
+    background-color: aqua;
+    height: 300px;
+    display: inline-block;
+    border: 3px solid rgb(255, 0, 0);
+    
+}

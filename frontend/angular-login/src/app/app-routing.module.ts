@@ -13,6 +13,7 @@ import { SecureInventarySaleLayoutComponent } from './layouts/secure-inventary-s
 import { InventaryComponent } from './inventary/inventary.component';
 import { AddProductInventaryComponent } from './pages/add-product-inventary/add-product-inventary.component';	
 import { UpdateProductInventaryComponent } from './pages/update-product-inventary/update-product-inventary.component';
+import { SaleComponent } from './sale/sale.component';
 const routes: Routes = [
   {
     path: '',
@@ -43,6 +44,7 @@ const routes: Routes = [
       { path: 'inventary', component: InventaryComponent },
       { path: 'add-product', component: AddProductInventaryComponent },
       { path: 'update-product/:publicId', component: UpdateProductInventaryComponent },
+      { path: 'sales', component: SaleComponent },
       { path: '', redirectTo: 'inventary', pathMatch: 'full' }
     ]
   },
