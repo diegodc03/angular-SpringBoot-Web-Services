@@ -34,6 +34,7 @@ import { SecureInventarySaleLayoutComponent } from './layouts/secure-inventary-s
 import { AddProductInventaryComponent } from './pages/add-product-inventary/add-product-inventary.component';
 import { UpdateProductInventaryComponent } from './pages/update-product-inventary/update-product-inventary.component';
 import { SaleComponent } from './sale/sale.component';
+import { ShowProductInventaryComponent } from './pages/show-product-inventary/show-product-inventary.component';
 
 
 
@@ -65,6 +66,7 @@ import { SaleComponent } from './sale/sale.component';
     AddProductInventaryComponent,
     UpdateProductInventaryComponent,
     SaleComponent,
+    ShowProductInventaryComponent,
     
   ],
   imports: [

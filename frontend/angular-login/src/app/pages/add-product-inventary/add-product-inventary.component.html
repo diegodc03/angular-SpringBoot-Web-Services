@@ -41,14 +41,19 @@
             <label for="totalStock" class="form-label">Stock Total</label>
             <input formControlName="totalStock" type="number" class="form-control" id="totalStock" >
             <div *ngIf="addProduct.get('totalStock')?.invalid && (addProduct.get('totalStock')?.dirty || addProduct.get('totalStock')?.touched)" class="text-danger">
-                <div *ngIf="addProduct.get('totalStock')?.errors?.['required']">
-                  El stock es requerido.
-                </div>
-                <div *ngIf="addProduct.get('totalStock')?.errors?.['min']">
-                  El stock debe ser mayor o igual a 1.
-                </div>
+              <div *ngIf="addProduct.get('totalStock')?.errors?.['required']">
+                El stock es requerido.
               </div>
-        </div>
+              <div *ngIf="addProduct.get('totalStock')?.errors?.['min']">
+                El stock debe ser mayor o igual a 1.
+              </div>
+            </div>
+          </div>
+          
+          <div class="mb-3 element-css">
+            <label class="col-md-2" for="image">Imagen:</label>
+            <input formControlName="image" type="file" class="form-control" id="image">
+          </div>
         
           <div class="mb-3 ">
             <label for="isTshirt" class="form-check-label">¿Es una camiseta?</label>

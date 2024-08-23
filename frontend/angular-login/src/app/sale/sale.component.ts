@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Product } from '../model/product/product.module';
 import  { InventaryService } from "../services/inventary/inventary.service";
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-sale',
@@ -8,6 +10,7 @@ import  { InventaryService } from "../services/inventary/inventary.service";
   styleUrls: ['./sale.component.css']
 })
 export class SaleComponent {
+
 
   products: Product[] = [];
 
@@ -20,6 +23,15 @@ export class SaleComponent {
       this.products = inventary;
     });
 
+  }
+
+  productInfo() {
+    throw new Error('Method not implemented.');
+  }
+
+
+  addToCart() {
+    throw new Error('Method not implemented.');
   }
 
 

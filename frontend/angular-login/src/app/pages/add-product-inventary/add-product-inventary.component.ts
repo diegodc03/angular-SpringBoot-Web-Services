@@ -12,18 +12,27 @@ import { Product } from '../../model/product/product.module' // Ajusta la ruta s
 export class AddProductInventaryComponent {
   addProduct: FormGroup;
   addProductError: string = '';
+  selectedFile: File | null = null;
 
   constructor(private fb: FormBuilder) {
     this.addProduct = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
       price: [null, [Validators.required, Validators.min(1)]],
+      image: [''],
       totalStock: [{ value: '', disabled: false }, Validators.required, Validators.min(0)],
       isTshirt: [false],
       garments: this.fb.array([])
     });
 
   }
+
+  onFileChange(event: any) {
+    if (event.target.files.length > 0) {
+      this.selectedFile = event.target.files[0];
+    }
+  }
+
 
   ngOnInit(): void {
     this.onChanges();
