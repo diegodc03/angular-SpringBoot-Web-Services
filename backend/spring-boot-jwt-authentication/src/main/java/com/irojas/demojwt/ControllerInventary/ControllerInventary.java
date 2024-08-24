@@ -98,7 +98,9 @@ public class ControllerInventary {
 	        return p;
 
 	    }
-
+	    
+	    
+	    // Aqui habra que eliminar la imagen
 	    // Correcto
 	    @DeleteMapping("/delete-product/{publicId}")
 	    public ResponseEntity<Void> deleteProduct(@PathVariable String publicId) {

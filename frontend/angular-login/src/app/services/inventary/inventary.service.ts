@@ -78,6 +78,9 @@ export class InventaryService {
     return this.http.delete<void>(`${this.apiURL}/delete-product/${publicId}`);
   }
 
+  getProductImage(publicId: string): Observable<Blob> {
+    return this.http.get(`${this.apiURL}/image/${publicId}`, { responseType: 'blob' });
+  }
  
 
 }

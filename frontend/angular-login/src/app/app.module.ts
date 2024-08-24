@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './shared/header/header.component';
@@ -13,8 +12,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { PersonalDetailsComponent } from './components/personal-details/personal-details.component';
-import { UserService } from './services/user/user.service';
-import { LoginService } from './services/auth/login.service';
 import { JwtInterceptorService } from './services/auth/jwt-interceptor.service';
 import { ErrorInterceptorService } from './services/auth/error-interceptor.service';
 
@@ -35,11 +32,6 @@ import { AddProductInventaryComponent } from './pages/add-product-inventary/add-
 import { UpdateProductInventaryComponent } from './pages/update-product-inventary/update-product-inventary.component';
 import { SaleComponent } from './sale/sale.component';
 import { ShowProductInventaryComponent } from './pages/show-product-inventary/show-product-inventary.component';
-
-
-
-
-
 
 
 @NgModule({

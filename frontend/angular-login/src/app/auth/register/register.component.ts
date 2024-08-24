@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import { RegisterService } from 'src/app/services/auth/register/register.service';
-import { RegisterRequest } from 'src/app/services/auth/register/register.service';
+import { RegistrationService } from 'src/app/services/auth/register/register.service'
+import { Injectable } from '@angular/core'; // Add this line
 
 
 @Component({
@@ -17,7 +18,8 @@ export class RegisterComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private registerService: RegistrationService
   ) {
     this.registerForm = this.formBuilder.group({
       username: ['', Validators.required],
@@ -41,7 +43,7 @@ export class RegisterComponent {
 
     const { username, firstname, lastname, country, password } = this.registerForm.value;
 
-    this.authService.register({ username, password, firstname, lastname, country }).subscribe({
+    this.registerService.register({ username, password, firstname, lastname, country }).subscribe({
       next: () => {
         this.router.navigate(['/login']);
       },
