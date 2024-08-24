@@ -129,16 +129,8 @@ public class ControllerInventary {
 	        } catch (IOException e) {
 	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	        }
-	    	
-	
 	    }
-	
-	
-	
-	
-	
-	
-	
-	
+	    
+	    
 	
 }

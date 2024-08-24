@@ -2,8 +2,10 @@
 <div>
     <h2> Productos a la Venta</h2>
 
-    <div *ngFor="let product of products; let i = index" class="box" (click)="addToCart()">
+    <div *ngFor="let product of productWithImages; let i = index" class="box" (click)="addToCart()">
         caja {{i}}
-        <div class="product-info" [routerLink]="['/dashboard/inventarySale/show-product', product.publicId]">informacion del Producto</div> 
-        <div></div>
+        <div class="product-info" [routerLink]="['/dashboard/inventarySale/show-product', product.product.publicId]">informacion del Producto</div> 
+        <div>
+            <img [src]="product.image" alt="product image" class="product-image">
+        </div>
     </div>
