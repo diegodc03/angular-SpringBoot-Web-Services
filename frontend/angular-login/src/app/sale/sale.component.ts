@@ -20,15 +20,16 @@ export class SaleComponent {
               ) { }
 
 
+
+  // MIRAR POR QUE ESTO SE HACE DE MANERA CONCURRENTE Y NO HACE PRIMERO EL SUBSCRIBE Y LUEGO EL LOAD CUANDO ESTA FUERA DEL SUBSCRIBE
   ngOnInit(): void {
 
     // Todos los productos que haya se van a mostrar, cada uno puede que tenga o no una imagen, por lo que se inicializa un array de imágenes vacío
     this.inventaryService.getAllProducts().subscribe(inventary => {
       this.products = inventary;
-      console.log("Productos cargados1");
+      this.loadProductImages(this.products);
     });
-
-    this.loadProductImages();
+ 
 
   }
 
@@ -39,9 +40,10 @@ export class SaleComponent {
   }
 
 
-  loadProductImages(){
-    
-    for (let product of this.products) {
+  loadProductImages(products: Product[]): void {
+   
+    for (let product of products) {
+      console.log("cagon dios 0");
       this.inventaryService.getProductImage(product.publicId).subscribe(imageBlob => {
         const imageFile = new File([imageBlob], product.publicId, { type: imageBlob.type });
         this.productWithImages.push(new ProductWithImageModule(product, imageFile));
@@ -50,6 +52,7 @@ export class SaleComponent {
         this.productWithImages.push(new ProductWithImageModule(product, null));
       });
     }
+
   }
 
 
