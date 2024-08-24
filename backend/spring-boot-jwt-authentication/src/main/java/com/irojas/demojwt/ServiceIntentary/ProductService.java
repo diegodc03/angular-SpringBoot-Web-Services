@@ -1,5 +1,9 @@
 package com.irojas.demojwt.ServiceIntentary;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -7,7 +11,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.irojas.demojwt.ModelInventary.Product;
 import com.irojas.demojwt.ModelInventary.Size;
@@ -24,7 +31,7 @@ public class ProductService {
 	
 	private ProductRepository productRepository;
 	private GarmentRepository tshirtRepository;
-	
+	private static String IMAGE_DIRECTORY = "uploads/";
 	
 	public ProductService (ProductRepository productRepository, GarmentRepository tshirtRepository) {
 		this.productRepository = productRepository;
@@ -103,7 +110,7 @@ public class ProductService {
 		}
 		
 		
-		public Product addProduct(ProductDTO productDTO) {
+		public Product addProduct(ProductDTO productDTO, MultipartFile image) {
 	        
 			int[] stock = {0};  
 			
@@ -113,11 +120,36 @@ public class ProductService {
 	        product.setPrice(productDTO.getPrice());
 	        product.setIsTshirt(productDTO.getIsTshirt());
 	        product.setTotalStock(productDTO.getTotalStock());
-	        product.setPublicId();;
+	        product.setPublicId();
+	        
+	        
+	        if(!image.isEmpty()) {
+	        	
+	        	String imageName = product.getPublicId() + "_image";
+	        	
+	        	try {
+	                // Guardar la imagen en el sistema de archivos
+	                Path imagePath = Paths.get(IMAGE_DIRECTORY + imageName);
+	                Files.createDirectories(imagePath.getParent());  // Crear el directorio si no existe
+	                Files.write(imagePath, image.getBytes());
 
+	                // Asignar el nombre de la imagen al DTO
+	                product.setImageName(imageName);
+
+	               
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	                //return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al subir la imagen.");
+	                return null;
+	            }
+	        }else {
+	        	product.setImageName(null);
+	        }
+	        
+	
 	        // in lambda can use a variable created out of lambda if is not final. we can use a array
 	        if(productDTO.getIsTshirt() && productDTO.getGarments() != null) {
-	        	System.out.println("fljdsnfñlsdjñfldjhkfñsdjl");
+	
 	        	List<Garment> garments = productDTO.getGarments().stream().map(tshirtDTO -> {
 		            stock[0] += tshirtDTO.getStock();   
 

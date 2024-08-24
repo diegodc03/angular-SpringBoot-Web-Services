@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
-import { Product } from '../../model/product/product.module' // Ajusta la ruta según tu estructura de carpetas
 
+import { InventaryService } from "../../services/inventary/inventary.service";
+import { ProductDTO } from '../../model/product-dto/product-dto.module';
 
 
 @Component({
@@ -12,9 +13,12 @@ import { Product } from '../../model/product/product.module' // Ajusta la ruta s
 export class AddProductInventaryComponent {
   addProduct: FormGroup;
   addProductError: string = '';
-  selectedFile: File | null = null;
+  selectedFile: File | undefined;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+              private inventaryService: InventaryService
+  ) 
+  {
     this.addProduct = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
@@ -86,8 +90,35 @@ export class AddProductInventaryComponent {
 
   onSubmit(): void {
     if (this.addProduct.valid) {
-      const product: Product = this.addProduct.value;
-      console.log('Product Data:', product);
+      const productForm: ProductDTO = this.addProduct.value;
+      console.log('Product Data:', productForm);
+      
+      const productDTO: ProductDTO = {
+        name: this.addProduct.get('name')?.value,
+        description: this.addProduct.get('description')?.value,
+        price: this.addProduct.get('price')?.value,
+        isShirt: this.addProduct.get('isTshirt')?.value,
+        totalStock: this.addProduct.get('totalStock')?.value,
+        image: this.selectedFile,
+        garments: this.addProduct.get('garments')?.value
+      };
+
+    
+
+      this.inventaryService.addProduct(productDTO).subscribe({
+        next: response => {
+          console.log('Producto creado con éxito', response);
+          // Resetear el formulario o navegar a otra vista
+          this.addProduct.reset();
+        },
+        error: error => {
+          console.error('Error al crear el producto', error);
+          this.addProductError = 'Error al crear el producto.';
+        }
+      });
+
+
+      
 
       // Aquí puedes hacer la llamada al servicio para enviar los datos
       // this.productService.addProduct(product).subscribe(response => { ... });

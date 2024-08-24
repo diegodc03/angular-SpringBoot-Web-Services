@@ -29,6 +29,7 @@ public class ProductDTO {
 
 	 @Valid
 	 private List<GarmentDTO> garments;
+	 
 
 	public String getName() {
 		return name;
@@ -77,6 +78,8 @@ public class ProductDTO {
 	public void setGarments(List<GarmentDTO> garments) {
 		this.garments = garments;
 	}
+	
+	
 
 	public ProductDTO(@NotNull @Size(min = 1, max = 100) String name, @Size(max = 255) String description,
 			@NotNull @DecimalMin("0.0") Double price, @NotNull Boolean isTshirt, @NotNull @Min(0) Integer totalStock,

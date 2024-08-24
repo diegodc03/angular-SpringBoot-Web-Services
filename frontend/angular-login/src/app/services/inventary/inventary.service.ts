@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 import { Product} from 'src/app/model/product/product.module';
 import { ProductDTO } from 'src/app/model/product-dto/product-dto.module';
 
@@ -38,8 +38,35 @@ export class InventaryService {
     return this.http.get<Product[]>(`${this.apiURL}/stock-descending`);
   }
 
-  addProduct(productDTO: ProductDTO): Observable<Product> {
-    return this.http.post<Product>(`${this.apiURL}/add-product`, productDTO);
+  addProduct(productDTO: ProductDTO): Observable<FormData> {
+
+    const formData = new FormData();
+    
+    // Agregar todos los campos al FormData
+    formData.append('name', productDTO.name);
+    formData.append('description', productDTO.description);
+    formData.append('price', productDTO.price.toString());
+    formData.append('totalStock', productDTO.totalStock.toString());
+    formData.append('isTshirt', productDTO.isShirt.toString());
+    formData.append('garments', JSON.stringify(productDTO.garments));
+
+    if (productDTO.image) {
+      formData.append('image', productDTO.image);
+    }
+
+    return this.http.post<FormData>(`${this.apiURL}/add-product`, formData)
+    .pipe(
+      tap((response) => {
+        console.log('Producto creado con éxito:', response);
+      }),
+      catchError(this.handleError)
+    );
+  }
+
+
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    console.error('Ocurrió un error:', error);
+    return throwError(() => new Error('Algo salió mal; por favor, intente de nuevo más tarde.'));
   }
 
   updateProduct(publicId: String, productDTO: ProductDTO): Observable<Product> {
@@ -51,5 +78,6 @@ export class InventaryService {
     return this.http.delete<void>(`${this.apiURL}/delete-product/${publicId}`);
   }
 
+ 
 
 }

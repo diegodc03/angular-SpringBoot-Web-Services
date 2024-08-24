@@ -1,10 +1,17 @@
 package com.irojas.demojwt.ControllerInventary;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import javax.validation.Valid;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,7 +21,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.irojas.demojwt.ModelInventary.Garment;
 import com.irojas.demojwt.ModelInventary.Product;
@@ -30,7 +39,7 @@ import lombok.RequiredArgsConstructor;
 public class ControllerInventary {
 
 	private ProductService productService;
-	
+	private static String IMAGE_DIRECTORY = "uploads/";
 
 	public ControllerInventary(ProductService productService) {
 		super();
@@ -81,9 +90,13 @@ public class ControllerInventary {
 	    
 	    //Correcto
 	    @PostMapping("/add-product")
-	    public Product addProduct(@Valid @RequestBody ProductDTO productDTO) {
-	    	Product p = productService.addProduct(productDTO);
+	    public Product addProduct(
+	    				@RequestPart("product") ProductDTO productDTO,
+	    				@RequestPart("image") MultipartFile image) {
+	    		
+	    	Product p = productService.addProduct(productDTO, image);
 	        return p;
+
 	    }
 
 	    // Correcto
@@ -98,6 +111,24 @@ public class ControllerInventary {
 	    public ResponseEntity<Product> updateProduct(@PathVariable String publicId, @RequestBody ProductDTO productDetailsDTO) {
 	        Product updatedProduct = productService.updateProduct(publicId, productDetailsDTO); 
 	        return ResponseEntity.ok(updatedProduct);
+	    }
+	    
+	    
+	    @GetMapping("/image/{publicId}")
+	    public ResponseEntity<byte[]> getProductImage(@PathVariable String publicId){
+			
+	    	try {
+	            Path imagePath = Paths.get(IMAGE_DIRECTORY + publicId + "_image");
+	            byte[] imageBytes = Files.readAllBytes(imagePath);
+
+	            return ResponseEntity.ok()
+	                    .contentType(MediaType.IMAGE_JPEG)  // Cambia según el tipo de imagen
+	                    .body(imageBytes);
+	        } catch (IOException e) {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+	        }
+	    	
+	
 	    }
 	
 	

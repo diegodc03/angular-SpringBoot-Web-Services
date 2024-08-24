@@ -50,7 +50,7 @@ public class Product {
     @JsonIgnoreProperties(value="product")
     private List<Garment> garments;
 
-    
+    private String imageName;
     
     // Gatters and Setters
     
@@ -109,6 +109,14 @@ public class Product {
 
 	public void setGarments(List<Garment> garments) {
 		this.garments = garments;
+	}
+	
+	public String getImageName() {
+		return imageName;
+	}
+
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
 	}
 
 	public Product(String publicId, String name, String description, Double price, Boolean isTshirt, List<Garment> garments) {
