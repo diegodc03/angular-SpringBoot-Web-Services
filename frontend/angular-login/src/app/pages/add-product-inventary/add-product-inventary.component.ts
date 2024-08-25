@@ -106,7 +106,7 @@ export class AddProductInventaryComponent {
 
       const formData = new FormData();
       if(this.selectedFile){
-        formData.append('file', this.selectedFile);
+        formData.append("file", this.selectedFile);
       }
 
       
