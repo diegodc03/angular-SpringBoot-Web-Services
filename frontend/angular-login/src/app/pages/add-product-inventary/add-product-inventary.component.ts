@@ -89,7 +89,9 @@ export class AddProductInventaryComponent {
   }
 
   onSubmit(): void {
-    if (this.addProduct.valid) {
+    console.log('Formulario:', this.addProduct);
+    if (this.addProduct.value) {
+      console.log('Formulario válido');
       const productForm: ProductDTO = this.addProduct.value;
       console.log('Product Data:', productForm);
       

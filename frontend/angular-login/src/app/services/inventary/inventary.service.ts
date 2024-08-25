@@ -39,22 +39,30 @@ export class InventaryService {
   }
 
   addProduct(productDTO: ProductDTO): Observable<FormData> {
-
+  
     const formData = new FormData();
     
     // Agregar todos los campos al FormData
-    formData.append('name', productDTO.name);
-    formData.append('description', productDTO.description);
-    formData.append('price', productDTO.price.toString());
-    formData.append('totalStock', productDTO.totalStock.toString());
-    formData.append('isTshirt', productDTO.isShirt.toString());
-    formData.append('garments', JSON.stringify(productDTO.garments));
+    // Agregar el objeto completo como JSON al FormData
+    // Serializa el objeto productDTO y añádelo al FormData
+    formData.append('product', new Blob([JSON.stringify({
+      name: productDTO.name,
+      description: productDTO.description,
+      price: productDTO.price,
+      totalStock: productDTO.totalStock,
+      isTshirt: productDTO.isShirt,
+      garments: productDTO.garments
+  })], { type: 'application/json' }));
 
-    if (productDTO.image) {
+  // Añade la imagen si existe
+  if (productDTO.image) {
       formData.append('image', productDTO.image);
-    }
+  }
 
-    return this.http.post<FormData>(`${this.apiURL}/add-product`, formData)
+    console.log(formData.get('product'));
+    console.log(formData.get('image'));
+
+    return this.http.post<any>(`${this.apiURL}/add-product`, formData)
     .pipe(
       tap((response) => {
         console.log('Producto creado con éxito:', response);

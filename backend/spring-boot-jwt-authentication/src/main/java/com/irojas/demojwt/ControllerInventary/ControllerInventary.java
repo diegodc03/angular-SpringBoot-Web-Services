@@ -21,10 +21,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.irojas.demojwt.ModelInventary.Garment;
 import com.irojas.demojwt.ModelInventary.Product;
 import com.irojas.demojwt.ModelInventaryDTO.ProductDTO;
@@ -90,12 +92,17 @@ public class ControllerInventary {
 	    
 	    //Correcto
 	    @PostMapping("/add-product")
-	    public Product addProduct(
-	    				@RequestPart("product") ProductDTO productDTO,
-	    				@RequestPart("image") MultipartFile image) {
-	    		
-	    	Product p = productService.addProduct(productDTO, image);
-	        return p;
+	    public Product addProduct(@RequestPart("product") MultipartFile productJson,
+	            @RequestPart(value = "image", required = false) MultipartFile image) {
+	    	System.out.println("hola");
+	    	
+	    	// Convertir el JSON del producto a un objeto ProductDTO
+	        ObjectMapper objectMapper = new ObjectMapper();
+	        ProductDTO productDTO;
+	        
+
+	        // Llamar al servicio para manejar la creación del producto
+	        return null;
 
 	    }
 	    

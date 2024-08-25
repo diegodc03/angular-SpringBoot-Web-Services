@@ -50,23 +50,21 @@
             </div>
           </div>
           
-          <div class="mb-3 element-css">
-            <label class="col-md-2" for="image">Imagen:</label>
-            <input formControlName="image" type="file" class="form-control" id="image">
+          <!-- Cargar Imagen del Producto -->
+          <div class="form-group">
+            <label for="image">Imagen:</label>
+            <input type="file" id="image" (change)="onFileChange($event)" class="form-control" />
           </div>
         
           <div class="mb-3 ">
             <label for="isTshirt" class="form-check-label">¿Es una camiseta?</label>
             <input formControlName="isTshirt" type="checkbox" id="isTshirt">
           </div>
+
+          
         </div>
 
-        <!-- Cargar Imagen del Producto -->
-        <div class="form-group">
-          <label for="image">Imagen:</label>
-          <input type="file" id="image" (change)="onFileChange($event)" class="form-control" />
-        </div>
-
+        
           
         <div formArrayName="garments" class="margin-css">
             <div *ngFor="let garment of garments.controls; let i = index" [formGroupName]="i" class="mb-3 garment-row">
