@@ -89,9 +89,9 @@ export class AddProductInventaryComponent {
   }
 
   onSubmit(): void {
-    console.log('Formulario:', this.addProduct);
+    console.log('Formulario:', this.addProduct)
     if (this.addProduct.value) {
-      console.log('Formulario válido');
+      
       const productForm: ProductDTO = this.addProduct.value;
       console.log('Product Data:', productForm);
       
@@ -99,15 +99,19 @@ export class AddProductInventaryComponent {
         name: this.addProduct.get('name')?.value,
         description: this.addProduct.get('description')?.value,
         price: this.addProduct.get('price')?.value,
-        isShirt: this.addProduct.get('isTshirt')?.value,
+        isTshirt: this.addProduct.get('isTshirt')?.value,
         totalStock: this.addProduct.get('totalStock')?.value,
-        image: this.selectedFile,
         garments: this.addProduct.get('garments')?.value
       };
 
-    
+      const formData = new FormData();
+      if(this.selectedFile){
+        formData.append('file', this.selectedFile);
+      }
 
-      this.inventaryService.addProduct(productDTO).subscribe({
+      
+
+      this.inventaryService.addProduct(productDTO, formData).subscribe({
         next: response => {
           console.log('Producto creado con éxito', response);
           // Resetear el formulario o navegar a otra vista
@@ -118,9 +122,6 @@ export class AddProductInventaryComponent {
           this.addProductError = 'Error al crear el producto.';
         }
       });
-
-
-      
 
       // Aquí puedes hacer la llamada al servicio para enviar los datos
       // this.productService.addProduct(product).subscribe(response => { ... });

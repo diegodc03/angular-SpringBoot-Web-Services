@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -91,21 +92,32 @@ public class ControllerInventary {
 	    
 	    
 	    //Correcto
-	    @PostMapping("/add-product")
-	    public Product addProduct(@RequestPart("product") MultipartFile productJson,
-	            @RequestPart(value = "image", required = false) MultipartFile image) {
-	    	System.out.println("hola");
+	    @PostMapping("/add-product-info")
+	    public ResponseEntity<String> addProduct(@RequestBody ProductDTO productDTO) {
 	    	
-	    	// Convertir el JSON del producto a un objeto ProductDTO
-	        ObjectMapper objectMapper = new ObjectMapper();
-	        ProductDTO productDTO;
-	        
-
-	        // Llamar al servicio para manejar la creación del producto
-	        return null;
-
+	        Product product = productService.addProduct(productDTO);
+	   
+	        return ResponseEntity.ok(product.getPublicId());
 	    }
 	    
+
+
+		@PostMapping("/image/{productId}")
+		public ResponseEntity<String> uploadProductImage(
+		        @PathVariable String productId,
+		        @RequestParam("file") MultipartFile image) {
+			 System.out.println("Solicitud para cargar imagen recibida para el producto con ID: " + productId);
+		    Product p = productService.uploadProductImage(productId, image);
+		    
+		    if(p != null) {
+		    	return ResponseEntity.ok("perfecto");
+		    }else {
+		    	System.out.println("hola");	
+		    	return null;
+		    }
+		    
+		}
+		
 	    
 	    // Aqui habra que eliminar la imagen
 	    // Correcto
