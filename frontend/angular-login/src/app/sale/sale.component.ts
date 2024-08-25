@@ -10,11 +10,18 @@ import { ProductWithImageModule } from '../model/product-with-image/product-with
   styleUrls: ['./sale.component.css']
 })
 export class SaleComponent {
+  
+
 
   productWithImages: ProductWithImageModule[] = [];
+  
+  // This array is used to store the products that the user has selected to buy
+  productsSold: { product: Product, size?: String }[] = [];
 
   products: Product[] = [];
   productimages: File[] = [];
+  selectedProduct: ProductWithImageModule | null = null;
+  selectedSize: String = ''; // Para rastrear la talla seleccionada
 
   constructor(private inventaryService: InventaryService,
               ) { }
@@ -29,14 +36,6 @@ export class SaleComponent {
       this.products = inventary;
       this.loadProductImages(this.products);
     });
- 
-
-  }
-
-  
-
-  addToCart() {
-    throw new Error('Method not implemented.');
   }
 
 
@@ -52,9 +51,53 @@ export class SaleComponent {
         this.productWithImages.push(new ProductWithImageModule(product, null));
       });
     }
-
   }
 
+
+  // Función para añadir el producto con la talla seleccionada al carrito
+  addToCartWithSize(product: Product) {
+    if (this.selectedSize) {
+
+      // Comprobar si el producto tiene tallas
+      if(product.totalStock == 0){
+        alert('Producto sin stock');
+        return;
+      }
+
+      const selectedGarment = product.garments.find(g => g.size == this.selectedSize);
+      if (selectedGarment && selectedGarment.stock == 0) {
+        alert('Producto sin stock');
+        return;
+      }else{
+        if (selectedGarment) {
+          selectedGarment.stock = selectedGarment.stock - 1;
+        }
+      }
+
+      this.productsSold.push({ product, size: this.selectedSize });
+      console.log('Producto añadido al carrito:', product, 'Talla:', this.selectedSize);
+      //this.resetSelection(); // Reiniciar selección después de añadir al carrito
+    } else {
+      alert('Por favor selecciona una talla antes de añadir al carrito.');
+    }
+  }
+
+  // Función para añadir el producto al carrito si no tiene tallas
+  addToCart(product: Product) {
+
+    // Comprobar si el producto tiene tallas
+    if(product.totalStock == 0){
+      alert('Producto sin stock');
+      return;
+    }else{
+      product.totalStock = product.totalStock - 1;
+
+      this.productsSold.push({ product });
+      console.log('Producto añadido al carrito:', product);
+    }
+
+    
+  }
 
 
 }

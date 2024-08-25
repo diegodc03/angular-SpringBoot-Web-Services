@@ -20,6 +20,7 @@ export class Product {
   imageName: String;
   garments: Garment[];
 
+  
 
   constructor(@Inject(String) publicId: string, 
               @Inject(String) name: string, 
