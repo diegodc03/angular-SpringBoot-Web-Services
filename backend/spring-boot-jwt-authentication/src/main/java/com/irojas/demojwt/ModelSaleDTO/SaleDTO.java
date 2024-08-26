@@ -26,110 +26,142 @@ public class SaleDTO {
     //@JoinColumn(name = "product_id")
     //private Product product;
     
-    private Long id_Product;
+    private String productId;
 
-    private Integer quantity;
+    private String name;
     
-    private LocalDateTime saleDate;
-
-    // price will have the tshirt to public sale
+ // price will have the tshirt to public sale
     private Double unitaryPrice;
     
     private Double totalPrice;
     
-    private boolean isGarment;
+    private Integer totalStockSold;
+    
+    private String imageName;
+    
+    private LocalDateTime saleDate;
+
+    private boolean existanceSizes;
     
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "sale_id") // Asocia la venta con las ventas de ropa
     private List<GarmentSaleDTO> garmentsSales = new ArrayList<>();
-    
-    
-    public Long getId() {
-		return id;
+
+
+	public String getProductId() {
+		return productId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+
+	public void setProductId(String productId) {
+		this.productId = productId;
 	}
 
-	/*
-	public Product getProduct() {
-		return product;
+
+	public String getName() {
+		return name;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
-	}*/
 
-	public Integer getQuantity() {
-		return quantity;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
-	}
-
-	public LocalDateTime getSaleDate() {
-		return saleDate;
-	}
-
-	public void setSaleDate(LocalDateTime saleDate) {
-		this.saleDate = saleDate;
-	}
-
-	public Double getTotalPrice() {
-		return totalPrice;
-	}
-
-	public void setTotalPrice(Double totalPrice) {
-		this.totalPrice = totalPrice;
-	}
 
 	public Double getUnitaryPrice() {
 		return unitaryPrice;
 	}
 
+
 	public void setUnitaryPrice(Double unitaryPrice) {
 		this.unitaryPrice = unitaryPrice;
 	}
-	
-	public Long getId_Product() {
-		return id_Product;
+
+
+	public Double getTotalPrice() {
+		return totalPrice;
 	}
 
-	public void setId_Product(Long id_Product) {
-		this.id_Product = id_Product;
+
+	public void setTotalPrice(Double totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 
-	public boolean getIsGarment() {
-		return isGarment;
+
+	public Integer getTotalStockSold() {
+		return totalStockSold;
 	}
 
-	public void setIsTshirt(boolean isGarment) {
-		this.isGarment = isGarment;
+
+	public void setTotalStockSold(Integer totalStockSold) {
+		this.totalStockSold = totalStockSold;
 	}
 
-	
+
+	public String getImageName() {
+		return imageName;
+	}
+
+
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
+	}
+
+
+	public LocalDateTime getSaleDate() {
+		return saleDate;
+	}
+
+
+	public void setSaleDate(LocalDateTime saleDate) {
+		this.saleDate = saleDate;
+	}
+
+
+	public boolean isExistanceSizes() {
+		return existanceSizes;
+	}
+
+
+	public void setExistanceSizes(boolean existanceSizes) {
+		this.existanceSizes = existanceSizes;
+	}
+
+
 	public List<GarmentSaleDTO> getGarmentsSales() {
 		return garmentsSales;
 	}
 
+
 	public void setGarmentsSales(List<GarmentSaleDTO> garmentsSales) {
 		this.garmentsSales = garmentsSales;
 	}
-	
 
-	public SaleDTO( Integer quantity, LocalDateTime saleDate, Double unitaryPrice, Double totalPrice, Long id_product, boolean isTshirt) {
+
+	public SaleDTO(String productId, String name, Double unitaryPrice, Double totalPrice, Integer totalStockSold,
+			String imageName, boolean existanceSizes, List<GarmentSaleDTO> garmentsSales) {
 		super();
-		this.quantity = quantity;
-		this.saleDate = saleDate;
+		this.productId = productId;
+		this.name = name;
 		this.unitaryPrice = unitaryPrice;
 		this.totalPrice = totalPrice;
-		this.id_Product = id_product;
-		this.isGarment = isTshirt;
+		this.totalStockSold = totalStockSold;
+		this.imageName = imageName;
+		this.existanceSizes = existanceSizes;
+		this.garmentsSales = garmentsSales;
 	}
+    
+    
 
+    
+    
+    
+    
+    
+	
+
+	
 	
     
     

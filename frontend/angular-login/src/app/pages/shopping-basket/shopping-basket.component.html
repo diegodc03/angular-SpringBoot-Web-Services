@@ -1,0 +1,24 @@
+
+
+<div>
+    <div class="upper-div">
+        <h2> Productos en la Cesta</h2>
+        <div (click)="saleConfirm()" id="bag">
+            ConfirmarPedido
+        </div>
+    </div>
+    
+    <div *ngFor="let product of productsSold; let i = index" class="box" >
+        caja {{i}}
+        <div>
+            producto {{product.name}}
+            <div *ngIf="product.existanceSizes">
+                <div *ngFor="let size of product.garmentsSales">
+                    Talla: {{size.size}}
+                    Stock: {{size.stock}}
+            </div>
+            
+        </div>
+        <button (click)="deleteShoppingBasket(product)">Eliminar</button>
+    </div>
+</div>

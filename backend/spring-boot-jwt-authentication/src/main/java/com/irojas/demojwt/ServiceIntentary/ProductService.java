@@ -198,10 +198,10 @@ public class ProductService {
 	    }
 	    
 
-	    public Product updateProduct(String publicId, ProductDTO productDetailsDTO) {
+	    public Product updateProduct(String productId, ProductDTO productDetailsDTO) {
 	    	int[] stock = {0};  
 	    	
-	    	Optional<Product> optProduct = Optional.of(productRepository.findByPublicId(publicId).orElseThrow(() -> new RuntimeException("Product not found")));
+	    	Optional<Product> optProduct = Optional.of(productRepository.findByPublicId(productId).orElseThrow(() -> new RuntimeException("Product not found")));
 	        
 	    	if(optProduct.isPresent()) {
 	    		Product product = optProduct.get();

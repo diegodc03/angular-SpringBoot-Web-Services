@@ -32,6 +32,8 @@ import { AddProductInventaryComponent } from './pages/add-product-inventary/add-
 import { UpdateProductInventaryComponent } from './pages/update-product-inventary/update-product-inventary.component';
 import { SaleComponent } from './sale/sale.component';
 import { ShowProductInventaryComponent } from './pages/show-product-inventary/show-product-inventary.component';
+import { ShoppingBasketComponent } from './pages/shopping-basket/shopping-basket.component';
+import { ShowProductSizes } from './pages/show-product-sizes/show-product-sizes.component';
 
 
 @NgModule({
@@ -59,6 +61,8 @@ import { ShowProductInventaryComponent } from './pages/show-product-inventary/sh
     UpdateProductInventaryComponent,
     SaleComponent,
     ShowProductInventaryComponent,
+    ShoppingBasketComponent,
+    ShowProductSizes,
     
   ],
   imports: [

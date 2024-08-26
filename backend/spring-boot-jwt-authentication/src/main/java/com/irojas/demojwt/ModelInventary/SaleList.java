@@ -2,6 +2,7 @@ package com.irojas.demojwt.ModelInventary;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
 
@@ -15,7 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-
+import java.util.UUID;
 
 
 
@@ -47,8 +48,8 @@ public class SaleList {
 		return customerName;
 	}
 
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
+	public void setCustomerName() {
+		this.customerName = UUID.randomUUID().toString();
 	}
 	
 	public List<Sale> getProducts() {

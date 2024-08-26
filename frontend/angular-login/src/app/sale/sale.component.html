@@ -1,12 +1,18 @@
 <!-- Funcion en la cual se tendra un cuadrado donde se pulsará y se desplegará las tallas de los productos, y si no es así lo que se hará es que se sumará al carrito -->
 <div>
-    <h2> Productos a la Venta</h2>
-
+    <div class="upper-div">
+        <h2> Productos a la Venta</h2>
+        <div (click)="shoppingcheck()" id="bag">
+            Cesta
+        </div>
+    </div>
+    
     <div *ngFor="let product of productWithImages; let i = index" class="box" >
         caja {{i}}
         <div>
-            <img [src]="product.image" alt="product image" class="product-image" (click)="addToCart(product.product)">
+            <img [src]="product.image" alt="product image" class="product-image" (click)="addToCart(product)">
         </div>
+        
         <!-- Mostrar el desplegable si es una camiseta
         <div *ngIf="selectedProduct === product && product.product.garments?.length">
             <label for="sizeSelect">Selecciona una talla:</label>
@@ -19,3 +25,4 @@
         </div> -->
         <div class="product-info" [routerLink]="['/dashboard/inventarySale/show-product', product.product.publicId]">informacion del Producto</div> 
     </div>
+</div>

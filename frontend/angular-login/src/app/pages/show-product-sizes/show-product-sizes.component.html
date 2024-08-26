@@ -1,0 +1,11 @@
+<div>
+    <h2> Tallas del Producto</h2>
+    <div *ngFor="let size of sizes; let i = index" class="box" (click)="addToCartSize()">
+        caja {{i}}
+        <div>
+            Talla: {{size.size}}
+            Stock: {{size.stock}}
+            Color: {{size.color}}
+            Material: {{size.material}}
+        </div>
+</div>

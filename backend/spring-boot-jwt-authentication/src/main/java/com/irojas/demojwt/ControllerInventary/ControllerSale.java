@@ -20,7 +20,6 @@ import com.irojas.demojwt.ModelInventary.Sale;
 import com.irojas.demojwt.ModelInventary.SaleList;
 import com.irojas.demojwt.ModelInventaryDTO.ProductDTO;
 import com.irojas.demojwt.ModelSaleDTO.SaleDTO;
-import com.irojas.demojwt.ModelSaleDTO.SaleListDTO;
 import com.irojas.demojwt.ServiceIntentary.ProductService;
 import com.irojas.demojwt.ServiceIntentary.ServiceSale;
 
@@ -82,9 +81,9 @@ public class ControllerSale {
 		
 		//Darle al boton de añadir cualquier producto
 	    @PostMapping("/add-sale")
-	    public SaleList addProduct(@Valid @RequestBody SaleListDTO saleDTO) {
+	    public String addProduct(@Valid @RequestBody List<SaleDTO> saleDTO) {
 	    	SaleList s = saleService.addProduct(saleDTO);
-	        return s;
+	        return "hola";
 	    }
 
 	    @DeleteMapping("/delete-sale/{id}")

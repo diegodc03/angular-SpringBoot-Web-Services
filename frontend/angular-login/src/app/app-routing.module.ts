@@ -15,6 +15,8 @@ import { AddProductInventaryComponent } from './pages/add-product-inventary/add-
 import { UpdateProductInventaryComponent } from './pages/update-product-inventary/update-product-inventary.component';
 import { SaleComponent } from './sale/sale.component';
 import { ShowProductInventaryComponent } from './pages/show-product-inventary/show-product-inventary.component';
+import { ShoppingBasketComponent } from './pages/shopping-basket/shopping-basket.component';
+import { ShowProductSizes } from './pages/show-product-sizes/show-product-sizes.component';
 const routes: Routes = [
   {
     path: '',
@@ -47,7 +49,9 @@ const routes: Routes = [
       { path: 'update-product/:publicId', component: UpdateProductInventaryComponent },
       { path: 'sales', component: SaleComponent },
       { path: '', redirectTo: 'inventary', pathMatch: 'full' },
-      { path: 'show-product/:publicId', component: ShowProductInventaryComponent }
+      { path: 'show-product/:publicId', component: ShowProductInventaryComponent },
+      { path: 'shopping-basket', component: ShoppingBasketComponent },
+      { path: 'show-product-sizes/:publicId', component: ShowProductSizes }
     ]
   },
   { path: '**', redirectTo: '' }

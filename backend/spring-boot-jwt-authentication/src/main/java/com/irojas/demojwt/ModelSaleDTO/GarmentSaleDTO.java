@@ -16,7 +16,7 @@ public class GarmentSaleDTO {
 
 	private Size size;
 	
-	private int quantity;
+	private int stockSold;
 
 	
 	
@@ -38,20 +38,20 @@ public class GarmentSaleDTO {
 		this.size = size;
 	}
 
-	public int getQuantity() {
-		return quantity;
+	public int getStockSold() {
+		return stockSold;
 	}
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+	public void setStockSold(int stockSold) {
+		this.stockSold = stockSold;
 	}
 
 	
 	
-	public GarmentSaleDTO(@NotNull Size size, int quantity) {
+	public GarmentSaleDTO(@NotNull Size size, int stockSold) {
 		super();
 		this.size = size;
-		this.quantity = quantity;
+		this.stockSold = stockSold;
 	}
 
 	
