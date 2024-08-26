@@ -42,7 +42,7 @@ import lombok.RequiredArgsConstructor;
 public class ControllerInventary {
 
 	private ProductService productService;
-	private static String IMAGE_DIRECTORY = "uploads/";
+	private static String IMAGE_DIRECTORY = "src/main/resources/static/uploads/";
 
 	public ControllerInventary(ProductService productService) {
 		super();
