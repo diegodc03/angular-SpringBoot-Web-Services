@@ -34,6 +34,8 @@ import { SaleComponent } from './sale/sale.component';
 import { ShowProductInventaryComponent } from './pages/show-product-inventary/show-product-inventary.component';
 import { ShoppingBasketComponent } from './pages/shopping-basket/shopping-basket.component';
 import { ShowProductSizes } from './pages/show-product-sizes/show-product-sizes.component';
+import { SalesViewComponent } from './pages/sales-view/sales-view.component';
+
 
 
 @NgModule({
@@ -63,6 +65,8 @@ import { ShowProductSizes } from './pages/show-product-sizes/show-product-sizes.
     ShowProductInventaryComponent,
     ShoppingBasketComponent,
     ShowProductSizes,
+    SalesViewComponent,
+
     
   ],
   imports: [

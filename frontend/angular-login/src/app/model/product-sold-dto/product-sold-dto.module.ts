@@ -2,6 +2,7 @@ import { Inject, NgModule, Optional } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from '../product/product.module';
 import { Garment } from '../garment/garment.module';
+import { GarmentSoldDtoModule } from '../garment-sold-dto/garment-sold-dto.module';
 
 
 
@@ -21,7 +22,7 @@ export class ProductSoldDTO {
   existanceSizes: boolean;
   totalStockSold: number;
   imageName: String;
-  garmentsSales: Garment[];
+  garmentsSales: GarmentSoldDtoModule[];
 
   
 
@@ -32,7 +33,7 @@ export class ProductSoldDTO {
               @Inject(Boolean) existanceSizes: boolean, 
               @Inject(Number) totalStockSold: number, 
               @Inject(String) imageName: String,
-              @Inject(Garment) garmentsSales: Garment[]) {
+              @Inject(Garment) garmentsSales: GarmentSoldDtoModule[]) {
     this.productId = productId;
     this.name = name;
     this.unitaryPrice = unitaryPrice

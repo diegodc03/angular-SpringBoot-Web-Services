@@ -4,6 +4,9 @@ import  { InventaryService } from "../services/inventary/inventary.service";
 import { Router } from '@angular/router';
 import { ProductWithImageModule } from '../model/product-with-image/product-with-image.module';
 import { ProductSoldDTO } from '../model/product-sold-dto/product-sold-dto.module';
+import { CartService } from '../services/cartService/cart-service.service';
+import { GarmentSoldDtoModule } from '../model/garment-sold-dto/garment-sold-dto.module';
+import { Garment } from '../model/garment/garment.module';
 
 @Component({
   selector: 'app-sale',
@@ -28,20 +31,28 @@ export class SaleComponent {
 
 
   constructor(private inventaryService: InventaryService,
-              private router: Router
+              private router: Router,
+              private cartService: CartService
               ) { }
 
 
 
   // MIRAR POR QUE ESTO SE HACE DE MANERA CONCURRENTE Y NO HACE PRIMERO EL SUBSCRIBE Y LUEGO EL LOAD CUANDO ESTA FUERA DEL SUBSCRIBE
   ngOnInit(): void {
-
-    // Todos los productos que haya se van a mostrar, cada uno puede que tenga o no una imagen, por lo que se inicializa un array de imágenes vacío
     this.inventaryService.getAllProducts().subscribe(inventary => {
       this.products = inventary;
       this.loadProductImages(this.products);
     });
+
+    // Recupera el carrito de compras desde el servicio
+    this.productsSold = this.cartService.getProducts();
+
+    const state = history.state;
+    if (state && state.selectedSizes && state.productId) {
+      this.addSelectedSizesToProduct(state.selectedSizes, state.productId);
+    }
   }
+  
 
 
   loadProductImages(products: Product[]): void {
@@ -57,82 +68,7 @@ export class SaleComponent {
       });
     }
   }
-/*
 
-  // Función para añadir el producto con la talla seleccionada al carrito
-  addToCartWithSize(product: Product) {
-    if (this.selectedSize) {
-
-      // Comprobar si el producto tiene tallas
-      if(product.totalStock == 0){
-        alert('Producto sin stock');
-        return;
-      }
-
-      const selectedGarment = product.garments.find(g => g.size == this.selectedSize);
-      if (selectedGarment && selectedGarment.stock == 0) {
-        alert('Producto sin stock');
-        return;
-      }else{
-        if (selectedGarment) {
-          selectedGarment.stock = selectedGarment.stock - 1;
-        }
-      }
-      this.productsSold.push({ product, size: this.selectedSize });
-      console.log(this.productsSold);
-      console.log('Producto añadido al carrito:', product, 'Talla:', this.selectedSize);
-      //this.resetSelection(); // Reiniciar selección después de añadir al carrito
-    } else {
-      alert('Por favor selecciona una talla antes de añadir al carrito.');
-    }
-  }
-
-  // Función para añadir el producto al carrito si no tiene tallas
-  addToCart(product: Product) {
-
-    // Comprobar si el producto tiene tallas
-    if(product.totalStock == 0){
-      alert('Producto sin stock');
-      return;
-    }else{
-      product.totalStock = product.totalStock - 1;
-
-      this.productsSold.push({ product });
-      console.log(this.productsSold);
-      console.log('Producto añadido al carrito:', product);
-    }    
-  }
-
-
-
-  // Función para añadir el producto con la talla seleccionada al carrito
-  addToCartWithSize(product: ProductWithImageModule) {
-    if (this.selectedSize) {
-
-      // Comprobar si el producto tiene tallas
-      if(product.product.totalStock == 0){
-        alert('Producto sin stock');
-        return;
-      }
-
-      const selectedGarment = product.product.garments.find(g => g.size == this.selectedSize);
-      if (selectedGarment && selectedGarment.stock == 0) {
-        alert('Producto sin stock');
-        return;
-      }else{
-        if (selectedGarment) {
-          selectedGarment.stock = selectedGarment.stock - 1;
-        }
-      }
-      this.productsSold.push({ product: product.product, size: this.selectedSize });
-      console.log(this.productsSold);
-      console.log('Producto añadido al carrito:', product.product, 'Talla:', this.selectedSize);
-      //this.resetSelection(); // Reiniciar selección después de añadir al carrito
-    } else {
-      alert('Por favor selecciona una talla antes de añadir al carrito.');
-    }
-  }
-*/
 
   addToCart(product: ProductWithImageModule) {
 
@@ -147,9 +83,12 @@ export class SaleComponent {
         alert('Producto con tallas');
         // This part the user will select the size
         //this.selectedProduct = product;
-        this.router.navigate(['/dashboard/inventarySale/show-product-sizes'], { state: { sizes: product.product.garments } });
+
+        this.router.navigate(['/dashboard/inventarySale/show-product-sizes'], { state: { sizes: product.product.garments, productId: product.product.publicId} });
 
       }else{
+
+        
         product.product.totalStock = product.product.totalStock - 1;
 
         // check if exist the product in the array
@@ -157,6 +96,9 @@ export class SaleComponent {
         if(index !== -1){
           this.productsSold[index].totalStockSold = this.productsSold[index].totalStockSold + 1;
           this.productsSold[index].totalPrice = this.productsSold[index].totalPrice + this.productsSold[index].unitaryPrice;
+
+          this.cartService.addProduct(this.productsSold[index]);
+
         }else{
           // Create new object Product with the stock sold
           const p = new ProductSoldDTO(product.product.publicId, 
@@ -166,9 +108,10 @@ export class SaleComponent {
                                         product.product.isTshirt, 
                                         1, 
                                         product.product.imageName,
-                                        product.product.garments);
-        
+                                        []);
+            
           this.productsSold.push(p);
+          this.cartService.addProduct(p);
         
           console.log(this.productsSold);
           console.log('Producto añadido al carrito:', product.product);
@@ -177,6 +120,67 @@ export class SaleComponent {
     }
   }
 
+
+  
+  addSelectedSizesToProduct(selectedSizes: GarmentSoldDtoModule[], productId: string) {
+    console.log('Tallas seleccionadas:', selectedSizes);
+    // Implementa la lógica para actualizar el producto correcto con estas tallas
+
+    const productSold = this.productsSold.find(p => p.productId === productId);
+    if (!productSold) {
+      // Si no se encuentra el producto, se tendra  que crear, ya que es una nueva venta de un producto
+      // I get the product of the inventary to delete a element of the stock
+      const index = this.products.findIndex(p => p.publicId === productId);
+      if(index === -1){
+        alert('Producto sin tallas');
+      }else{
+        const productSold = new ProductSoldDTO(productId, 
+                                              this.products[index].name, 
+                                              this.products[index].price, 
+                                              0, 
+                                              this.products[index].isTshirt, 
+                                              0, 
+                                              this.products[index].imageName, 
+                                              selectedSizes);
+
+        for(let size of selectedSizes){
+          
+          const foundGarment = this.products[index].garments.find(garment => garment.size === size.size);
+          if (foundGarment) {
+            foundGarment.stock = foundGarment.stock - size.stockSold;
+            this.products[index].totalStock = this.products[index].totalStock - size.stockSold;
+          }
+
+          productSold.totalPrice = productSold.totalPrice + (size.stockSold * productSold.unitaryPrice);
+          productSold.totalStockSold = productSold.totalStockSold + size.stockSold;
+          
+        }
+        
+        this.cartService.addProduct(productSold);
+        this.productsSold.push(productSold);
+      }
+    }else{
+
+      // Aqui el producto ya existe, por lo que lo tenemos que modificar, ya que ya se ha añadido al carrito
+      for(let size of selectedSizes){
+        
+        const index = this.products.findIndex(p => p.publicId === productId);
+        if(index === -1){
+          alert('Producto sin tallas');
+        }else{
+          const foundGarment = productSold.garmentsSales.find(garment => garment.size === size.size);
+          if (foundGarment) {
+            foundGarment.stockSold = foundGarment.stockSold + size.stockSold;
+            productSold.totalStockSold = productSold.totalStockSold + size.stockSold;
+            productSold.totalPrice = productSold.totalPrice + (size.stockSold * productSold.unitaryPrice);
+            
+            this.products[index].totalStock = this.products[index].totalStock - size.stockSold;
+          }
+          this.cartService.addProduct(productSold);
+        }
+      }	
+    }
+  }
 
   shoppingcheck() {
     //Los valores llegan hasta aqui
