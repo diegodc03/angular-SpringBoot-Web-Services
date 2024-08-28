@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.irojas.demojwt.ModelInventary.Sale;
+import com.irojas.demojwt.ModelInventary.ProductSale;
 import com.irojas.demojwt.ModelInventary.SaleList;
 import com.irojas.demojwt.ModelSaleDTO.SaleDTO;
 import com.irojas.demojwt.ServiceIntentary.ServiceSale;
@@ -91,8 +91,8 @@ public class ControllerSale {
 	    }
 
 	    @PutMapping("/update-sale/{id}")
-	    public ResponseEntity<Sale> updateProduct(@PathVariable Long id, @RequestBody SaleDTO saleDTO) {
-	        Sale updatedSale = saleService.updateSale(id, saleDTO);
+	    public ResponseEntity<ProductSale> updateProduct(@PathVariable Long id, @RequestBody SaleDTO saleDTO) {
+	        ProductSale updatedSale = saleService.updateSale(id, saleDTO);
 	        return ResponseEntity.ok(updatedSale);
 	    }
 	    

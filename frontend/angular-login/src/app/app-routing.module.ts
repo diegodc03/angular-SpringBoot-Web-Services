@@ -17,6 +17,8 @@ import { SaleComponent } from './sale/sale.component';
 import { ShowProductInventaryComponent } from './pages/show-product-inventary/show-product-inventary.component';
 import { ShoppingBasketComponent } from './pages/shopping-basket/shopping-basket.component';
 import { ShowProductSizes } from './pages/show-product-sizes/show-product-sizes.component';
+import { HistorySalesViewComponent } from './pages/history-sales-view/history-sales-view.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -51,7 +53,8 @@ const routes: Routes = [
       { path: '', redirectTo: 'inventary', pathMatch: 'full' },
       { path: 'show-product/:publicId', component: ShowProductInventaryComponent },
       { path: 'shopping-basket', component: ShoppingBasketComponent },
-      { path: 'show-product-sizes', component: ShowProductSizes }
+      { path: 'show-product-sizes', component: ShowProductSizes },
+      { path: 'history-sales-view', component: HistorySalesViewComponent }
     ]
   },
   { path: '**', redirectTo: '' }

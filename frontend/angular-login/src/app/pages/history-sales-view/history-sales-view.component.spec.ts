@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SalesViewComponent } from './sales-view.component';
+import { HistorySalesViewComponent } from './history-sales-view.component';
 
 describe('SalesViewComponent', () => {
-  let component: SalesViewComponent;
-  let fixture: ComponentFixture<SalesViewComponent>;
+  let component: HistorySalesViewComponent;
+  let fixture: ComponentFixture<HistorySalesViewComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SalesViewComponent]
+      declarations: [HistorySalesViewComponent]
     });
-    fixture = TestBed.createComponent(SalesViewComponent);
+    fixture = TestBed.createComponent(HistorySalesViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -2,9 +2,9 @@ package com.irojas.demojwt.RepositoryInventary;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.irojas.demojwt.ModelInventary.Sale;
+import com.irojas.demojwt.ModelInventary.ProductSale;
 
 
-public interface SaleRepository extends JpaRepository<Sale, Long>{
+public interface SaleRepository extends JpaRepository<ProductSale, Long>{
 
 }

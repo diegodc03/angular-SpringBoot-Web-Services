@@ -1,0 +1,36 @@
+<!-- inventary.component.html -->
+<div class="container">
+    <h2>Inventario</h2>
+    <!--
+    <div class="form-group">
+      <label for="filterSelect">Filtro:</label>
+      <select class="form-control" id="filterSelect" [(ngModel)]="selectedFilter" (change)="applyFilter()">
+        <option value="none">Ninguno</option>
+        <option value="price-ascending">Precio Ascendente</option>
+        <option value="price-descending">Precio Descendente</option>
+        <option value="stock-ascending">Stock Ascendente</option>
+        <option value="stock-descending">Stock Descendente</option>
+      </select>
+    </div>
+    -->
+    <div class="product-list">
+        <div> 
+            <div class="product-header">
+                <div class="product-id">Sale Date</div>
+                <div class="product-name">Nombre de la venta</div>
+                <div class="product-price">Total Ganado</div>
+                <div class="product-actions">Productos Vendidos</div>
+            </div>
+        </div>
+        <div *ngFor="let sale of saleList; let i = index" class="product-item">
+            <div class="product-header" >
+                <div class="product-id">{{ sale.date }}</div>
+                <div class="product-name">{{ sale.customerName }}</div>
+                <div class="product-price">{{ sale.totalAmount| currency }}</div>
+                <button class="btn btn-danger btn-sm" >Mostrar</button>
+            </div>
+
+        </div>
+    </div>
+  
+  </div>

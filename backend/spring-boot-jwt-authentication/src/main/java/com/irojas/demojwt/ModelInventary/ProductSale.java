@@ -1,11 +1,13 @@
 package com.irojas.demojwt.ModelInventary;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.irojas.demojwt.ModelSaleDTO.GarmentSaleDTO;
@@ -18,9 +20,20 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-public class Sale {
+@Table(name="productSold", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
+public class ProductSale {
    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,31 +45,22 @@ public class Sale {
     
     @ManyToOne
     @JoinColumn(name = "sale_list_id")
-    @JsonIgnoreProperties("productsSale") // Ignorar referencia inversa en serialización
+    @JsonBackReference // Evitar recursión infinita
     private SaleList saleList; // Nueva referencia a la lista de ventas
     
+    
     private Integer totalStockSold;
-    
-    
-    private LocalDateTime saleDate;
-
     private Double unitaryPrice;
-    
     private Double totalPrice;
-    
     private String public_id;
     
-    
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    private String productId;
 
     private boolean existanceSizes;
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "sale_id") // Asocia la venta con las ventas de ropa
-    //@JsonManagedReference
-    @JsonIgnoreProperties(value="GarmentSale")
+    @JoinColumn(name = "sale_id") // Clave foránea para conectar con ProductSale
+    @JsonIgnoreProperties("garmentsSales")
     private List<GarmentSale> garmentsSales = new ArrayList<>();
     
     
@@ -83,14 +87,6 @@ public class Sale {
 	}
 
 
-	public LocalDateTime getSaleDate() {
-		return saleDate;
-	}
-
-
-	public void setSaleDate(LocalDateTime saleDate) {
-		this.saleDate = saleDate;
-	}
 
 
 	public Double getUnitaryPrice() {
@@ -123,13 +119,13 @@ public class Sale {
 	}
 
 
-	public Product getProduct() {
-		return product;
+	public String getProductId() {
+		return productId;
 	}
 
 
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setProductId(String productId) {
+		this.productId = productId;
 	}
 
 
@@ -154,7 +150,7 @@ public class Sale {
 
 	
     
-	public Sale() {
+	public ProductSale() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -162,17 +158,16 @@ public class Sale {
 	
 
 
-	public Sale(SaleList saleList, Integer totalStockSold, LocalDateTime saleDate, Double unitaryPrice,
-			Double totalPrice, String public_id, Product product, boolean existanceSizes,
+	public ProductSale(SaleList saleList, Integer totalStockSold, Double unitaryPrice,
+			Double totalPrice, String public_id, String productId, boolean existanceSizes,
 			List<GarmentSale> garmentsSales) {
 		super();
 		this.saleList = saleList;
 		this.totalStockSold = totalStockSold;
-		this.saleDate = LocalDateTime.now();
 		this.unitaryPrice = unitaryPrice;
 		this.totalPrice = totalPrice;
 		this.public_id = public_id;
-		this.product = product;
+		this.productId = productId;
 		this.existanceSizes = existanceSizes;
 		this.garmentsSales = garmentsSales;
 	}

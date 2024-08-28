@@ -89,9 +89,6 @@ export class SaleComponent {
         this.router.navigate(['/dashboard/inventarySale/show-product-sizes'], { state: { sizes: product.product.garments, productId: product.product.publicId} });
 
       }else{
-        
-
-
 
         product.product.totalStock = product.product.totalStock - 1;
 
@@ -116,8 +113,8 @@ export class SaleComponent {
             
        
           this.cartService.addProduct(p);
-          this.productsSold.push(p);
-          
+          //this.productsSold.push(p);
+
           console.log(this.productsSold);
           console.log('Producto añadido al carrito:', product.product);
         }    

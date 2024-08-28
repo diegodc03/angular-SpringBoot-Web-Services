@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import com.irojas.demojwt.ModelInventary.Garment;
 import com.irojas.demojwt.ModelInventary.GarmentSale;
 import com.irojas.demojwt.ModelInventary.Product;
-import com.irojas.demojwt.ModelInventary.Sale;
+import com.irojas.demojwt.ModelInventary.ProductSale;
 import com.irojas.demojwt.ModelInventary.SaleList;
 import com.irojas.demojwt.ModelSaleDTO.GarmentSaleDTO;
 import com.irojas.demojwt.ModelSaleDTO.SaleDTO;
@@ -92,6 +92,7 @@ public class ServiceSale {
 		
 		// customerName is a UUID
 		completeSale.setCustomerName();
+		completeSale.setSaleDate();
 		
 		// SaleDTO is a product sold, the list is all the products sold in a sale
 		for(SaleDTO saleDTO: saleListDTO ) {
@@ -100,13 +101,16 @@ public class ServiceSale {
 				return null;
 			}
 			
-			Sale sale = new Sale();
-			sale.setPublic_Id();
-			sale.setTotalStockSold(saleDTO.getTotalStockSold());
-			sale.setSaleDate(saleDTO.getSaleDate());
-			sale.setUnitaryPrice(saleDTO.getUnitaryPrice());
-			sale.setTotalPrice(saleDTO.getTotalPrice());
-			sale.setExistanceSizes(saleDTO.isExistanceSizes());
+			ProductSale productSale = new ProductSale();
+			productSale.setPublic_Id();
+			productSale.setTotalStockSold(saleDTO.getTotalStockSold());
+			productSale.setUnitaryPrice(saleDTO.getUnitaryPrice());
+			productSale.setTotalPrice(saleDTO.getTotalPrice());
+			productSale.setExistanceSizes(saleDTO.isExistanceSizes());
+			
+
+			
+			completeSale.setTotalAmount(saleDTO.getTotalPrice());
 			
 			 Optional<Product> optProduct = productRepository.findByPublicId(saleDTO.getProductId());
 			
@@ -114,10 +118,10 @@ public class ServiceSale {
 				
 				Product p = optProduct.get();
 				
-				sale.setProduct(p); // Establece la relación con el producto
+				productSale.setProductId(p.getPublicId());
 			
 				// If the product has sizes, it has to delete the parts of sizes, the total stock and the total elements change when it change the sizes
-				if(sale.isExistanceSizes() && p.getIsTshirt()) {
+				if(productSale.isExistanceSizes() && p.getIsTshirt()) {
 					
 					List<GarmentSaleDTO> garmentsSales = saleDTO.getGarmentsSales();
 		            if (garmentsSales == null || garmentsSales.isEmpty()) {
@@ -125,53 +129,46 @@ public class ServiceSale {
 		            }
 		            
 		            // loop into the sizes it sold 
-					for(GarmentSaleDTO g : garmentsSales) {
-						GarmentSale garmentSale = new GarmentSale(g.getSize(), g.getStockSold());	
-						
-		                // Busca la talla correspondiente en el inventario
-						// filter with size
-		                Garment garment = p.getGarments().stream()
-		                        .filter(garm -> garm.getSize() == g.getSize())
-		                        .findFirst()
-		                        .orElseThrow(() -> new IllegalArgumentException("La talla " + g.getSize() + " no está disponible en el inventario."));
+		            for (GarmentSaleDTO g : garmentsSales) {
+	                    Garment garment = p.getGarments().stream()
+	                        .filter(garm -> garm.getSize() == g.getSize())
+	                        .findFirst()
+	                        .orElseThrow(() -> new IllegalArgumentException("La talla " + g.getSize() + " no está disponible en el inventario."));
 
-		                if (garment.getStock() < g.getStockSold()) {
-		                    throw new IllegalArgumentException("No hay suficiente stock para la talla " + g.getSize());
-		                }
+	                    if (garment.getStock() < g.getStockSold()) {
+	                        throw new IllegalArgumentException("No hay suficiente stock para la talla " + g.getSize());
+	                    }
 
-		                // Resta la cantidad del stock
-		                
-		                //sale.setTotalStockSold(sale.getTotalStockSold() + g.getStockSold());  
-		                garment.setStock(garment.getStock() - g.getStockSold());
-		                p.setTotalStock(p.getTotalStock() - g.getStockSold());
-		                
-		                
-		                // Agrega la venta de prendas a la venta
-		                sale.getGarmentsSales().add(garmentSale);
-					
-					}
+	                    garment.setStock(garment.getStock() - g.getStockSold());
+	                    p.setTotalStock(p.getTotalStock() - g.getStockSold());
+
+	                    GarmentSale garmentSale = new GarmentSale(g.getSize(), g.getStockSold());
+	                    productSale.getGarmentsSales().add(garmentSale);
+	                }
 				}else {
+					
 					// Si no es prenda, reduce el stock general
-		            if (p.getTotalStock() < sale.getTotalStockSold()) {
+		            if (p.getTotalStock() < productSale.getTotalStockSold()) {
 		                throw new IllegalArgumentException("No hay suficiente stock para el producto.");
 		            }
-		            sale.setTotalPrice(saleDTO.getTotalPrice());
-					sale.setTotalStockSold(saleDTO.getTotalStockSold());
-		            p.setTotalStock(p.getTotalStock() - sale.getTotalStockSold());
+		            productSale.setTotalPrice(saleDTO.getTotalPrice());
+					productSale.setTotalStockSold(saleDTO.getTotalStockSold());
+		            p.setTotalStock(p.getTotalStock() - productSale.getTotalStockSold());
 				}
 			}
 			
-			completeSale.getProducts().add(sale);
-			
+			//add the productos in the array
+			completeSale.getProducts().add(productSale);
 			
 		}
+		
 		saleListRepository.save(completeSale);
 		return completeSale;	
 		
 	}
 	
 	
-	public Sale updateSale(@Valid Long id, SaleDTO saleDTO) {
+	public ProductSale updateSale(@Valid Long id, SaleDTO saleDTO) {
 		
 		if(saleDTO == null) {
 			return null;

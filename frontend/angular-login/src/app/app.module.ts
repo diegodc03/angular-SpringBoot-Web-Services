@@ -34,7 +34,7 @@ import { SaleComponent } from './sale/sale.component';
 import { ShowProductInventaryComponent } from './pages/show-product-inventary/show-product-inventary.component';
 import { ShoppingBasketComponent } from './pages/shopping-basket/shopping-basket.component';
 import { ShowProductSizes } from './pages/show-product-sizes/show-product-sizes.component';
-import { SalesViewComponent } from './pages/sales-view/sales-view.component';
+import { HistorySalesViewComponent } from './pages/history-sales-view/history-sales-view.component';
 
 
 
@@ -65,7 +65,7 @@ import { SalesViewComponent } from './pages/sales-view/sales-view.component';
     ShowProductInventaryComponent,
     ShoppingBasketComponent,
     ShowProductSizes,
-    SalesViewComponent,
+    HistorySalesViewComponent,
 
     
   ],
