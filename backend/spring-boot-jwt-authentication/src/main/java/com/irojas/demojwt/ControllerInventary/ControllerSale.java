@@ -18,9 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.irojas.demojwt.ModelInventary.Sale;
 import com.irojas.demojwt.ModelInventary.SaleList;
-import com.irojas.demojwt.ModelInventaryDTO.ProductDTO;
 import com.irojas.demojwt.ModelSaleDTO.SaleDTO;
-import com.irojas.demojwt.ServiceIntentary.ProductService;
 import com.irojas.demojwt.ServiceIntentary.ServiceSale;
 
 import lombok.RequiredArgsConstructor;

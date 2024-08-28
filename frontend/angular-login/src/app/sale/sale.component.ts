@@ -39,18 +39,20 @@ export class SaleComponent {
 
   // MIRAR POR QUE ESTO SE HACE DE MANERA CONCURRENTE Y NO HACE PRIMERO EL SUBSCRIBE Y LUEGO EL LOAD CUANDO ESTA FUERA DEL SUBSCRIBE
   ngOnInit(): void {
+    // Primero, cargamos los productos del inventario
     this.inventaryService.getAllProducts().subscribe(inventary => {
       this.products = inventary;
       this.loadProductImages(this.products);
+  
+      // Una vez que los productos están cargados, cargamos el carrito de compras
+      this.productsSold = this.cartService.getProducts();
+  
+      // Ahora, procesamos las tallas seleccionadas si las hay
+      const state = history.state;
+      if (state && state.selectedSize && state.productId) {
+        this.addSelectedSizesToProduct(state.selectedSize, state.productId);
+      }
     });
-
-    // Recupera el carrito de compras desde el servicio
-    this.productsSold = this.cartService.getProducts();
-
-    const state = history.state;
-    if (state && state.selectedSizes && state.productId) {
-      this.addSelectedSizesToProduct(state.selectedSizes, state.productId);
-    }
   }
   
 
@@ -87,8 +89,10 @@ export class SaleComponent {
         this.router.navigate(['/dashboard/inventarySale/show-product-sizes'], { state: { sizes: product.product.garments, productId: product.product.publicId} });
 
       }else{
-
         
+
+
+
         product.product.totalStock = product.product.totalStock - 1;
 
         // check if exist the product in the array
@@ -96,7 +100,7 @@ export class SaleComponent {
         if(index !== -1){
           this.productsSold[index].totalStockSold = this.productsSold[index].totalStockSold + 1;
           this.productsSold[index].totalPrice = this.productsSold[index].totalPrice + this.productsSold[index].unitaryPrice;
-
+          
           this.cartService.addProduct(this.productsSold[index]);
 
         }else{
@@ -110,9 +114,10 @@ export class SaleComponent {
                                         product.product.imageName,
                                         []);
             
-          this.productsSold.push(p);
+       
           this.cartService.addProduct(p);
-        
+          this.productsSold.push(p);
+          
           console.log(this.productsSold);
           console.log('Producto añadido al carrito:', product.product);
         }    
@@ -127,13 +132,16 @@ export class SaleComponent {
     // Implementa la lógica para actualizar el producto correcto con estas tallas
 
     const productSold = this.productsSold.find(p => p.productId === productId);
+    console.log('Producto encontrado en el carrito:', productSold);
     if (!productSold) {
       // Si no se encuentra el producto, se tendra  que crear, ya que es una nueva venta de un producto
       // I get the product of the inventary to delete a element of the stock
       const index = this.products.findIndex(p => p.publicId === productId);
+      console.log('Index:', index);
       if(index === -1){
         alert('Producto sin tallas');
       }else{
+        console.log('Producto no existe en el carrito:', productId);
         const productSold = new ProductSoldDTO(productId, 
                                               this.products[index].name, 
                                               this.products[index].price, 
@@ -157,10 +165,12 @@ export class SaleComponent {
         }
         
         this.cartService.addProduct(productSold);
-        this.productsSold.push(productSold);
+        
+        console.log('Producto añadido al carrito:', this.productsSold);
       }
     }else{
 
+      console.log('Producto ya existe en el carrito:', productSold);
       // Aqui el producto ya existe, por lo que lo tenemos que modificar, ya que ya se ha añadido al carrito
       for(let size of selectedSizes){
         
@@ -177,6 +187,8 @@ export class SaleComponent {
             this.products[index].totalStock = this.products[index].totalStock - size.stockSold;
           }
           this.cartService.addProduct(productSold);
+          
+          console.log('Producto añadido al carrito:', this.productsSold);
         }
       }	
     }

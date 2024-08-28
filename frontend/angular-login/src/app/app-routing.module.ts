@@ -51,7 +51,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'inventary', pathMatch: 'full' },
       { path: 'show-product/:publicId', component: ShowProductInventaryComponent },
       { path: 'shopping-basket', component: ShoppingBasketComponent },
-      { path: 'show-product-sizes/:publicId', component: ShowProductSizes }
+      { path: 'show-product-sizes', component: ShowProductSizes }
     ]
   },
   { path: '**', redirectTo: '' }

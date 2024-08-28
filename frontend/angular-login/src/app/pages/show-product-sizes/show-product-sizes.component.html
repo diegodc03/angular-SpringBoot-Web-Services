@@ -1,5 +1,13 @@
 <div>
-    <h2> Tallas del Producto</h2>
+
+    <div class="upper-div">
+        <h2> Tallas del Producto </h2>
+        <div (click)="confirmSelection()" id="bag">
+            Confirmar Selección
+        </div>
+    </div>
+
+
     <div *ngFor="let size of sizes; let i = index" class="box" (click)="addToCartSize(size)">
         caja {{i}}
         <div>

@@ -37,6 +37,7 @@ public class Sale {
     
     private Integer totalStockSold;
     
+    
     private LocalDateTime saleDate;
 
     private Double unitaryPrice;
@@ -167,7 +168,7 @@ public class Sale {
 		super();
 		this.saleList = saleList;
 		this.totalStockSold = totalStockSold;
-		this.saleDate = saleDate;
+		this.saleDate = LocalDateTime.now();
 		this.unitaryPrice = unitaryPrice;
 		this.totalPrice = totalPrice;
 		this.public_id = public_id;

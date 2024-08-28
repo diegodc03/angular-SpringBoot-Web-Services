@@ -54,6 +54,7 @@ export class ShowProductSizes {
       } else {
         this.sizesSold.push({ size: selectedSize.size, stockSold: 1 });
       }
+      console.log('Sizes sold:', this.sizesSold);
     }
     
   }
@@ -61,7 +62,7 @@ export class ShowProductSizes {
 
   confirmSelection() {
     if (this.sizesSold.length > 0) {
-      this.router.navigate(['/dashboard/inventarySale/sale'], { state: { selectedSize: this.sizesSold, productId: this.productId} });
+      this.router.navigate(['/dashboard/inventarySale/sales'], { state: { selectedSize: this.sizesSold, productId: this.productId} });
     } else {
       alert('Please select a size before confirming.');
     }

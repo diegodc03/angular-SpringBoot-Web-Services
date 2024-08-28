@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ShowProductSizesComponent } from './show-product-sizes.component';
+import { ShowProductSizes } from './show-product-sizes.component';
 
 describe('ShowProductSizesComponent', () => {
-  let component: ShowProductSizesComponent;
-  let fixture: ComponentFixture<ShowProductSizesComponent>;
+  let component: ShowProductSizes;
+  let fixture: ComponentFixture<ShowProductSizes>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ShowProductSizesComponent]
+      declarations: [ShowProductSizes]
     });
-    fixture = TestBed.createComponent(ShowProductSizesComponent);
+    fixture = TestBed.createComponent(ShowProductSizes);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

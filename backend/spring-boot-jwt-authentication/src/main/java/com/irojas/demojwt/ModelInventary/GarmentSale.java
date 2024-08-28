@@ -29,7 +29,7 @@ public class GarmentSale {
 
 	private Size size;
 	
-	private int quantity;
+	private int stockSold;
 
 	
 	
@@ -50,20 +50,20 @@ public class GarmentSale {
 		this.size = size;
 	}
 
-	public int getQuantity() {
-		return quantity;
+	public int getStockSold() {
+		return stockSold;
 	}
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+	public void setStockSold(int stockSold) {
+		this.stockSold = stockSold;
 	}
 
 	
 	
-	public GarmentSale(Size size, int quantity) {
+	public GarmentSale(Size size, int stockSold) {
 		super();
 		this.size = size;
-		this.quantity = quantity;
+		this.stockSold = stockSold;
 	}
 	
 	public GarmentSale() {
