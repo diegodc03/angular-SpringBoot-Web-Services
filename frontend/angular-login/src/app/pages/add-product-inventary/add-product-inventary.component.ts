@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { RouterOutlet } from '@angular/router';
+import { log } from 'console';
+import { format } from 'path';
 
 import { InventaryService } from "../../services/inventary/inventary.service";
 import { ProductDTO } from '../../model/product-dto/product-dto.module';
@@ -13,10 +17,11 @@ import { ProductDTO } from '../../model/product-dto/product-dto.module';
 export class AddProductInventaryComponent {
   addProduct: FormGroup;
   addProductError: string = '';
-  selectedFile: File | undefined;
+  selectedFile!: File;
 
   constructor(private fb: FormBuilder,
-              private inventaryService: InventaryService
+              private inventaryService: InventaryService,
+              private httpClient: HttpClient
   ) 
   {
     this.addProduct = this.fb.group({
@@ -31,11 +36,10 @@ export class AddProductInventaryComponent {
 
   }
 
-  onFileChange(event: any) {
-    if (event.target.files.length > 0) {
-      this.selectedFile = event.target.files[0];
-    }
+  onFileSelected(event:any){
+    this.selectedFile=event.target.files[0];
   }
+
 
 
   ngOnInit(): void {
@@ -104,12 +108,31 @@ export class AddProductInventaryComponent {
         garments: this.addProduct.get('garments')?.value
       };
 
-      const formData = new FormData();
-      if(this.selectedFile){
-        formData.append("file", this.selectedFile);
-      }
 
       
+
+      const formData = new FormData();
+      formData.append("productDTO", JSON.stringify(productDTO)); // Convert productDTO to JSON string
+      if (this.selectedFile) {
+          formData.append("file", this.selectedFile);
+      }
+
+      console.log('Form Data:', formData);
+
+      this.httpClient.post("http://localhost:8080/inventary/add-product-info", formData).subscribe({
+          next: (response) => {
+              console.log(response);
+          },
+          error: (error) => {
+              console.log(error);
+          },
+          complete: () => {
+              console.log('Saved');
+          }
+      });
+
+  
+   /*
 
       this.inventaryService.addProduct(productDTO, formData).subscribe({
         next: response => {
@@ -127,6 +150,9 @@ export class AddProductInventaryComponent {
       // this.productService.addProduct(product).subscribe(response => { ... });
     } else {
       this.addProductError = 'Please fix the errors in the form.';
+    }
+
+    */
     }
   }
 }

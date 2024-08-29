@@ -53,7 +53,8 @@
           <!-- Cargar Imagen del Producto -->
           <div class="form-group">
             <label for="image">Imagen:</label>
-            <input type="file" id="image" (change)="onFileChange($event)" class="form-control" />
+            <input type="file" class="form-control" (change)="onFileSelected($event)" />
+
           </div>
         
           <div class="mb-3 ">

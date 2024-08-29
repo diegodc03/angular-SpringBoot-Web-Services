@@ -30,7 +30,7 @@
                 <div class="product-price">{{ product.price | currency }}</div>
                 <div class="product-stock">{{ product.totalStock }}</div>
                 <div class="product-actions">
-                    <a [routerLink]="['/dashboard/inventarySale/update-product/', product.publicId]" class="btn btn-primary btn-sm">Editar</a>
+                    <a routerLink="/dashboard/inventarySale/update-product/{{ product.publicId }}" class="btn btn-primary btn-sm">Editar</a>
                     <button class="btn btn-danger btn-sm" (click)="deleteProduct(product.publicId)">Eliminar</button>
                     <button
                         *ngIf="product.isTshirt"

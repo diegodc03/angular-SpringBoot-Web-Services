@@ -2,7 +2,9 @@
 import { Component, NgModule, OnInit } from '@angular/core';
 import { InventaryService } from "../services/inventary/inventary.service"
 import { Product } from '../model/product/product.module';
-
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 
 
 
@@ -22,7 +24,10 @@ export class InventaryComponent implements OnInit {
     
   i: any;
 
-  constructor(private inventaryService: InventaryService) {}
+  constructor(private inventaryService: InventaryService,
+              private router : RouterModule,
+              private route : Router
+  ) {}
 
   deleteProduct(publicId: string): void {
     this.inventaryService.deleteProduct(publicId).subscribe(() => {

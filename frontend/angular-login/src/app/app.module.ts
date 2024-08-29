@@ -11,7 +11,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BaseChartDirective } from 'ng2-charts';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { PersonalDetailsComponent } from './components/personal-details/personal-details.component';
 import { JwtInterceptorService } from './services/auth/jwt-interceptor.service';
 import { ErrorInterceptorService } from './services/auth/error-interceptor.service';
@@ -41,53 +42,43 @@ import { ShowSaleInformationComponent } from './pages/show-sale-information/show
 
 
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    FooterComponent,
-    DashboardComponent,
-    LoginComponent,
-    NavComponent,
-    PersonalDetailsComponent,
-    ReactiveFormsComponent,
-    IndexComponent,
-    PrivateZoneComponent,
-    PublicLayoutComponent,
-    SecureLayoutComponent,
-    SecureHeaderComponent,
-    SecureNavComponent,
-    AuthCheckTokenComponent,
-    ChangePasswordComponent,
-    InventaryComponent,
-    SecureInventarySaleNavComponent,
-    SecureInventarySaleLayoutComponent,
-    AddProductInventaryComponent,
-    UpdateProductInventaryComponent,
-    SaleComponent,
-    ShowProductInventaryComponent,
-    ShoppingBasketComponent,
-    ShowProductSizes,
-    HistorySalesViewComponent,
-    ShowSaleInformationComponent,
-
-
-    
-  ],
-  imports: [
-    FormsModule,
-    
-    BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    //NgxChartsModule,
-    BrowserDynamicTestingModule
-  ],
-  providers: [
-    {provide:HTTP_INTERCEPTORS,useClass:JwtInterceptorService,multi:true},
-    {provide:HTTP_INTERCEPTORS,useClass:ErrorInterceptorService,multi:true},
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        HeaderComponent,
+        FooterComponent,
+        DashboardComponent,
+        LoginComponent,
+        NavComponent,
+        PersonalDetailsComponent,
+        ReactiveFormsComponent,
+        IndexComponent,
+        PrivateZoneComponent,
+        PublicLayoutComponent,
+        SecureLayoutComponent,
+        SecureHeaderComponent,
+        SecureNavComponent,
+        AuthCheckTokenComponent,
+        ChangePasswordComponent,
+        InventaryComponent,
+        SecureInventarySaleNavComponent,
+        SecureInventarySaleLayoutComponent,
+        AddProductInventaryComponent,
+        UpdateProductInventaryComponent,
+        SaleComponent,
+        ShowProductInventaryComponent,
+        ShoppingBasketComponent,
+        ShowProductSizes,
+        HistorySalesViewComponent,
+        ShowSaleInformationComponent,
+    ],
+    bootstrap: [AppComponent], imports: [FormsModule,
+        BrowserModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        NgxChartsModule,
+        BrowserDynamicTestingModule], providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true },
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class AppModule { }

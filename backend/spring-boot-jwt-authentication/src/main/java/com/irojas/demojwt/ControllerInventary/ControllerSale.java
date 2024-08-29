@@ -77,6 +77,8 @@ public class ControllerSale {
 	    }
 	    */
 		
+	    
+	    
 		//Darle al boton de añadir cualquier producto
 	    @PostMapping("/add-sale")
 	    public String addProduct(@Valid @RequestBody List<SaleDTO> saleDTO) {
@@ -84,12 +86,15 @@ public class ControllerSale {
 	        return "hola";
 	    }
 
+	    
+	    // Esto todavia no está
 	    @DeleteMapping("/delete-sale/{id}")
 	    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
 	        saleService.deleteSale(id);
 	        return ResponseEntity.noContent().build();
 	    }
 
+	    
 	    @PutMapping("/update-sale/{id}")
 	    public ResponseEntity<ProductSale> updateProduct(@PathVariable Long id, @RequestBody SaleDTO saleDTO) {
 	        ProductSale updatedSale = saleService.updateSale(id, saleDTO);
