@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { RouterOutlet } from '@angular/router';
-import { log } from 'console';
-import { format } from 'path';
+
 
 import { InventaryService } from "../../services/inventary/inventary.service";
 import { ProductDTO } from '../../model/product-dto/product-dto.module';

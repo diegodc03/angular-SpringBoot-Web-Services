@@ -16,7 +16,7 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@a
 import { PersonalDetailsComponent } from './components/personal-details/personal-details.component';
 import { JwtInterceptorService } from './services/auth/jwt-interceptor.service';
 import { ErrorInterceptorService } from './services/auth/error-interceptor.service';
-
+import { DefaultArcObject } from 'd3-shape';
 
 import { ReactiveFormsComponent } from './auth/register/reactive-forms/reactive-forms.component';
 import { IndexComponent } from './pages/index/index.component';
@@ -38,7 +38,7 @@ import { ShoppingBasketComponent } from './pages/shopping-basket/shopping-basket
 import { ShowProductSizes } from './pages/show-product-sizes/show-product-sizes.component';
 import { HistorySalesViewComponent } from './pages/history-sales-view/history-sales-view.component';
 import { ShowSaleInformationComponent } from './pages/show-sale-information/show-sale-information.component';
-
+import { environment } from 'src/environments/environment';
 
 
 
@@ -70,6 +70,8 @@ import { ShowSaleInformationComponent } from './pages/show-sale-information/show
         ShowProductSizes,
         HistorySalesViewComponent,
         ShowSaleInformationComponent,
+        
+        
     ],
     bootstrap: [AppComponent], imports: [FormsModule,
         BrowserModule,
