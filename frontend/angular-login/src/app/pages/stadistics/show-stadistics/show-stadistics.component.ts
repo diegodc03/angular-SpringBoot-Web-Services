@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @Component({
   selector: 'app-show-stadistics',

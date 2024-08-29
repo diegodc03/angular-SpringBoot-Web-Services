@@ -7,9 +7,10 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LoginComponent } from './auth/login/login.component';
 import { NavComponent } from './shared/nav/nav.component';
-
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { BaseChartDirective } from 'ng2-charts';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { PersonalDetailsComponent } from './components/personal-details/personal-details.component';
 import { JwtInterceptorService } from './services/auth/jwt-interceptor.service';
@@ -35,6 +36,8 @@ import { ShowProductInventaryComponent } from './pages/show-product-inventary/sh
 import { ShoppingBasketComponent } from './pages/shopping-basket/shopping-basket.component';
 import { ShowProductSizes } from './pages/show-product-sizes/show-product-sizes.component';
 import { HistorySalesViewComponent } from './pages/history-sales-view/history-sales-view.component';
+import { ShowSaleInformationComponent } from './pages/show-sale-information/show-sale-information.component';
+
 
 
 
@@ -66,15 +69,20 @@ import { HistorySalesViewComponent } from './pages/history-sales-view/history-sa
     ShoppingBasketComponent,
     ShowProductSizes,
     HistorySalesViewComponent,
+    ShowSaleInformationComponent,
+
 
     
   ],
   imports: [
     FormsModule,
+    
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    //NgxChartsModule,
+    BrowserDynamicTestingModule
   ],
   providers: [
     {provide:HTTP_INTERCEPTORS,useClass:JwtInterceptorService,multi:true},

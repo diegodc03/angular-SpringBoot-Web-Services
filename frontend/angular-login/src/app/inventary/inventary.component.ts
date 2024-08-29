@@ -30,12 +30,12 @@ export class InventaryComponent implements OnInit {
     });
   }
 
-  toggleGarments(index: number, event?: Event): void {
+  toggleGarments(index: number, event?: Event): void {  
     if (event) {
         event.stopPropagation(); // Evitar que el clic en el botón propague el evento al contenedor
     }
     this.showGarments[index] = !this.showGarments[index];
-}
+  }
 
 
   ngOnInit(): void {

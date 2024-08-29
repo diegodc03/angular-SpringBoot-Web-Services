@@ -27,7 +27,7 @@
                 <div class="product-id">{{ sale.date }}</div>
                 <div class="product-name">{{ sale.customerName }}</div>
                 <div class="product-price">{{ sale.totalAmount| currency }}</div>
-                <button class="btn btn-danger btn-sm" >Mostrar</button>
+                <button class="btn btn-danger btn-sm" (click)="redirectToInformation(sale)">Mostrar</button>
             </div>
 
         </div>

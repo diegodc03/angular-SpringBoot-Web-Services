@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { ProductSoldDTO } from 'src/app/model/product-sold-dto/product-sold-dto.module';
 import { SaleList } from 'src/app/model/sale-list/sale-list.module';
 import { SaleService } from 'src/app/services/sale/sale.service';
+import { Router } from '@angular/router';
+import { state } from '@angular/animations';
+
 
 @Component({
   selector: 'app-sales-view',
@@ -14,7 +17,8 @@ export class HistorySalesViewComponent {
 
 
   constructor(
-    private saleService: SaleService
+    private saleService: SaleService,
+    private router: Router
   ) { }
 
 
@@ -27,6 +31,13 @@ export class HistorySalesViewComponent {
     });
 
 
+  }
+
+  redirectToInformation(SaleList: SaleList): void
+  {
+    console.log('Redirect to information');
+    const products = {}; // Declare the 'products' variable
+    this.router.navigate(['/dashboard/inventarySale/show-sale-information'], { state: { sale: SaleList} }); // Pass the correct arguments to the 'navigate' method
   }
 
 
