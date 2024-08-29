@@ -107,30 +107,34 @@ export class AddProductInventaryComponent {
         garments: this.addProduct.get('garments')?.value
       };
 
-
-      
-
       const formData = new FormData();
-      formData.append("productDTO", JSON.stringify(productDTO)); // Convert productDTO to JSON string
-      if (this.selectedFile) {
-          formData.append("file", this.selectedFile);
+      formData.append("productDTO", JSON.stringify(productDTO));
+      if(this.selectedFile){
+        formData.append("file", this.selectedFile);
       }
 
-      console.log('Form Data:', formData);
 
-      this.httpClient.post("http://localhost:8080/inventary/add-product-info", formData).subscribe({
-          next: (response) => {
-              console.log(response);
-          },
-          error: (error) => {
-              console.log(error);
-          },
-          complete: () => {
-              console.log('Saved');
-          }
+      
+      this.inventaryService.addProduct(productDTO, formData).subscribe({
+        next: response => {
+          console.log('Producto creado con éxito', response);
+          // Resetear el formulario o navegar a otra vista
+          this.addProduct.reset();
+        },
+        error: error => {
+          console.error('Error al crear el producto', error);
+          this.addProductError = 'Error al crear el producto.';
+        }
       });
 
-  
+      // Aquí puedes hacer la llamada al servicio para enviar los datos
+      // this.productService.addProduct(product).subscribe(response => { ... });
+    } else {
+      this.addProductError = 'Please fix the errors in the form.';
+    }
+
+    
+  }
    /*
 
       this.inventaryService.addProduct(productDTO, formData).subscribe({
@@ -152,6 +156,5 @@ export class AddProductInventaryComponent {
     }
 
     */
-    }
-  }
 }
+  

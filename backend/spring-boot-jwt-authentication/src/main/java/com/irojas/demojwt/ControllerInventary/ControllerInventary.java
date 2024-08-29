@@ -90,27 +90,24 @@ public class ControllerInventary {
 	        return productService.getProductByStockDescending();
 	    }
 	    
-	    
+/*	    
 	    
 	    @PostMapping("/add-product-info")
-	    public ResponseEntity<String> addProduct(
-	            @RequestPart("productDTO") String productDTO,
-	            @RequestPart("file") MultipartFile file) throws IOException {
+	    public ResponseEntity<String> addProduct(@RequestParam("user") String user
+	            ) throws IOException {
 
-	        System.out.println("ProductDTO: " + productDTO);
-	        System.out.println("File: " + file.getOriginalFilename());
+	        System.out.println("ProductDTO: " + user);
+	        //System.out.println("File: " + file.getOriginalFilename());
 
-	        // Here you can deserialize productDTO to a Product object if needed
-	        // Product product = new ObjectMapper().readValue(productDTO, Product.class);
-
-	        // Handle your logic here, such as saving the product and file
+	        // Process the productDTO and file here
 
 	        return ResponseEntity.ok("Product added successfully");
 	    }
 
+
+	*/    
+
 	    
-	    
-	    /*
 	    //Correcto
 	    @PostMapping("/add-product-info")
 	    public ResponseEntity<String> addProduct(@RequestBody ProductDTO productDTO) {
@@ -137,9 +134,8 @@ public class ControllerInventary {
 		    }
 		    
 		}
-		*/
-		
-	    
+				
+
 	    // Aqui habra que eliminar la imagen
 	    // Correcto
 	    @DeleteMapping("/delete-product/{publicId}")
