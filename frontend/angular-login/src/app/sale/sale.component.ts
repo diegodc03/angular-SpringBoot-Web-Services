@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from '../model/product/product.module';
 import  { InventaryService } from "../services/inventary/inventary.service";
@@ -32,9 +32,9 @@ export class SaleComponent {
 
 
   constructor(private inventaryService: InventaryService,
-              private router: Router,
-              private cartService: CartService
-              ) { }
+                @Inject(Router) private router: any,
+                private cartService: CartService
+                ) { }
 
 
 

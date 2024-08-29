@@ -4,6 +4,7 @@ import { GarmentSoldDtoModule } from 'src/app/model/garment-sold-dto/garment-sol
 import { Router } from '@angular/router';
 
 
+
 @Component({
   selector: 'app-show-product-sizes',
   templateUrl: './show-product-sizes.component.html',
