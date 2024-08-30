@@ -107,6 +107,7 @@ public class ServiceSale {
 			productSale.setUnitaryPrice(saleDTO.getUnitaryPrice());
 			productSale.setTotalPrice(saleDTO.getTotalPrice());
 			productSale.setExistanceSizes(saleDTO.isExistanceSizes());
+			//productSale.setProductId(saleDTO.getProductId());		
 			
 
 			
@@ -156,6 +157,8 @@ public class ServiceSale {
 		            p.setTotalStock(p.getTotalStock() - productSale.getTotalStockSold());
 				}
 			}
+			// Establecer la referencia de SaleList en ProductSale
+		    productSale.setSaleList(completeSale);
 			
 			//add the productos in the array
 			completeSale.getProducts().add(productSale);

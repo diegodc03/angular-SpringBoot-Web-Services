@@ -6,6 +6,7 @@ import { Product } from 'src/app/model/product/product.module';
 import { SaleService } from 'src/app/services/sale/sale.service';
 import { CartService } from 'src/app/services/cartService/cart-service.service';
 import { ProductsToSaleService } from 'src/app/services/products-to-sale/products-to-sale.module';
+import { Garment } from 'src/app/model/garment/garment.module';
 
 @Component({
   selector: 'app-shopping-basket',
@@ -68,9 +69,32 @@ export class ShoppingBasketComponent {
       // delete 1 element from index
       this.productsSold.splice(index, 1);
       this.cartService.deleteProduct(product);
-      
+
+      const products = this.productsToSaleService.getProductsToSale();
+      const index2 = products.findIndex(p => p.publicId === product.productId);
+      if(index2 !== -1){
+        products[index2].totalStock += product.totalStockSold;
+        this.productsToSaleService.saveProductsToSale(products);
+
+        // Existen tallas para este producto
+        // implica que hay que recorrer las tallas y sumar el stock a cada talla en productsToSale
+        if(product.existanceSizes){
+          const sizesArray: Garment[] = [];
+          for(let size of product.garmentsSales){
+            const foundSize = products[index2].garments.find(garment => garment.size === size.size);
+            if (foundSize) {
+              foundSize.stock = foundSize.stock + size.stockSold;
+              // Ahora hay que introducir el stock en el array de productsToSale
+              // para que se actualice en la vista
+              //hacemos un array de garment y luego lo metemos todo
+              sizesArray.push(new Garment(foundSize.id, foundSize.size, foundSize.color, foundSize.material, foundSize.stock));
+            }
+          }
+          products[index2].garments = sizesArray;
+          this.productsToSaleService.saveProductsToSale(products);
+          
+        }
+      }
     }
   }
-
-
 }

@@ -47,24 +47,35 @@ export class SaleComponent {
       this.products = this.productsToSaleService.getProductsToSale();
       console.log('Productos cargados:', this.products);
       //this.loadProductImages(this.products);
+
+      this.productsSold = this.cartService.getProducts();
+        
+      // Ahora, procesamos las tallas seleccionadas si las hay
+      const state = history.state;
+      if (state && state.selectedSize && state.productId) {
+        this.addSelectedSizesToProduct(state.selectedSize, state.productId);
+      }
+
     }else{
-      this.products = [];
+      console.log('Productos no cargados por que no hay ninguno en el array');
+      // Primero, cargamos los productos del inventario
+      this.inventaryService.getAllProducts().subscribe(inventary => {
+        this.products = inventary;
+          console.log('Productos cargados, es la primera vez, los cogemos de la db:', this.products);
+          //this.loadProductImages(this.products);
+          
+          // Una vez que los productos están cargados, cargamos el carrito de compras
+          this.productsSold = this.cartService.getProducts();
+        
+          // Ahora, procesamos las tallas seleccionadas si las hay
+          const state = history.state;
+          if (state && state.selectedSize && state.productId) {
+            this.addSelectedSizesToProduct(state.selectedSize, state.productId);
+          }
+        });
     }
 
-    // Primero, cargamos los productos del inventario
-    this.inventaryService.getAllProducts().subscribe(inventary => {
-    this.products = inventary;
-    //this.loadProductImages(this.products);
-  
-    // Una vez que los productos están cargados, cargamos el carrito de compras
-    this.productsSold = this.cartService.getProducts();
-  
-    // Ahora, procesamos las tallas seleccionadas si las hay
-    const state = history.state;
-    if (state && state.selectedSize && state.productId) {
-      this.addSelectedSizesToProduct(state.selectedSize, state.productId);
-    }
-  });
+    
 }
   
 
@@ -93,6 +104,7 @@ export class SaleComponent {
       return;
     }else{
 
+      
 
       if(product.isTshirt){
         alert('Producto con tallas');
@@ -112,12 +124,14 @@ export class SaleComponent {
         // check if exist the product in the array
         const index = this.productsSold.findIndex(p => p.productId === product.publicId);
         if(index !== -1){
+          console.log('Producto ya existe en el carrito:', product);
           this.productsSold[index].totalStockSold = this.productsSold[index].totalStockSold + 1;
           this.productsSold[index].totalPrice = this.productsSold[index].totalPrice + this.productsSold[index].unitaryPrice;
           
           this.cartService.addProduct(this.productsSold[index]);
         
         }else{
+          console.log('Producto no existe en el carrito:', product);
           // Create new object Product with the stock sold
           const p = new ProductSoldDTO(product.publicId, 
                                         product.name, 
@@ -218,6 +232,7 @@ export class SaleComponent {
 
   shoppingcheck() {
     //Los valores llegan hasta aqui
+    console.log('Productos a vender:', this.productsSold);
     this.router.navigate(['/dashboard/inventarySale/shopping-basket'], { state: { products: this.productsSold } });
     this.productsToSaleService.saveProductsToSale(this.products);
   }

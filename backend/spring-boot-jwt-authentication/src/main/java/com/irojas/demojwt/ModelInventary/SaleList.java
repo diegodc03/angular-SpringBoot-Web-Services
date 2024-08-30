@@ -42,8 +42,8 @@ public class SaleList {
 	
 	
 	@NotNull
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "saleList")
-    @JsonManagedReference // Evitar recursión infinita
+    @OneToMany(mappedBy = "saleList", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<ProductSale> productsSale = new ArrayList<>();
 
 	

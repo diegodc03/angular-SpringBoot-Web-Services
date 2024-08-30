@@ -35,6 +35,7 @@ public class SaleDTO {
     
     private Double totalPrice;
     
+    
     private Integer totalStockSold;
     
     private String imageName;
