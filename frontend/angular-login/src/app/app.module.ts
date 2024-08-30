@@ -12,6 +12,8 @@ import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/t
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BaseChartDirective } from 'ng2-charts';
 
+
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { PersonalDetailsComponent } from './components/personal-details/personal-details.component';
 import { JwtInterceptorService } from './services/auth/jwt-interceptor.service';
@@ -38,7 +40,7 @@ import { ShoppingBasketComponent } from './pages/shopping-basket/shopping-basket
 import { ShowProductSizes } from './pages/show-product-sizes/show-product-sizes.component';
 import { HistorySalesViewComponent } from './pages/history-sales-view/history-sales-view.component';
 import { ShowSaleInformationComponent } from './pages/show-sale-information/show-sale-information.component';
-import { environment } from 'src/environments/environment';
+
 
 
 
@@ -73,14 +75,17 @@ import { environment } from 'src/environments/environment';
         
         
     ],
-    bootstrap: [AppComponent], imports: [FormsModule,
+    imports: [
+        FormsModule,
         BrowserModule,
         AppRoutingModule,
         ReactiveFormsModule,
-        NgxChartsModule,
-        BrowserDynamicTestingModule], providers: [
-        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true },
-        provideHttpClient(withInterceptorsFromDi()),
-    ] })
+        HttpClientModule,
+      ],
+      providers: [
+        {provide:HTTP_INTERCEPTORS,useClass:JwtInterceptorService,multi:true},
+        {provide:HTTP_INTERCEPTORS,useClass:ErrorInterceptorService,multi:true},
+      ],
+      bootstrap: [AppComponent]
+    })
 export class AppModule { }

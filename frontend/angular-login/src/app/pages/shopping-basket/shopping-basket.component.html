@@ -12,6 +12,7 @@
         caja {{i}}
         <div>
             producto {{product.name}}
+            stock {{product.totalStockSold}}
             <div *ngIf="product.existanceSizes">
                 <div *ngFor="let size of product.garmentsSales">
                     Talla: {{size.size}}

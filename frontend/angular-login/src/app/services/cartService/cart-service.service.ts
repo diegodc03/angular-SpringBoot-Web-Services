@@ -5,6 +5,7 @@ import { ProductSoldDTO } from 'src/app/model/product-sold-dto/product-sold-dto.
   providedIn: 'root'
 })
 export class CartService {
+  
 
   private productsSold: ProductSoldDTO[] = [];
 
@@ -26,4 +27,15 @@ export class CartService {
   clearCart() {
     this.productsSold = [];
   }
+
+
+  deleteProduct(product: ProductSoldDTO) {
+    
+    const index = this.productsSold.findIndex(p => p.productId === product.productId);
+    if (index !== -1) {
+      this.productsSold.splice(index, 1);
+    }
+    console.log('Producto eliminado del carrito:', this.productsSold);
+  }
+
 }

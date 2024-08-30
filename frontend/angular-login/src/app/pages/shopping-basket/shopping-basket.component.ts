@@ -4,6 +4,8 @@ import { catchError, of, tap } from 'rxjs';
 import { ProductSoldDTO } from 'src/app/model/product-sold-dto/product-sold-dto.module';
 import { Product } from 'src/app/model/product/product.module';
 import { SaleService } from 'src/app/services/sale/sale.service';
+import { CartService } from 'src/app/services/cartService/cart-service.service';
+import { ProductsToSaleService } from 'src/app/services/products-to-sale/products-to-sale.module';
 
 @Component({
   selector: 'app-shopping-basket',
@@ -17,7 +19,9 @@ export class ShoppingBasketComponent {
 
   constructor(
     private router: Router,
-    private saleService: SaleService
+    private saleService: SaleService,
+    private cartService: CartService,
+    private productsToSaleService: ProductsToSaleService
   ) { }
 
   //ngOnInit(): muestra el array de productos que el usuario ha seleccionado para comprar
@@ -34,9 +38,15 @@ export class ShoppingBasketComponent {
   // Send to backend the products that the user has selected to buy
   // The backed update the stock of the products and create a sale
   saleConfirm() {
+    if(this.productsSold.length === 0) {
+      console.error('No hay productos en el carrito');
+      return;
+    }
+
+    // Clear the elements updated, the elements are now updated in the db
+    this.productsToSaleService.clearCart();
 
     // Call the backend to create the sale
-
     this.saleService.setNewSale(this.productsSold).pipe(
       tap((response) => {
         console.log('Sale created successfully:', response);
@@ -57,6 +67,8 @@ export class ShoppingBasketComponent {
     if (index !== -1) {
       // delete 1 element from index
       this.productsSold.splice(index, 1);
+      this.cartService.deleteProduct(product);
+      
     }
   }
 

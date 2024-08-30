@@ -8,6 +8,7 @@ import { ProductSoldDTO } from '../model/product-sold-dto/product-sold-dto.modul
 import { CartService } from '../services/cartService/cart-service.service';
 import { GarmentSoldDtoModule } from '../model/garment-sold-dto/garment-sold-dto.module';
 import { Garment } from '../model/garment/garment.module';
+import { ProductsToSaleService } from '../services/products-to-sale/products-to-sale.module';
 
 @Component({
   selector: 'app-sale',
@@ -33,35 +34,45 @@ export class SaleComponent {
 
   constructor(private inventaryService: InventaryService,
                 @Inject(Router) private router: any,
-                private cartService: CartService
+                private cartService: CartService,
+                private productsToSaleService: ProductsToSaleService
                 ) { }
 
 
 
   // MIRAR POR QUE ESTO SE HACE DE MANERA CONCURRENTE Y NO HACE PRIMERO EL SUBSCRIBE Y LUEGO EL LOAD CUANDO ESTA FUERA DEL SUBSCRIBE
   ngOnInit(): void {
+
+    if(this.productsToSaleService.getProductsToSale().length !== 0){
+      this.products = this.productsToSaleService.getProductsToSale();
+      console.log('Productos cargados:', this.products);
+      //this.loadProductImages(this.products);
+    }else{
+      this.products = [];
+    }
+
     // Primero, cargamos los productos del inventario
     this.inventaryService.getAllProducts().subscribe(inventary => {
-      this.products = inventary;
-      this.loadProductImages(this.products);
+    this.products = inventary;
+    //this.loadProductImages(this.products);
   
-      // Una vez que los productos están cargados, cargamos el carrito de compras
-      this.productsSold = this.cartService.getProducts();
+    // Una vez que los productos están cargados, cargamos el carrito de compras
+    this.productsSold = this.cartService.getProducts();
   
-      // Ahora, procesamos las tallas seleccionadas si las hay
-      const state = history.state;
-      if (state && state.selectedSize && state.productId) {
-        this.addSelectedSizesToProduct(state.selectedSize, state.productId);
-      }
-    });
-  }
+    // Ahora, procesamos las tallas seleccionadas si las hay
+    const state = history.state;
+    if (state && state.selectedSize && state.productId) {
+      this.addSelectedSizesToProduct(state.selectedSize, state.productId);
+    }
+  });
+}
   
 
-
+/*
   loadProductImages(products: Product[]): void {
-   
+    
     for (let product of products) {
-   
+    
       this.inventaryService.getProductImage(product.publicId).subscribe(imageBlob => {
         const imageFile = new File([imageBlob], product.publicId, { type: imageBlob.type });
         this.productWithImages.push(new ProductWithImageModule(product, imageFile));
@@ -70,46 +81,51 @@ export class SaleComponent {
         this.productWithImages.push(new ProductWithImageModule(product, null));
       });
     }
-  }
+    
+  }*/
 
 
-  addToCart(product: ProductWithImageModule) {
+  addToCart(product: Product) {
 
     // Comprobar si el producto tiene tallas
-    if(product.product.totalStock == 0){
+    if(product.totalStock == 0){
       alert('Producto sin stock');
       return;
     }else{
 
 
-      if(product.product.isTshirt){
+      if(product.isTshirt){
         alert('Producto con tallas');
         // This part the user will select the size
         //this.selectedProduct = product;
 
-        this.router.navigate(['/dashboard/inventarySale/show-product-sizes'], { state: { sizes: product.product.garments, productId: product.product.publicId} });
+        this.router.navigate(['/dashboard/inventarySale/show-product-sizes'], { state: { sizes: product.garments, productId: product.publicId} });
 
       }else{
 
-        product.product.totalStock = product.product.totalStock - 1;
+        const productsIndex = this.products.findIndex(p => p.publicId === product.publicId);
+
+        if(productsIndex !== -1){
+          this.products[productsIndex].totalStock = this.products[productsIndex].totalStock - 1;
+        }
 
         // check if exist the product in the array
-        const index = this.productsSold.findIndex(p => p.productId === product.product.publicId);
+        const index = this.productsSold.findIndex(p => p.productId === product.publicId);
         if(index !== -1){
           this.productsSold[index].totalStockSold = this.productsSold[index].totalStockSold + 1;
           this.productsSold[index].totalPrice = this.productsSold[index].totalPrice + this.productsSold[index].unitaryPrice;
           
           this.cartService.addProduct(this.productsSold[index]);
-
+        
         }else{
           // Create new object Product with the stock sold
-          const p = new ProductSoldDTO(product.product.publicId, 
-                                        product.product.name, 
-                                        product.product.price,
-                                        product.product.price,
-                                        product.product.isTshirt, 
+          const p = new ProductSoldDTO(product.publicId, 
+                                        product.name, 
+                                        product.price,
+                                        product.price,
+                                        product.isTshirt, 
                                         1, 
-                                        product.product.imageName,
+                                        product.imageName,
                                         []);
             
        
@@ -117,8 +133,10 @@ export class SaleComponent {
           //this.productsSold.push(p);
 
           console.log(this.productsSold);
-          console.log('Producto añadido al carrito:', product.product);
-        }    
+          console.log('Producto añadido al carrito:', product);
+        }  
+
+        this.productsToSaleService.saveProductsToSale(this.products);  
       }
     }
   }
@@ -127,7 +145,6 @@ export class SaleComponent {
   
   addSelectedSizesToProduct(selectedSizes: GarmentSoldDtoModule[], productId: string) {
     console.log('Tallas seleccionadas:', selectedSizes);
-    // Implementa la lógica para actualizar el producto correcto con estas tallas
 
     const productSold = this.productsSold.find(p => p.productId === productId);
     console.log('Producto encontrado en el carrito:', productSold);
@@ -148,13 +165,13 @@ export class SaleComponent {
                                               0, 
                                               this.products[index].imageName, 
                                               selectedSizes);
-
+  
         for(let size of selectedSizes){
           
-          const foundGarment = this.products[index].garments.find(garment => garment.size === size.size);
-          if (foundGarment) {
-            foundGarment.stock = foundGarment.stock - size.stockSold;
-            this.products[index].totalStock = this.products[index].totalStock - size.stockSold;
+          const foundSize = this.products[index].garments.find(garment => garment.size === size.size);
+          if (foundSize) {
+            foundSize.stock = foundSize.stock - size.stockSold;
+
           }
 
           productSold.totalPrice = productSold.totalPrice + (size.stockSold * productSold.unitaryPrice);
@@ -186,15 +203,23 @@ export class SaleComponent {
           }
           this.cartService.addProduct(productSold);
           
+          
           console.log('Producto añadido al carrito:', this.productsSold);
         }
       }	
     }
+    
+
+    this.productsToSaleService.saveProductsToSale(this.products);
   }
+
+
+
 
   shoppingcheck() {
     //Los valores llegan hasta aqui
     this.router.navigate(['/dashboard/inventarySale/shopping-basket'], { state: { products: this.productsSold } });
+    this.productsToSaleService.saveProductsToSale(this.products);
   }
 
 

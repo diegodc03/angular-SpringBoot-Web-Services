@@ -10,6 +10,7 @@ import { ProductDTO } from 'src/app/model/product-dto/product-dto.module';
 })
 export class InventaryService {
   productId: string = '';
+  private apiImageURL = "http://localhost:8081/inventary";
   private apiURL = "http://localhost:8080/inventary";
 
   constructor(private http: HttpClient) { }
@@ -99,12 +100,11 @@ export class InventaryService {
       switchMap((productId: string) => {
         // Verificar si hay imagen en el formData
         if (formData.has('file')) {
+          console.log('Imagen encontrada:', formData.get('file'));
           // Configurar las cabeceras para la solicitud multipart
-          const headers = new HttpHeaders({
-            'Content-Type': 'multipart/form-data'
-          });
+          
           // Segunda petición: enviar la imagen del producto
-          return this.http.post<string>(`${this.apiURL}/image/${productId}`, formData, {headers, responseType: 'text' as 'json' });
+          return this.http.post<string>(`${this.apiImageURL}/image/${productId}`, formData, { responseType: 'text' as 'json' });
         } else {
           // Si no hay imagen, devolvemos el productId
           return of(productId);
@@ -132,7 +132,7 @@ export class InventaryService {
   }
 
   getProductImage(publicId: string): Observable<Blob> {
-    return this.http.get(`${this.apiURL}/image/${publicId}`, { responseType: 'blob' });
+    return this.http.get(`${this.apiURL}/image/${publicId}`, { responseType: 'blob'  });
   }
  
 

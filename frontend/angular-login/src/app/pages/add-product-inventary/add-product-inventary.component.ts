@@ -108,7 +108,6 @@ export class AddProductInventaryComponent {
       };
 
       const formData = new FormData();
-      formData.append("productDTO", JSON.stringify(productDTO));
       if(this.selectedFile){
         formData.append("file", this.selectedFile);
       }

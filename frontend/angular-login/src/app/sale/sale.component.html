@@ -7,10 +7,17 @@
         </div>
     </div>
     
-    <div *ngFor="let product of productWithImages; let i = index" class="box" >
+    <div *ngFor="let product of products; let i = index" class="box" >
         caja {{i}}
+        <!--
         <div>
             <img [src]="product.image" alt="product image" class="product-image" (click)="addToCart(product)">
+        </div>
+        -->
+        <div (click)="addToCart(product)">
+            <div class="product-id">{{ product.name }}</div>
+            <div class="product-name">{{ product.price  | currency}}</div>
+            <div class="product-description">{{ product.totalStock }}</div>
         </div>
         
         <!-- Mostrar el desplegable si es una camiseta
@@ -23,6 +30,6 @@
             </select>
             <button (click)="addToCartWithSize(product.product)">Añadir al carrito</button>
         </div> -->
-        <div class="product-info" [routerLink]="['/dashboard/inventarySale/show-product', product.product.publicId]">informacion del Producto</div> 
+        <div class="product-info" [routerLink]="['/dashboard/inventarySale/show-product', product.publicId]">informacion del Producto</div> 
     </div>
 </div>

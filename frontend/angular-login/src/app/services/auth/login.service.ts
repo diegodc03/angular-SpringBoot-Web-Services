@@ -86,7 +86,7 @@ export class LoginService {
     });
 
     // Enviar la solicitud GET para comprobar el token
-    return this.http.get<any>(`${environment.urlToken}/validate-token`, { headers });
+    return this.http.get<any>(`${environment.urlToken}/validate-token`, { headers, responseType: 'text' as 'json' });
   }
 
 
