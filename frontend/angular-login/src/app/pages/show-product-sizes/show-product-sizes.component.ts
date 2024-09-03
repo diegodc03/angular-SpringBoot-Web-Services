@@ -37,27 +37,23 @@ export class ShowProductSizes {
   }
 
 
-
   addToCartSize(selectedSize: Garment) {
     console.log('Add to cart:', selectedSize.size);
 
     if (selectedSize.stock === 0) {
-      alert('No es posible añaadir al carrito un producto sin stock');
+      alert('No es posible añadir al carrito un producto sin stock');
       return;
-    }
-    else{
+    } else {
       selectedSize.stock--;
       // Is a object "GarmentSoldDtoModule" with the size and the stockSold
-      const existingSize = this.sizesSold.find(s => s.size === selectedSize.size);
-      if (existingSize) {
-        existingSize.stockSold++;
-
+      const existingSizeIndex = this.sizesSold.findIndex(s => s.size === selectedSize.size);
+      if (existingSizeIndex !== -1) {
+        this.sizesSold[existingSizeIndex].stockSold++;
       } else {
         this.sizesSold.push({ size: selectedSize.size, stockSold: 1 });
       }
       console.log('Sizes sold:', this.sizesSold);
     }
-    
   }
 
 

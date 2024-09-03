@@ -26,6 +26,10 @@ export class SaleService {
     return this.http.get<SaleList[]>(`${this.apiURL}/all-sales`);
   }
 
+  deleteSale(saleId: String): Observable<any> {
+    return this.http.delete(`${this.apiURL}/delete-sale/${saleId}`);
+  }
+
 
 
 }

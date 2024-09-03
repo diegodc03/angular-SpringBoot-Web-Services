@@ -33,7 +33,7 @@ public class SaleList {
     private Long id;
 	
 	@NotNull
-	private String customerName;
+	private String saleId;
 	 
 	
 	private LocalDateTime saleDate;
@@ -56,12 +56,13 @@ public class SaleList {
 	}
 
 	public String getCustomerName() {
-		return customerName;
+		return saleId;
 	}
 
-	public void setCustomerName() {
-		this.customerName = UUID.randomUUID().toString();
+	public void setSaleId() {
+		this.saleId = UUID.randomUUID().toString();
 	}
+	
 	
 	public List<ProductSale> getProducts() {
 		return productsSale;
@@ -96,10 +97,10 @@ public class SaleList {
 		
 	}
 
-	public SaleList(@NotNull String customerName, LocalDateTime saleDate, double totalAmount,
+	public SaleList(@NotNull String saleId, LocalDateTime saleDate, double totalAmount,
 			@NotNull List<ProductSale> productsSale) {
 		super();
-		this.customerName = customerName;
+		this.saleId = saleId;
 		this.saleDate = saleDate;
 		this.totalAmount = totalAmount;
 		this.productsSale = productsSale;

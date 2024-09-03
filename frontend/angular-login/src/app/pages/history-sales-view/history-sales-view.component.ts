@@ -10,6 +10,7 @@ import { SaleList } from 'src/app/model/sale-list/sale-list.module';
 })
 export class HistorySalesViewComponent implements OnInit {
 
+
   saleList: SaleList[] = [];
 
   constructor(
@@ -31,4 +32,12 @@ export class HistorySalesViewComponent implements OnInit {
     this.router.navigate(['/dashboard/inventarySale/show-sale-information'], { state: { sale: saleList } });
   }
 
+  deleteSale(sale: SaleList): void {
+    
+    console.log('Deleting sale:', sale);
+    this.saleService.deleteSale(sale.saleId).subscribe(() => {
+      //this.saleList = this.saleList.filter(s => s.saleId !== sale.saleId);
+      console.log('Sale deleted successfully');
+    })
+  }
 }

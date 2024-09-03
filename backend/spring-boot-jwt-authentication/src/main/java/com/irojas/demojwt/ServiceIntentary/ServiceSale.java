@@ -91,7 +91,7 @@ public class ServiceSale {
 		SaleList completeSale = new SaleList();
 		
 		// customerName is a UUID
-		completeSale.setCustomerName();
+		completeSale.setSaleId();
 		completeSale.setSaleDate();
 		
 		// SaleDTO is a product sold, the list is all the products sold in a sale
@@ -157,8 +157,7 @@ public class ServiceSale {
 		            p.setTotalStock(p.getTotalStock() - productSale.getTotalStockSold());
 				}
 			}
-			// Establecer la referencia de SaleList en ProductSale
-		    productSale.setSaleList(completeSale);
+			
 			
 			//add the productos in the array
 			completeSale.getProducts().add(productSale);

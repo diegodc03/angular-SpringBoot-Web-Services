@@ -42,7 +42,8 @@ export class SaleComponent {
 
   // MIRAR POR QUE ESTO SE HACE DE MANERA CONCURRENTE Y NO HACE PRIMERO EL SUBSCRIBE Y LUEGO EL LOAD CUANDO ESTA FUERA DEL SUBSCRIBE
   ngOnInit(): void {
-
+    
+    //this.products = this.productsToSaleService.getProductsToSale();
     if(this.productsToSaleService.getProductsToSale().length !== 0){
       this.products = this.productsToSaleService.getProductsToSale();
       console.log('Productos cargados:', this.products);
@@ -58,6 +59,7 @@ export class SaleComponent {
 
     }else{
       console.log('Productos no cargados por que no hay ninguno en el array');
+
       // Primero, cargamos los productos del inventario
       this.inventaryService.getAllProducts().subscribe(inventary => {
         this.products = inventary;
@@ -110,7 +112,7 @@ export class SaleComponent {
         alert('Producto con tallas');
         // This part the user will select the size
         //this.selectedProduct = product;
-
+        this.productsToSaleService.saveProductsToSale(this.products);
         this.router.navigate(['/dashboard/inventarySale/show-product-sizes'], { state: { sizes: product.garments, productId: product.publicId} });
 
       }else{
@@ -182,15 +184,16 @@ export class SaleComponent {
   
         for(let size of selectedSizes){
           
-          const foundSize = this.products[index].garments.find(garment => garment.size === size.size);
-          if (foundSize) {
-            foundSize.stock = foundSize.stock - size.stockSold;
+          const foundGarmentIndex = this.products[index].garments.findIndex(garment => garment.size === size.size);
+          if (foundGarmentIndex !== -1) {
+            this.products[index].garments[foundGarmentIndex].stock = this.products[index].garments[foundGarmentIndex].stock - size.stockSold;
 
           }
 
           productSold.totalPrice = productSold.totalPrice + (size.stockSold * productSold.unitaryPrice);
           productSold.totalStockSold = productSold.totalStockSold + size.stockSold;
-          
+          this.products[index].totalStock = this.products[index].totalStock - size.stockSold;
+
         }
         
         this.cartService.addProduct(productSold);
@@ -201,40 +204,51 @@ export class SaleComponent {
 
       console.log('Producto ya existe en el carrito:', productSold);
       // Aqui el producto ya existe, por lo que lo tenemos que modificar, ya que ya se ha añadido al carrito
-      for(let size of selectedSizes){
-        
+      
         const index = this.products.findIndex(p => p.publicId === productId);
         if(index === -1){
           alert('Producto sin tallas');
         }else{
-          const foundGarment = productSold.garmentsSales.find(garment => garment.size === size.size);
-          if (foundGarment) {
-            foundGarment.stockSold = foundGarment.stockSold + size.stockSold;
-            productSold.totalStockSold = productSold.totalStockSold + size.stockSold;
-            productSold.totalPrice = productSold.totalPrice + (size.stockSold * productSold.unitaryPrice);
+          console.log("Tallas seleccionadas")
+          for(let size of selectedSizes){
+
+            let foundGarmentIndex = productSold.garmentsSales.findIndex(garment => garment.size === size.size);
+            if (foundGarmentIndex == -1) {
+              // Si no se encuentra la talla, se añade al array de tallas
+              productSold.garmentsSales.push(size);
+              foundGarmentIndex = productSold.garmentsSales.length - 1;
+            }
+
+              productSold.garmentsSales[foundGarmentIndex].stockSold = productSold.garmentsSales[foundGarmentIndex].stockSold + size.stockSold;
+
+              productSold.totalStockSold = productSold.totalStockSold + size.stockSold;
+              productSold.totalPrice = productSold.totalPrice + (size.stockSold * productSold.unitaryPrice);
+              
+              this.products[index].totalStock = this.products[index].totalStock - size.stockSold;
+              this.products[index].garments[foundGarmentIndex].stock = this.products[index].garments[foundGarmentIndex].stock - size.stockSold;
+              console.log('Producto en el array de productos:', this.products[index]);
             
-            this.products[index].totalStock = this.products[index].totalStock - size.stockSold;
-          }
-          this.cartService.addProduct(productSold);
+            this.cartService.addProduct(productSold);
           
           
-          console.log('Producto añadido al carrito:', this.productsSold);
+            console.log('Producto añadido al carrito:', this.productsSold);
+        
+          }	
         }
-      }	
-    }
     
 
     this.productsToSaleService.saveProductsToSale(this.products);
   }
 
-
+}
 
 
   shoppingcheck() {
     //Los valores llegan hasta aqui
     console.log('Productos a vender:', this.productsSold);
-    this.router.navigate(['/dashboard/inventarySale/shopping-basket'], { state: { products: this.productsSold } });
     this.productsToSaleService.saveProductsToSale(this.products);
+    this.router.navigate(['/dashboard/inventarySale/shopping-basket'], { state: { products: this.productsSold } });
+    
   }
 
 

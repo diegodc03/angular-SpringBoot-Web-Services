@@ -46,12 +46,14 @@ export class ShoppingBasketComponent {
 
     // Clear the elements updated, the elements are now updated in the db
     this.productsToSaleService.clearCart();
+    this.cartService.clearCart();
 
     // Call the backend to create the sale
     this.saleService.setNewSale(this.productsSold).pipe(
       tap((response) => {
         console.log('Sale created successfully:', response);
         this.router.navigate(['/dashboard/inventarySale/sales']);
+      
       }),
       catchError((error) => {
         console.error('Error occurred while creating sale:', error);
@@ -92,6 +94,7 @@ export class ShoppingBasketComponent {
           }
           products[index2].garments = sizesArray;
           this.productsToSaleService.saveProductsToSale(products);
+       
           
         }
       }
