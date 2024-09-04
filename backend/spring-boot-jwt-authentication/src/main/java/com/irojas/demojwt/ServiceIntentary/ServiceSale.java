@@ -5,12 +5,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 
 import org.springframework.stereotype.Service;
 
+import com.irojas.demojwt.ModelDTO.SaleListDTO;
 import com.irojas.demojwt.ModelInventary.Garment;
 import com.irojas.demojwt.ModelInventary.GarmentSale;
 import com.irojas.demojwt.ModelInventary.Product;
@@ -36,9 +38,18 @@ public class ServiceSale {
 	}
 	
 	
-	public List<SaleList> getAllSales() {
+	public List<SaleListDTO> getAllSales() {
 		List<SaleList> saleList = saleListRepository.findAll();
-		return saleList;
+		
+		return saleList.stream().map(sale -> {
+            SaleListDTO dto = new SaleListDTO();
+            dto.setSaleId(sale.getSaleId());
+            dto.setSaleDate(sale.getFormattedSaleDate());
+            dto.setTotalAmount(sale.getTotalAmount());
+            dto.setProductsSale(sale.getProducts());
+            return dto;
+        }).collect(Collectors.toList());
+
 	}
 	
 	

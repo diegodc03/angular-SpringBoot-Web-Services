@@ -15,16 +15,16 @@ export class SaleList {
 
   saleId: String;
   totalAmount: number;
-  date: Date;
+  saleDate: Date;
   productsSale: ProductSoldDTO[];
 
  
 
   
-  constructor(saleId: String, @Inject('totalAmount') totalAmount: number, date: Date, @Inject('productsSold') productsSale: ProductSoldDTO[]) {
+  constructor(saleId: String, @Inject('totalAmount') totalAmount: number, saleDate: Date, @Inject('productsSold') productsSale: ProductSoldDTO[]) {
     this.saleId = saleId;
     this.totalAmount = totalAmount;
-    this.date = date;
+    this.saleDate = saleDate;
     this.productsSale = productsSale;
   }
 

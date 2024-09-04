@@ -1,6 +1,7 @@
 package com.irojas.demojwt.ModelInventary;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -42,12 +43,13 @@ public class SaleList {
 	
 	
 	@NotNull
-    @OneToMany(mappedBy = "saleList", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<ProductSale> productsSale = new ArrayList<>();
 
 	
 	public Long getId() {
+		
 		return id;
 	}
 
@@ -55,7 +57,7 @@ public class SaleList {
 		this.id = id;
 	}
 
-	public String getCustomerName() {
+	public String getSaleId() {
 		return saleId;
 	}
 
@@ -108,6 +110,10 @@ public class SaleList {
 	
 	
 	
+	public String getFormattedSaleDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        return saleDate != null ? saleDate.format(formatter) : null;
+    }
 
 	
 	 

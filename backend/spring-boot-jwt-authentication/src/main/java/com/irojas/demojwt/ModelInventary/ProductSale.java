@@ -39,14 +39,16 @@ public class ProductSale {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //@ManyToOne
-    //@JoinColumn(name = "product_id")
-    //private Product product;
+    /*		RELACION BIDIRECCIONAL SI LA QUISIESE CON SALElIST
+     * 	//@ManyToOne
+    	//@JoinColumn(name = "product_id")
+    	//private Product product;
     
-    @ManyToOne
-    @JoinColumn(name = "sale_list_id")
-    @JsonBackReference // Evitar recursión infinita
-    private SaleList saleList; // Nueva referencia a la lista de ventas
+    	@ManyToOne
+    	@JoinColumn(name = "sale_list_id", nullable = false) // Asegurarse de que esta columna no permita nulos
+    	@JsonBackReference // Evitar recursión infinita
+    	private SaleList saleList; // Referencia a SaleList
+    */
     
     
     private Integer totalStockSold;
@@ -67,14 +69,6 @@ public class ProductSale {
     // Getters and Setters
 
 
-	public SaleList getSaleList() {
-		return saleList;
-	}
-
-
-	public void setSaleList(SaleList saleList) {
-		this.saleList = saleList;
-	}
 
 
 	public Integer getTotalStockSold() {
@@ -158,11 +152,10 @@ public class ProductSale {
 	
 
 
-	public ProductSale(SaleList saleList, Integer totalStockSold, Double unitaryPrice,
+	public ProductSale(Integer totalStockSold, Double unitaryPrice,
 			Double totalPrice, String public_id, String productId, boolean existanceSizes,
 			List<GarmentSale> garmentsSales) {
 		super();
-		this.saleList = saleList;
 		this.totalStockSold = totalStockSold;
 		this.unitaryPrice = unitaryPrice;
 		this.totalPrice = totalPrice;

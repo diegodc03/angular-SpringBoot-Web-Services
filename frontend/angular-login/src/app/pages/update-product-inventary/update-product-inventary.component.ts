@@ -4,6 +4,7 @@ import { Product } from '../../model/product/product.module' // Ajusta la ruta s
 import { InventaryService } from "../../services/inventary/inventary.service";
 import { ActivatedRoute, Router } from '@angular/router';
 import { Garment } from 'src/app/model/garment/garment.module';
+import { ProductDTO } from 'src/app/model/product-dto/product-dto.module';
 @Component({
   selector: 'app-update-product-inventary',
   templateUrl: './update-product-inventary.component.html',
@@ -62,15 +63,6 @@ export class UpdateProductInventaryComponent implements OnInit {
   updateTotalStock(): void {
     const totalStock = this.garments.controls.reduce((acc, control) => acc + control.value.stock, 0);
     this.updateProductForm.patchValue({ totalStock });
-  }
-
-  onSubmit(): void {
-    if (this.updateProductForm.valid) {
-      const product: Product = this.updateProductForm.value;
-      console.log('Product Data:', product);
-    } else {
-      this.updateProductError = 'Please fix the errors in the form.';
-    }
   }
 
   loadProductData(): void {
@@ -158,4 +150,34 @@ export class UpdateProductInventaryComponent implements OnInit {
       this.updateTotalStock();
     }
   }
+
+
+  onSubmit(): void {
+    if (this.updateProductForm.valid) {
+      const productDTO: ProductDTO = this.updateProductForm.value;
+      console.log('Product Data:', productDTO);
+
+      // Enviamos al backend el producto actualizado
+      this.inventaryService.updateProduct(this.productId, productDTO).subscribe({
+        next: (response: any) => {
+          console.log('Product updated successfully:', response);
+          // Redirect to the product details page
+          this.router.navigate(['/dashboard/inventarySale/inventary']);
+        },
+        error: (err) => {
+          console.error('Error updating product:', err);
+          this.updateProductError = 'Failed to update product. Please try again.';
+        }
+      });
+       
+
+    } else {
+      this.updateProductError = 'Please fix the errors in the form.';
+    }
+  }
+
 }
+
+
+
+

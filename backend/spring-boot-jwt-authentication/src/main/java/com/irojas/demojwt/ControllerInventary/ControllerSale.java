@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.irojas.demojwt.ModelDTO.SaleListDTO;
 import com.irojas.demojwt.ModelInventary.ProductSale;
 import com.irojas.demojwt.ModelInventary.SaleList;
 import com.irojas.demojwt.ModelSaleDTO.SaleDTO;
@@ -41,8 +42,8 @@ public class ControllerSale {
 
 
 		@GetMapping("all-sales")
-	    public List<SaleList> getAllProducts() {
-			List<SaleList> allProducts = saleService.getAllSales();
+	    public List<SaleListDTO> getAllProducts() {
+			List<SaleListDTO> allProducts = saleService.getAllSales();
 	        return allProducts;
 	    }
 	    
