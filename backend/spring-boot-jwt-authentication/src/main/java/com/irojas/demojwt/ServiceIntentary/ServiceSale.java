@@ -38,18 +38,10 @@ public class ServiceSale {
 	}
 	
 	
-	public List<SaleListDTO> getAllSales() {
+	public List<SaleList> getAllSales() {
 		List<SaleList> saleList = saleListRepository.findAll();
 		
-		return saleList.stream().map(sale -> {
-            SaleListDTO dto = new SaleListDTO();
-            dto.setSaleId(sale.getSaleId());
-            dto.setSaleDate(sale.getFormattedSaleDate());
-            dto.setTotalAmount(sale.getTotalAmount());
-            dto.setProductsSale(sale.getProducts());
-            return dto;
-        }).collect(Collectors.toList());
-
+		return saleList;
 	}
 	
 	

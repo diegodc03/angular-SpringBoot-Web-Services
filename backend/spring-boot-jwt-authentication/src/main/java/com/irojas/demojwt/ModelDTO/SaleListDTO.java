@@ -9,6 +9,7 @@ public class SaleListDTO {
     private String saleId;
     private String saleDate; // Formateada como cadena
     private double totalAmount;
+    
     private List<ProductSale> productsSale;
 	
     

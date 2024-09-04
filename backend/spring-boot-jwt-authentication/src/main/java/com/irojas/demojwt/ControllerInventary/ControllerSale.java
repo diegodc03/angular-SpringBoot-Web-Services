@@ -42,8 +42,8 @@ public class ControllerSale {
 
 
 		@GetMapping("all-sales")
-	    public List<SaleListDTO> getAllProducts() {
-			List<SaleListDTO> allProducts = saleService.getAllSales();
+	    public List<SaleList> getAllProducts() {
+			List<SaleList> allProducts = saleService.getAllSales();
 	        return allProducts;
 	    }
 	    
@@ -56,13 +56,13 @@ public class ControllerSale {
 	    
 	    
 	    @GetMapping("/number-products-sold-ascending")
-	    public List<SaleList> getProductsByPriceAscending() {
+	    public List<SaleListDTO> getProductsByPriceAscending() {
 	        return saleService.getProductByNumberOfProductsAscending();
 	    }
 	    
 	    
 	    @GetMapping("/number-products-sold-descending")
-	    public List<SaleList> getProductsByPriceDescending() {
+	    public List<SaleListDTO> getProductsByPriceDescending() {
 	        return saleService.getProductByNumberOfProductsDescending();
 	    }
 	    

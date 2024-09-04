@@ -20,10 +20,7 @@ export class HistorySalesViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.saleService.getAllSales().subscribe((returningSaleList) => {
-      this.saleList = returningSaleList.map(sale => ({
-        ...sale,
-        saleDate: new Date(sale.saleDate)  // Convertir la cadena a objeto Date si es necesario
-      }));
+      this.saleList = returningSaleList
       console.log('Sales loaded:', this.saleList);
     });
   }
