@@ -1,46 +1,64 @@
+.form-css {
+  background-color: #007b9e; /* Azul similar al banner */
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  margin-bottom: 40px;
+  color: white;
+}
+
+.element-css {
+  margin-bottom: 20px;
+}
+
+.margin-css {
+  margin: 20px;
+}
+
+.principal-container{
+  margin-bottom: 20px;
+}
+
+
+
+
+/* Estilos para la fila que contiene talla, color, material y stock */
 .garment-row {
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 10px;
-    margin-bottom: 10px;
-  }
-  
-  .garment-row .form-label {
-    font-weight: bold;
-  }
-  
-  .btn-secondary {
-    margin-top: 10px;
-  }
-  
-  .btn-danger {
-    margin-top: 10px;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  background-color: #3da5c2; /* Fondo azul claro */
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  color: #ffffff; /* Texto blanco */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
 
+/* Estilos de los campos dentro de las garment rows */
+.garment-row .form-control {
+  margin-bottom: 15px;
+  border-radius: 10px; /* Bordes redondeados */
+  border: 1px solid #0890b6; /* Borde azul más oscuro */
+  padding: 10px;
+  background-color: #ffffff; /* Fondo blanco en los inputs */
+  color: #000; /* Texto negro */
+}
 
-  .form-css {
-    display: flex;
-    flex-wrap: wrap; /* Permite que los elementos se envuelvan en múltiples líneas */
-    gap: 20px; /* Espacio entre los elementos */
-    
+/* Para organizar en dos columnas dentro de cada garment-row */
+.garment-row .col-half {
+  flex: 0 0 48%; /* Aproximadamente el 48% del ancho */
+}
+
+@media (max-width: 768px) {
+  /* En pantallas pequeñas, los inputs ocupan toda la fila */
+  .garment-row .col-half {
+      flex: 0 0 100%;
   }
+}
 
-  .element-css{
-    flex: 1 1 calc(50% - 20px); /* Dos elementos por fila con un espacio entre ellos */
-    box-sizing: border-box;
-    border-radius: 4px;
-    padding: 10px;
-    border: 1px solid #dee2e6;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Sombra ligera para un efecto de profundidad */
-    margin-bottom: 10px;
-  }
-
-  .margin-css{
-    margin-left: 30px;
-    margin-right: 30px;
-    margin-top: 30px;
-    margin-bottom: 20px;
-  }
-  
-
-  
+/* Estilos adicionales para las etiquetas */
+.form-label {
+  font-weight: bold;
+  color: white;
+}

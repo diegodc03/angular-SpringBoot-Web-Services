@@ -16,7 +16,7 @@ import { Garment } from 'src/app/model/garment/garment.module';
 export class ShoppingBasketComponent {
 
   productsSold: ProductSoldDTO[] = [];
-
+  showGarments: boolean[] = this.productsSold.map(() => false);
 
   constructor(
     private router: Router,
@@ -100,4 +100,13 @@ export class ShoppingBasketComponent {
       }
     }
   }
+
+  toggleGarments(index: number, event?: Event): void {  
+    if (event) {
+        event.stopPropagation(); // Evitar que el clic en el botón propague el evento al contenedor
+    }
+    this.showGarments[index] = !this.showGarments[index];
+  }
+
+
 }

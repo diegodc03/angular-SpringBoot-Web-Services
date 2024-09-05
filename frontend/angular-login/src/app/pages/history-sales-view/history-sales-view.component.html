@@ -1,36 +1,33 @@
 <!-- inventary.component.html -->
 <div class="container">
-    <h2>Inventario</h2>
-    <!--
-    <div class="form-group">
-      <label for="filterSelect">Filtro:</label>
-      <select class="form-control" id="filterSelect" [(ngModel)]="selectedFilter" (change)="applyFilter()">
-        <option value="none">Ninguno</option>
-        <option value="price-ascending">Precio Ascendente</option>
-        <option value="price-descending">Precio Descendente</option>
-        <option value="stock-ascending">Stock Ascendente</option>
-        <option value="stock-descending">Stock Descendente</option>
-      </select>
+    <div class="upper-div">
+        <h2>Ventas Realizadas</h2>
     </div>
-    -->
     <div class="product-list">
         <div> 
-            <div class="product-header">
-                <div class="product-id">Sale Date</div>
+            <div class="grid-words header">
+                <div class="product-date">Sale Date</div>
                 <div class="product-name">Nombre de la venta</div>
                 <div class="product-price">Total Ganado</div>
                 <div class="product-actions">Productos Vendidos</div>
+                <div class="product-actions">Acciones</div>
             </div>
         </div>
         <div *ngFor="let sale of saleList; let i = index" class="product-item">
-            <div class="product-header" >
-                <div class="product-id">{{ sale.saleDate | date: 'dd-MM-yyyy':'UTC'}}</div>
+            <div class="grid-words  product-row" >
+                <div class="product-date">{{ sale.saleDate | date: 'dd-MM-yyyy':'UTC'}}</div>
+                <div class="product-name">nombre Inventado</div>
                 <div class="product-price">{{ sale.totalAmount| currency:'EUR' }}</div>
-                <button class="btn btn-danger btn-sm" (click)="redirectToInformation(sale)">Mostrar</button>
-                <button class="btn btn-danger btn-sm" (click)="deleteSale(sale)">Eliminar</button>
+                <div class="product-sold">{{ sale.productsSale.length }}</div>
+                <div class="product-actions" >
+                    <button class="btn btn-info btn-sm" (click)="redirectToInformation(sale)">Mostrar</button>
+                    <button class="btn btn-danger btn-sm" (click)="deleteSale(sale)">Eliminar</button>
+                </div>
             </div>
-
         </div>
     </div>
-  
-  </div>
+</div>
+
+
+
+

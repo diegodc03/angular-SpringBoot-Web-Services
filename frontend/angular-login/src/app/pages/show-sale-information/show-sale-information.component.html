@@ -1,9 +1,12 @@
 <div class="container">
-    <h2>Productos Vendidos</h2>
+
+    <div class="upper-div">
+        <h2>Información de la Venta</h2>
+    </div>
   
     <div class="product-list">
-      <div class="product-header">
-        <div class="product-id">ID</div>
+
+      <div class="grid-words header">
         <div class="product-name">Nombre</div>
         <div class="product-price">Precio Total</div>
         <div class="product-stock">Precio Unitario</div>
@@ -12,21 +15,21 @@
       </div>
   
       <div *ngFor="let productSold of saleInformation.productsSale; let i = index" class="product-item">
-        <div class="product-header">{{ productSold.productId }}
-            <div class="product-name">{{ productSold.name }}</div>
+        <div class="grid-words  product-row">
+            <div class="product-name">Inventado</div>
             <div class="product-price">{{ productSold.totalPrice | currency }}</div>
             <div class="product-stock">{{ productSold.unitaryPrice | currency }}</div>
             <div class="product-stock">{{ productSold.totalStockSold }}</div>
             <div class="product-actions">
-            <a [routerLink]="['/dashboard/inventarySale/update-product/', productSold.productId]" class="btn btn-primary btn-sm">Editar</a>
-            <button class="btn btn-danger btn-sm" (click)="deleteProduct(productSold.productId)">Eliminar</button>
-            <button
-                *ngIf="productSold.existanceSizes"
-                class="btn btn-info btn-sm"
-                (click)="toggleGarments(i, $event)"
-            >
-                {{ showGarments[i] ? 'Ocultar Tallas' : 'Ver Tallas' }}
-            </button>
+              <a [routerLink]="['/dashboard/inventarySale/update-product/', productSold.productId]" class="btn btn-primary btn-sm">Editar</a>
+              <button class="btn btn-danger btn-sm" (click)="deleteProduct(productSold.productId)">Eliminar</button>
+              <button
+                  *ngIf="productSold.existanceSizes"
+                  class="btn btn-info btn-sm"
+                  (click)="toggleGarments(i, $event)"
+              >
+                  {{ showGarments[i] ? 'Ocultar Tallas' : 'Ver Tallas' }}
+              </button>
             </div>
         </div>
         <!-- Detalles del producto -->

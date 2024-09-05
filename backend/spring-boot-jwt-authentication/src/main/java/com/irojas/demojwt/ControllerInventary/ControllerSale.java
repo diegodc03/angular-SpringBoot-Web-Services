@@ -90,7 +90,7 @@ public class ControllerSale {
 	    
 	    // Esto todavia no está
 	    @DeleteMapping("/delete-sale/{id}")
-	    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+	    public ResponseEntity<Void> deleteProduct(@PathVariable String id) {
 	        saleService.deleteSale(id);
 	        return ResponseEntity.noContent().build();
 	    }

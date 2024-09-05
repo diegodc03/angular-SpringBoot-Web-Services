@@ -37,6 +37,7 @@ export class HistorySalesViewComponent implements OnInit {
     console.log('Deleting sale:', sale);
     this.saleService.deleteSale(sale.saleId).subscribe(() => {
       //this.saleList = this.saleList.filter(s => s.saleId !== sale.saleId);
+      this.ngOnInit();
       console.log('Sale deleted successfully');
     })
   }

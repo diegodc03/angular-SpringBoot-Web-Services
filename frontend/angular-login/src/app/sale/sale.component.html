@@ -1,5 +1,5 @@
 <!-- Funcion en la cual se tendra un cuadrado donde se pulsará y se desplegará las tallas de los productos, y si no es así lo que se hará es que se sumará al carrito -->
-<div>
+<div class="container">
     <div class="upper-div ">
         <h2> Productos a la Venta</h2>
         <div (click)="shoppingcheck()" id="bag">
@@ -9,17 +9,14 @@
     
     <div class="product-box">
         <div *ngFor="let product of products; let i = index" class="col-12 col-sm-6 col-md-4 col-lg-3 box product-grid" >
-            <div (click)="addToCart(product)" >
+            <div (click)="addToCart(product)"  class="product-content ">
                 <div class="product-id">{{ product.name }}</div>
-                <div class="product-price">{{ product.price  | currency}}</div>
+                <div class="product-price">{{ product.price  | currency:'EUR'}}</div>
                 <div class="pproduct-stock">Stock: {{ product.totalStock }}</div>
             </div>
                     
-        <div class="product-info" [routerLink]="['/dashboard/inventarySale/show-product', product.publicId]">informacion del Producto</div> 
-    </div>
-</div>
-
-
-    
+            <div class="product-info" [routerLink]="['/dashboard/inventarySale/show-product', product.publicId]">informacion del Producto</div> 
+        </div>
+    </div>  
 
 </div>

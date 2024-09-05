@@ -1,20 +1,25 @@
 <!-- inventary.component.html -->
 <div class="container">
-    <h2>Inventario</h2>
-    <div class="form-group">
-      <label for="filterSelect">Filtro:</label>
-      <select class="form-control" id="filterSelect" [(ngModel)]="selectedFilter" (change)="applyFilter()">
-        <option value="none">Ninguno</option>
+
+    <div class="upper-div ">
+        <h2> Inventario de productos</h2>
+        <div routerLink="/dashboard/inventarySale/add-product" id="bag">
+            Añadir Producto
+        </div>
+    </div>
+    
+
+    <select class="form-control box-filter" id="filterSelect" [(ngModel)]="selectedFilter" (change)="applyFilter()">
+        <option value="none">Filtro  </option>
         <option value="price-ascending">Precio Ascendente</option>
         <option value="price-descending">Precio Descendente</option>
         <option value="stock-ascending">Stock Ascendente</option>
         <option value="stock-descending">Stock Descendente</option>
-      </select>
-    </div>
+    </select>
+
     <div class="product-list">
         <div> 
-            <div class="product-header">
-                <div class="product-id">ID</div>
+            <div class="grid-words header">
                 <div class="product-name">Nombre</div>
                 <div class="product-description">Descripción</div>
                 <div class="product-price">Precio</div>
@@ -23,8 +28,8 @@
             </div>
         </div>
         <div *ngFor="let product of products; let i = index" class="product-item">
-            <div class="product-header" (click)="toggleGarments(i)">
-                <div class="product-id">{{ product.publicId }}</div>
+            <div class="grid-words  product-row" (click)="toggleGarments(i)">
+
                 <div class="product-name">{{ product.name }}</div>
                 <div class="product-description">{{ product.description }}</div>
                 <div class="product-price">{{ product.price | currency }}</div>
@@ -60,7 +65,7 @@
     </div>
     
       
-    <button class="btn btn-success margin-button" routerLink="/dashboard/inventarySale/add-product">Agregar Producto</button>
+    
   </div>
   
   

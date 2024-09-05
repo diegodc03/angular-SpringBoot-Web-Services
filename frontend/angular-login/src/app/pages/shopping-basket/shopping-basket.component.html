@@ -1,6 +1,6 @@
 
 
-<div>
+<div class="container">
     <div class="upper-div">
         <h2> Productos en la Cesta</h2>
         <div (click)="saleConfirm()" id="bag">
@@ -8,18 +8,34 @@
         </div>
     </div>
     
-    <div *ngFor="let product of productsSold; let i = index" class="box" >
-        caja {{i}}
-        <div>
-            producto {{product.name}}
-            stock {{product.totalStockSold}}
-            <div *ngIf="product.existanceSizes">
-                <div *ngFor="let size of product.garmentsSales">
-                    Talla: {{size.size}}
-                    Stock: {{size.stockSold}}
+    
+        <div *ngFor="let product of productsSold; let i = index" class=" col-12 col-sm-6 col-md-4 col-lg-3 box product-grid" >
+     
+            <div class="text-box">
+                <div class="product-name">{{product.name}}</div>
+                <div >Stock Total Vendido: {{product.totalStockSold}}</div>
+                <div class="product-price">Precio: {{product.totalPrice| currency:'EUR'}}</div>
+                <button
+                    *ngIf="product.existanceSizes"
+                    class="btn btn-info btn-sm"
+                    (click)="toggleGarments(i, $event)"
+                >
+                    {{ showGarments[i] ? 'Ocultar Tallas Vendidas' : 'Ver Tallas Vendidas' }}
+                </button>
+                
+                <!-- Detalles del producto -->
+                <div *ngIf="showGarments[i] && product.existanceSizes" class="product-details">
+                    
+                    <div class="details-content">
+                        <div class="product-size-name">Tallas Vendidas</div>
+                        <div *ngFor="let garment of product.garmentsSales" class="garment-row">
+                            <div class="product-size">
+                                Talla: {{ garment.size }}  Stock: {{ garment.stockSold }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button (click)="deleteShoppingBasket(product)" class="btn-delete">Eliminar</button>    
             </div>
-            
         </div>
-        <button (click)="deleteShoppingBasket(product)">Eliminar</button>
-    </div>
 </div>

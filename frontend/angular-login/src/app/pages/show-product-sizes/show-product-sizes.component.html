@@ -7,13 +7,19 @@
         </div>
     </div>
 
-
-    <div *ngFor="let size of sizes; let i = index" class="box" (click)="addToCartSize(size)">
-        caja {{i}}
-        <div>
-            Talla: {{size.size}}
-            Stock: {{size.stock}}
-            Color: {{size.color}}
-            Material: {{size.material}}
+    <div class="product-box">
+        <div *ngFor="let size of sizes; let i = index" class="col-12 col-sm-6 col-md-4 col-lg-3 box product-grid" (click)="addToCartSize(size)">
+            <div>
+                
+                <div  class="card">Talla: {{size.size}}</div>
+                <div  class="card">Stock: {{size.stock}}</div>
+                <div  class="card">Color: {{size.color}}</div>
+                <div  class="card">Material: {{size.material}}</div>
+                
+            </div>
         </div>
+
+    </div>
+
+    
 </div>

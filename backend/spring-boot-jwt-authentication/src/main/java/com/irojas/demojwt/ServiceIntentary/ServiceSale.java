@@ -183,8 +183,8 @@ public class ServiceSale {
 	
 	
 	
-	public SaleList deleteSale(Long id) {
-		Optional<SaleList> optionalSale = saleListRepository.findById(id);
+	public SaleList deleteSale(String id) {
+		Optional<SaleList> optionalSale = saleListRepository.findBySaleId(id);
 		if(optionalSale != null && optionalSale.isPresent()) {
 			SaleList s = optionalSale.get();
 			saleListRepository.delete(s);
