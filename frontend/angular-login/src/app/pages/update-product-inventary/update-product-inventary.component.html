@@ -1,9 +1,6 @@
-<form [formGroup]="updateProductForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="updateProductForm" (ngSubmit)="onSubmit()" class="form-css margin-css">
     <p class="text-danger">{{ updateProductError }}</p>
-    
-
-    
-    <div class="form-css margin-css">
+  
       <div class="mb-3 element-css">
         <label for="name" class="form-label">Nombre</label>
         <input formControlName="name" type="text" class="form-control" id="name">
@@ -54,7 +51,7 @@
         <label for="isTshirt" class="form-check-label">¿Es una camiseta?</label>
         <input formControlName="isTshirt" type="checkbox" id="isTshirt">
       </div>
-    </div>
+    
     
     <div formArrayName="garments">
         <div *ngFor="let garment of garments.controls; let i = index" [formGroupName]="i" class="mb-3 garment-row">

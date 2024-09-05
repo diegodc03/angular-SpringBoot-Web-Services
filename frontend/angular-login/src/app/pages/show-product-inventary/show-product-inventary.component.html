@@ -1,41 +1,51 @@
-
 <form [formGroup]="showProductForm" class="form-css margin-css">
-    <div class="mb-3 element-css">
-        <label for="name" class="form-label">Nombre</label>
-        <input formControlName="name" type="text" class="form-control" id="name" readonly>
+    
+    <div class="principal-container">
+        <div class="mb-3 element-css">
+            <label for="name" class="form-label">Nombre</label>
+            <input formControlName="name" class="form-control no-focus" type="text"  id="name" readonly>
+        </div>
+          
+        <div class="mb-3 element-css">
+            <label for="description" class="form-label">Descripción</label>
+            <input formControlName="description" type="text" class="form-control no-focus" id="description" readonly>
+        </div>
+          
+        <div class="mb-3 element-css">
+            <label for="price" class="form-label">Precio</label>
+            <input formControlName="price" type="number" step="0.01" class="form-control no-focus" id="price" readonly>
+        </div>
+          
+        <div class="mb-3 element-css">
+            <label for="totalStock" class="form-label">Stock Total</label>
+            <input formControlName="totalStock" type="number" class="form-control no-focus" id="totalStock" readonly>
+        </div>
     </div>
-      
-    <div class="mb-3 element-css">
-        <label for="description" class="form-label">Descripción</label>
-        <input formControlName="description" type="text" class="form-control" id="description" readonly>
-    </div>
-      
-    <div class="mb-3 element-css">
-        <label for="price" class="form-label">Precio</label>
-        <input formControlName="price" type="number" step="0.01" class="form-control" id="price" readonly>
-    </div>
-      
-    <div class="mb-3 element-css">
-        <label for="totalStock" class="form-label">Stock Total</label>
-        <input formControlName="totalStock" type="number" class="form-control" id="totalStock" readonly>
-    </div>
+    
 
+    <!-- Garments array, con dos elementos por fila -->
     <div formArrayName="garments">
         <div *ngFor="let garment of garments.controls; let i = index" [formGroupName]="i" class="mb-3 garment-row">
-            <label for="size-{{i}}" class="form-label">Talla</label>
-            <input formControlName="size" type="text" class="form-control" id="size-{{i}}" readonly>
             
-            <label for="color-{{i}}" class="form-label">Color</label>
-            <input formControlName="color" type="text" class="form-control" id="color-{{i}}" readonly>
+            <div class="col-half">
+                <label for="size-{{i}}" class="form-label">Talla</label>
+                <input formControlName="size" type="text" class="form-control no-focus" id="size-{{i}}" readonly>
+            </div>
             
-            <label for="material-{{i}}" class="form-label">Material</label>
-            <input formControlName="material" type="text" class="form-control" id="material-{{i}}" readonly>
+            <div class="col-half">
+                <label for="color-{{i}}" class="form-label">Color</label>
+                <input formControlName="color" type="text" class="form-control no-focus" id="color-{{i}}" readonly>
+            </div>
             
-            <label for="stock-{{i}}" class="form-label">Stock</label>
-            <input formControlName="stock" type="number" class="form-control" id="stock-{{i}}" readonly>
+            <div class="col-half">
+                <label for="material-{{i}}" class="form-label">Material</label>
+                <input formControlName="material" type="text" class="form-control no-focus" id="material-{{i}}" readonly>
+            </div>
+            
+            <div class="col-half">
+                <label for="stock-{{i}}" class="form-label">Stock</label>
+                <input formControlName="stock" type="number" class="form-control no-focus" id="stock-{{i}}" readonly>
+            </div>
         </div>
     </div>
 </form>
-
-
-  

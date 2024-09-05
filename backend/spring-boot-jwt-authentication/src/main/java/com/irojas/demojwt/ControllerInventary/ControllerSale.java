@@ -56,13 +56,13 @@ public class ControllerSale {
 	    
 	    
 	    @GetMapping("/number-products-sold-ascending")
-	    public List<SaleListDTO> getProductsByPriceAscending() {
+	    public List<SaleList> getProductsByPriceAscending() {
 	        return saleService.getProductByNumberOfProductsAscending();
 	    }
 	    
 	    
 	    @GetMapping("/number-products-sold-descending")
-	    public List<SaleListDTO> getProductsByPriceDescending() {
+	    public List<SaleList> getProductsByPriceDescending() {
 	        return saleService.getProductByNumberOfProductsDescending();
 	    }
 	    

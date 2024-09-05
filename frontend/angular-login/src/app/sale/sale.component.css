@@ -1,30 +1,106 @@
-*{
-    margin:30px;
+* {
+    margin: 30px;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body{
+body {
     font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
 }
 
-.box{
-    width: 300px;
-    background-color: aqua;
-    height: 300px;
-    display: inline-block;
-    border: 3px solid rgb(255, 0, 0);
-    
-}
-
-
-.upper-div{
+.upper-div {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
-    
+    padding: 20px;
+    background-color: #008cba;
+    color: white;
+    border-radius: 8px;
 }
 
-#bag{
-    font-size: larger;
+.upper-div h2 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+#bag {
+    font-size: 1.2rem;
     font-weight: bold;
+    background-color: #ff4081;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#bag:hover {
+    background-color: #ff6290;
+}
+
+.box {
+    width: 300px;
+    background-color: white;
+    height: auto;
+    display: inline-block;
+    border: 2px solid #008cba;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    justify-content: space-between;
+    
+    transition: transform 0.3s ease;
+}
+
+.product-box{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    justify-content: space-between;
+
+}
+
+.box:hover {
+    transform: scale(1.05);
+}
+
+.product-content {
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.product-id {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.product-price {
+    color: #28a745;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.product-stock {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 20px;
+}
+
+.product-info {
+    background-color: #008cba;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 0 0 15px 15px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.product-info:hover {
+    background-color: #005f8a;
 }
