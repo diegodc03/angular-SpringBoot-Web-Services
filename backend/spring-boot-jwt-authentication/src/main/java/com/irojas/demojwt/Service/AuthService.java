@@ -45,8 +45,8 @@ public class AuthService {
 	}
 
 	public AuthResponse login(LoginRequest request) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-        UserDetails user=userRepository.findByUsername(request.getUsername()).orElseThrow();
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+        UserDetails user=userRepository.findByEmail(request.getEmail()).orElseThrow();
         String token=jwtService.getToken(user);
         
         return new AuthResponse(token);
@@ -55,7 +55,7 @@ public class AuthService {
     public AuthResponse register(RegisterRequest request) {
                 
         User user = new User();
-	    user.setUsername(request.getUsername());
+	    user.setEmail(request.getEmail());
 	    user.setPassword(passwordEncoder.encode( request.getPassword()));
 	    user.setFirstname(request.getFirstname());
 	    user.setLastname(request.getLastname());
@@ -71,9 +71,9 @@ public class AuthService {
     public boolean changePassword(String currentPassword, String newPassword, String token) {
 		
     	//Comprobamos el usuario con el token
-    	String username = jwtService.getUsernameFromToken(token);
+    	String email = jwtService.getEmaileFromToken(token);
     		
-    	Optional<User> optionalUser = userRepository.findByUsername(username);
+    	Optional<User> optionalUser = userRepository.findByEmail(email);
     	
     	if(optionalUser.isPresent() && jwtService.isTokenValid(token)) {
     		//Usuario existente y token valido
@@ -112,10 +112,10 @@ public class AuthService {
 	}
 
     
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		
-		User userEntity = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));
+		User userEntity = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 		List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
 		
 		Role rol = userEntity.getRole();
@@ -129,8 +129,8 @@ public class AuthService {
 		
 		if(jwtService.isTokenValid(token)) {
 			
-			String username = jwtService.getUsernameFromToken(token);
-			Optional<User> optionalUser = userRepository.findByUsername(username);
+			String email = jwtService.getEmaileFromToken(token);
+			Optional<User> optionalUser = userRepository.findByEmail(email);
 			
 			if(optionalUser.isPresent()) {
 	    		//Usuario existente y token valido
@@ -157,8 +157,8 @@ public class AuthService {
 		
 		if(jwtService.isTokenValid(token)) {
 			
-			String username = jwtService.getUsernameFromToken(token);
-			Optional<User> optionalUser = userRepository.findByUsername(username);
+			String email = jwtService.getEmaileFromToken(token);
+			Optional<User> optionalUser = userRepository.findByEmail(email);
 			
 			if(optionalUser.isPresent()) {
 	    		//Usuario existente y token valido
@@ -178,6 +178,11 @@ public class AuthService {
 	    		userRepository.save(user);
 	    	}
 		}
+	}
+	
+	
+	public void sendRegisterMessage() {
+		
 	}
 	
 	

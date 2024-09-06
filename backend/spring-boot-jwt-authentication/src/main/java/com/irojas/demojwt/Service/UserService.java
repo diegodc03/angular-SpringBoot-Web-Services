@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.irojas.demojwt.Jwt.JwtService;
 import com.irojas.demojwt.Model.Role;
 import com.irojas.demojwt.Model.User;
 import com.irojas.demojwt.ModelDTO.UserDTO;
@@ -18,13 +19,15 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    private final UserRepository userRepository;
-    
+
+
+    private UserRepository userRepository;
     
     
 
-    public UserService(UserRepository userRepository) {
+	public UserService( UserRepository userRepository) {
 		super();
+
 		this.userRepository = userRepository;
 	}
 
@@ -49,7 +52,7 @@ public class UserService {
 	    if (user != null) {
 	        UserDTO userDTO = new UserDTO();
 	        userDTO.setId(user.getId());
-	        userDTO.setUsername(user.getUsername());
+	        userDTO.setEmail(user.getEmail());
 	        userDTO.setFirstname(user.getFirstname());
 	        userDTO.setLastname(user.getLastname());
 	        userDTO.setCountry(user.getCountry());
@@ -59,18 +62,37 @@ public class UserService {
 	}
 	
 	
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         // Buscar el usuario en el repositorio
-        Optional<User> optionalUser = userRepository.findByUsername(username);
+        Optional<User> optionalUser = userRepository.findByEmail(email);
 
         // Verificar si el usuario está presente
         if (optionalUser.isEmpty()) {
-            throw new UsernameNotFoundException("User not found with username: " + username);
+            throw new UsernameNotFoundException("User not found with username: " + email);
         }
 
         // Retornar el usuario encontrado
         return optionalUser.get();
     }
+
+	
+	public UserDTO getUserData(String email) {
+        
+        // Encuentra al usuario por su email
+        Optional<User> optUser = userRepository.findByEmail(email);
+        if (optUser.isPresent()) {
+            User user = optUser.get();
+            // Convierte el usuario a UserDTO
+            return new UserDTO(user.getEmail(), user.getFirstname(), user.getLastname(), user.getCountry());
+        }
+        // Retorna null si el usuario no existe
+        return null;
+    }
+	
+	
+	
+	
+	
 	
 
 }

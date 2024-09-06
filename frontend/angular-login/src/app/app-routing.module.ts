@@ -11,14 +11,14 @@ import { AuthGuard } from './guards/guard/guard.component';
 import { ChangePasswordComponent } from './pages/password-change/password-change.component';
 import { SecureInventarySaleLayoutComponent } from './layouts/secure-inventary-sale-layout/secure-inventary-sale-layout.component';
 import { InventaryComponent } from './inventary/inventary.component';
-import { AddProductInventaryComponent } from './pages/add-product-inventary/add-product-inventary.component';	
-import { UpdateProductInventaryComponent } from './pages/update-product-inventary/update-product-inventary.component';
+import { AddProductInventaryComponent } from './inventary/add-product-inventary/add-product-inventary.component';	
+import { UpdateProductInventaryComponent } from './inventary/update-product-inventary/update-product-inventary.component';
 import { SaleComponent } from './sale/sale.component';
-import { ShowProductInventaryComponent } from './pages/show-product-inventary/show-product-inventary.component';
-import { ShoppingBasketComponent } from './pages/shopping-basket/shopping-basket.component';
-import { ShowProductSizes } from './pages/show-product-sizes/show-product-sizes.component';
-import { HistorySalesViewComponent } from './pages/history-sales-view/history-sales-view.component';
-import { ShowSaleInformationComponent } from './pages/show-sale-information/show-sale-information.component';
+import { ShowProductInventaryComponent } from './inventary/show-product-inventary/show-product-inventary.component';
+import { ShoppingBasketComponent } from './sale/shopping-basket/shopping-basket.component';
+import { ShowProductSizes } from './sale/show-product-sizes/show-product-sizes.component';
+import { HistorySalesViewComponent } from './sale/history-sales-view/history-sales-view.component';
+import { ShowSaleInformationComponent } from './sale/show-sale-information/show-sale-information.component';
 
 
 const routes: Routes = [

@@ -1,22 +1,17 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RegisterService } from 'src/app/services/auth/register/register.service';
+import { RegistrationService } from 'src/app/services/auth/register/register.service';
 
 
 
-@Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
-})
 export class RegisterComponent {
   registerForm: FormGroup;
   registerError: string | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
-    private registerService: RegisterService,
+    private registerService: RegistrationService,
     private router: Router
   ) {
     this.registerForm = this.formBuilder.group({

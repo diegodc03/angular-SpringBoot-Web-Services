@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { LoginRequest } from './loginRequest';
 import  {  Observable, throwError, catchError, BehaviorSubject , tap, map} from 'rxjs';
-import { User } from './user';
+import { User } from '../../model/user/user';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 
@@ -38,6 +38,19 @@ export class LoginService {
     this.currentUserLoginOn.next(false);
     this.router.navigate(['/login']);
   }
+
+  getUserData(): Observable<User> {
+    return this.http.get<User>(environment.urlHost + "auth/user").pipe(
+      tap((userData) => {
+        console.log('User data:', userData);
+      }),
+      catchError((error) => {
+        console.error('Error getting user data:', error);
+        return throwError(error);
+      })
+    );
+  }
+
 
   private handleError(error:HttpErrorResponse){
     if(error.status===0){

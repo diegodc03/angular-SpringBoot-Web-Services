@@ -1,19 +1,28 @@
 package com.irojas.demojwt.Model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import javax.validation.constraints.NotNull;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.irojas.demojwt.ModelInventary.Product;
+import com.irojas.demojwt.ModelInventary.ProductSale;
+
 import jakarta.persistence.Basic;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
@@ -26,7 +35,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="user", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
+@Table(name="user", uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
 public class User implements UserDetails {
     
 	@Id
@@ -34,14 +43,23 @@ public class User implements UserDetails {
     private Integer id;
     @Basic
     @Column(nullable = false)
-    private String username;
+    private String email;
+    
     @Column(nullable = false)
     private String lastname;
     private String firstname;
     private String country;
     private String password;
+    
     @Enumerated(EnumType.STRING) 
     Role role;
+    
+    /*
+    @NotNull
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Product> products = new ArrayList<>();
+    */
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -69,11 +87,11 @@ public class User implements UserDetails {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getUsername() {
-		return username;
+	public String getEmail() {
+		return email;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setEmail(String username) {
+		this.email = username;
 	}
 	public String getLastname() {
 		return lastname;
@@ -109,6 +127,12 @@ public class User implements UserDetails {
 	public User() {
 		super();
 	}
+	@Override
+	public String getUsername() {
+		
+		return this.email;
+	}
+	
 	
     
     

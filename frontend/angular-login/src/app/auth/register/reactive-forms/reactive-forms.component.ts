@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegistrationService } from 'src/app/services/auth/register/register.service';
-import { RegistrationRequest } from 'src/app/services/auth/register/registrationRequest';
+import { RegistrationRequest } from 'src/app/model/registrationRequest';
 
 @Component({
   selector: 'app-registration',
@@ -12,11 +12,12 @@ import { RegistrationRequest } from 'src/app/services/auth/register/registration
 export class ReactiveFormsComponent implements OnInit {
   registrationError: string = "";
   registerForm = this.formBuilder.group({
-    username: ['', [Validators.required, Validators.email]],
+    email: ['', [Validators.required, Validators.email]],
     firstname: ['', Validators.required],
     lastname: ['', Validators.required],
     country: ['', Validators.required],
-    password: ['', Validators.required]
+    password: ['', Validators.required,     
+    ]
   });
 
   constructor(
@@ -27,8 +28,8 @@ export class ReactiveFormsComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  get username() {
-    return this.registerForm.controls.username;
+  get email() {
+    return this.registerForm.controls.email;
   }
 
   get firstname() {
@@ -48,6 +49,8 @@ export class ReactiveFormsComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log('Form submitted:', this.registerForm.value);
+
     if (this.registerForm.valid) {
       this.registrationError = "";
       this.registrationService.register(this.registerForm.value as RegistrationRequest).subscribe({

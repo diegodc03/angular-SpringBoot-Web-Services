@@ -10,22 +10,22 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginRequest {
-    String username;
+    String email;
     String password;
     
     
     
 	public LoginRequest(String username, String password) {
 		super();
-		this.username = username;
+		this.email = username;
 		this.password = password;
 	}
 	
-	public String getUsername() {
-		return username;
+	public String getEmail() {
+		return email;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setEmail(String username) {
+		this.email = username;
 	}
 	public String getPassword() {
 		return password;

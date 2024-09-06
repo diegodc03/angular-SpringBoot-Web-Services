@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/auth/login.service';
-import { User } from 'src/app/services/auth/user';
+import { User } from 'src/app/model/user/user';
 
 @Component({
   selector: 'app-dashboard',

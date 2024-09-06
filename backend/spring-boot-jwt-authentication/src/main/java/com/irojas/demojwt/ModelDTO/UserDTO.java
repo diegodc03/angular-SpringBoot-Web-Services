@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class UserDTO {
     int id;
     
-	String username;
+	String email;
     String firstname;
     String lastname;
     String country;
@@ -24,11 +24,12 @@ public class UserDTO {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getUsername() {
-		return username;
+	
+	public String getEmail() {
+		return email;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public String getFirstname() {
 		return firstname;
@@ -52,6 +53,13 @@ public class UserDTO {
 	
 	public UserDTO() {
 		super();
+	}
+	public UserDTO(String email, String firstname, String lastname, String country) {
+		this.email = email;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.country = country;
+		
 	}
 	
 	

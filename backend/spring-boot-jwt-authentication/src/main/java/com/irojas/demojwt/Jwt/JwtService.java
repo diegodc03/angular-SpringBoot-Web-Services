@@ -49,18 +49,18 @@ public class JwtService {
        return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String getUsernameFromToken(String token) {
+    public String getEmaileFromToken(String token) {
         return getClaim(token, Claims::getSubject);
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username=getUsernameFromToken(token);
+        final String username=getEmaileFromToken(token);
         return (username.equals(userDetails.getUsername())&& !isTokenExpired(token));
     }
 
 
 	public boolean isTokenValid(String token) {
-	    String username = getUsernameFromToken(token);
+	    String username = getEmaileFromToken(token);
 	    UserDetails userDetails = userService.loadUserByUsername(username); // Obtener UserDetails
 	    return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
 	}
@@ -90,5 +90,7 @@ public class JwtService {
     {
         return getExpiration(token).before(new Date());
     }
+    
+    
     
 }

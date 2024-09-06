@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import com.irojas.demojwt.Model.User;
 
 public interface UserRepository extends JpaRepository<User,Integer> {
-    Optional<User> findByUsername(String username); 
+    Optional<User> findByEmail(String email); 
     
     @Modifying()
     @Query("update User u set u.firstname=:firstname, u.lastname=:lastname, u.country=:country where u.id = :id")

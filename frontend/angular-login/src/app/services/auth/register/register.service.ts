@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError, catchError, BehaviorSubject, tap } from 'rxjs';
-import { RegistrationRequest } from './registrationRequest'; // Adjust the path as needed
+import { RegistrationRequest } from '../../../model/registrationRequest'; // Adjust the path as needed
 import { environment } from 'src/environments/environment';
 
 @Injectable({

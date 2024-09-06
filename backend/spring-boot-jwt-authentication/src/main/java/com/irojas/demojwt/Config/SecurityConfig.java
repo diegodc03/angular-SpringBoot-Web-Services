@@ -41,12 +41,12 @@ public class SecurityConfig {
                 .disable())
             .authorizeHttpRequests(authRequest ->
               authRequest
-                .requestMatchers(HttpMethod.GET).permitAll()
-                .requestMatchers(HttpMethod.OPTIONS).permitAll()
-                .requestMatchers("/auth/**").permitAll()
-                .requestMatchers("/api/**").permitAll()
-                .requestMatchers("/inventary/**").permitAll()
-                .requestMatchers("/sale/**").permitAll()
+                
+                .requestMatchers("/auth/login").permitAll()
+                .requestMatchers("/auth/register").permitAll()
+                .requestMatchers("/api/**").authenticated()
+                .requestMatchers("/inventary/**").authenticated()
+                .requestMatchers("/sale/**").authenticated()
                 .anyRequest().authenticated()
                 )
             .sessionManagement(sessionManager->

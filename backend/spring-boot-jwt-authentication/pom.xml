@@ -86,6 +86,11 @@
 		    <version>2.0.1.Final</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.app</groupId>
+			<artifactId>SpringSeecurityApp</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>

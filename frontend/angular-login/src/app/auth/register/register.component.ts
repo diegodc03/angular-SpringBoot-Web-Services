@@ -22,8 +22,11 @@ export class RegisterComponent {
     private registerService: RegistrationService
   ) {
     this.registerForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      firstname: ['', Validators.required],
+      username: ['',  Validators.required],
+      firstname: ['', Validators.required,
+                      Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/),
+                      Validators.minLength(8)
+      ],
       lastname: ['', Validators.required],
       country: ['', Validators.required],
       password: ['', Validators.required]
@@ -41,9 +44,9 @@ export class RegisterComponent {
       return;
     }
 
-    const { username, firstname, lastname, country, password } = this.registerForm.value;
+    const { email, firstname, lastname, country, password } = this.registerForm.value;
 
-    this.registerService.register({ username, password, firstname, lastname, country }).subscribe({
+    this.registerService.register({ email, password, firstname, lastname, country }).subscribe({
       next: () => {
         this.router.navigate(['/login']);
       },

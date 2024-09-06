@@ -6,20 +6,26 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import com.irojas.demojwt.ModelDTO.AuthResponse;
 import com.irojas.demojwt.ModelDTO.ChangeUserData;
 import com.irojas.demojwt.ModelDTO.LoginRequest;
 import com.irojas.demojwt.ModelDTO.RegisterRequest;
 import com.irojas.demojwt.ModelDTO.RequestChangePassword;
+import com.irojas.demojwt.ModelDTO.UserDTO;
 import com.irojas.demojwt.Service.AuthService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+
+import com.irojas.demojwt.Jwt.JwtTokenManager;
 
 @RestController
 @RequestMapping("/auth")
@@ -28,12 +34,17 @@ import lombok.RequiredArgsConstructor;
 public class AuthController {
     
     private final AuthService authService;
+    private final JwtTokenManager jwtTokenManager;
+
     
     
-    
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, JwtTokenManager jwtTokenManager) {
 		super();
 		this.authService = authService;
+		this.jwtTokenManager = jwtTokenManager;
+
+
+
 	}
 
     @PostMapping(value = "login", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -106,12 +117,32 @@ public class AuthController {
    	        authService.changeUserData(token, userData);
    	        
    	 
-   	 }
-   	return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized: No token provided");
-    	
-    	
-   
+   	 	}
+    	return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized: No token provided");	
     }
+    
+    
+    @GetMapping(value = "/user-data")
+    public ResponseEntity<UserDTO> getUserData(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) {
+        // authHeader tendrá el formato "Bearer <token>"
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        // Extrae el token del encabezado
+        String token = authHeader.substring(7);
+
+        // Obtiene los datos del usuario a partir del token
+        UserDTO user = jwtTokenManager.getUserFromToken(token);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        }
+        return ResponseEntity.notFound().build(); // Cambié a NOT_FOUND para indicar que el usuario no se encontró
+    }
+    
+    
+    
+    
     
 }  
 
