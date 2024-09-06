@@ -15,7 +15,8 @@ import { GarmentSoldDtoModule } from '../garment-sold-dto/garment-sold-dto.modul
 export class ProductSoldDTO { 
 
   
-  productId: string;
+  productId: String;
+  public_id: String;
   name: string;
   unitaryPrice: number;
   totalPrice: number;
@@ -27,6 +28,7 @@ export class ProductSoldDTO {
   
 
   constructor(@Inject(String) productId: string, 
+              @Inject(String) public_id: string,
               @Inject(String) name: string, 
               @Inject(Number) unitaryPrice: number,
               @Inject(Number) totalPrice: number, 
@@ -35,6 +37,7 @@ export class ProductSoldDTO {
               @Inject(String) imageName: String,
               @Inject(Garment) garmentsSales: GarmentSoldDtoModule[]) {
     this.productId = productId;
+    this.public_id = public_id;
     this.name = name;
     this.unitaryPrice = unitaryPrice
     this.totalPrice = totalPrice;

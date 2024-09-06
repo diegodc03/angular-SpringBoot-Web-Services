@@ -55,6 +55,16 @@ public class ServiceSale {
 	}
 	
 	
+	public SaleList getSaleBySaleId(String saleId) {
+		Optional<SaleList> optSale = saleListRepository.findBySaleId(saleId);
+		if(optSale.isPresent()) {
+			SaleList sale = optSale.get();
+			return sale;
+		}
+		return null;
+	}
+	
+	
 	public List<SaleList> getProductByNumberOfProductsDescending(){
 		
 		List<SaleList> productsSaleList = this.getAllSales();
@@ -114,7 +124,7 @@ public class ServiceSale {
 			
 
 			
-			completeSale.setTotalAmount(saleDTO.getTotalPrice());
+			completeSale.setTotalAmount(completeSale.getTotalAmount() + saleDTO.getTotalPrice());
 			
 			 Optional<Product> optProduct = productRepository.findByPublicId(saleDTO.getProductId());
 			
@@ -191,5 +201,34 @@ public class ServiceSale {
 			return s;
 		}
 		return null;
+	}
+	
+	
+	public SaleList deleteProductSale(SaleList sale, String publicId) {
+		
+		List<ProductSale> products = sale.getProducts();
+    	
+		if(products.size() == 1) {
+			this.saleListRepository.delete(sale);
+			return null;
+		}
+		
+    	Optional<ProductSale> optionalProductSold = products.stream().filter(product -> product.getPublic_id().equals(publicId)).findFirst();
+    
+    	if(optionalProductSold.isPresent()) {
+    		ProductSale productSold = optionalProductSold.get();
+    		
+    		sale.setTotalAmount(sale.getTotalAmount()-productSold.getTotalPrice());
+    		
+    		
+    		if(products.remove(productSold)) {
+    			//Producto Eliminado
+    			sale.setProducts(products);
+    			this.saleListRepository.save(sale);
+    			return sale;
+    			
+    		}
+    	}
+    	return null;
 	}
 }

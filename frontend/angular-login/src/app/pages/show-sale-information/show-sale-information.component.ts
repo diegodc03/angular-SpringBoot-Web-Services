@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SaleList } from 'src/app/model/sale-list/sale-list.module';
+import { SaleService } from 'src/app/services/sale/sale.service';
 
 @Component({
   selector: 'app-show-sale-information',
@@ -11,25 +12,57 @@ export class ShowSaleInformationComponent implements OnInit {
   saleInformation: SaleList = new SaleList('', 0, new Date(), []);
   showGarments: boolean[] = [];
 
-  constructor() { }
+  constructor(private saleService: SaleService) { }
 
   ngOnInit(): void {
-    const state = history.state ;  // Obtiene el estado de la navegación
+    const state = history.state;
     console.log('Estado del historial:', state);
-  
-    if (state && state.sale ) {  // Verifica que el estado contenga la propiedad 'sale'
-      console.log('Información de la venta encontrada:', state.sale);
-      this.saleInformation = state.sale;  // Asigna la información de la venta recibida
-      this.showGarments = this.saleInformation.productsSale.map(() => false);  // Inicializa el array para manejar la visibilidad de las prendas
-      console.log('Productos en saleInformation:', this.saleInformation.productsSale);
+
+    if (state && state.saleId) {
+      // Si el estado contiene información de la venta, utiliza el saleId para obtener los datos actualizados
+      const saleId = state.saleId;
+      console.log('ID de venta:', saleId);
+      this.loadSaleInformation(saleId);
     } else {
       console.log('No se encontró información de venta en el estado');
     }
   }
 
-  deleteProduct(productId: string): void {
+
+  // Método para obtener la información actualizada desde el backend
+  loadSaleInformation(saleId: String): void {
+    this.saleService.getSaleBySaleId(saleId).subscribe({
+      next: (returnedSale: SaleList) => {
+        this.saleInformation = returnedSale;
+        this.showGarments = this.saleInformation.productsSale.map(() => false);  // Reinicializa la visibilidad de los productos
+        console.log('Venta cargada:', this.saleInformation);
+      },
+      error: (error) => {
+        console.error('Error al cargar la venta:', error);
+      },
+      complete: () => {
+        console.log('Carga de venta completada');
+      }
+    });
+  }
+
+
+
+  deleteProduct(publicId: String): void {
     // Implementa la lógica para eliminar el producto aquí
-    console.log('Producto a eliminar:', productId);
+    console.log('Producto a eliminar:', publicId);
+    console.log('Venta:', this.saleInformation.saleId);
+  
+    // it have to be implemented the logic to delete the product
+    this.saleService.deleteProductSale(this.saleInformation.saleId, publicId).subscribe(() => {
+    
+       // Después de eliminar el producto, carga los datos actualizados
+    this.loadSaleInformation(this.saleInformation.saleId);
+    }, (error) => {
+      console.error('Error al eliminar el producto:', error);
+    });
+
+
   }
 
   toggleGarments(index: number, event?: Event): void {  

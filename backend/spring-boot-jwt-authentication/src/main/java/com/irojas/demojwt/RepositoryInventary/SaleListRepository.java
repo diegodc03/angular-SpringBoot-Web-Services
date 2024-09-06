@@ -10,4 +10,5 @@ import com.irojas.demojwt.ModelInventary.SaleList;
 
 public interface SaleListRepository extends JpaRepository<SaleList, Long>{
 	Optional<SaleList> findBySaleId(String SaleId);
+	
 }

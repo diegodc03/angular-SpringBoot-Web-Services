@@ -16,13 +16,13 @@
   
       <div *ngFor="let productSold of saleInformation.productsSale; let i = index" class="product-item">
         <div class="grid-words  product-row">
-            <div class="product-name">Inventado</div>
-            <div class="product-price">{{ productSold.totalPrice | currency }}</div>
-            <div class="product-stock">{{ productSold.unitaryPrice | currency }}</div>
+            <div class="product-name">{{productSold.public_id}}</div>
+            <div class="product-price">{{ productSold.totalPrice | currency:'EUR' }}</div>
+            <div class="product-stock">{{ productSold.unitaryPrice | currency:'EUR' }}</div>
             <div class="product-stock">{{ productSold.totalStockSold }}</div>
             <div class="product-actions">
               <a [routerLink]="['/dashboard/inventarySale/update-product/', productSold.productId]" class="btn btn-primary btn-sm">Editar</a>
-              <button class="btn btn-danger btn-sm" (click)="deleteProduct(productSold.productId)">Eliminar</button>
+              <button class="btn btn-danger btn-sm" (click)="deleteProduct(productSold.public_id)">Eliminar</button>
               <button
                   *ngIf="productSold.existanceSizes"
                   class="btn btn-info btn-sm"

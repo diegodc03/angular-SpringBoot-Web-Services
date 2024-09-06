@@ -51,13 +51,13 @@
             </div>
           </div>
           
-          <
-          <!-- Cargar Imagen del Producto -->
+          
+          <!-- Cargar Imagen del Producto 
           <div class="form-group">
             <label for="image">Imagen:</label>
             <input type="file" class="form-control" (change)="onFileSelected($event)" />
 
-          </div>
+          </div>-->
         
           <div class="mb-3 ">
             <label for="isTshirt" class="form-check-label">¿Es una camiseta?</label>
@@ -72,7 +72,9 @@
         <div formArrayName="garments" class="margin-css">
             <div *ngFor="let garment of garments.controls; let i = index" [formGroupName]="i" class="mb-3 garment-row">
               <label for="size-{{i}}" class="form-label">Talla</label>
-              <input formControlName="size" type="text" class="form-control" id="size-{{i}}">
+              <select id="size-{{i}}" class="form-select" [(ngModel)]="selectedSize">
+                <option *ngFor="let size of avaliableSizes" [value]="size">{{ size }}</option>
+              </select>
               <label for="color-{{i}}" class="form-label">Color</label>
               <input formControlName="color" type="text" class="form-control" id="color-{{i}}">
               <label for="material-{{i}}" class="form-label">Material</label>

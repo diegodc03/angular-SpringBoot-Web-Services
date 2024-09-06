@@ -129,13 +129,14 @@ export class SaleComponent {
           console.log('Producto ya existe en el carrito:', product);
           this.productsSold[index].totalStockSold = this.productsSold[index].totalStockSold + 1;
           this.productsSold[index].totalPrice = this.productsSold[index].totalPrice + this.productsSold[index].unitaryPrice;
-          
+          console.log("Producto en el array de productos:", this.productsSold[index]);  
           this.cartService.addProduct(this.productsSold[index]);
         
         }else{
           console.log('Producto no existe en el carrito:', product);
           // Create new object Product with the stock sold
           const p = new ProductSoldDTO(product.publicId, 
+                                        '',
                                         product.name, 
                                         product.price,
                                         product.price,
@@ -174,6 +175,7 @@ export class SaleComponent {
       }else{
         console.log('Producto no existe en el carrito:', productId);
         const productSold = new ProductSoldDTO(productId, 
+                                              '',
                                               this.products[index].name, 
                                               this.products[index].price, 
                                               0, 

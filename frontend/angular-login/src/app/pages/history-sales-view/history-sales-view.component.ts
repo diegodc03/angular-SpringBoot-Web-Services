@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SaleService } from 'src/app/services/sale/sale.service';
 import { SaleList } from 'src/app/model/sale-list/sale-list.module';
+import { ProductSoldDTO } from 'src/app/model/product-sold-dto/product-sold-dto.module';
 
 @Component({
   selector: 'app-sales-view',
@@ -12,7 +13,7 @@ export class HistorySalesViewComponent implements OnInit {
 
 
   saleList: SaleList[] = [];
-
+  
   constructor(
     private saleService: SaleService,
     private router: Router
@@ -25,11 +26,10 @@ export class HistorySalesViewComponent implements OnInit {
     });
   }
 
-  redirectToInformation(saleList: SaleList): void {
+  redirectToInformation(saleId: String): void {
     console.log('Redirect to information');
-    console.log(saleList);
 
-    this.router.navigate(['/dashboard/inventarySale/show-sale-information'], { state: { sale: saleList } });
+    this.router.navigate(['/dashboard/inventarySale/show-sale-information'], { state: { saleId: saleId } });
   }
 
   deleteSale(sale: SaleList): void {
@@ -41,4 +41,17 @@ export class HistorySalesViewComponent implements OnInit {
       console.log('Sale deleted successfully');
     })
   }
+
+  showtotalstock(productsSold: ProductSoldDTO[]): number {
+
+    let totalstock = 0;
+
+    productsSold.forEach(p => { 
+      totalstock += p.totalStockSold;
+    }
+    )
+    return totalstock;
+
+  }
+
 }

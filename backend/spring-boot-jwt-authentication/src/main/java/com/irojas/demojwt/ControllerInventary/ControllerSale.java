@@ -48,12 +48,19 @@ public class ControllerSale {
 	    }
 	    
 		
+		/*
 	    @GetMapping("/{id}")
 	    public ResponseEntity<SaleList> getProductById(@PathVariable Long id) {
 	        SaleList product = saleService.getSaleById(id);
 	        return ResponseEntity.ok(product);
-	    }
+	    }*/
 	    
+	    
+	    @GetMapping("/{saleId}")
+	    public ResponseEntity<SaleList> getProductBySaleId(@PathVariable String saleId) {
+	        SaleList product = saleService.getSaleBySaleId(saleId);
+	        return ResponseEntity.ok(product);
+	    }
 	    
 	    @GetMapping("/number-products-sold-ascending")
 	    public List<SaleList> getProductsByPriceAscending() {
@@ -88,13 +95,34 @@ public class ControllerSale {
 	    }
 
 	    
-	    // Esto todavia no está
+
 	    @DeleteMapping("/delete-sale/{id}")
 	    public ResponseEntity<Void> deleteProduct(@PathVariable String id) {
 	        saleService.deleteSale(id);
-	        return ResponseEntity.noContent().build();
+	        return ResponseEntity.ok(null);
 	    }
 
+	    
+	    @DeleteMapping("/delete-product-sale/{saleId}/{publicId}")
+	    public ResponseEntity<SaleList> deleteProductSale(@PathVariable String saleId, @PathVariable String publicId){
+			
+			
+	    	SaleList sale = saleService.getSaleBySaleId(saleId);
+	    	
+	    	if(sale != null) {
+	    		
+	    		SaleList returningSale =saleService.deleteProductSale(sale, publicId);
+		    	
+		    	if(returningSale != null) {
+		    		
+		    		return ResponseEntity.ok(returningSale);
+		    	}
+	    	}
+	    	return ResponseEntity.notFound().build();
+	    	
+	    	
+	    }
+	    
 	    
 	    @PutMapping("/update-sale/{id}")
 	    public ResponseEntity<ProductSale> updateProduct(@PathVariable Long id, @RequestBody SaleDTO saleDTO) {

@@ -17,10 +17,13 @@ export class AddProductInventaryComponent {
   addProduct: FormGroup;
   addProductError: string = '';
   selectedFile!: File;
+  avaliableSizes: string[] = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
+  selectedSize: string = '';  // Para almacenar la talla seleccionada
 
   constructor(private fb: FormBuilder,
               private inventaryService: InventaryService,
-              private httpClient: HttpClient
+              private httpClient: HttpClient,
+              
   ) 
   {
     this.addProduct = this.fb.group({
@@ -43,6 +46,7 @@ export class AddProductInventaryComponent {
 
   ngOnInit(): void {
     this.onChanges();
+
     // Si `isTshirt` es `true`, añade una entrada de prenda por defecto
     if (this.addProduct.get('isTshirt')?.value) {
       this.addGarment();

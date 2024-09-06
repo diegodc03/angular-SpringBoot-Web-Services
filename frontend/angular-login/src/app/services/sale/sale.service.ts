@@ -8,6 +8,7 @@ import { SaleList } from 'src/app/model/sale-list/sale-list.module';
   providedIn: 'root'
 })
 export class SaleService {
+  
 
   productId: string = '';
   private apiURL = "http://localhost:8080/sale";
@@ -21,6 +22,10 @@ export class SaleService {
   
   }
 
+  getSaleBySaleId(saleId: String): Observable<SaleList> {
+    return this.http.get<SaleList>(`${this.apiURL}/${saleId}`);
+  }
+
 
   getAllSales(): Observable<SaleList[]> {
     return this.http.get<SaleList[]>(`${this.apiURL}/all-sales`);
@@ -31,6 +36,9 @@ export class SaleService {
   }
 
 
+  deleteProductSale(saleId: String, publicId: String): Observable<any>{
+    return this.http.delete(`${this.apiURL}/delete-product-sale/${saleId}/${publicId}`);
+  }
 
 }
 

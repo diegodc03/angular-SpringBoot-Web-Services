@@ -18,9 +18,9 @@
                 <div class="product-date">{{ sale.saleDate | date: 'dd-MM-yyyy':'UTC'}}</div>
                 <div class="product-name">nombre Inventado</div>
                 <div class="product-price">{{ sale.totalAmount| currency:'EUR' }}</div>
-                <div class="product-sold">{{ sale.productsSale.length }}</div>
+                <div class="product-sold">{{ showtotalstock(sale.productsSale) }}</div>
                 <div class="product-actions" >
-                    <button class="btn btn-info btn-sm" (click)="redirectToInformation(sale)">Mostrar</button>
+                    <button class="btn btn-info btn-sm" (click)="redirectToInformation(sale.saleId)">Mostrar</button>
                     <button class="btn btn-danger btn-sm" (click)="deleteSale(sale)">Eliminar</button>
                 </div>
             </div>

@@ -43,7 +43,7 @@ export class ShoppingBasketComponent {
       console.error('No hay productos en el carrito');
       return;
     }
-
+    
     // Clear the elements updated, the elements are now updated in the db
     this.productsToSaleService.clearCart();
     this.cartService.clearCart();
