@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.irojas.demojwt.Model.User;
 import com.irojas.demojwt.ModelSaleDTO.SaleDTO;
 
 import jakarta.persistence.CascadeType;
@@ -18,6 +19,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -47,6 +49,13 @@ public class SaleList {
     @JsonManagedReference
     private List<ProductSale> productsSale = new ArrayList<>();
 
+	
+	@ManyToOne
+    @JsonManagedReference
+	@JsonIgnoreProperties(value="products")
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user; // Nueva relación con User
+	
 	
 	public Long getId() {
 		

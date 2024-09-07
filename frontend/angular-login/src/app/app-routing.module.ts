@@ -19,6 +19,7 @@ import { ShoppingBasketComponent } from './sale/shopping-basket/shopping-basket.
 import { ShowProductSizes } from './sale/show-product-sizes/show-product-sizes.component';
 import { HistorySalesViewComponent } from './sale/history-sales-view/history-sales-view.component';
 import { ShowSaleInformationComponent } from './sale/show-sale-information/show-sale-information.component';
+import { WorkinghoursComponent } from './pages/workinghours/workinghours.component';
 
 
 const routes: Routes = [
@@ -60,6 +61,11 @@ const routes: Routes = [
       { path: 'show-sale-information', component: ShowSaleInformationComponent },
 
     ]
+  },
+  {
+    path: 'workingHours',
+    component: WorkinghoursComponent,
+    canActivate: [AuthGuard]
   },
   { path: '**', redirectTo: '' }
 ];

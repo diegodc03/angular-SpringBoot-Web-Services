@@ -10,17 +10,18 @@ export class JwtInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
          // Obtén el token del almacenamiento local
-        const token = sessionStorage.getItem('authToken');
+        const token = sessionStorage.getItem('token');
 
        
         console.log('URL actual:', req.url);
+        console.log('Token actual:', token);
        
         // Si el token existe y la URL no está excluida, agrega el token al encabezado
         if (token) {
             
             req = req.clone({
                 setHeaders: {
-                    token: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`
                 }
             });
 

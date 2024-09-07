@@ -2,6 +2,7 @@ package com.irojas.demojwt.Jwt;
 
 import org.springframework.stereotype.Service;
 
+import com.irojas.demojwt.Model.User;
 import com.irojas.demojwt.ModelDTO.UserDTO;
 import com.irojas.demojwt.Service.UserService;
 
@@ -16,8 +17,12 @@ public class JwtTokenManager {
         this.userService = userService;
     }
 
-    public UserDTO getUserFromToken(String token) {
+    public User getUserFromToken(String token) {
         String email = jwtService.getEmaileFromToken(token);
         return userService.getUserData(email); // Llamada al UserService para obtener datos del usuario
+    }
+    
+    public String getEmailFromToken(String token) {
+    	return jwtService.getEmaileFromToken(token);
     }
 }

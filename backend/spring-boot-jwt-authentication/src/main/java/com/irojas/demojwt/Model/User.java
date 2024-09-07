@@ -10,9 +10,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.irojas.demojwt.ModelInventary.Product;
 import com.irojas.demojwt.ModelInventary.ProductSale;
+import com.irojas.demojwt.ModelInventary.SaleList;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
@@ -54,13 +56,21 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING) 
     Role role;
     
-    /*
-    @NotNull
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
+	@JsonIgnoreProperties(value="user")
     private List<Product> products = new ArrayList<>();
-    */
-
+    
+    
+    
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    @JsonIgnoreProperties(value="user")
+    private List<SaleList> sales = new ArrayList<>();
+    
+    
+    
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
       return List.of(new SimpleGrantedAuthority((role.name())));
@@ -124,12 +134,41 @@ public class User implements UserDetails {
 		this.role = role;
 	}
 	
+
+
+	public List<Product> getProducts() {
+		return products;
+	}
+	public void setProducts(List<Product> products) {
+		this.products = products;
+	}
+	
+	/*
+	public List<SaleList> getSales() {
+		return sales;
+	}
+	public void setSales(List<SaleList> sales) {
+		this.sales = sales;
+	}
+	*/
+	
+	
 	public User() {
 		super();
 	}
+	
+	
+	
+	
+	public User(String email, String firstname, String lastname, String country) {
+		this.email = email;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.country = country;
+	}
+	
 	@Override
 	public String getUsername() {
-		
 		return this.email;
 	}
 	

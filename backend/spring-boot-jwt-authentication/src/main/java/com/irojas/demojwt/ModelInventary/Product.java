@@ -7,12 +7,15 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.irojas.demojwt.Model.User;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -51,6 +54,13 @@ public class Product {
     private List<Garment> garments;
 
     private String imageName;
+    
+    
+    @ManyToOne
+    @JsonManagedReference
+	@JsonIgnoreProperties(value="products")
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user; // Nueva relación con User
     
     // Gatters and Setters
     
@@ -117,6 +127,18 @@ public class Product {
 
 	public void setImageName(String imageName) {
 		this.imageName = imageName;
+	}
+
+	
+	
+	
+	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Product(String publicId, String name, String description, Double price, Boolean isTshirt, List<Garment> garments) {

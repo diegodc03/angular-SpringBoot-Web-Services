@@ -11,6 +11,7 @@ import java.util.UUID;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,11 +29,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.irojas.demojwt.Jwt.JwtTokenManager;
 import com.irojas.demojwt.ModelInventary.Garment;
 import com.irojas.demojwt.ModelInventary.Product;
 import com.irojas.demojwt.ModelInventaryDTO.ProductDTO;
 import com.irojas.demojwt.ServiceIntentary.ProductService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -42,19 +45,27 @@ import lombok.RequiredArgsConstructor;
 public class ControllerInventary {
 
 	private ProductService productService;
+	private JwtTokenManager jwtTokenManager;
 	private static String IMAGE_DIRECTORY = "src/main/resources/static/uploads/";
 
-	public ControllerInventary(ProductService productService) {
+	public ControllerInventary(ProductService productService, JwtTokenManager jwtTokenManager) {
 		super();
 		this.productService = productService;
+		this.jwtTokenManager = jwtTokenManager;
 	}
 
 
 		@GetMapping("all-inventary")
-	    public List<Product> getAllProducts() {
-			List<Product> allProducts = productService.getAllProducts();
+	    public ResponseEntity<List<Product>> getAllProducts(HttpServletRequest request) {
 			
-	        return allProducts;
+			String token = request.getHeader(HttpHeaders.AUTHORIZATION).substring(7);
+			String email = this.jwtTokenManager.getEmailFromToken(token); // Decodificar el token para obtener el email
+	        List<Product> products = productService.getProductsByEmail(email);
+	        
+	        if(products != null) {
+	        	return ResponseEntity.ok(products);
+	        }
+			return ResponseEntity.notFound().build();
 	    }
 	    
 	    
@@ -70,24 +81,49 @@ public class ControllerInventary {
 	    
 	    
 	    @GetMapping("/price-ascending")
-	    public List<Product> getProductsByPriceAscending() {
-	        return productService.getProductByPriceAscending();
+	    public ResponseEntity<List<Product>> getProductsByPriceAscending(HttpServletRequest request) {
+	    	
+			List<Product> products = productService.getProductByPriceAscending(returnEmail(request));
+			if(products != null) {
+	        	return ResponseEntity.ok(products);
+	        }
+			return ResponseEntity.notFound().build();
 	    }
 	    
 	    
 	    @GetMapping("/price-descending")
-	    public List<Product> getProductsByPriceDescending() {
-	        return productService.getProductByPriceDescending();
+	    public ResponseEntity<List<Product>> getProductsByPriceDescending(HttpServletRequest request) {
+	    	
+	    	List<Product> products = productService.getProductByPriceDescending(returnEmail(request));
+	        if(products != null) {
+	        	return ResponseEntity.ok(products);
+	        }
+			return ResponseEntity.notFound().build();
 	    }
 	    
 	    @GetMapping("/stock-ascending")
-	    public List<Product> getProductsByStockAscending() {
-	        return productService.getProductByStockAscending();
+	    public ResponseEntity<List<Product>> getProductsByStockAscending(HttpServletRequest request) {
+	
+	    	List<Product> products = productService.getProductByStockAscending(returnEmail(request));
+	        if(products != null) {
+	        	return ResponseEntity.ok(products);
+	        }
+			return ResponseEntity.notFound().build();
 	    }
 	    
 	    @GetMapping("/stock-descending")
-	    public List<Product> getProductsByStockDescending() {
-	        return productService.getProductByStockDescending();
+	    public ResponseEntity<List<Product>> getProductsByStockDescending(HttpServletRequest request) {
+	    	
+	    	List<Product> products = productService.getProductByStockDescending(returnEmail(request));
+	        if(products != null) {
+	        	return ResponseEntity.ok(products);
+	        }
+			return ResponseEntity.notFound().build();
+	    }
+	    
+	    public String returnEmail(HttpServletRequest request) {
+	    	String token = request.getHeader(HttpHeaders.AUTHORIZATION).substring(7);
+			return this.jwtTokenManager.getEmailFromToken(token); // Decodificar el token para obtener el em
 	    }
 	    
 /*	    
@@ -110,9 +146,9 @@ public class ControllerInventary {
 	    
 	    //Correcto
 	    @PostMapping("/add-product-info")
-	    public ResponseEntity<String> addProduct(@RequestBody ProductDTO productDTO) {
-	    	
-	        Product product = productService.addProduct(productDTO);
+	    public ResponseEntity<String> addProduct(@RequestBody ProductDTO productDTO, HttpServletRequest request) {
+	    	String token = request.getHeader(HttpHeaders.AUTHORIZATION).substring(7);
+	        Product product = productService.addProduct(productDTO, token);
 	   
 	        return ResponseEntity.ok(product.getPublicId());
 	    }

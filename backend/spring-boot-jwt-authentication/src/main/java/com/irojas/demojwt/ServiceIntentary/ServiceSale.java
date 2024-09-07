@@ -40,8 +40,16 @@ public class ServiceSale {
 	
 	public List<SaleList> getAllSales() {
 		List<SaleList> saleList = saleListRepository.findAll();
-		
 		return saleList;
+	}
+	
+	
+	public List<SaleList> getSalesByUserEmail(String email){
+		Optional<List<SaleList>> optionalSaleList = saleListRepository.findSaleListByUserEmail(email);
+		if(optionalSaleList.isPresent()) {
+        	return optionalSaleList.get();
+        }
+        return null;
 	}
 	
 	

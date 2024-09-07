@@ -76,14 +76,13 @@ public class UserService {
     }
 
 	
-	public UserDTO getUserData(String email) {
+	public User getUserData(String email) {
         
         // Encuentra al usuario por su email
         Optional<User> optUser = userRepository.findByEmail(email);
         if (optUser.isPresent()) {
-            User user = optUser.get();
-            // Convierte el usuario a UserDTO
-            return new UserDTO(user.getEmail(), user.getFirstname(), user.getLastname(), user.getCountry());
+            return optUser.get();
+            
         }
         // Retorna null si el usuario no existe
         return null;

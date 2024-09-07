@@ -18,6 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.irojas.demojwt.ModelInventary.Product;
 import com.irojas.demojwt.ModelInventary.Size;
+import com.irojas.demojwt.Jwt.JwtTokenManager;
+import com.irojas.demojwt.Model.User;
+import com.irojas.demojwt.ModelDTO.UserDTO;
 import com.irojas.demojwt.ModelInventary.Garment;
 import com.irojas.demojwt.ModelInventaryDTO.ProductDTO;
 import com.irojas.demojwt.ModelInventaryDTO.GarmentDTO;
@@ -30,22 +33,31 @@ import com.irojas.demojwt.RepositoryInventary.ProductRepository;
 public class ProductService {
 	
 	private ProductRepository productRepository;
+	private JwtTokenManager jwtTokenManager;
 	private GarmentRepository tshirtRepository;
 	private static String IMAGE_DIRECTORY = "src//main//resources//static/uploads/";
 	
-	public ProductService (ProductRepository productRepository, GarmentRepository tshirtRepository) {
+	public ProductService (ProductRepository productRepository, GarmentRepository tshirtRepository, JwtTokenManager jwtTokenManager) {
 		this.productRepository = productRepository;
 		this.tshirtRepository = tshirtRepository;
+		this.jwtTokenManager = jwtTokenManager;
 	}
 	
 	
 	// Métodos a realizar
 	public List<Product> getAllProducts(){
 		List<Product> p = productRepository.findAll();
-		
 		return p;
 	}
-		
+	
+
+	public List<Product> getProductsByEmail(String email) {
+        Optional<List<Product>> optProductsList = productRepository.findByUserEmail(email);
+        if(optProductsList.isPresent()) {
+        	return optProductsList.get();
+        }
+        return null;
+    }
 		
 	public Optional<Product> getProductByPublicId(String publicId){
 		return productRepository.findByPublicId(publicId);
@@ -56,61 +68,43 @@ public class ProductService {
 	}
 		
 		
-		public List<Product> getProductByPriceDescending(){
+	public List<Product> getProductByPriceDescending(String email) {
+        Optional<List<Product>> optProductsList = productRepository.findByUserEmailOrderByPriceDesc(email);
+        if(optProductsList.isPresent()) {
+        	return optProductsList.get();
+        }
+        return null;
+    }
+
+    public List<Product> getProductByPriceAscending(String email) {
+    	Optional<List<Product>> optProductsList = productRepository.findByUserEmailOrderByPriceAsc(email);
+    	if(optProductsList.isPresent()) {
+        	return optProductsList.get();
+        }
+        return null;
+    }
+
+    public List<Product> getProductByStockAscending(String email) {
+    	Optional<List<Product>> optProductsList = productRepository.findByUserEmailOrderByTotalStockAsc(email);
+    	if(optProductsList.isPresent()) {
+        	return optProductsList.get();
+        }
+        return null;
+    }
+
+    public List<Product> getProductByStockDescending(String email) {
+    	Optional<List<Product>> optProductsList = productRepository.findByUserEmailOrderByTotalStockDesc(email);
+    	if(optProductsList.isPresent()) {
+        	return optProductsList.get();
+        }
+        return null;
+    }
+		
+		
+		public Product addProduct(ProductDTO productDTO, String token) {
 			
-			List<Product> productList = this.getAllProducts();
-			
-			if(productList == null || productList.isEmpty()) {
-				return Collections.emptyList();
-			}else {
-				// Ordenamos por precio
-				productList.sort(Comparator.comparing(Product::getPrice).reversed());
-			}
-			return productList;
-		}
-		
-		
-		public List<Product> getProductByPriceAscending(){
-			List<Product> productList = this.getAllProducts();
-			
-			if(productList == null || productList.isEmpty()) {
-				return Collections.emptyList();
-			}else {
-				// Ordenamos por pre
-				productList.sort(Comparator.comparing(Product::getPrice));
-			}
-			return productList;
-		}
-		
-		
-		public List<Product> getProductByStockAscending(){
-			List<Product> productList = this.getAllProducts();
-			
-			if(productList == null || productList.isEmpty()) {
-				return Collections.emptyList();
-			}else {
-				// Ordenamos por stock
-				productList.sort(Comparator.comparing(Product::getTotalStock));
-			}
-			return productList;
-		}
-		
-		
-		public List<Product> getProductByStockDescending(){
-			
-			List<Product> productList = this.getAllProducts();
-			
-			if(productList == null || productList.isEmpty()) {
-				return Collections.emptyList();
-			}else {
-				// Ordenamos por stock
-				productList.sort(Comparator.comparing(Product::getTotalStock).reversed());
-			}
-			return productList;
-		}
-		
-		
-		public Product addProduct(ProductDTO productDTO) {
+			// Aqui recogemos un usuario, pero no lo estamos vuscando
+	        User user = this.jwtTokenManager.getUserFromToken(token);
 	        
 			int[] stock = {0};  
 			
@@ -150,6 +144,7 @@ public class ProductService {
 	        	product.setGarments(new ArrayList<>());
 	        }
 	        // Automaticamnete las camisetas se guardan asociadas al producto cuando se guardan
+	        product.setUser(user);
 	        return productRepository.save(product);
 	    }
 		
@@ -262,6 +257,7 @@ public class ProductService {
 	    	}
 	    	return null;
 	    }
+
 
 
 		

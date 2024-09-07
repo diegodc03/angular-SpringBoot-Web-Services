@@ -26,6 +26,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 import com.irojas.demojwt.Jwt.JwtTokenManager;
+import com.irojas.demojwt.Model.User;
 
 @RestController
 @RequestMapping("/auth")
@@ -123,7 +124,7 @@ public class AuthController {
     
     
     @GetMapping(value = "/user-data")
-    public ResponseEntity<UserDTO> getUserData(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) {
+    public ResponseEntity<User> getUserData(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader) {
         // authHeader tendrá el formato "Bearer <token>"
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -133,7 +134,7 @@ public class AuthController {
         String token = authHeader.substring(7);
 
         // Obtiene los datos del usuario a partir del token
-        UserDTO user = jwtTokenManager.getUserFromToken(token);
+        User user = jwtTokenManager.getUserFromToken(token);
         if (user != null) {
             return ResponseEntity.ok(user);
         }

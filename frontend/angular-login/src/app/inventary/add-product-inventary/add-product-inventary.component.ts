@@ -18,7 +18,7 @@ export class AddProductInventaryComponent {
   addProductError: string = '';
   selectedFile!: File;
   avaliableSizes: string[] = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
-  selectedSize: string = '';  // Para almacenar la talla seleccionada
+  selectedSize: string = 'L';  // Para almacenar la talla seleccionada
 
   constructor(private fb: FormBuilder,
               private inventaryService: InventaryService,
@@ -102,7 +102,7 @@ export class AddProductInventaryComponent {
       const productForm: ProductDTO = this.addProduct.value;
       console.log('Product Data:', productForm);
       
-      const productDTO: ProductDTO = {
+      let productDTO: ProductDTO = {
         name: this.addProduct.get('name')?.value,
         description: this.addProduct.get('description')?.value,
         price: this.addProduct.get('price')?.value,
@@ -110,6 +110,12 @@ export class AddProductInventaryComponent {
         totalStock: this.addProduct.get('totalStock')?.value,
         garments: this.addProduct.get('garments')?.value
       };
+      
+      if(productDTO.garments.length === 0){
+        productDTO.isTshirt = false;
+      }else{
+        productDTO.isTshirt = true;
+      }
 
       const formData = new FormData();
       if(this.selectedFile){
