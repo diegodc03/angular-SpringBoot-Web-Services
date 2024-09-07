@@ -16,9 +16,9 @@ import { ProductDTO } from '../../model/product-dto/product-dto.module';
 export class AddProductInventaryComponent {
   addProduct: FormGroup;
   addProductError: string = '';
-  selectedFile!: File;
+  
   avaliableSizes: string[] = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
-  selectedSize: string = 'L';  // Para almacenar la talla seleccionada
+  selectedSize: string = '';  // Para almacenar la talla seleccionada
 
   constructor(private fb: FormBuilder,
               private inventaryService: InventaryService,
@@ -29,19 +29,14 @@ export class AddProductInventaryComponent {
     this.addProduct = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
-      price: [null, [Validators.required, Validators.min(1)]],
+      price: [0, [Validators.required, Validators.min(1)]],
       image: [''],
-      totalStock: [{ value: '', disabled: false }, Validators.required, Validators.min(0)],
+      totalStock: [{ value: 0, disabled: false }, [Validators.required, Validators.min(0)]],
       isTshirt: [false],
       garments: this.fb.array([])
     });
 
   }
-
-  onFileSelected(event:any){
-    this.selectedFile=event.target.files[0];
-  }
-
 
 
   ngOnInit(): void {
@@ -68,9 +63,11 @@ export class AddProductInventaryComponent {
         }
       } else {
         // Si `isTshirt` es falso, habilita el campo `totalStock` y limpia las prendas
-        this.addProduct.get('totalStock')?.enable();
+        const totalStockControl = this.addProduct.get('totalStock');
+        if (totalStockControl) {
+          totalStockControl.enable();
+        }
         this.garments.clear(); // Limpia las prendas si `isTshirt` es falso
-        this.updateTotalStock(); // Actualiza el stock total
       }
     });
   }
@@ -81,20 +78,15 @@ export class AddProductInventaryComponent {
       size: ['', Validators.required],
       color: ['', Validators.required],
       material: ['', Validators.required],
-      stock: [null, [Validators.required, Validators.min(0)]]
+      stock: [0, [Validators.required, Validators.min(1)]]
     }));
   }
 
   removeGarment(index: number): void {
     this.garments.removeAt(index);
-    this.updateTotalStock();
   }
 
-  updateTotalStock(): void {
-    const totalStock = this.garments.controls.reduce((acc, control) => acc + control.value.stock, 0);
-    this.addProduct.patchValue({ totalStock });
-  }
-
+  
   onSubmit(): void {
     console.log('Formulario:', this.addProduct)
     if (this.addProduct.value) {
@@ -102,6 +94,7 @@ export class AddProductInventaryComponent {
       const productForm: ProductDTO = this.addProduct.value;
       console.log('Product Data:', productForm);
       
+
       let productDTO: ProductDTO = {
         name: this.addProduct.get('name')?.value,
         description: this.addProduct.get('description')?.value,
@@ -113,18 +106,13 @@ export class AddProductInventaryComponent {
       
       if(productDTO.garments.length === 0){
         productDTO.isTshirt = false;
+        
       }else{
         productDTO.isTshirt = true;
+        productDTO.totalStock = 0;
       }
-
-      const formData = new FormData();
-      if(this.selectedFile){
-        formData.append("file", this.selectedFile);
-      }
-
-
       
-      this.inventaryService.addProduct(productDTO, formData).subscribe({
+      this.inventaryService.addProduct(productDTO).subscribe({
         next: response => {
           console.log('Producto creado con éxito', response);
           // Resetear el formulario o navegar a otra vista
@@ -141,29 +129,6 @@ export class AddProductInventaryComponent {
     } else {
       this.addProductError = 'Please fix the errors in the form.';
     }
-
-    
   }
-   /*
-
-      this.inventaryService.addProduct(productDTO, formData).subscribe({
-        next: response => {
-          console.log('Producto creado con éxito', response);
-          // Resetear el formulario o navegar a otra vista
-          this.addProduct.reset();
-        },
-        error: error => {
-          console.error('Error al crear el producto', error);
-          this.addProductError = 'Error al crear el producto.';
-        }
-      });
-
-      // Aquí puedes hacer la llamada al servicio para enviar los datos
-      // this.productService.addProduct(product).subscribe(response => { ... });
-    } else {
-      this.addProductError = 'Please fix the errors in the form.';
-    }
-
-    */
 }
   

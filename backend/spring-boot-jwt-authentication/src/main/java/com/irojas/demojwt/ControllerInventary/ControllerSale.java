@@ -76,14 +76,14 @@ public class ControllerSale {
 	    }
 	    
 	    @GetMapping("/number-products-sold-ascending")
-	    public List<SaleList> getProductsByPriceAscending() {
-	        return saleService.getProductByNumberOfProductsAscending();
+	    public List<SaleList> getProductsByPriceAscending(HttpServletRequest request) {
+	        return saleService.getProductByNumberOfProductsAscending(returnEmail(request));
 	    }
 	    
 	    
 	    @GetMapping("/number-products-sold-descending")
-	    public List<SaleList> getProductsByPriceDescending() {
-	        return saleService.getProductByNumberOfProductsDescending();
+	    public List<SaleList> getProductsByPriceDescending(HttpServletRequest request) {
+	        return saleService.getProductByNumberOfProductsDescending(returnEmail(request));
 	    }
 	    
 	    
@@ -107,8 +107,9 @@ public class ControllerSale {
 	    
 		//Darle al boton de añadir cualquier producto
 	    @PostMapping("/add-sale")
-	    public String addProduct(@Valid @RequestBody List<SaleDTO> saleDTO) {
-	    	SaleList s = saleService.addProduct(saleDTO);
+	    public String addProduct(@Valid @RequestBody List<SaleDTO> saleDTO, HttpServletRequest request) {
+	    	String token = request.getHeader(HttpHeaders.AUTHORIZATION).substring(7);
+	    	SaleList s = saleService.addProduct(saleDTO, token);
 	        return "hola";
 	    }
 

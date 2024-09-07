@@ -72,9 +72,9 @@
         <div formArrayName="garments" class="margin-css">
             <div *ngFor="let garment of garments.controls; let i = index" [formGroupName]="i" class="mb-3 garment-row">
               <label for="size-{{i}}" class="form-label">Talla</label>
-              <select id="size-{{i}}" class="form-select" [(ngModel)]="selectedSize">
-                <option *ngFor="let size of avaliableSizes" [value]="size">{{ size }}</option>
-              </select>
+                <select id="size-{{i}}" class="form-select" formControlName="size">
+                  <option *ngFor="let size of avaliableSizes" [value]="size">{{ size }}</option>
+                </select>
               <label for="color-{{i}}" class="form-label">Color</label>
               <input formControlName="color" type="text" class="form-control" id="color-{{i}}">
               <label for="material-{{i}}" class="form-label">Material</label>

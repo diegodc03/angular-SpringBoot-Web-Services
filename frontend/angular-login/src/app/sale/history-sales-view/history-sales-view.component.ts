@@ -10,9 +10,12 @@ import { ProductSoldDTO } from 'src/app/model/product-sold-dto/product-sold-dto.
   styleUrls: ['./history-sales-view.component.css']
 })
 export class HistorySalesViewComponent implements OnInit {
+  
 
 
   saleList: SaleList[] = [];
+  
+  //selectedFilter: String = 'Filtro';
   
   constructor(
     private saleService: SaleService,
@@ -53,5 +56,35 @@ export class HistorySalesViewComponent implements OnInit {
     return totalstock;
 
   }
+
+
+  /*
+  applyFilter(): void {
+    switch (this.selectedFilter) {
+      case 'price-ascending':
+        this.saleService.getProductsByPriceAscending().subscribe(inventary => {
+          this.products = inventary;
+        });
+        break;
+      case 'price-descending':
+        this.saleService.getProductsByPriceDescending().subscribe(inventary => {
+          this.products = inventary;
+        });
+        break;
+      case 'stock-ascending':
+        this.saleService.getProductsByStockAscending().subscribe(inventary => {
+          this.products = inventary;
+        });
+        break;
+      case 'stock-descending':
+        this.saleService.getProductsByStockDescending().subscribe(inventary => {
+          this.products = inventary;
+        });
+        break;
+      default:
+        this.loadProducts();
+        break;
+    }
+  }*/
 
 }

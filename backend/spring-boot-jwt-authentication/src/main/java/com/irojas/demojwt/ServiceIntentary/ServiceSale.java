@@ -12,6 +12,8 @@ import javax.validation.Valid;
 
 import org.springframework.stereotype.Service;
 
+import com.irojas.demojwt.Jwt.JwtTokenManager;
+import com.irojas.demojwt.Model.User;
 import com.irojas.demojwt.ModelDTO.SaleListDTO;
 import com.irojas.demojwt.ModelInventary.Garment;
 import com.irojas.demojwt.ModelInventary.GarmentSale;
@@ -30,11 +32,12 @@ public class ServiceSale {
 	
 	private ProductRepository productRepository;
 	private SaleListRepository saleListRepository;
+	private JwtTokenManager jwtTokenManager;
 	
-	
-	public ServiceSale (ProductRepository productRepository, SaleListRepository saleListRepository) {
+	public ServiceSale (ProductRepository productRepository, SaleListRepository saleListRepository, JwtTokenManager jwtTokenManager) {
 		this.productRepository = productRepository;
 		this.saleListRepository = saleListRepository;
+		this.jwtTokenManager = jwtTokenManager;
 	}
 	
 	
@@ -73,9 +76,9 @@ public class ServiceSale {
 	}
 	
 	
-	public List<SaleList> getProductByNumberOfProductsDescending(){
+	public List<SaleList> getProductByNumberOfProductsDescending(String email){
 		
-		List<SaleList> productsSaleList = this.getAllSales();
+		List<SaleList> productsSaleList = this.getSalesByUserEmail(email);
 		
 		if(productsSaleList == null || productsSaleList.isEmpty()) {
 			return Collections.emptyList();
@@ -87,8 +90,8 @@ public class ServiceSale {
 	}
 	
 	
-	public List<SaleList> getProductByNumberOfProductsAscending(){
-		List<SaleList> productsSaleList = this.getAllSales();
+	public List<SaleList> getProductByNumberOfProductsAscending(String email){
+		List<SaleList> productsSaleList = this.getSalesByUserEmail(email);
 		
 		if(productsSaleList == null || productsSaleList.isEmpty()) {
 			return Collections.emptyList();
@@ -103,11 +106,13 @@ public class ServiceSale {
 	
 	
 	
-	public SaleList addProduct(@Valid List<SaleDTO> saleListDTO) {
+	public SaleList addProduct(@Valid List<SaleDTO> saleListDTO, String token) {
 		
 		if(saleListDTO == null) {
 			return null;
 		}
+		
+		User user = this.jwtTokenManager.getUserFromToken(token);
 		
 		SaleList completeSale = new SaleList();
 		
@@ -184,7 +189,7 @@ public class ServiceSale {
 			completeSale.getProducts().add(productSale);
 			
 		}
-		
+		completeSale.setUser(user);
 		saleListRepository.save(completeSale);
 		return completeSale;	
 		

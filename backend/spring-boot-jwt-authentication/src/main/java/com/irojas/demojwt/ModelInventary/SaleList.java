@@ -103,6 +103,16 @@ public class SaleList {
 
 	
 	
+	
+	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	// Constructor
 	public SaleList() {
 		

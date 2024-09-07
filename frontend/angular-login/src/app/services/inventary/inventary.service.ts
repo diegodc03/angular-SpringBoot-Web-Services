@@ -39,7 +39,7 @@ export class InventaryService {
     return this.http.get<Product[]>(`${this.apiURL}/stock-descending`);
   }
 
-  addProduct(productDTO: ProductDTO, formData: FormData): Observable<String> {
+  addProduct(productDTO: ProductDTO): Observable<String> {
     
     //Enviamos la informacion del producto sin la imagen en un objeto JSON
     //y la imagen en un objeto FormData
@@ -96,19 +96,6 @@ export class InventaryService {
         console.log('Producto agregado con éxito:', productId);
         this.productId = productId;
       
-      }),
-      switchMap((productId: string) => {
-        // Verificar si hay imagen en el formData
-        if (formData.has('file')) {
-          console.log('Imagen encontrada:', formData.get('file'));
-          // Configurar las cabeceras para la solicitud multipart
-          
-          // Segunda petición: enviar la imagen del producto
-          return this.http.post<string>(`${this.apiImageURL}/image/${productId}`, formData, { responseType: 'text' as 'json' });
-        } else {
-          // Si no hay imagen, devolvemos el productId
-          return of(productId);
-        }
       }),
       catchError(this.handleError) // Manejo de errores en la primera y segunda petición
     );
