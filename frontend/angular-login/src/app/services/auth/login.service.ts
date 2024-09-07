@@ -121,7 +121,7 @@ export class LoginService {
 
     console.log('Deleting the user...');
 
-    this.http.delete(`${environment.urlHost}auth/deleteUser`, { headers }).subscribe({
+    this.http.delete(`${environment.urlHost}auth/deleteUser`, { headers, responseType: 'text' as 'json'}).subscribe({
       next: (response) => {
         console.log('User deleted:', response);
         this.logout();
