@@ -30,6 +30,7 @@ public class Match {
 	
 	private LocalDate matchDate;
 	
+	private String description;
 	
 	@OneToMany(mappedBy = "match", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
@@ -82,20 +83,33 @@ public class Match {
 	public void setSeason(Season season) {
 		this.season = season;
 	}
+	
+	public String getDescription() {
+		return description;
+	}
 
 
-	public Match(Long id, LocalDate matchDate, List<UserMatch> userMatch, Season season) {
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+
+
+	public Match(Long id, LocalDate matchDate, List<UserMatch> userMatch, Season season, String description) {
 		super();
 		this.id = id;
 		this.matchDate = matchDate;
 		this.userMatch = userMatch;
 		this.season = season;
+		this.description = description;
 	}
 
 
 	public Match() {
 		super();
 	}
+
+
 	
 	
 	

@@ -35,8 +35,9 @@ public class UserMatch {
     @JoinColumn(name="match_id")
 	private Match match;
 	
-	
 	private WorkingRoles workingRol;
+	
+	
 	
 
 	public Long getId() {

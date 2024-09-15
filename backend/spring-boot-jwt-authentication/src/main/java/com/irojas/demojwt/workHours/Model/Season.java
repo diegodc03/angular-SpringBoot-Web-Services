@@ -1,5 +1,6 @@
 package com.irojas.demojwt.workHours.Model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class Season {
 	
 	@Basic
     @Column(nullable = false)
-	private String seasonName;
+	private LocalDate seasonName;
 	
 	@OneToMany(mappedBy = "season", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
@@ -36,8 +37,7 @@ public class Season {
     private List<Match> matches = new ArrayList<>();
 
 	
-	
-	
+
 	
 	public Long getId() {
 		return id;
@@ -47,11 +47,11 @@ public class Season {
 		this.id = id;
 	}
 
-	public String getSeasonName() {
+	public LocalDate getSeasonName() {
 		return seasonName;
 	}
 
-	public void setSeasonName(String seasonName) {
+	public void setSeasonName(LocalDate seasonName) {
 		this.seasonName = seasonName;
 	}
 
@@ -66,10 +66,14 @@ public class Season {
 	
 	
 	
-	public Season(String seasonName, List<Match> matches) {
+	public Season(LocalDate seasonName, List<Match> matches) {
 		super();
 		this.seasonName = seasonName;
 		this.matches = matches;
+	}
+
+	public Season() {
+		// TODO Auto-generated constructor stub
 	}
 	
 	

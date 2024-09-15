@@ -10,4 +10,5 @@ import com.irojas.demojwt.workHours.Model.UserMatch;
 
 public interface UserMatchRepository extends JpaRepository<UserMatch, Long> {
 	Optional<UserMatch> findByUserAndMatch(User user, Match match);
+
 }
