@@ -38,14 +38,14 @@ public class MatchController {
     private UserMatchService userMatchService;
 	
 	
-    
+    // Probar
     @GetMapping("/all")
     public ResponseEntity<List<MatchDTO>> getAllMatches() {
         List<MatchDTO> matches = matchService.getAllMatches();
         return ResponseEntity.ok(matches);
     } 
     
-    
+    //Probar
     @GetMapping("/all-of-season")
     public ResponseEntity<List<MatchDTO>> getAllMatchOfSeason(@RequestParam("season") SeasonDTO season){
     	List<MatchDTO> matches =  matchService.getAllSeasonMatches(season);
