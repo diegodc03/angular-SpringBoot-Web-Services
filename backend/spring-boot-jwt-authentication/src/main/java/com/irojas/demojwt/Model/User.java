@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.irojas.demojwt.ModelInventary.Product;
 import com.irojas.demojwt.ModelInventary.ProductSale;
 import com.irojas.demojwt.ModelInventary.SaleList;
+import com.irojas.demojwt.workHours.Model.UserMatch;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
@@ -68,6 +69,13 @@ public class User implements UserDetails {
     @JsonManagedReference
     @JsonIgnoreProperties(value="user")
     private List<SaleList> sales = new ArrayList<>();
+    
+    
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    //para que no coja otra vez los valores en el JSON
+    @JsonIgnoreProperties(value = "user")
+    private List<UserMatch> userMatch = new ArrayList<>();
     
     
     
@@ -142,23 +150,21 @@ public class User implements UserDetails {
 	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
+
+
+	public List<UserMatch> getUserMatch() {
+		return userMatch;
+	}
+	public void setUserMatch(List<UserMatch> userMatch) {
+		this.userMatch = userMatch;
+	}
 	
-	/*
-	public List<SaleList> getSales() {
-		return sales;
-	}
-	public void setSales(List<SaleList> sales) {
-		this.sales = sales;
-	}
-	*/
+	
 	
 	
 	public User() {
 		super();
 	}
-	
-	
-	
 	
 	public User(String email, String firstname, String lastname, String country) {
 		this.email = email;
