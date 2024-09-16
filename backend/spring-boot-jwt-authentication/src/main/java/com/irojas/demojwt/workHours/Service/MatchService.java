@@ -3,6 +3,7 @@ package com.irojas.demojwt.workHours.Service;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.irojas.demojwt.Repsository.UserRepository;
+import com.irojas.demojwt.workHours.ModelDTO.MatchWithUserInfoDTO;
 import com.irojas.demojwt.workHours.Model.Match;
 import com.irojas.demojwt.workHours.Model.Season;
 import com.irojas.demojwt.workHours.Model.UserMatch;
@@ -55,36 +57,8 @@ public class MatchService {
     
     }
     
+     
     
-    
-    
-    
-    
-    
-    
-    
-
-    // Solo el usuario puede añadir o actualizar su trabajo y pago en partidos pasados o en la misma fecha
-    public void addOrUpdateWorkAndPayment(Integer matchId, String username, WorkingRoles role) {
-        Match match = matchRepository.findById(matchId)
-                .orElseThrow(() -> new RuntimeException("Match not found"));
-
-        // Verificar que el partido sea pasado o en la misma fecha actual
-        if (match.getMatchDate().isAfter(LocalDate.now())) {
-            throw new RuntimeException("Cannot add work or payment for future matches.");
-        }
-
-        User user = userRepository.findByEmail(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        UserMatch userMatch = userMatchRepository.findByUserAndMatch(user, match)
-                .orElse(new UserMatch(user, match));  // Si no existe la relación, la creamos.
-
-        // Añadir los datos de trabajo y el pago
-        userMatch.setWorkingRol(role);
-
-        userMatchRepository.save(userMatch);
-    }
 
     
     // Añadir un nuevo partido a la temporada (solo admin)
@@ -120,9 +94,59 @@ public class MatchService {
         return null;
     }
 
-    // Cargar partidos desde un archivo .txt (para admin)
-    public void addSeasonWithMatchesFromFile(MultipartFile file) throws IOException {
-        // Lógica para procesar el archivo .txt y añadir la temporada con los partidos
+   
+
+    
+    
+    
+    
+	public List<MatchWithUserInfoDTO> getAllMatchesOfSeasonWithUserInfo(Integer seasonId, String username) {
+		// TODO Auto-generated method stub
+		List<Match> matches = matchRepository.findBySeasonId(seasonId);
+		
+		// Buscar el usuario autenticado por su username
+        User user = userRepository.findByEmail(username)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        
+     // Lista para almacenar los resultados
+        List<MatchWithUserInfoDTO> result = new ArrayList<>();
+        
+     // Recorrer los partidos de la temporada
+        for (Match match : matches) {
+            MatchWithUserInfoDTO matchWithUserInfo = new MatchWithUserInfoDTO();
+            matchWithUserInfo.setMatch(convertToDTO(match));  // Convertimos el partido a DTO
+
+            // Verificar si el usuario trabajó en este partido usando el repositorio de UserMatch
+            Optional<UserMatch> userMatchOpt = userMatchRepository.findByUserAndMatch(user, match);
+            
+            if (userMatchOpt.isPresent()) {
+                // Si el usuario trabajó en el partido, añadimos los detalles del trabajo
+                UserMatch userMatch = userMatchOpt.get();
+                matchWithUserInfo.setUserWorked(true);
+                matchWithUserInfo.setRole(userMatch.getWorkingRol());
+                matchWithUserInfo.setPayment(userMatch.getWorkingRol().getSalary());
+            } else {
+                // Si no trabajó, sólo indicamos que no trabajó en este partido
+                matchWithUserInfo.setUserWorked(false);
+                matchWithUserInfo.setRole(null);  // Sin rol
+                matchWithUserInfo.setPayment(null);  // Sin pago
+            }
+
+            // Añadimos el objeto a la lista de resultados
+            result.add(matchWithUserInfo);
+        }
+
+        return result;
+	}
+	
+	
+	// Método para convertir Match a MatchDTO
+    private MatchDTO convertToDTO(Match match) {
+        MatchDTO matchDTO = new MatchDTO();
+        matchDTO.setId(match.getId());
+        matchDTO.setDate(match.getMatchDate());
+        // Añadir otros campos relevantes de "Match"
+        return matchDTO;
     }
 
 	

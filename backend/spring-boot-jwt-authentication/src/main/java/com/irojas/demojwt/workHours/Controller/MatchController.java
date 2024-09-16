@@ -53,22 +53,6 @@ public class MatchController {
     }
     
   
- // Usuario añade el rol y el cobro por el partido seleccionado (solo para partidos pasados o en la fecha actual)
-    @PostMapping("/add-payment/{matchId}")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<String> addOrUpdateWorkAndPayment(
-            @PathVariable Integer matchId,
-            @RequestParam("role") WorkingRoles role,
-            @RequestParam("payment") Double payment,
-            @AuthenticationPrincipal UserDetails currentUser) {
-        
-        try {
-            matchService.addOrUpdateWorkAndPayment(matchId, currentUser.getUsername(), role);
-            return ResponseEntity.ok("Work and payment added/updated successfully.");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
-        }
-    }
 
     
     

@@ -14,4 +14,6 @@ public interface MatchRepository extends JpaRepository<Match, Long>{
 
 	public Optional<Match> findById(Integer matchId) ;
 
+	public List<Match> findBySeasonId(Integer seasonId);
+
 }
