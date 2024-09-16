@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.irojas.demojwt.Repsository.UserRepository;
+import com.irojas.demojwt.Auth.Repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
