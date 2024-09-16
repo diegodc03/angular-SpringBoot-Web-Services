@@ -12,7 +12,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.irojas.demojwt.Model.User;
+import com.irojas.demojwt.Auth.Model.User;
 
 
 @Entity

@@ -3,8 +3,8 @@ package com.irojas.demojwt.workHours.Service;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import com.irojas.demojwt.Model.User;
-import com.irojas.demojwt.Repsository.UserRepository;
+import com.irojas.demojwt.Auth.Model.User;
+import com.irojas.demojwt.Auth.Repository.UserRepository;
 import com.irojas.demojwt.workHours.Model.Match;
 import com.irojas.demojwt.workHours.Model.UserMatch;
 import com.irojas.demojwt.workHours.Model.WorkingRoles;
@@ -57,6 +57,11 @@ public class UserMatchService {
 		
 		userMatchRepository.delete(userMatch);
 	}
+	
+	
+	
+	
+	
 	
 	
 }

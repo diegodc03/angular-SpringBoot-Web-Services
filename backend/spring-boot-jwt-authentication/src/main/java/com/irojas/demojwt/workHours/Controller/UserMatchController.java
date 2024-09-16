@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.irojas.demojwt.Service.UserService;
+import com.irojas.demojwt.Auth.Service.UserService;
 import com.irojas.demojwt.workHours.Model.WorkingRoles;
 import com.irojas.demojwt.workHours.ModelDTO.MatchDTO;
 import com.irojas.demojwt.workHours.ModelDTO.MatchWithUserInfoDTO;

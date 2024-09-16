@@ -2,9 +2,9 @@ package com.irojas.demojwt.Jwt;
 
 import org.springframework.stereotype.Service;
 
-import com.irojas.demojwt.Model.User;
-import com.irojas.demojwt.ModelDTO.UserDTO;
-import com.irojas.demojwt.Service.UserService;
+import com.irojas.demojwt.Auth.Model.User;
+import com.irojas.demojwt.Auth.ModelDTO.UserDTO;
+import com.irojas.demojwt.Auth.Service.UserService;
 
 @Service
 public class JwtTokenManager {

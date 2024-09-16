@@ -11,7 +11,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.irojas.demojwt.Repsository.UserRepository;
+import com.irojas.demojwt.Auth.Model.User;
+import com.irojas.demojwt.Auth.Repository.UserRepository;
 import com.irojas.demojwt.workHours.ModelDTO.MatchWithUserInfoDTO;
 import com.irojas.demojwt.workHours.Model.Match;
 import com.irojas.demojwt.workHours.Model.Season;
@@ -22,7 +23,6 @@ import com.irojas.demojwt.workHours.ModelDTO.SeasonDTO;
 import com.irojas.demojwt.workHours.Repository.MatchRepository;
 import com.irojas.demojwt.workHours.Repository.SeasonRepository;
 import com.irojas.demojwt.workHours.Repository.UserMatchRepository;
-import com.irojas.demojwt.Model.User;
 
 public class MatchService {
 
