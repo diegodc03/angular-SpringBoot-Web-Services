@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 import com.irojas.demojwt.Auth.Model.User;
 import com.irojas.demojwt.Auth.Repository.UserRepository;
 import com.irojas.demojwt.workHours.Model.Match;
+import com.irojas.demojwt.workHours.Model.Money;
 import com.irojas.demojwt.workHours.Model.UserMatch;
 import com.irojas.demojwt.workHours.Model.WorkingRoles;
 import com.irojas.demojwt.workHours.Repository.MatchRepository;
+import com.irojas.demojwt.workHours.Repository.MoneyRepository;
 import com.irojas.demojwt.workHours.Repository.UserMatchRepository;
 
 @Service
@@ -22,16 +24,18 @@ public class UserMatchService {
 	
 	private UserRepository userRepository;
 	
+	private MoneyRepository moneyRepository;
 	
 	
 	
 	
 	public UserMatchService(UserMatchRepository userMatchRepository, MatchRepository matchRepository,
-			UserRepository userRepository) {
+			UserRepository userRepository, MoneyRepository moneyRepository) {
 		super();
 		this.userMatchRepository = userMatchRepository;
 		this.matchRepository = matchRepository;
 		this.userRepository = userRepository;
+		this.moneyRepository = moneyRepository;
 	}
 
 
@@ -53,7 +57,23 @@ public class UserMatchService {
 
         // Añadir los datos de trabajo y el pago
         userMatch.setWorkingRol(role);
-
+        
+        
+        //añadir al total 
+        Optional<Money> optMoney = moneyRepository.findBySeasonAndUser(match.getSeason(), user);
+        
+        if(!optMoney.isPresent()) {
+        	Money money = new Money(user, match.getSeason(), role.getSalary(), 0.0, role.getSalary());
+            
+            moneyRepository.save(money);
+        }else {
+        	Money money = optMoney.get();
+        	money.setMoneyToPay(money.getMoneyToPay() + role.getSalary());
+        	money.setTotalMoneyPaid(money.getTotalMoneyPaid() + role.getSalary());
+        	moneyRepository.save(money);
+        }
+        
+        
         return userMatchRepository.save(userMatch);
     }
 
@@ -69,7 +89,20 @@ public class UserMatchService {
 		UserMatch userMatch = userMatchRepository.findByUserAndMatch(user, match)
 				.orElseThrow(() -> new RuntimeException("Match not found"));
 		
+		Money money = moneyRepository.findBySeasonAndUser(match.getSeason(), user)
+				.orElseThrow(() -> new RuntimeException("earnings not found"));
 		
+		money.setTotalMoneyPaid(money.getTotalMoneyPaid() - userMatch.getWorkingRol().getSalary());
+		
+		// if true, restamos part of moneypaid
+		if(userMatch.isPaid()) {
+			money.setMoneyPaid(money.getMoneyPaid() - userMatch.getWorkingRol().getSalary());
+		}else {
+			money.setMoneyToPay(money.getMoneyToPay() - userMatch.getWorkingRol().getSalary());
+		}
+		
+		
+		moneyRepository.save(money);
 		userMatchRepository.delete(userMatch);
 	}
 	

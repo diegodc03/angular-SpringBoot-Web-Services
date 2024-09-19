@@ -21,6 +21,7 @@ import com.irojas.demojwt.workHours.Model.UserMatch;
 import com.irojas.demojwt.workHours.Model.WorkingRoles;
 import com.irojas.demojwt.workHours.ModelDTO.MatchDTO;
 import com.irojas.demojwt.workHours.ModelDTO.SeasonDTO;
+import com.irojas.demojwt.workHours.ModelDTO.WorkedMatchWithUserInfo;
 import com.irojas.demojwt.workHours.Repository.MatchRepository;
 import com.irojas.demojwt.workHours.Repository.SeasonRepository;
 import com.irojas.demojwt.workHours.Repository.UserMatchRepository;
@@ -110,12 +111,12 @@ public class MatchService {
     
     
     
-	public List<MatchWithUserInfoDTO> getAllMatchesOfSeasonWithUserInfo(Integer seasonId, String username) {
+	public List<MatchWithUserInfoDTO> getAllMatchesOfSeasonWithUserInfo(Integer seasonId, String email) {
 		// TODO Auto-generated method stub
 		List<Match> matches = matchRepository.findBySeasonId(seasonId);
 		
 		// Buscar el usuario autenticado por su username
-        User user = userRepository.findByEmail(username)
+        User user = userRepository.findByEmail(email)
             .orElseThrow(() -> new RuntimeException("User not found"));
         
      // Lista para almacenar los resultados
@@ -123,27 +124,31 @@ public class MatchService {
         
      // Recorrer los partidos de la temporada
         for (Match match : matches) {
-            MatchWithUserInfoDTO matchWithUserInfo = new MatchWithUserInfoDTO();
-            matchWithUserInfo.setMatch(convertToDTO(match));  // Convertimos el partido a DTO
+            
+        	
 
             // Verificar si el usuario trabajó en este partido usando el repositorio de UserMatch
             Optional<UserMatch> userMatchOpt = userMatchRepository.findByUserAndMatch(user, match);
             
             if (userMatchOpt.isPresent()) {
                 // Si el usuario trabajó en el partido, añadimos los detalles del trabajo
+            	WorkedMatchWithUserInfo workedMatchWitchUserInfo = new WorkedMatchWithUserInfo();
                 UserMatch userMatch = userMatchOpt.get();
-                matchWithUserInfo.setUserWorked(true);
-                matchWithUserInfo.setRole(userMatch.getWorkingRol());
-                matchWithUserInfo.setPayment(userMatch.getWorkingRol().getSalary());
+                workedMatchWitchUserInfo.setMatch(convertToDTO(match));
+                workedMatchWitchUserInfo.setUserWorked(true);
+                workedMatchWitchUserInfo.setRole(userMatch.getWorkingRol());
+                workedMatchWitchUserInfo.setPayment(userMatch.getWorkingRol().getSalary());
+                
+                result.add(workedMatchWitchUserInfo);
+                
             } else {
+            	MatchWithUserInfoDTO matchWithUserInfo = new MatchWithUserInfoDTO();
+                matchWithUserInfo.setMatch(convertToDTO(match));  // Convertimos el partido a DTO
                 // Si no trabajó, sólo indicamos que no trabajó en este partido
                 matchWithUserInfo.setUserWorked(false);
-                matchWithUserInfo.setRole(null);  // Sin rol
-                matchWithUserInfo.setPayment(null);  // Sin pago
+             // Añadimos el objeto a la lista de resultados
+                result.add(matchWithUserInfo);
             }
-
-            // Añadimos el objeto a la lista de resultados
-            result.add(matchWithUserInfo);
         }
 
         return result;

@@ -38,9 +38,6 @@ public class UserMatchController {
     
     
     
-    
-    
-    
     public UserMatchController(MatchService matchService, SeasonService seasonService, UserService userService,
 			UserMatchService userMatchService) {
 		super();
@@ -59,10 +56,11 @@ public class UserMatchController {
         return ResponseEntity.ok(matches);
     } 
     
-    //Probar
-    @GetMapping("/get-all-matches-with-user-info")
+
+// OK
+    @GetMapping("/get-all-matches-of-season-with-user-info/{seasonId}")
     public ResponseEntity<List<MatchWithUserInfoDTO>> getAllMatchesOfSeasonWithUserInfo(
-            @RequestParam("seasonId") Integer seasonId,
+            @PathVariable Integer seasonId,
             @AuthenticationPrincipal UserDetails currentUser) {
 
             try {

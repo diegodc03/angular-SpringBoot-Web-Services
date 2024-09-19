@@ -6,8 +6,6 @@ public class MatchWithUserInfoDTO {
 	
 	private MatchDTO match;  // Información del partido
     private boolean userWorked;  // Si el usuario trabajó en este partido
-    private WorkingRoles role;  // Rol del usuario en el partido (si trabajó)
-    private Double payment;  // Pago del usuario en el partido (si trabajó)
 
     // Constructor vacío
     public MatchWithUserInfoDTO() {}
@@ -16,8 +14,7 @@ public class MatchWithUserInfoDTO {
     public MatchWithUserInfoDTO(MatchDTO match, boolean userWorked, WorkingRoles role, Double payment) {
         this.match = match;
         this.userWorked = userWorked;
-        this.role = role;
-        this.payment = payment;
+       
     }
 
     // Getters y setters
@@ -37,21 +34,8 @@ public class MatchWithUserInfoDTO {
         this.userWorked = userWorked;
     }
 
-    public WorkingRoles getRole() {
-        return role;
-    }
-
-    public void setRole(WorkingRoles role) {
-        this.role = role;
-    }
-
-    public Double getPayment() {
-        return payment;
-    }
-
-    public void setPayment(Double payment) {
-        this.payment = payment;
-    }
+   
+    
 
 	
 	

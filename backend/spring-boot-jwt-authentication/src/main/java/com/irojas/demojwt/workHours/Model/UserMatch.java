@@ -12,6 +12,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.irojas.demojwt.Auth.Model.User;
 
@@ -24,25 +25,22 @@ public class UserMatch {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	
-	
-	@ManyToOne(cascade = CascadeType.ALL)
+
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name="user_id")
-    @JsonManagedReference
+	@JsonBackReference // Evitar serializar el user dentro de UserMatch
 	private User user;
-	
-	@ManyToOne(cascade = CascadeType.ALL)
-    @JsonManagedReference
-    @JoinColumn(name="match_id")
+
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinColumn(name="match_id")
+	@JsonBackReference // Evitar serializar el match dentro de UserMatch
 	private Match match;
-	
+
 	private WorkingRoles workingRol;
 	
+	private boolean paid;
 	
 	
-	
-	
-
 	public Long getId() {
 		return id;
 	}
@@ -82,6 +80,15 @@ public class UserMatch {
 		this.workingRol = workingRol;
 	}
 
+	public boolean isPaid() {
+		return paid;
+	}
+
+	public void setPaid(boolean paid) {
+		this.paid = paid;
+	}
+
+	
 
 	public UserMatch(User user, Match match, WorkingRoles workingRol) {
 		super();
