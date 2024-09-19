@@ -4,11 +4,12 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.irojas.demojwt.Auth.Model.User;
@@ -24,6 +25,8 @@ import com.irojas.demojwt.workHours.Repository.MatchRepository;
 import com.irojas.demojwt.workHours.Repository.SeasonRepository;
 import com.irojas.demojwt.workHours.Repository.UserMatchRepository;
 
+
+@Service
 public class MatchService {
 
 
@@ -36,7 +39,18 @@ public class MatchService {
     private SeasonRepository seasonRepository;
     
     
-    // Probar
+    
+    public MatchService(MatchRepository matchRepository, UserRepository userRepository,
+			UserMatchRepository userMatchRepository, SeasonRepository seasonRepository) {
+		super();
+		this.matchRepository = matchRepository;
+		this.userRepository = userRepository;
+		this.userMatchRepository = userMatchRepository;
+		this.seasonRepository = seasonRepository;
+	}
+
+    
+// OK
     // Obtener todos los partidos de la temporada (usuarios pueden ver todos)
     public List<MatchDTO> getAllMatches() {
         List<Match> matches = matchRepository.findAll();
@@ -45,10 +59,10 @@ public class MatchService {
                 .collect(Collectors.toList());
     }
     
-    // Probar
-    public List<MatchDTO> getAllSeasonMatches(SeasonDTO season){
+// OK
+    public List<MatchDTO> getAllSeasonMatches(Long seasonId){
     	
-    	Optional<Season> optSeason = seasonRepository.findBySeasonName(season.getSeasonName());
+    	Optional<Season> optSeason = seasonRepository.findById(seasonId);
     	if(!optSeason.isPresent()) {
     		return null;
     	}
@@ -60,38 +74,34 @@ public class MatchService {
      
     
 
-    
+// OK
     // Añadir un nuevo partido a la temporada (solo admin)
-    public String addMatch(MatchDTO matchDTO, SeasonDTO seasonDTO) {
+    public Match addMatch(MatchDTO matchDTO, Long seasonId) throws Exception {
     	
     	// check if the season already exists
-    	List<Season> existanceSeasonList = seasonRepository.findAll();
-		if(existanceSeasonList.size() == 0 || existanceSeasonList.stream().anyMatch(s -> s.getSeasonName().equals(seasonDTO.getSeasonName()))) {
-			return null;
+    	Optional<Season> existanceSeason = seasonRepository.findById(seasonId);
+		if(existanceSeason == null || !existanceSeason.stream().anyMatch(s -> s.getId().equals(seasonId)) || !existanceSeason.isPresent()) {
+			throw new Exception("Season not exists: " + seasonId);
 		}
 		
-		Optional<Season> optSeason= seasonRepository.findBySeasonName(seasonDTO.getSeasonName());
+		Season season = existanceSeason.get();
 		
-		if(!optSeason.isPresent()) {
-			return null;
-		}
-		Season season = optSeason.get();
-		
+		// check if the match alredy exist
+		Optional<Match> optMatch = this.matchRepository.findByMatchDate(matchDTO.getDate());
+		if(optMatch.isPresent()) {
+			throw new Exception("The Date of the match yo want to add is another match: " + matchDTO.getDescription() + " --> " + matchDTO.getDate());
+		} 
 		
         Match match = new Match();
         match.setMatchDate(matchDTO.getDate());
         match.setDescription(matchDTO.getDescription());
         match.setSeason(season);
         
-        List<Match> seasonMatches = season.getMatches();
+        if(match.getDescription().contains("CB ZAMORA VS.")) {
+        	match.setIs_local(true);
+        }
         
-        seasonMatches.add(match);
-        
-      
-        // Resto de asignaciones desde el DTO al objeto Match...
-        seasonRepository.save(season);
-        //matchRepository.save(match);
-        return null;
+        return matchRepository.save(match);        
     }
 
    

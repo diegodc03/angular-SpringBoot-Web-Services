@@ -10,7 +10,7 @@ import com.irojas.demojwt.workHours.Model.Season;
 
 public interface SeasonRepository extends JpaRepository<Season, Long> {
 
-	Optional<Season> findBySeasonName(LocalDate seasonName);
+	Optional<Season> findBySeasonName(String seasonName);
 	
 	
 }

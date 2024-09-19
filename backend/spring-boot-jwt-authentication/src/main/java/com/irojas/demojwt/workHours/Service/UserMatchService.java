@@ -3,6 +3,8 @@ package com.irojas.demojwt.workHours.Service;
 import java.time.LocalDate;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.irojas.demojwt.Auth.Model.User;
 import com.irojas.demojwt.Auth.Repository.UserRepository;
 import com.irojas.demojwt.workHours.Model.Match;
@@ -11,6 +13,7 @@ import com.irojas.demojwt.workHours.Model.WorkingRoles;
 import com.irojas.demojwt.workHours.Repository.MatchRepository;
 import com.irojas.demojwt.workHours.Repository.UserMatchRepository;
 
+@Service
 public class UserMatchService {
 	
 	private UserMatchRepository userMatchRepository;
@@ -20,8 +23,20 @@ public class UserMatchService {
 	private UserRepository userRepository;
 	
 	
+	
+	
+	
+	public UserMatchService(UserMatchRepository userMatchRepository, MatchRepository matchRepository,
+			UserRepository userRepository) {
+		super();
+		this.userMatchRepository = userMatchRepository;
+		this.matchRepository = matchRepository;
+		this.userRepository = userRepository;
+	}
+
+
 	// Solo el usuario puede añadir o actualizar su trabajo y pago en partidos pasados o en la misma fecha
-    public void addOrUpdateWorkAndPayment(Long matchId, String username, WorkingRoles role) {
+    public UserMatch addOrUpdateWorkAndPayment(Long matchId, String email, WorkingRoles role) {
         Match match = matchRepository.findById(matchId)
                 .orElseThrow(() -> new RuntimeException("Match not found"));
 
@@ -30,7 +45,7 @@ public class UserMatchService {
             throw new RuntimeException("Cannot add work or payment for future matches.");
         }
 
-        User user = userRepository.findByEmail(username)
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         UserMatch userMatch = userMatchRepository.findByUserAndMatch(user, match)
@@ -39,7 +54,7 @@ public class UserMatchService {
         // Añadir los datos de trabajo y el pago
         userMatch.setWorkingRol(role);
 
-        userMatchRepository.save(userMatch);
+        return userMatchRepository.save(userMatch);
     }
 
 

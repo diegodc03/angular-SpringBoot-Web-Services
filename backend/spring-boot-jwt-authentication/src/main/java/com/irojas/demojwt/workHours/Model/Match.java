@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
+
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -15,14 +15,15 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="match")
-public class Match {
+@Table(name="sport_match")
+public class Match implements Comparable<Match>{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,6 +44,8 @@ public class Match {
     @JoinColumn(name = "season_id")
     @JsonBackReference
 	private Season season;
+	
+	private boolean is_local;
 
 
 	public Long getId() {
@@ -92,7 +95,16 @@ public class Match {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
 	
+	public boolean isIs_local() {
+		return is_local;
+	}
+
+
+	public void setIs_local(boolean is_local) {
+		this.is_local = is_local;
+	}
 
 
 	public Match(Long id, LocalDate matchDate, List<UserMatch> userMatch, Season season, String description) {
@@ -107,6 +119,13 @@ public class Match {
 
 	public Match() {
 		super();
+	}
+
+
+	@Override
+	public int compareTo(Match o) {
+		return this.matchDate.compareTo(o.matchDate);
+		
 	}
 
 

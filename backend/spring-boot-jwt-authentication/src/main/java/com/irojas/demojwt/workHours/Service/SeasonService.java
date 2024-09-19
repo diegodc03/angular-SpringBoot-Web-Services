@@ -1,7 +1,6 @@
 package com.irojas.demojwt.workHours.Service;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -10,6 +9,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.irojas.demojwt.workHours.Model.Match;
@@ -18,19 +18,28 @@ import com.irojas.demojwt.workHours.ModelDTO.SeasonDTO;
 import com.irojas.demojwt.workHours.Repository.MatchRepository;
 import com.irojas.demojwt.workHours.Repository.SeasonRepository;
 
+@Service
 public class SeasonService {
 
 	private SeasonRepository seasonRepository;
 	
 	private MatchRepository matchRepository;
 	
-	public String addSeasonWithMatchesFromFile(MultipartFile file, SeasonDTO seasonDTO) throws IOException {
+	
+	public SeasonService(SeasonRepository seasonRepository, MatchRepository matchRepository) {
+		this.seasonRepository = seasonRepository;
+		this.matchRepository = matchRepository;
+	}
+	
+	
+// OK
+	public String addSeasonWithMatchesFromFile(MultipartFile file, SeasonDTO seasonDTO) throws Exception {
 	    // Crear una nueva temporada con el nombre que proporciona el usuario
 	    
 		
 		List<Season> existanceSeasonList = seasonRepository.findAll();
-		if(existanceSeasonList.size() == 0 || existanceSeasonList.stream().anyMatch(s -> s.getSeasonName().equals(seasonDTO.getSeasonName()))) {
-			return null;
+		if(existanceSeasonList.stream().anyMatch(s -> s.getSeasonName().equals(seasonDTO.getSeasonName()))) {
+			throw new Exception("Season already exists: " + seasonDTO.getSeasonName());
 		}
 		
 		
@@ -62,11 +71,17 @@ public class SeasonService {
 	            match.setMatchDate(matchDate);
 	            match.setSeason(season);  // Asociar el partido con la nueva temporada
 	            
+	            if(match.getDescription().contains("CB ZAMORA VS.")) {
+	            	match.setIs_local(true);
+	            }else {
+	            	match.setIs_local(false);
+	            }
+	            
 	            // Añadir el partido a la lista
 	            matches.add(match);
 	        }
 	    }
-
+	    season.setMatches(matches);
 	    // Guardar todos los partidos en la base de datos
 	    //matchRepository.saveAll(matches);
 	    seasonRepository.save(season);  // Guardar la nueva temporada en la base de datos
@@ -77,7 +92,9 @@ public class SeasonService {
 
 	// Método auxiliar para parsear la fecha
 	private LocalDate parseDate(String dateString) {
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d 'de' MMMM", new Locale("es", "ES"));
+		
+		
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d 'de' MMMM 'de' yyyy", new Locale("es", "ES"));
 	    return LocalDate.parse(dateString, formatter);
 	}
 

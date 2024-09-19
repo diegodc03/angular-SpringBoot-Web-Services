@@ -18,17 +18,17 @@ public class SeasonDTO {
 	
 	@Basic
     @Column(nullable = false)
-	private LocalDate seasonName;
+	private String seasonName;
 
-	public LocalDate getSeasonName() {
+	public String getSeasonName() {
 		return seasonName;
 	}
 
-	public void setSeasonName(LocalDate seasonName) {
+	public void setSeasonName(String seasonName) {
 		this.seasonName = seasonName;
 	}
 
-	public SeasonDTO(LocalDate seasonName) {
+	public SeasonDTO(String seasonName) {
 		super();
 		this.seasonName = seasonName;
 	}
@@ -38,8 +38,6 @@ public class SeasonDTO {
 	public SeasonDTO() {
 	
 	}
-	
-	
 	
 	
 }

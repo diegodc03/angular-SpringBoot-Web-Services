@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
+
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -15,6 +15,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -29,7 +30,7 @@ public class Season {
 	
 	@Basic
     @Column(nullable = false)
-	private LocalDate seasonName;
+	private String seasonName;
 	
 	@OneToMany(mappedBy = "season", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
@@ -47,11 +48,11 @@ public class Season {
 		this.id = id;
 	}
 
-	public LocalDate getSeasonName() {
+	public String getSeasonName() {
 		return seasonName;
 	}
 
-	public void setSeasonName(LocalDate seasonName) {
+	public void setSeasonName(String seasonName) {
 		this.seasonName = seasonName;
 	}
 
@@ -66,7 +67,7 @@ public class Season {
 	
 	
 	
-	public Season(LocalDate seasonName, List<Match> matches) {
+	public Season(String seasonName, List<Match> matches) {
 		super();
 		this.seasonName = seasonName;
 		this.matches = matches;

@@ -26,7 +26,7 @@ import com.irojas.demojwt.workHours.Service.UserMatchService;
 
 
 @Controller
-@RequestMapping("/matches")
+@RequestMapping("/work-hours/matches")
 public class MatchController {
 
     private MatchService matchService;
@@ -36,32 +36,45 @@ public class MatchController {
     private UserService userService;
 
     private UserMatchService userMatchService;
+    
+    
+    
 	
 	
-    // Probar
+    public MatchController(MatchService matchService, SeasonService seasonService, UserService userService,
+			UserMatchService userMatchService) {
+		super();
+		this.matchService = matchService;
+		this.seasonService = seasonService;
+		this.userService = userService;
+		this.userMatchService = userMatchService;
+	}
+    
+    
+// OK
     @GetMapping("/all")
     public ResponseEntity<List<MatchDTO>> getAllMatches() {
         List<MatchDTO> matches = matchService.getAllMatches();
         return ResponseEntity.ok(matches);
     } 
     
-    //Probar
+// OK
     @GetMapping("/all-of-season")
-    public ResponseEntity<List<MatchDTO>> getAllMatchOfSeason(@RequestParam("season") SeasonDTO season){
-    	List<MatchDTO> matches =  matchService.getAllSeasonMatches(season);
+    public ResponseEntity<List<MatchDTO>> getAllMatchOfSeason(@RequestParam("seasonId") Long id){
+    	List<MatchDTO> matches =  matchService.getAllSeasonMatches(id);
     	return ResponseEntity.ok(matches); 
     }
     
   
 
     
-    
+//OK --> ONLY IT WILL PUT ADMIN AUTHORIZE YET
     // El admin puede añadir partidos a una temporada existente
     @PostMapping("/add-match")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<String> addMatch(@RequestBody MatchDTO matchDTO, SeasonDTO season) {
+    //@PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<String> addMatch(@RequestBody MatchDTO matchDTO, @RequestParam Long seasonId) {
         try {
-            matchService.addMatch(matchDTO, season);
+            matchService.addMatch(matchDTO, seasonId);
             return ResponseEntity.ok("Match added successfully.");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error adding match: " + e.getMessage());
@@ -69,9 +82,9 @@ public class MatchController {
     }
     
     
-    // probar
+ //OK --> ONLY IT WILL PUT ADMIN AUTHORIZE YET
     @PostMapping("/add-season")
-    @PreAuthorize("hasRole('ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> addSeasonWithMatches(@RequestParam("file") MultipartFile file, SeasonDTO season){
 		try {
             seasonService.addSeasonWithMatchesFromFile(file, season);
@@ -80,8 +93,5 @@ public class MatchController {
             return ResponseEntity.badRequest().body("Error adding season: " + e.getMessage());
         }	
 	}
-	
-	
-	
 	
 }

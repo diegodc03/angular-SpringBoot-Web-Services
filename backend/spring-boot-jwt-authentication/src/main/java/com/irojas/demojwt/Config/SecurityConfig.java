@@ -56,6 +56,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/**").authenticated()
                 .requestMatchers("/inventary/**").authenticated()
                 .requestMatchers("/sale/**").authenticated()
+                .requestMatchers("/work-hours/**").authenticated()
                 .anyRequest().authenticated()
                 )
             .sessionManagement(sessionManager->

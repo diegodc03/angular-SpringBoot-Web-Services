@@ -2,6 +2,7 @@ package com.irojas.demojwt.workHours.ModelDTO;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.irojas.demojwt.workHours.Model.Match;
 
 public class MatchDTO {
@@ -22,8 +23,12 @@ public class MatchDTO {
     }
 
     
+    public MatchDTO(String date, String description) {
+		this.date = LocalDate.parse(date);
+		this.description = description;
+	}
 
-    public long getId() {
+	public long getId() {
 		return id;
 	}
 
