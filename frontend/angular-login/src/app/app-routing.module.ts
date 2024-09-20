@@ -19,7 +19,8 @@ import { ShoppingBasketComponent } from './sale/shopping-basket/shopping-basket.
 import { ShowProductSizes } from './sale/show-product-sizes/show-product-sizes.component';
 import { HistorySalesViewComponent } from './sale/history-sales-view/history-sales-view.component';
 import { ShowSaleInformationComponent } from './sale/show-sale-information/show-sale-information.component';
-import { WorkinghoursComponent } from './pages/workinghours/workinghours.component';
+import { ShowSeasonMatchesComponent } from './workHours/pages/show-season-matches/show-season-matches.component';
+import { ShowSeasonEarningsComponent } from './workHours/pages/show-season-earnings/show-season-earnings.component';
 
 
 const routes: Routes = [
@@ -63,9 +64,14 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'workingHours',
-    component: WorkinghoursComponent,
-    canActivate: [AuthGuard]
+    path: 'work-hours',
+    component: ShowSeasonMatchesComponent,
+    canActivate: [AuthGuard],
+    children: [
+      { path: 'matchs-working-hours', component: ShowSeasonMatchesComponent },
+      { path: 'show-work-earnings', component: ShowSeasonEarningsComponent },
+      { path: '', redirectTo: 'matchs-working-hours', pathMatch: 'full' }
+    ]
   },
   { path: '**', redirectTo: '' }
 ];

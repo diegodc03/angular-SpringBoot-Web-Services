@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +31,16 @@ public class SeasonService {
 		this.seasonRepository = seasonRepository;
 		this.matchRepository = matchRepository;
 	}
+	
+	
+	public List<SeasonDTO> findAllSeasons() {
+		return this.seasonRepository.findAll()
+				.stream()
+				.map(SeasonDTO::new)
+				.collect(Collectors.toList());
+	}
+	
+	
 	
 	
 // OK
