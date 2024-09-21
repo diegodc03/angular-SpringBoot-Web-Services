@@ -6,7 +6,8 @@ import { MatchDTO } from '../../modelDTO/MatchDTO/MatchDTO';
 import { MatchWithUserInfoDTO } from '../../modelDTO/MatchWithUserInfo/MatchWithUserInfo';
 import { WorkedMatchWithUserInfo } from '../../modelDTO/MatchWithUserInfo/WorkedMatchWithUserInfo';
 import { Router } from '@angular/router';
-
+import { Observable, of, switchMap } from 'rxjs';
+import { SeasonLoadService } from '../../service/seasonLoadService/season-load.service';
 
 @Component({
   selector: 'app-show-season-matches',
@@ -18,26 +19,70 @@ import { Router } from '@angular/router';
 export class ShowSeasonMatchesComponent {
 
 
-  selectedSeasonId: number = 0;
+  selectedSeasonId: number = -1;
   seasons: SeasonDTO[] = [];
   matches: (MatchWithUserInfoDTO | WorkedMatchWithUserInfo)[] = [];
   
   commonModule: CommonModule;
   
 
-  constructor(commonModule: CommonModule, private seasonService: SeasonService, private router: Router) {
+  constructor(commonModule: CommonModule, private seasonService: SeasonService, private router: Router, private seasonLoadService: SeasonLoadService) {
     this.commonModule = commonModule;
   }
 
-  ngOnInit(): void {
-    this.seasonService.getAllSeasons().subscribe(seasons => {
-      this.seasons = seasons;
-    });
+  //año 2024-2025
 
-    this.seasonService.getMatchesBySeasonId(this.selectedSeasonId).subscribe(match => {
-      console.log('Temporada 1:', match);
-      this.matches = match;
-    });
+  ngOnInit(): void {
+    this.loadData().subscribe(matches => 
+      this.matches = matches
+    );
+  
+      
+  }
+
+
+  loadData(): Observable<(MatchWithUserInfoDTO | WorkedMatchWithUserInfo)[]> {
+    return this.seasonService.getAllSeasons().pipe(
+      switchMap(seasons => {
+        this.seasons = seasons;
+
+        if (this.seasons.length === 0) {
+          console.log('No hay temporadas');
+          return of([]); // Devuelve un observable vacío si no hay temporadas
+        } else if (this.seasons.length === 1) {
+          this.selectedSeasonId = this.seasons[0].id;
+
+        } else {
+          const actualYear = new Date().getFullYear();
+          let actualSeason = '';
+  
+          if (new Date().getMonth() > 7) {
+            actualSeason = `${actualYear}-${actualYear + 1}`;
+          } else {
+            actualSeason = `${actualYear - 1}-${actualYear}`;
+          }
+  
+          for (const season of this.seasons) {
+            if (season.seasonName === actualSeason) {
+              this.selectedSeasonId = season.id;
+              console.log(this.selectedSeasonId);
+              break; // Termina el ciclo una vez que encuentres la temporada
+            }
+          }
+        }
+        
+        if (this.selectedSeasonId === -1) {
+          console.error('No se pudo seleccionar una temporada válida');
+          return of([]); // Devuelve un observable vacío si no se seleccionó una temporada válida
+        }
+  
+        console.log('Temporada seleccionada:', this.selectedSeasonId);
+        this.seasonLoadService.setSeasonId(this.selectedSeasonId);
+  
+        // Aquí es donde se hace la segunda petición
+        return this.seasonService.getMatchesBySeasonId(this.selectedSeasonId);
+      })
+    );
   }
 
 
@@ -45,6 +90,7 @@ export class ShowSeasonMatchesComponent {
     const selectedSeasonId = ($event.target as HTMLSelectElement).value;
     console.log('Temporada seleccionada:', selectedSeasonId);
     this.selectedSeasonId = parseInt(selectedSeasonId);
+    this.seasonLoadService.setSeasonId(this.selectedSeasonId);
   }
 
 
@@ -52,8 +98,7 @@ export class ShowSeasonMatchesComponent {
     return 'role' in match && 'payment' in match;
   }
 
-  getEarnings() {
-    this.router.navigate(['/work-hours/show-season-earnings)']);
-  }
+  
+  
 
 }

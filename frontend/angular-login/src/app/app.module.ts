@@ -41,7 +41,8 @@ import { ShowProductSizes } from './sale/show-product-sizes/show-product-sizes.c
 import { HistorySalesViewComponent } from './sale/history-sales-view/history-sales-view.component';
 import { ShowSaleInformationComponent } from './sale/show-sale-information/show-sale-information.component';
 import { JwtInterceptor } from './jwt-interceptor';
-
+import { SecureWorkHoursLayoutComponent } from './layouts/secure-work-hours-layout/secure-work-hours-layout.component';
+import { SecureWorkHoursNavComponent } from './shared/secure-work-hours-nav/secure-work-hours-nav.component';
 
 
 @NgModule({ declarations: [
@@ -72,7 +73,9 @@ import { JwtInterceptor } from './jwt-interceptor';
         ShowProductSizes,
         HistorySalesViewComponent,
         ShowSaleInformationComponent,
-        
+        SecureWorkHoursLayoutComponent,
+        SecureWorkHoursNavComponent,
+   
         
     ],
     imports: [

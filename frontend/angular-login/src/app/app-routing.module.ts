@@ -21,6 +21,7 @@ import { HistorySalesViewComponent } from './sale/history-sales-view/history-sal
 import { ShowSaleInformationComponent } from './sale/show-sale-information/show-sale-information.component';
 import { ShowSeasonMatchesComponent } from './workHours/pages/show-season-matches/show-season-matches.component';
 import { ShowSeasonEarningsComponent } from './workHours/pages/show-season-earnings/show-season-earnings.component';
+import { SecureWorkHoursLayoutComponent } from './layouts/secure-work-hours-layout/secure-work-hours-layout.component';
 
 
 const routes: Routes = [
@@ -65,7 +66,7 @@ const routes: Routes = [
   },
   {
     path: 'work-hours',
-    component: ShowSeasonMatchesComponent,
+    component: SecureWorkHoursLayoutComponent,
     canActivate: [AuthGuard],
     children: [
       { path: 'matchs-working-hours', component: ShowSeasonMatchesComponent },

@@ -1,1 +1,55 @@
-<p>show-season-earnings works!</p>
+<div class="container">
+
+    <div class="upper-div">
+        <h2> Partidos </h2>
+        
+        <select class="form-control box-filter" id="bag"  (change)="onSelect($event)">
+            <option *ngFor="let season of seasons" [value]="season.id">
+                {{ season.seasonName }}
+            </option>
+        </select>
+    </div>
+
+    <div>
+        <div> 
+            <div class="grid-words header">
+                <div class="earnings-description">Total Ganado</div>
+                <div class="match-date">A pagar</div>
+                <div class="work">Pagado</div> 
+            </div>
+        </div>
+            <div class="grid-words header">
+                <div class="earnings-description">{{earnings.totalMoneyPaid}}</div>
+                <div class="match-date">{{earnings.moneyToPay}}</div>
+                <div class="work">{{earnings.moneyPaid}}</div> 
+            </div>
+        <div>
+
+
+
+
+
+        </div>
+
+        <!--
+        <div *ngFor="let match of matches; let i = index" class="product-item"></div>
+            <div class="grid-words  product-row" >
+
+                <div class="match-description">{{ match.match.description }}</div>
+                <div class="match-date">{{ match.match.date }}</div>
+                
+                <div *ngIf="match.userWorked && isWorkedMatch(match)" class="work">
+                    <div class="work-item"><strong>Trabajador:</strong> {{ match.role }}</div>
+                    <div class="work-item"><strong>Ganado:</strong> {{ match.payment | currency: 'EUR'}}</div>
+                </div>
+                <div *ngIf="!match.userWorked">
+                    <div class="work-item">No trabajado</div>
+                    
+
+                </div>
+            
+        </div>
+        -->
+    </div>
+
+</div>

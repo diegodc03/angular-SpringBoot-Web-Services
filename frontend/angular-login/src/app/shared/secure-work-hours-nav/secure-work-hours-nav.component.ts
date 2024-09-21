@@ -4,8 +4,6 @@ import { LoginService } from 'src/app/services/auth/login.service';
 
 @Component({
   selector: 'app-secure-work-hours-nav',
-  standalone: true,
-  imports: [],
   templateUrl: './secure-work-hours-nav.component.html',
   styleUrl: './secure-work-hours-nav.component.css'
 })

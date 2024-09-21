@@ -1,10 +1,10 @@
 <div class="container">
 
-    <div class="upper-div ">
-        <h2 (click)="getEarnings()"> Ganancias </h2>
+    <div class="upper-div">
+        <h2> Partidos </h2>
         
         <select class="form-control box-filter" id="bag"  (change)="onSelect($event)">
-            <option *ngFor="let season of seasons" [value]="season.publicId">
+            <option *ngFor="let season of seasons" [value]="season.id">
                 {{ season.seasonName }}
             </option>
         </select>
