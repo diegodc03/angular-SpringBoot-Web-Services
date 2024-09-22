@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SeasonLoadService {
+  
 
   private seasonId: number | null = null;
 
@@ -15,6 +16,8 @@ export class SeasonLoadService {
     return this.seasonId;
   }
 
+
+  
 
   
   

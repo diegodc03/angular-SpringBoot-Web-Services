@@ -160,7 +160,7 @@ public class MatchService {
         MatchDTO matchDTO = new MatchDTO();
         matchDTO.setId(match.getId());
         matchDTO.setDate(match.getMatchDate());
-        // Añadir otros campos relevantes de "Match"
+        matchDTO.setDescription(match.getDescription());        // Añadir otros campos relevantes de "Match"
         return matchDTO;
     }
 

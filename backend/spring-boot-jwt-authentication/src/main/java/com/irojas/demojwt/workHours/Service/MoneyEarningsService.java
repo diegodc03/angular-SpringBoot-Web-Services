@@ -10,6 +10,7 @@ import com.irojas.demojwt.workHours.Model.Money;
 import com.irojas.demojwt.workHours.Model.Season;
 import com.irojas.demojwt.workHours.ModelDTO.EarningsDTO;
 import com.irojas.demojwt.workHours.ModelDTO.PaidMoneyRequestDTO;
+import com.irojas.demojwt.workHours.ModelDTO.WorkingRoleDTO;
 import com.irojas.demojwt.workHours.Repository.MoneyRepository;
 import com.irojas.demojwt.workHours.Repository.SeasonRepository;
 
@@ -68,6 +69,9 @@ public class MoneyEarningsService {
 		return new EarningsDTO(money);
 		
 	}
+
+
+	
 	
 	
 }

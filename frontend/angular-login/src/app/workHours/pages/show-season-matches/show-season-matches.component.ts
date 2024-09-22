@@ -8,6 +8,8 @@ import { WorkedMatchWithUserInfo } from '../../modelDTO/MatchWithUserInfo/Worked
 import { Router } from '@angular/router';
 import { Observable, of, switchMap } from 'rxjs';
 import { SeasonLoadService } from '../../service/seasonLoadService/season-load.service';
+import { WorkingRoleDTO } from '../../modelDTO/WorkingRoleDTO/WorkingRoleDTO';
+import { WorkingRolesService } from '../../service/workingRolesService/working-roles.service';
 
 @Component({
   selector: 'app-show-season-matches',
@@ -17,27 +19,36 @@ import { SeasonLoadService } from '../../service/seasonLoadService/season-load.s
   styleUrl: './show-season-matches.component.css'
 })
 export class ShowSeasonMatchesComponent {
-
+addWork(arg0: number) {
+throw new Error('Method not implemented.');
+}
 
   selectedSeasonId: number = -1;
   seasons: SeasonDTO[] = [];
   matches: (MatchWithUserInfoDTO | WorkedMatchWithUserInfo)[] = [];
   
   commonModule: CommonModule;
+
+  workingRoles: WorkingRoleDTO[] = [];
   
 
-  constructor(commonModule: CommonModule, private seasonService: SeasonService, private router: Router, private seasonLoadService: SeasonLoadService) {
+  constructor(commonModule: CommonModule, private seasonService: SeasonService, private router: Router, private seasonLoadService: SeasonLoadService , private workingRolesService: WorkingRolesService) {
     this.commonModule = commonModule;
   }
 
   //año 2024-2025
 
   ngOnInit(): void {
-    this.loadData().subscribe(matches => 
-      this.matches = matches
-    );
-  
-      
+    this.loadData().subscribe(matches => {
+      this.matches = matches;
+      console.log('Matches loaded:', this.matches);
+    });
+
+    this.workingRolesService.getWorkingRoles().subscribe(workingRoles => {
+      console.log('Roles de trabajo:', this.workingRoles);
+      this.workingRoles = workingRoles;
+    });
+
   }
 
 
@@ -91,11 +102,23 @@ export class ShowSeasonMatchesComponent {
     console.log('Temporada seleccionada:', selectedSeasonId);
     this.selectedSeasonId = parseInt(selectedSeasonId);
     this.seasonLoadService.setSeasonId(this.selectedSeasonId);
+    
   }
 
 
   isWorkedMatch(match: MatchWithUserInfoDTO | WorkedMatchWithUserInfo): match is WorkedMatchWithUserInfo {
     return 'role' in match && 'payment' in match;
+  }
+
+
+  deleteWork(arg0: number) {
+    throw new Error('Method not implemented.');
+  }
+
+
+  onSelectedMatch(matchId: number): void {
+    //this.router.navigate(['/workHours/match', matchId]);
+    throw new Error('Method not implemented.');
   }
 
   

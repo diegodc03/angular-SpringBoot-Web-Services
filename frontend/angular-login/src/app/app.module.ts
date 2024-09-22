@@ -83,6 +83,7 @@ import { SecureWorkHoursNavComponent } from './shared/secure-work-hours-nav/secu
         BrowserModule,
         AppRoutingModule,
         ReactiveFormsModule,
+        FormsModule,
         HttpClientModule,
       ],
       providers: [

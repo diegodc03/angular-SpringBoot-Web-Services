@@ -1,5 +1,9 @@
 package com.irojas.demojwt.workHours.Controller;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.irojas.demojwt.workHours.Model.Money;
+import com.irojas.demojwt.workHours.Model.WorkingRoles;
 import com.irojas.demojwt.workHours.ModelDTO.EarningsDTO;
 import com.irojas.demojwt.workHours.ModelDTO.PaidMoneyRequestDTO;
+import com.irojas.demojwt.workHours.ModelDTO.WorkingRoleDTO;
 import com.irojas.demojwt.workHours.Service.MoneyEarningsService;
 
 @Controller

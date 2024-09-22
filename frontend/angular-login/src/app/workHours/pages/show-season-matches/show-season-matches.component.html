@@ -16,6 +16,7 @@
                 <div class="match-description">Partido</div>
                 <div class="match-date">Fecha</div>
                 <div class="work">Trabajado</div> 
+                <div class="acctions">Acciones</div>
             </div>
         </div>
         <div *ngFor="let match of matches; let i = index" class="product-item">
@@ -31,63 +32,20 @@
                 <div *ngIf="!match.userWorked">
                     <div class="work-item">No trabajado</div>
                     <!-- Tenemos que poner para que elijan el trabajo de esa semana y que se compare si es una fecha anterior no que se pueda añadir un trabajo no empezado ya que no se puede trabauar en el fututo-->
-
                 </div>
 
+                <div class="acctions">
+                    <div *ngIf="!match.userWorked">
+                        <select class="btn btn-info btn-sm" id="bag"  (change)="onSelect($event)">
+                            <option *ngFor="let role of workingRoles" [value]="role.role">
+                                {{ role.role }} --> {{ role.salary| currency: 'EUR'}}
+                            </option>
+                        </select>
+                    </div>
+                    <button *ngIf="!match.userWorked" class="btn btn-success btn-sm" (click)="addWork(match.match.id)">Añadir Trabajo</button>
+                    <button *ngIf="match.userWorked && isWorkedMatch(match)" class="btn btn-danger btn-sm" (click)="deleteWork(match.match.id)">Eliminar Trabajo</button>   
+                </div>
         </div>
     </div>
   </div>
   
-
-
-
-  <!-- 
-  
-  <div class="product-list">
-        <div> 
-            <div class="grid-words header">
-                <div class="product-name">Nombre</div>
-                <div class="product-description">Descripción</div>
-                <div class="product-price">Precio</div>
-                <div class="product-stock">Stock</div>
-                <div class="product-actions">Acciones</div>
-            </div>
-        </div>
-        <div *ngFor="let product of products; let i = index" class="product-item">
-            <div class="grid-words  product-row" (click)="toggleGarments(i)">
-
-                <div class="product-name">{{ product.name }}</div>
-                <div class="product-description">{{ product.description }}</div>
-                <div class="product-price">{{ product.price | currency }}</div>
-                <div class="product-stock">{{ product.totalStock }}</div>
-                <div class="product-actions">
-                    <a routerLink="/dashboard/inventarySale/update-product/{{ product.publicId }}" class="btn btn-primary btn-sm">Editar</a>
-                    <button class="btn btn-danger btn-sm" (click)="deleteProduct(product.publicId)">Eliminar</button>
-                    <button
-                        *ngIf="product.isTshirt"
-                        class="btn btn-info btn-sm"
-                        (click)="toggleGarments(i, $event)"
-                    >
-                        {{ showGarments[i] ? 'Ocultar Tallas' : 'Ver Tallas' }}
-                    </button>
-                </div>
-            </div>
-
-        
-            <div *ngIf="showGarments[i] && product.isTshirt" class="product-details">
-                <h5 class="tittle-details">Detalles de Tallas</h5>
-                <div class="details-content">
-                    <div *ngFor="let garment of product.garments" class="garment-row">
-                        <div class="garment-items">
-                            <div class="garment-item"><strong>Talla:</strong> {{ garment.size }}</div>
-                            <div class="garment-item"><strong>Color:</strong> {{ garment.color }}</div>
-                            <div class="garment-item"><strong>Material:</strong> {{ garment.material }}</div>
-                            <div class="garment-item"><strong>Stock:</strong> {{ garment.stock }}</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-  
-  -->
