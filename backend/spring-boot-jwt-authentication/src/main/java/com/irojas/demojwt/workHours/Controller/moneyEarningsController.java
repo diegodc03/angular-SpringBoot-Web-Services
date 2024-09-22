@@ -37,16 +37,16 @@ public class moneyEarningsController {
 
 
 	@PostMapping("/add-paid-money")
-	public ResponseEntity<String> addPaidMoney(
+	public ResponseEntity<EarningsDTO> addPaidMoney(
 			@RequestBody PaidMoneyRequestDTO paidMoneyRequest,
 			@AuthenticationPrincipal UserDetails currentUser
 			){
 		
 		try {
-			Money money = this.moneyEarningsService.addPaidMoney(paidMoneyRequest, currentUser.getUsername());
-			return ResponseEntity.ok(money.toString());
+			EarningsDTO earnings = this.moneyEarningsService.addPaidMoney(paidMoneyRequest, currentUser.getUsername());
+			return ResponseEntity.ok(earnings);
 		}catch(Exception e) {
-			return ResponseEntity.badRequest().body("Error adding match: " + e.getMessage());
+			return ResponseEntity.badRequest().body(null);
 		}
 		
 	}

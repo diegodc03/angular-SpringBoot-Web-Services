@@ -18,7 +18,8 @@ import com.irojas.demojwt.Auth.Service.UserService;
 import com.irojas.demojwt.workHours.Model.WorkingRoles;
 import com.irojas.demojwt.workHours.ModelDTO.MatchDTO;
 import com.irojas.demojwt.workHours.ModelDTO.MatchWithUserInfoDTO;
-import com.irojas.demojwt.workHours.ModelDTO.RoleRequest;
+import com.irojas.demojwt.workHours.ModelDTO.RoleMatchPaymentRequest;
+
 import com.irojas.demojwt.workHours.ModelDTO.SeasonDTO;
 import com.irojas.demojwt.workHours.Service.MatchService;
 import com.irojas.demojwt.workHours.Service.SeasonService;
@@ -73,17 +74,15 @@ public class UserMatchController {
     
     
 // OK
-    @PostMapping("/add-payment/{matchId}")
+    @PostMapping("/add-payment")
     public ResponseEntity<String> addOrUpdateWorkAndPayment(
-            @PathVariable Long matchId,
-            @RequestBody RoleRequest roleRequest,
+            @RequestBody List<RoleMatchPaymentRequest> roleRequest,
             @AuthenticationPrincipal UserDetails currentUser
             ) {
 
         try {
-        	WorkingRoles role = WorkingRoles.valueOf(roleRequest.getRole().toUpperCase());
-        	
-            userMatchService.addOrUpdateWorkAndPayment(matchId, currentUser.getUsername(), role);
+        	//WorkingRoles role = WorkingRoles.valueOf(roleRequest.getRole().toUpperCase());
+            userMatchService.addOrUpdateWorkAndPayment(roleRequest, currentUser.getUsername());
             return ResponseEntity.ok("Work and payment added/updated successfully.");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error: " + e.getMessage());

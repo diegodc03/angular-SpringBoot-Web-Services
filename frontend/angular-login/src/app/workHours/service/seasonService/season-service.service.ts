@@ -5,11 +5,13 @@ import { SeasonDTO } from '../../modelDTO/season-dto/SeasonDTO';
 import { MatchWithUserInfoDTO } from '../../modelDTO/MatchWithUserInfo/MatchWithUserInfo';
 import { WorkedMatchWithUserInfo } from '../../modelDTO/MatchWithUserInfo/WorkedMatchWithUserInfo';
 import { EarningsDTO } from '../../modelDTO/EarningsDTO/EarningsDTO';
+import { PaidMoneyRequestDTO } from '../../modelDTO/PaidMoneyRequestDTO/PaidMoneyRequestDTO';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SeasonService {
+  
   
   
 
@@ -28,14 +30,17 @@ export class SeasonService {
     return this.http.get<(MatchWithUserInfoDTO | WorkedMatchWithUserInfo)[]>(`${this.apiURL}/work-hours/userMatches/get-all-matches-of-season-with-user-info/${seasonId}`);
   }
 
+
   getEarningsBySeasonId(selectedSeasonId: number): Observable<EarningsDTO> {
     return this.http.get<EarningsDTO>(`${this.apiURL}/moneyEarnings/get-arnings-by-seasonId/${selectedSeasonId}`);
   }
 
-
-  getWorkingRoles() {
-    throw new Error('Method not implemented.');
+  
+  deleteWork(matchId: number): Observable<any> {
+    return this.http.delete(`${this.apiURL}/work-hours/userMatches/delete-worked-match/${matchId}`, { responseType: 'text' as 'json' });
   }
+
+
 
 
 }

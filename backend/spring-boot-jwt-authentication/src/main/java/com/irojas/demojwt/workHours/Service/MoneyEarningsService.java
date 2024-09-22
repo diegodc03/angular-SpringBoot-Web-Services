@@ -33,7 +33,7 @@ public class MoneyEarningsService {
 	}
 
 
-	public Money addPaidMoney(PaidMoneyRequestDTO paidMoneyRequestDTO, String email) {
+	public EarningsDTO addPaidMoney(PaidMoneyRequestDTO paidMoneyRequestDTO, String email) {
 		
 		User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -46,7 +46,9 @@ public class MoneyEarningsService {
 		
 		money.paid(paidMoneyRequestDTO.getMoneyPaid());
 		
-		return moneyRepository.save(money);
+		moneyRepository.save(money);
+		
+		return new EarningsDTO(money);
 	}
 
 

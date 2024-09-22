@@ -43,7 +43,7 @@ import { ShowSaleInformationComponent } from './sale/show-sale-information/show-
 import { JwtInterceptor } from './jwt-interceptor';
 import { SecureWorkHoursLayoutComponent } from './layouts/secure-work-hours-layout/secure-work-hours-layout.component';
 import { SecureWorkHoursNavComponent } from './shared/secure-work-hours-nav/secure-work-hours-nav.component';
-
+import { ShowSeasonEarningsComponent } from './workHours/pages/show-season-earnings/show-season-earnings.component';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -75,11 +75,11 @@ import { SecureWorkHoursNavComponent } from './shared/secure-work-hours-nav/secu
         ShowSaleInformationComponent,
         SecureWorkHoursLayoutComponent,
         SecureWorkHoursNavComponent,
+        ShowSeasonEarningsComponent
    
         
     ],
     imports: [
-        FormsModule,
         BrowserModule,
         AppRoutingModule,
         ReactiveFormsModule,

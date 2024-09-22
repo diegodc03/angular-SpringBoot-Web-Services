@@ -8,6 +8,8 @@
                 {{ season.seasonName }}
             </option>
         </select>
+
+        <button *ngIf="isRoleMatchAnyRequest()" class="btn btn-success btn-sm" (click)="addWork()">Añadir Trabajo</button>
     </div>
 
     <div>
@@ -36,13 +38,14 @@
 
                 <div class="acctions">
                     <div *ngIf="!match.userWorked">
-                        <select class="btn btn-info btn-sm" id="bag"  (change)="onSelect($event)">
+                        <select class="btn btn-info btn-sm" id="bag"  (change)="onSelectRole($event, match.match)">
                             <option *ngFor="let role of workingRoles" [value]="role.role">
                                 {{ role.role }} --> {{ role.salary| currency: 'EUR'}}
                             </option>
                         </select>
+                        <p class="text-danger">{{ errorMessages[match.match.id] }}</p> <!-- Mostrar mensaje de error específico aquí -->
                     </div>
-                    <button *ngIf="!match.userWorked" class="btn btn-success btn-sm" (click)="addWork(match.match.id)">Añadir Trabajo</button>
+                    
                     <button *ngIf="match.userWorked && isWorkedMatch(match)" class="btn btn-danger btn-sm" (click)="deleteWork(match.match.id)">Eliminar Trabajo</button>   
                 </div>
         </div>

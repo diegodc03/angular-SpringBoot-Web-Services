@@ -10,6 +10,9 @@ import { Observable, of, switchMap } from 'rxjs';
 import { SeasonLoadService } from '../../service/seasonLoadService/season-load.service';
 import { WorkingRoleDTO } from '../../modelDTO/WorkingRoleDTO/WorkingRoleDTO';
 import { WorkingRolesService } from '../../service/workingRolesService/working-roles.service';
+import { RoleMatchPaymentRequestDTO} from '../../modelDTO/RoleMatchPaymentRequestDTO/RoleMatchPaymentRequestDTO';
+import { EarningsService } from '../../service/earningsService/earnings.service';
+import { state } from '@angular/animations';
 
 @Component({
   selector: 'app-show-season-matches',
@@ -19,24 +22,25 @@ import { WorkingRolesService } from '../../service/workingRolesService/working-r
   styleUrl: './show-season-matches.component.css'
 })
 export class ShowSeasonMatchesComponent {
-addWork(arg0: number) {
-throw new Error('Method not implemented.');
-}
 
+  roleMatchPaymentRequestDTO: RoleMatchPaymentRequestDTO[] = [];
   selectedSeasonId: number = -1;
   seasons: SeasonDTO[] = [];
+  
   matches: (MatchWithUserInfoDTO | WorkedMatchWithUserInfo)[] = [];
   
-  commonModule: CommonModule;
+  errorMessages: { [matchId: number]: string } = {};
 
   workingRoles: WorkingRoleDTO[] = [];
   
 
-  constructor(commonModule: CommonModule, private seasonService: SeasonService, private router: Router, private seasonLoadService: SeasonLoadService , private workingRolesService: WorkingRolesService) {
-    this.commonModule = commonModule;
+  constructor(private seasonService: SeasonService,
+              private earningsService: EarningsService, 
+              private router: Router, 
+              private seasonLoadService: SeasonLoadService , 
+              private workingRolesService: WorkingRolesService) {
+    
   }
-
-  //año 2024-2025
 
   ngOnInit(): void {
     this.loadData().subscribe(matches => {
@@ -106,22 +110,62 @@ throw new Error('Method not implemented.');
   }
 
 
+  onSelectRole($event: Event, match: MatchDTO): void {
+    const roleSelected = ($event.target as HTMLSelectElement).value;
+    console.log('Rol Seleccionado:', roleSelected);
+    
+    if (new Date(match.date) < new Date()) {
+      const roleMatchPaymentRequestDTO = new RoleMatchPaymentRequestDTO(roleSelected, match.id);
+      this.roleMatchPaymentRequestDTO.push(roleMatchPaymentRequestDTO);
+    }else{
+      console.error('No se puede añadir un trabajo a un partido que no ha ocurrido todavía');
+      
+      this.errorMessages[match.id] = 'No se puede añadir un trabajo a un partido que no ha ocurrido todavía';
+      console.error(this.errorMessages[match.id]);
+    }
+  }
+
+
+  addWork() {
+    console.log('Trabajo añadido:', this.roleMatchPaymentRequestDTO);
+    this.earningsService.addWork(this.roleMatchPaymentRequestDTO).pipe(
+      switchMap(state => {
+        console.log('Trabajo añadido:', state);
+        this.roleMatchPaymentRequestDTO = [];
+        return this.loadData(); // Return the observable from loadData
+      })
+    ).subscribe(matches => {
+      this.matches = matches;
+      console.log('Matches loaded:', this.matches);
+    });
+  }
+
+
+  isRoleMatchAnyRequest(): boolean {
+    return this.roleMatchPaymentRequestDTO.length > 0;
+  }
+
+
   isWorkedMatch(match: MatchWithUserInfoDTO | WorkedMatchWithUserInfo): match is WorkedMatchWithUserInfo {
     return 'role' in match && 'payment' in match;
   }
+  
+
+  deleteWork(matchId : number){ 
+    
+    this.seasonService.deleteWork(matchId).pipe(
+      switchMap(state => {
+        console.log('Trabajo eliminado:', state);
+        
+        return this.loadData(); // Return the observable from loadData
+      
+      })).subscribe(matches => {
+        this.matches = matches;
+        console.log('Matches loaded:', this.matches);
+      });
 
 
-  deleteWork(arg0: number) {
-    throw new Error('Method not implemented.');
-  }
-
-
-  onSelectedMatch(matchId: number): void {
-    //this.router.navigate(['/workHours/match', matchId]);
-    throw new Error('Method not implemented.');
   }
 
   
-  
-
 }

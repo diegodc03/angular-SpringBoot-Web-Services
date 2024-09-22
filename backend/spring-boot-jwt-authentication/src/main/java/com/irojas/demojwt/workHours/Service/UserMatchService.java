@@ -1,6 +1,7 @@
 package com.irojas.demojwt.workHours.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import com.irojas.demojwt.workHours.Model.Match;
 import com.irojas.demojwt.workHours.Model.Money;
 import com.irojas.demojwt.workHours.Model.UserMatch;
 import com.irojas.demojwt.workHours.Model.WorkingRoles;
+import com.irojas.demojwt.workHours.ModelDTO.RoleMatchPaymentRequest;
 import com.irojas.demojwt.workHours.Repository.MatchRepository;
 import com.irojas.demojwt.workHours.Repository.MoneyRepository;
 import com.irojas.demojwt.workHours.Repository.UserMatchRepository;
@@ -40,41 +42,58 @@ public class UserMatchService {
 
 
 	// Solo el usuario puede añadir o actualizar su trabajo y pago en partidos pasados o en la misma fecha
-    public UserMatch addOrUpdateWorkAndPayment(Long matchId, String email, WorkingRoles role) {
-        Match match = matchRepository.findById(matchId)
-                .orElseThrow(() -> new RuntimeException("Match not found"));
-
-        // Verificar que el partido sea pasado o en la misma fecha actual
-        if (match.getMatchDate().isAfter(LocalDate.now())) {
-            throw new RuntimeException("Cannot add work or payment for future matches.");
-        }
-
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        UserMatch userMatch = userMatchRepository.findByUserAndMatch(user, match)
-                .orElse(new UserMatch(user, match));  // Si no existe la relación, la creamos.
-
-        // Añadir los datos de trabajo y el pago
-        userMatch.setWorkingRol(role);
+    public void addOrUpdateWorkAndPayment(List<RoleMatchPaymentRequest> roleRequestList, String email) {
         
-        
-        //añadir al total 
-        Optional<Money> optMoney = moneyRepository.findBySeasonAndUser(match.getSeason(), user);
-        
-        if(!optMoney.isPresent()) {
-        	Money money = new Money(user, match.getSeason(), role.getSalary(), 0.0, role.getSalary());
+    	
+    	for(RoleMatchPaymentRequest roleRequest : roleRequestList) {
+    		
+    		Match match = matchRepository.findById(roleRequest.getMatchId())
+                    .orElseThrow(() -> new RuntimeException("Match not found"));
+
+            // Verificar que el partido sea pasado o en la misma fecha actual
+            if (match.getMatchDate().isAfter(LocalDate.now())) {
+                throw new RuntimeException("Cannot add work or payment for future matches.");
+            }
+
+            User user = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+
+            UserMatch userMatch = userMatchRepository.findByUserAndMatch(user, match)
+                    .orElse(new UserMatch(user, match));  // Si no existe la relación, la creamos.
             
-            moneyRepository.save(money);
-        }else {
-        	Money money = optMoney.get();
-        	money.setMoneyToPay(money.getMoneyToPay() + role.getSalary());
-        	money.setTotalMoneyPaid(money.getTotalMoneyPaid() + role.getSalary());
-        	moneyRepository.save(money);
-        }
+            // Añadir los datos de trabajo y el pago
+            WorkingRoles role = WorkingRoles.valueOf(roleRequest.getRole().toUpperCase());
+            userMatch.setWorkingRol(role);
+    		
+            
+            //añadir al total 
+            Optional<Money> optMoney = moneyRepository.findBySeasonAndUser(match.getSeason(), user);
+            
+            if(!optMoney.isPresent()) {
+            	Money money = new Money(user, match.getSeason(), role.getSalary(), 0.0, role.getSalary());
+                
+                moneyRepository.save(money);
+            }else {
+            	Money money = optMoney.get();
+            	money.setMoneyToPay(money.getMoneyToPay() + role.getSalary());
+            	money.setTotalMoneyPaid(money.getTotalMoneyPaid() + role.getSalary());
+            	moneyRepository.save(money);
+            }
+            
+            userMatchRepository.save(userMatch);
+            
+    	}
+    	
+    	
+    	
+    	
+    	
         
         
-        return userMatchRepository.save(userMatch);
+        
+        
+        
+        
     }
 
 
