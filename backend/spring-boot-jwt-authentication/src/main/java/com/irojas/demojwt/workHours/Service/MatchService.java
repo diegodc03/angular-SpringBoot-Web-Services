@@ -5,11 +5,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.irojas.demojwt.Auth.Model.User;
@@ -17,6 +19,7 @@ import com.irojas.demojwt.Auth.Repository.UserRepository;
 import com.irojas.demojwt.workHours.ModelDTO.MatchWithUserInfoDTO;
 import com.irojas.demojwt.workHours.Model.Match;
 import com.irojas.demojwt.workHours.Model.Season;
+import com.irojas.demojwt.workHours.Model.Team;
 import com.irojas.demojwt.workHours.Model.UserMatch;
 import com.irojas.demojwt.workHours.Model.WorkingRoles;
 import com.irojas.demojwt.workHours.ModelDTO.MatchDTO;
@@ -24,7 +27,10 @@ import com.irojas.demojwt.workHours.ModelDTO.SeasonDTO;
 import com.irojas.demojwt.workHours.ModelDTO.WorkedMatchWithUserInfo;
 import com.irojas.demojwt.workHours.Repository.MatchRepository;
 import com.irojas.demojwt.workHours.Repository.SeasonRepository;
+import com.irojas.demojwt.workHours.Repository.TeamRepository;
 import com.irojas.demojwt.workHours.Repository.UserMatchRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 
 @Service
@@ -39,15 +45,18 @@ public class MatchService {
 
     private SeasonRepository seasonRepository;
     
+    private TeamRepository teamRepository;
+    
     
     
     public MatchService(MatchRepository matchRepository, UserRepository userRepository,
-			UserMatchRepository userMatchRepository, SeasonRepository seasonRepository) {
+			UserMatchRepository userMatchRepository, SeasonRepository seasonRepository, TeamRepository teamRepository) {
 		super();
 		this.matchRepository = matchRepository;
 		this.userRepository = userRepository;
 		this.userMatchRepository = userMatchRepository;
 		this.seasonRepository = seasonRepository;
+		this.teamRepository = teamRepository;
 	}
 
     
@@ -77,26 +86,50 @@ public class MatchService {
 
 // OK
     // Añadir un nuevo partido a la temporada (solo admin)
-    public Match addMatch(MatchDTO matchDTO, Long seasonId) throws Exception {
+    public Match addMatch(MatchDTO matchDTO) throws Exception {
+    	
+    	Team localTeam = new Team(matchDTO.getLocalTeam().toUpperCase());
+        Team awayTeam = new Team(matchDTO.getAwayTeam().toUpperCase());
+
+        // Verificar si el equipo local ya existe
+        Team existingLocalTeam = teamRepository.findByTeamName(localTeam.getTeamName());
+        if (existingLocalTeam == null) {
+            teamRepository.save(localTeam);
+        } else {
+            localTeam = existingLocalTeam; // Usar el equipo existente
+        }
+
+        // Verificar si el equipo visitante ya existe
+        Team existingAwayTeam = teamRepository.findByTeamName(awayTeam.getTeamName());
+        if (existingAwayTeam == null) {
+            teamRepository.save(awayTeam);
+        } else {
+            awayTeam = existingAwayTeam; // Usar el equipo existente
+        }
     	
     	// check if the season already exists
-    	Optional<Season> existanceSeason = seasonRepository.findById(seasonId);
-		if(existanceSeason == null || !existanceSeason.stream().anyMatch(s -> s.getId().equals(seasonId)) || !existanceSeason.isPresent()) {
-			throw new Exception("Season not exists: " + seasonId);
+    	Optional<Season> existanceSeason = seasonRepository.findById(matchDTO.getSeasonId());
+		if(existanceSeason == null || !existanceSeason.stream().anyMatch(s -> s.getId().equals(matchDTO.getSeasonId())) || !existanceSeason.isPresent()) {
+			throw new Exception("Season not exists: " + matchDTO.getSeasonId());
 		}
 		
 		Season season = existanceSeason.get();
 		
 		// check if the match alredy exist
+		/*
 		Optional<Match> optMatch = this.matchRepository.findByMatchDate(matchDTO.getDate());
 		if(optMatch.isPresent()) {
-			throw new Exception("The Date of the match yo want to add is another match: " + matchDTO.getDescription() + " --> " + matchDTO.getDate());
+			throw new Exception("The Date of the match you want to add is another match: " + matchDTO.getDescription() + " --> " + matchDTO.getDate());
 		} 
+		*/
 		
         Match match = new Match();
         match.setMatchDate(matchDTO.getDate());
-        match.setDescription(matchDTO.getDescription());
         match.setSeason(season);
+        match.setLocalTeam(matchDTO.getLocalTeam());
+        match.setAwayTeam(matchDTO.getAwayTeam());
+        match.setDescription();
+        
         
         if(match.getDescription().contains("CB ZAMORA VS.")) {
         	match.setIs_local(true);
@@ -113,7 +146,10 @@ public class MatchService {
     
 	public List<MatchWithUserInfoDTO> getAllMatchesOfSeasonWithUserInfo(Integer seasonId, String email) {
 		// TODO Auto-generated method stub
-		List<Match> matches = matchRepository.findBySeasonId(seasonId);
+		List<Match> matches = matchRepository.findBySeasonIdOrderedByDate(seasonId);
+		
+		// Better in sql
+		//matches.sort(Comparator.comparing(Match::getMatchDate));
 		
 		// Buscar el usuario autenticado por su username
         User user = userRepository.findByEmail(email)
@@ -150,7 +186,6 @@ public class MatchService {
                 result.add(matchWithUserInfo);
             }
         }
-
         return result;
 	}
 	
@@ -163,6 +198,30 @@ public class MatchService {
         matchDTO.setDescription(match.getDescription());        // Añadir otros campos relevantes de "Match"
         return matchDTO;
     }
+
+
+	public void deleteMatch(Long id) {
+		
+		if (id == null) {
+	        throw new IllegalArgumentException("Invalid match data. MatchDTO or Match ID is null.");
+	    }
+		
+		try {
+	        // Verificar si el partido existe antes de eliminarlo
+	        Optional<Match> matchOptional = matchRepository.findById(id);
+	        
+	        if (matchOptional.isPresent()) {
+	        	//matchRepository.delete(matchOptional.get());
+	            matchRepository.deleteById(id);
+	        } else {
+	            throw new EntityNotFoundException("Match with ID " + id + " not found.");
+	        }
+	    } catch (Exception e) {
+	        // Registrar el error para propósitos de depuración
+	        System.err.println("Error deleting match: " + e.getMessage());
+	        throw new RuntimeException("Failed to delete match with ID: " + id, e);
+	    }
+	}
 
 	
 	

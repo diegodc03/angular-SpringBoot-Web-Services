@@ -12,6 +12,7 @@ import com.irojas.demojwt.workHours.Model.Match;
 import com.irojas.demojwt.workHours.Model.Money;
 import com.irojas.demojwt.workHours.Model.UserMatch;
 import com.irojas.demojwt.workHours.Model.WorkingRoles;
+import com.irojas.demojwt.workHours.ModelDTO.EarningsDTO;
 import com.irojas.demojwt.workHours.ModelDTO.RoleMatchPaymentRequest;
 import com.irojas.demojwt.workHours.Repository.MatchRepository;
 import com.irojas.demojwt.workHours.Repository.MoneyRepository;
@@ -97,7 +98,7 @@ public class UserMatchService {
     }
 
 
-	public void deleteMatchWork(Long matchId, String username) {
+	public EarningsDTO deleteMatchWork(Long matchId, String username) {
 		// TODO Auto-generated method stub
 		Match match = matchRepository.findById(matchId)
                 .orElseThrow(() -> new RuntimeException("Match not found"));
@@ -111,18 +112,26 @@ public class UserMatchService {
 		Money money = moneyRepository.findBySeasonAndUser(match.getSeason(), user)
 				.orElseThrow(() -> new RuntimeException("earnings not found"));
 		
-		money.setTotalMoneyPaid(money.getTotalMoneyPaid() - userMatch.getWorkingRol().getSalary());
 		
-		// if true, restamos part of moneypaid
-		if(userMatch.isPaid()) {
+		if(money.getMoneyToPay() == 0.0) {
 			money.setMoneyPaid(money.getMoneyPaid() - userMatch.getWorkingRol().getSalary());
+			money.setTotalMoneyPaid(money.getTotalMoneyPaid() - userMatch.getWorkingRol().getSalary());
 		}else {
 			money.setMoneyToPay(money.getMoneyToPay() - userMatch.getWorkingRol().getSalary());
+			money.setTotalMoneyPaid(money.getTotalMoneyPaid() -  userMatch.getWorkingRol().getSalary());
+			if(money.getMoneyToPay() < 0) {
+				money.setMoneyPaid(money.getMoneyPaid() +  money.getMoneyToPay());
+				
+				money.setMoneyToPay(0.0);
+			}
 		}
+		
 		
 		
 		moneyRepository.save(money);
 		userMatchRepository.delete(userMatch);
+		
+		return new EarningsDTO(money);
 	}
 	
 	

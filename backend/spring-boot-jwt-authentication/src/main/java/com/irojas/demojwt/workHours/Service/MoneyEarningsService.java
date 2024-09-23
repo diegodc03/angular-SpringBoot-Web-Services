@@ -44,6 +44,8 @@ public class MoneyEarningsService {
 		Money money = moneyRepository.findBySeasonAndUser(season, user)
 			.orElseThrow(() -> new RuntimeException("Earnings not found, yo can add a paid if yo dont have any match wotked"));
 		
+		
+	
 		money.paid(paidMoneyRequestDTO.getMoneyPaid());
 		
 		moneyRepository.save(money);

@@ -1,5 +1,5 @@
 <div class="container">
-
+    
     <div class="upper-div">
         <h2> Partidos </h2>
         
@@ -8,6 +8,11 @@
                 {{ season.seasonName }}
             </option>
         </select>
+        <div *ngIf="authService.isAdmin()">
+            <button (click)="addMatch()">Añadir Partido</button>
+            <!--<button (click)="addSeason()">Añadir Temporada</button>-->
+        </div>
+
 
         <button *ngIf="isRoleMatchAnyRequest()" class="btn btn-success btn-sm" (click)="addWork()">Añadir Trabajo</button>
     </div>
@@ -45,7 +50,7 @@
                         </select>
                         <p class="text-danger">{{ errorMessages[match.match.id] }}</p> <!-- Mostrar mensaje de error específico aquí -->
                     </div>
-                    
+                    <div *ngIf="authService.isAdmin()" class="btn btn-danger btn-sm" (click)="deleteMatch(match.match.id)">Eliminar Partido</div>
                     <button *ngIf="match.userWorked && isWorkedMatch(match)" class="btn btn-danger btn-sm" (click)="deleteWork(match.match.id)">Eliminar Trabajo</button>   
                 </div>
         </div>

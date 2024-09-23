@@ -25,6 +25,10 @@ export class EarningsService {
   addWork(roleMatchPaymentRequestDTO: RoleMatchPaymentRequestDTO[]): Observable<String> {
     return this.http.post<String>(`${this.apiURL2}/add-payment`, roleMatchPaymentRequestDTO, { responseType: 'text' as 'json' });
   }
+
+  getEarningsBySeasonId(selectedSeasonId: number): Observable<EarningsDTO> {
+    return this.http.get<EarningsDTO>(`${this.apiURL}/get-arnings-by-seasonId/${selectedSeasonId}`);
+  }
   
 
 

@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -69,12 +70,12 @@ public class MatchController {
 
     
 //OK --> ONLY IT WILL PUT ADMIN AUTHORIZE YET
-    // El admin puede añadir partidos a una temporada existente
+
     @PostMapping("/add-match")
-    //@PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<String> addMatch(@RequestBody MatchDTO matchDTO, @RequestParam Long seasonId) {
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<String> addMatch(@RequestBody MatchDTO matchDTO) {
         try {
-            matchService.addMatch(matchDTO, seasonId);
+            matchService.addMatch(matchDTO);
             return ResponseEntity.ok("Match added successfully.");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error adding match: " + e.getMessage());
@@ -82,12 +83,25 @@ public class MatchController {
     }
     
     
+    @DeleteMapping("/delete-match/{matchId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<String> deleteMatch(@PathVariable Long matchId) {
+        try {
+            matchService.deleteMatch(matchId);
+            return ResponseEntity.ok("Match added successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error adding match: " + e.getMessage());
+        }
+    }
+    
+    
+    
  //OK --> ONLY IT WILL PUT ADMIN AUTHORIZE YET
     @PostMapping("/add-season")
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> addSeasonWithMatches(@RequestParam("file") MultipartFile file, SeasonDTO season){
 		try {
-            seasonService.addSeasonWithMatchesFromFile(file, season);
+             seasonService.addSeasonWithMatchesFromFile(file, season);
             return ResponseEntity.ok("Season and matches added successfully.");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error adding season: " + e.getMessage());

@@ -94,8 +94,12 @@ public class Money {
 	
 	
 	public void paid(Double pay) {
-		this.moneyPaid = this.moneyPaid + pay;
-		this.moneyToPay = this.moneyToPay - pay;
+		
+		if(this.moneyToPay < pay) {
+			this.moneyPaid = this.moneyPaid + pay;
+			this.moneyToPay = this.moneyToPay - pay;
+		}
+		
 	}
 	
 	

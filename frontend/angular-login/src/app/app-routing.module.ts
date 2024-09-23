@@ -22,7 +22,8 @@ import { ShowSaleInformationComponent } from './sale/show-sale-information/show-
 import { ShowSeasonMatchesComponent } from './workHours/pages/show-season-matches/show-season-matches.component';
 import { ShowSeasonEarningsComponent } from './workHours/pages/show-season-earnings/show-season-earnings.component';
 import { SecureWorkHoursLayoutComponent } from './layouts/secure-work-hours-layout/secure-work-hours-layout.component';
-
+import { AddMatchesComponent } from './workHours/pages/add-matches/add-matches.component';
+import { AddSeasonComponent } from './workHours/pages/add-season/add-season.component';
 
 const routes: Routes = [
   {
@@ -71,6 +72,8 @@ const routes: Routes = [
     children: [
       { path: 'matchs-working-hours', component: ShowSeasonMatchesComponent },
       { path: 'show-work-earnings', component: ShowSeasonEarningsComponent },
+      { path: 'add-matches', component: AddMatchesComponent },
+      { path: 'add-season', component: AddSeasonComponent },
       { path: '', redirectTo: 'matchs-working-hours', pathMatch: 'full' }
     ]
   },

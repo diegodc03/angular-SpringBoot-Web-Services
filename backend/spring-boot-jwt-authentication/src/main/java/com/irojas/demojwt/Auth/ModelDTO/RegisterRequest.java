@@ -18,6 +18,7 @@ public class RegisterRequest {
     
     
     
+    
 	
 	public String getEmail() {
 		return email;

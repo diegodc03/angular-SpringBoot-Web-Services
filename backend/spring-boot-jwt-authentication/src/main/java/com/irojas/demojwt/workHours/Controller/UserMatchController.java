@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.irojas.demojwt.Auth.Service.UserService;
 import com.irojas.demojwt.workHours.Model.WorkingRoles;
+import com.irojas.demojwt.workHours.ModelDTO.EarningsDTO;
 import com.irojas.demojwt.workHours.ModelDTO.MatchDTO;
 import com.irojas.demojwt.workHours.ModelDTO.MatchWithUserInfoDTO;
 import com.irojas.demojwt.workHours.ModelDTO.RoleMatchPaymentRequest;
@@ -91,15 +92,15 @@ public class UserMatchController {
     
 // OK
     @DeleteMapping("/delete-worked-match/{matchId}")
-    public ResponseEntity<String> deleteWorkPayment(
+    public ResponseEntity<EarningsDTO> deleteWorkPayment(
     		@PathVariable Long matchId,
             @AuthenticationPrincipal UserDetails currentUser){
     	
     	try {
-            userMatchService.deleteMatchWork(matchId, currentUser.getUsername());
-            return ResponseEntity.ok("Work and payment added/updated successfully.");
+            EarningsDTO earnings = userMatchService.deleteMatchWork(matchId, currentUser.getUsername());
+            return ResponseEntity.ok(earnings);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+            return ResponseEntity.badRequest().body(null);
         }
     	
     	

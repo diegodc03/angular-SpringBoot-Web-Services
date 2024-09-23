@@ -15,21 +15,24 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.irojas.demojwt.workHours.Model.Match;
 import com.irojas.demojwt.workHours.Model.Season;
+import com.irojas.demojwt.workHours.Model.Team;
 import com.irojas.demojwt.workHours.ModelDTO.SeasonDTO;
 import com.irojas.demojwt.workHours.Repository.MatchRepository;
 import com.irojas.demojwt.workHours.Repository.SeasonRepository;
+import com.irojas.demojwt.workHours.Repository.TeamRepository;
 
 @Service
 public class SeasonService {
 
 	private SeasonRepository seasonRepository;
 	
-	private MatchRepository matchRepository;
+	private TeamRepository teamRepository;
 	
 	
-	public SeasonService(SeasonRepository seasonRepository, MatchRepository matchRepository) {
+	public SeasonService(SeasonRepository seasonRepository, TeamRepository teamRepository) {
 		this.seasonRepository = seasonRepository;
-		this.matchRepository = matchRepository;
+		this.teamRepository = teamRepository;
+		
 	}
 	
 	
@@ -70,7 +73,33 @@ public class SeasonService {
 	        if (line.startsWith("Jornada")) {
 	            // Extraer número de jornada, fecha y equipos
 	            String jornadaInfo = line.substring(0, line.indexOf(":")).trim();  // Ejemplo: "Jornada 1 (27 de septiembre)"
-	            String matchInfo = line.substring(line.indexOf(":") + 1).trim();  // Ejemplo: "Hestia Menorca vs. Caja Rural CB Zamora"
+	            //String matchInfo = line.substring(line.indexOf(":") + 1).trim();  // Ejemplo: "Hestia Menorca vs. Caja Rural CB Zamora"
+	            //String localTeam = line.substring((line.indexOf(":") + 1).trim(), (line.indexOf("vs.") - 1).trim();
+	            
+	            int vsIndex = line.indexOf("vs.");
+	         // Extrae los nombres de los equipos
+	            String localTeam = line.substring(line.indexOf(":") + 1, vsIndex).trim();
+	            String awayTeam = line.substring(vsIndex + 3).trim();
+	            
+	            Team localTeamO = new Team(localTeam);
+	            Team awayTeamO = new Team(awayTeam);
+
+	            // Verificar si el equipo local ya existe
+	            Team existingLocalTeam = teamRepository.findByTeamName(localTeamO.getTeamName());
+	            if (existingLocalTeam == null) {
+	                teamRepository.save(localTeamO);
+	            } else {
+	                localTeamO = existingLocalTeam; // Usar el equipo existente
+	            }
+
+	            // Verificar si el equipo visitante ya existe
+	            Team existingAwayTeam = teamRepository.findByTeamName(awayTeamO.getTeamName());
+	            if (existingAwayTeam == null) {
+	                teamRepository.save(awayTeamO);
+	            } else {
+	                awayTeamO = existingAwayTeam; // Usar el equipo existente
+	            }
+	            
 	            
 	            // Extraer fecha
 	            String dateString = jornadaInfo.substring(jornadaInfo.indexOf("(") + 1, jornadaInfo.indexOf(")"));
@@ -78,11 +107,13 @@ public class SeasonService {
 	            
 	            // Crear un nuevo partido
 	            Match match = new Match();
-	            match.setDescription(matchInfo);
+	            match.setLocalTeam(localTeamO.getTeamName());
+	            match.setAwayTeam(awayTeamO.getTeamName());
+	            match.setDescription();
 	            match.setMatchDate(matchDate);
 	            match.setSeason(season);  // Asociar el partido con la nueva temporada
 	            
-	            if(match.getDescription().contains("CB ZAMORA VS.")) {
+	            if(match.getDescription().contains("CB ZAMORA VS.") || !match.getDescription().contains("VS. CB ZAMORA")) {
 	            	match.setIs_local(true);
 	            }else {
 	            	match.setIs_local(false);

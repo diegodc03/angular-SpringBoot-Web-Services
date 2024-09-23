@@ -49,7 +49,7 @@ export class ShowSeasonEarningsComponent implements OnInit {
     if(seasonId != null){
       this.selectedSeasonId = seasonId;
       // Llamada a getEarningsBySeasonId después de la asignación
-      this.seasonService.getEarningsBySeasonId(this.selectedSeasonId).subscribe( earnings => 
+      this.earningsService.getEarningsBySeasonId(this.selectedSeasonId).subscribe( earnings => 
         this.earnings = earnings
 
       );
@@ -67,15 +67,33 @@ export class ShowSeasonEarningsComponent implements OnInit {
   }
 
 
+  loadData(){
+    // Obtener el ID de temporada desde la ruta
+    let seasonId = this.seasonLoadService.getSeasonId();
+    if(seasonId != null){
+      this.selectedSeasonId = seasonId;
+      // Llamada a getEarningsBySeasonId después de la asignación
+      this.earningsService.getEarningsBySeasonId(this.selectedSeasonId).subscribe( earnings => 
+        this.earnings = earnings
+
+      );
+    }
+  }
+
   onSubmit() {
     
     if(this.addQuantityPay.valid){
       this.quantity = this.addQuantityPay.value.quantity;
+      if(this.quantity > this.earnings.moneyToPay){
+        this.addQuantityPayError = 'La cantidad a pagar no puede ser mayor que la cantidad a pagar';
+        return;
+      }
       console.log('Cantidad a pagar:', this.quantity);
       this.earningsService.addPaidMoney(new PaidMoneyRequestDTO(this.selectedSeasonId, this.quantity)).subscribe(earnings => {
         earnings = this.earnings
+        this.loadData();
       });
-      this.ngOnInit();
+
 
     }else{
       this.addQuantityPayError = 'No hay cantidad seleccionada';
@@ -91,7 +109,7 @@ export class ShowSeasonEarningsComponent implements OnInit {
 
 
   getEarnings(seasonId: number) {
-    this.seasonService.getEarningsBySeasonId(this.selectedSeasonId).subscribe(earnings => {
+    this.earningsService.getEarningsBySeasonId(this.selectedSeasonId).subscribe(earnings => {
       console.log('Ganancias de la temporada:', earnings);
       this.earnings = earnings;
     });

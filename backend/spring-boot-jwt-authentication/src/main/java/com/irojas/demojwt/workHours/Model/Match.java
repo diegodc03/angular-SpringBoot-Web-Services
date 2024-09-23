@@ -31,6 +31,10 @@ public class Match implements Comparable<Match>{
 	
 	private LocalDate matchDate;
 	
+	private String localTeam;
+	
+	private String awayTeam;
+	
 	private String description;
 	
 	@OneToMany(mappedBy = "match", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -92,8 +96,8 @@ public class Match implements Comparable<Match>{
 	}
 
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setDescription() {
+		this.description = (this.localTeam.toUpperCase() +" VS. "+ this.awayTeam.toUpperCase());
 	}
 
 	
@@ -107,6 +111,26 @@ public class Match implements Comparable<Match>{
 	}
 
 
+	public String getLocalTeam() {
+		return localTeam;
+	}
+
+
+	public void setLocalTeam(String localTeam) {
+		this.localTeam = localTeam;
+	}
+
+
+	public String getAwayTeam() {
+		return awayTeam;
+	}
+
+
+	public void setAwayTeam(String awayTeam) {
+		this.awayTeam = awayTeam;
+	}
+
+
 	public Match(Long id, LocalDate matchDate, List<UserMatch> userMatch, Season season, String description) {
 		super();
 		this.id = id;
@@ -115,6 +139,8 @@ public class Match implements Comparable<Match>{
 		this.season = season;
 		this.description = description;
 	}
+	
+	
 
 
 	public Match() {

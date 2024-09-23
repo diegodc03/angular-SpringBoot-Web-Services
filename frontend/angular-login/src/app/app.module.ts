@@ -44,6 +44,8 @@ import { JwtInterceptor } from './jwt-interceptor';
 import { SecureWorkHoursLayoutComponent } from './layouts/secure-work-hours-layout/secure-work-hours-layout.component';
 import { SecureWorkHoursNavComponent } from './shared/secure-work-hours-nav/secure-work-hours-nav.component';
 import { ShowSeasonEarningsComponent } from './workHours/pages/show-season-earnings/show-season-earnings.component';
+import { AddMatchesComponent } from './workHours/pages/add-matches/add-matches.component';
+import { AddSeasonComponent } from './workHours/pages/add-season/add-season.component';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -75,8 +77,10 @@ import { ShowSeasonEarningsComponent } from './workHours/pages/show-season-earni
         ShowSaleInformationComponent,
         SecureWorkHoursLayoutComponent,
         SecureWorkHoursNavComponent,
-        ShowSeasonEarningsComponent
-   
+        ShowSeasonEarningsComponent,
+        AddMatchesComponent,
+        AddSeasonComponent,
+
         
     ],
     imports: [
@@ -85,6 +89,7 @@ import { ShowSeasonEarningsComponent } from './workHours/pages/show-season-earni
         ReactiveFormsModule,
         FormsModule,
         HttpClientModule,
+       
       ],
       providers: [
         {provide:HTTP_INTERCEPTORS,useClass:JwtInterceptorService,multi:true},

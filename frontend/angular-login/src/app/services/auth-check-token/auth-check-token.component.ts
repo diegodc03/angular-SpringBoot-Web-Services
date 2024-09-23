@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LoginService } from '../auth/login.service';
 
+
 @Component({
   selector: 'app-auth-check-token',
   templateUrl: './auth-check-token.component.html',
@@ -29,4 +30,7 @@ export class AuthCheckTokenComponent implements OnInit{
       }
     });
   }
+
+
+
 }

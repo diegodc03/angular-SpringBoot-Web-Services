@@ -13,6 +13,10 @@ import { WorkingRolesService } from '../../service/workingRolesService/working-r
 import { RoleMatchPaymentRequestDTO} from '../../modelDTO/RoleMatchPaymentRequestDTO/RoleMatchPaymentRequestDTO';
 import { EarningsService } from '../../service/earningsService/earnings.service';
 import { state } from '@angular/animations';
+import { AuthService } from 'src/app/auth/service/authService/auth.service';
+import { MatchService } from '../../service/MatchService/match.service';
+
+
 
 @Component({
   selector: 'app-show-season-matches',
@@ -23,7 +27,8 @@ import { state } from '@angular/animations';
 })
 export class ShowSeasonMatchesComponent {
 
-  roleMatchPaymentRequestDTO: RoleMatchPaymentRequestDTO[] = [];
+
+  roleMatchPaymentRequestListDTO: RoleMatchPaymentRequestDTO[] = [];
   selectedSeasonId: number = -1;
   seasons: SeasonDTO[] = [];
   
@@ -38,7 +43,9 @@ export class ShowSeasonMatchesComponent {
               private earningsService: EarningsService, 
               private router: Router, 
               private seasonLoadService: SeasonLoadService , 
-              private workingRolesService: WorkingRolesService) {
+              private workingRolesService: WorkingRolesService,
+              public authService: AuthService,
+              private matchService: MatchService) {
     
   }
 
@@ -54,6 +61,7 @@ export class ShowSeasonMatchesComponent {
     });
 
   }
+
 
 
   loadData(): Observable<(MatchWithUserInfoDTO | WorkedMatchWithUserInfo)[]> {
@@ -95,7 +103,7 @@ export class ShowSeasonMatchesComponent {
         this.seasonLoadService.setSeasonId(this.selectedSeasonId);
   
         // Aquí es donde se hace la segunda petición
-        return this.seasonService.getMatchesBySeasonId(this.selectedSeasonId);
+        return this.matchService.getMatchesBySeasonId(this.selectedSeasonId);
       })
     );
   }
@@ -114,9 +122,15 @@ export class ShowSeasonMatchesComponent {
     const roleSelected = ($event.target as HTMLSelectElement).value;
     console.log('Rol Seleccionado:', roleSelected);
     
+
+    let index = this.roleMatchPaymentRequestListDTO.findIndex(roleMatchPay => roleMatchPay.matchId === match.id )
+    if (index > -1) {
+      this.roleMatchPaymentRequestListDTO.splice(index, 1);
+    }
+
     if (new Date(match.date) < new Date()) {
       const roleMatchPaymentRequestDTO = new RoleMatchPaymentRequestDTO(roleSelected, match.id);
-      this.roleMatchPaymentRequestDTO.push(roleMatchPaymentRequestDTO);
+      this.roleMatchPaymentRequestListDTO.push(roleMatchPaymentRequestDTO);
     }else{
       console.error('No se puede añadir un trabajo a un partido que no ha ocurrido todavía');
       
@@ -127,11 +141,11 @@ export class ShowSeasonMatchesComponent {
 
 
   addWork() {
-    console.log('Trabajo añadido:', this.roleMatchPaymentRequestDTO);
-    this.earningsService.addWork(this.roleMatchPaymentRequestDTO).pipe(
+    console.log('Trabajo añadido:', this.roleMatchPaymentRequestListDTO);
+    this.earningsService.addWork(this.roleMatchPaymentRequestListDTO).pipe(
       switchMap(state => {
         console.log('Trabajo añadido:', state);
-        this.roleMatchPaymentRequestDTO = [];
+        this.roleMatchPaymentRequestListDTO = [];
         return this.loadData(); // Return the observable from loadData
       })
     ).subscribe(matches => {
@@ -142,7 +156,7 @@ export class ShowSeasonMatchesComponent {
 
 
   isRoleMatchAnyRequest(): boolean {
-    return this.roleMatchPaymentRequestDTO.length > 0;
+    return this.roleMatchPaymentRequestListDTO.length > 0;
   }
 
 
@@ -167,5 +181,27 @@ export class ShowSeasonMatchesComponent {
 
   }
 
+
+  addMatch() {
+    this.router.navigate(['work-hours/add-matches']);
+  }
+  
+  addSeason() {
+    this.router.navigate(['work-hours/add-season']);
+  }
+
+  deleteMatch(matchId: number) {
+    
+    this.matchService.deleteMatch(matchId).subscribe({
+      next: () => {
+        console.log('Match deleted');
+        return this.loadData();
+      },
+      error: (error) => {
+        console.error('Error deleting match:', error);
+      }
+    });
+  }
+    
   
 }

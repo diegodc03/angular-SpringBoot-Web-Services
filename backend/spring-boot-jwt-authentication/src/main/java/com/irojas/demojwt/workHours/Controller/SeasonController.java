@@ -4,6 +4,7 @@ package com.irojas.demojwt.workHours.Controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,7 @@ public class SeasonController {
 		this.seasonService = seasonService;
 	}
 
-
+	@PreAuthorize("hasRole('ADMIN')") 
 	@GetMapping("/all-seasons")
 	public ResponseEntity<List<SeasonDTO>> getAllSeason(){
 		
