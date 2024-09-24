@@ -65,6 +65,7 @@ public class UserMatchService {
             // Añadir los datos de trabajo y el pago
             WorkingRoles role = WorkingRoles.valueOf(roleRequest.getRole().toUpperCase());
             userMatch.setWorkingRol(role);
+            
     		
             
             //añadir al total 

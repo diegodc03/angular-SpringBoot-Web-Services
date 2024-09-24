@@ -17,7 +17,7 @@ import { EarningsService } from '../../service/earningsService/earnings.service'
 })
 export class ShowSeasonEarningsComponent implements OnInit {
   
-
+  selectedSeasonNameShow: string = '';
   selectedSeasonId: number = -1;
   seasons: SeasonDTO[] = [];
   earnings: EarningsDTO = new EarningsDTO(new SeasonDTO(0, ''), 0, 0, 0);
@@ -58,6 +58,14 @@ export class ShowSeasonEarningsComponent implements OnInit {
     // Llamada a getAllSeasons independientemente de la asignación anterior
     this.seasonService.getAllSeasons().subscribe(seasons => {
       this.seasons = seasons;
+
+      // Establecer el nombre de la temporada seleccionada
+      if (this.selectedSeasonId !== -1) {
+        const selectedSeason = this.seasons.find(season => season.id === this.selectedSeasonId);
+        if (selectedSeason) {
+          this.selectedSeasonNameShow = selectedSeason.seasonName;
+        }
+      }
     });
 
     this.addQuantityPay = this.fb.group({
@@ -93,8 +101,6 @@ export class ShowSeasonEarningsComponent implements OnInit {
         earnings = this.earnings
         this.loadData();
       });
-
-
     }else{
       this.addQuantityPayError = 'No hay cantidad seleccionada';
     }

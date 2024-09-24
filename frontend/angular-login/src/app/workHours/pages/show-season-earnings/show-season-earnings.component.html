@@ -3,11 +3,15 @@
     <div class="upper-div">
         <h2> Partidos </h2>
         
-        <select class="form-control box-filter" id="bag" (change)="onSelect($event)">
-            <option *ngFor="let season of seasons" [value]="season.id">
-                {{ season.seasonName }}
+        <select class="form-control box-filter" id="bag" (change)="onSelect($event)" [ngModel]="selectedSeasonId">
+            <!-- La primera opción será la temporada seleccionada desde la URL -->
+            <option [ngValue]="null" disabled selected>{{ selectedSeasonNameShow || 'Seleccione una temporada' }}</option>
+            
+            <!-- Listar todas las temporadas -->
+            <option *ngFor="let season of seasons" [ngValue]="season.id">
+              {{ season.seasonName }}
             </option>
-        </select>
+          </select>
     </div>
 
     <div>

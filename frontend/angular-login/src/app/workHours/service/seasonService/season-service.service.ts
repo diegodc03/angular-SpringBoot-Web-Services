@@ -33,4 +33,10 @@ export class SeasonService {
     return this.http.post<string>(`${this.apiURL}/work-hours/add-season`, formData);
   }
 
+
+  deleteSeason(seasonId: number) {
+    return this.http.delete(`${this.apiURL}/season/delete-season/${seasonId}`, { responseType: 'text' as 'json' });
+  }
+  
+
 }

@@ -38,7 +38,10 @@ public class Season {
     private List<Match> matches = new ArrayList<>();
 
 	
-
+	@OneToMany(mappedBy = "season", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonManagedReference
+	@JsonIgnoreProperties(value="season")
+	private List<Money> moneyRecords = new ArrayList<>();
 	
 	public Long getId() {
 		return id;

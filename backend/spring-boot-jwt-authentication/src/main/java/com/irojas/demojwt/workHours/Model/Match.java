@@ -44,7 +44,7 @@ public class Match implements Comparable<Match>{
 	private List<UserMatch> userMatch = new ArrayList<>();
 	
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
     @JoinColumn(name = "season_id")
     @JsonBackReference
 	private Season season;

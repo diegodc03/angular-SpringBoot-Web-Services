@@ -140,4 +140,14 @@ public class SeasonService {
 	    return LocalDate.parse(dateString, formatter);
 	}
 
+
+	public void deleteSeasonById(Long id) {
+		// TODO Auto-generated method stub
+		Optional<Season> optSeason = this.seasonRepository.findById(id);
+		if(optSeason.isPresent()) {
+			this.seasonRepository.delete(optSeason.get());
+		}
+		
+	}
+
 }

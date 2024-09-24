@@ -27,7 +27,6 @@ import { MatchService } from '../../service/MatchService/match.service';
 })
 export class ShowSeasonMatchesComponent {
 
-
   roleMatchPaymentRequestListDTO: RoleMatchPaymentRequestDTO[] = [];
   selectedSeasonId: number = -1;
   seasons: SeasonDTO[] = [];
@@ -37,6 +36,7 @@ export class ShowSeasonMatchesComponent {
   errorMessages: { [matchId: number]: string } = {};
 
   workingRoles: WorkingRoleDTO[] = [];
+  selectedSeasonNameShow: string = '';
   
 
   constructor(private seasonService: SeasonService,
@@ -65,42 +65,64 @@ export class ShowSeasonMatchesComponent {
 
 
   loadData(): Observable<(MatchWithUserInfoDTO | WorkedMatchWithUserInfo)[]> {
+    
+    const seasonId = this.seasonLoadService.getSeasonId();
+    if (seasonId != null) {
+      this.selectedSeasonId = seasonId;
+    }
+
+
     return this.seasonService.getAllSeasons().pipe(
       switchMap(seasons => {
         this.seasons = seasons;
 
-        if (this.seasons.length === 0) {
-          console.log('No hay temporadas');
-          return of([]); // Devuelve un observable vacío si no hay temporadas
-        } else if (this.seasons.length === 1) {
-          this.selectedSeasonId = this.seasons[0].id;
-
-        } else {
-          const actualYear = new Date().getFullYear();
-          let actualSeason = '';
-  
-          if (new Date().getMonth() > 7) {
-            actualSeason = `${actualYear}-${actualYear + 1}`;
+        if(this.selectedSeasonId == -1){
+          if (this.seasons.length === 0) {
+            console.log('No hay temporadas');
+            return of([]); // Devuelve un observable vacío si no hay temporadas
+          } else if (this.seasons.length === 1) {
+            this.selectedSeasonId = this.seasons[0].id;
+            this.selectedSeasonNameShow = this.seasons[0].seasonName;
           } else {
-            actualSeason = `${actualYear - 1}-${actualYear}`;
-          }
-  
-          for (const season of this.seasons) {
-            if (season.seasonName === actualSeason) {
-              this.selectedSeasonId = season.id;
-              console.log(this.selectedSeasonId);
-              break; // Termina el ciclo una vez que encuentres la temporada
+            const actualYear = new Date().getFullYear();
+            let actualSeason = '';
+    
+            if (new Date().getMonth() > 7) {
+              actualSeason = `${actualYear}-${actualYear + 1}`;
+            } else {
+              actualSeason = `${actualYear - 1}-${actualYear}`;
+            }
+    
+            for (const season of this.seasons) {
+              if (season.seasonName === actualSeason) {
+                this.selectedSeasonId = season.id;
+                this.selectedSeasonNameShow = season.seasonName;
+                console.log(this.selectedSeasonId);
+                break; // Termina el ciclo una vez que encuentres la temporada
+              }
             }
           }
+          
+          this.seasonLoadService.setSeasonId(this.selectedSeasonId);
+        }else{
+          // Establecer el nombre de la temporada seleccionada
+          
+            const selectedSeason = this.seasons.find(season => season.id === this.selectedSeasonId);
+            if (selectedSeason) {
+              this.selectedSeasonNameShow = selectedSeason.seasonName;
+            }
+          
         }
+
         
+
         if (this.selectedSeasonId === -1) {
           console.error('No se pudo seleccionar una temporada válida');
           return of([]); // Devuelve un observable vacío si no se seleccionó una temporada válida
         }
   
         console.log('Temporada seleccionada:', this.selectedSeasonId);
-        this.seasonLoadService.setSeasonId(this.selectedSeasonId);
+     
   
         // Aquí es donde se hace la segunda petición
         return this.matchService.getMatchesBySeasonId(this.selectedSeasonId);
@@ -109,11 +131,36 @@ export class ShowSeasonMatchesComponent {
   }
 
 
+  loadMatchs(): Observable<(MatchWithUserInfoDTO | WorkedMatchWithUserInfo)[]> {
+    
+    return this.matchService.getMatchesBySeasonId(this.selectedSeasonId).pipe(
+      switchMap(matches => {
+        this.matches = matches;
+
+        if(this.matches.length == 0){
+          console.log('No hay partidos');
+          this.deleteSeason(this.selectedSeasonId);
+          return of([]); // Devuelve un observable vacío si no hay partidos
+        }
+        console.log('Matches loaded:', this.matches);
+        return of(matches);
+      })
+    );
+  }
+
+
+
   onSelect($event: Event): void {
     const selectedSeasonId = ($event.target as HTMLSelectElement).value;
     console.log('Temporada seleccionada:', selectedSeasonId);
     this.selectedSeasonId = parseInt(selectedSeasonId);
+
     this.seasonLoadService.setSeasonId(this.selectedSeasonId);
+    
+    this.loadMatchs().subscribe(matches => {
+      this.matches = matches
+      console.log('Matches loaded:', this.matches);
+    });
     
   }
 
@@ -146,7 +193,7 @@ export class ShowSeasonMatchesComponent {
       switchMap(state => {
         console.log('Trabajo añadido:', state);
         this.roleMatchPaymentRequestListDTO = [];
-        return this.loadData(); // Return the observable from loadData
+        return this.loadMatchs(); // Return the observable from loadData
       })
     ).subscribe(matches => {
       this.matches = matches;
@@ -167,11 +214,12 @@ export class ShowSeasonMatchesComponent {
 
   deleteWork(matchId : number){ 
     
+
     this.seasonService.deleteWork(matchId).pipe(
       switchMap(state => {
         console.log('Trabajo eliminado:', state);
         
-        return this.loadData(); // Return the observable from loadData
+        return this.loadMatchs(); // Return the observable from loadData
       
       })).subscribe(matches => {
         this.matches = matches;
@@ -181,7 +229,6 @@ export class ShowSeasonMatchesComponent {
 
   }
 
-
   addMatch() {
     this.router.navigate(['work-hours/add-matches']);
   }
@@ -190,17 +237,60 @@ export class ShowSeasonMatchesComponent {
     this.router.navigate(['work-hours/add-season']);
   }
 
+
   deleteMatch(matchId: number) {
     
-    this.matchService.deleteMatch(matchId).subscribe({
-      next: () => {
-        console.log('Match deleted');
-        return this.loadData();
-      },
-      error: (error) => {
-        console.error('Error deleting match:', error);
-      }
-    });
+
+    const match = this.matches.find(match => match.match.id === matchId) as MatchWithUserInfoDTO | WorkedMatchWithUserInfo;
+    
+    if(match.userWorked){
+      
+        this.seasonService.deleteWork(matchId).pipe(
+          switchMap(state => {
+            console.log('Trabajo eliminado:', state);
+            
+            // Luego de eliminar el trabajo, eliminamos el match
+            return this.matchService.deleteMatch(matchId);
+          }),
+          switchMap(response => {
+            console.log('Match eliminado:', response);
+            
+            // Luego de eliminar el match, cargamos los matches nuevamente
+            return this.loadMatchs();
+          })
+        ).subscribe(matches => {
+          this.matches = matches;
+          console.log('Matches cargados:', this.matches);
+        });
+    }else{
+      this.matchService.deleteMatch(matchId).subscribe({
+        next: () => {
+          console.log('Match deleted');
+          
+          return this.loadMatchs().subscribe(
+            matches => {
+              this.matches = matches;
+              console.log('Matches loaded:', this.matches);
+            }
+          ); // Return the observable from loadData
+        },
+        error: (error) => {
+          console.error('Error deleting match:', error);
+        }
+      });
+    }
+      
+  }
+
+  deleteSeason(seasonId: number) {
+    this.seasonService.deleteSeason(seasonId);
+    this.selectedSeasonId = -1;
+    this.selectedSeasonNameShow = '';
+    
+    const seasonIndex = this.seasons.findIndex(season => season.id === seasonId);
+    if (seasonIndex > -1) {
+      this.seasons.splice(seasonIndex, 1);
+    }
   }
     
   

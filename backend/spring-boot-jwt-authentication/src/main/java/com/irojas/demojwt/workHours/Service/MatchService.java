@@ -161,8 +161,6 @@ public class MatchService {
      // Recorrer los partidos de la temporada
         for (Match match : matches) {
             
-        	
-
             // Verificar si el usuario trabajó en este partido usando el repositorio de UserMatch
             Optional<UserMatch> userMatchOpt = userMatchRepository.findByUserAndMatch(user, match);
             
@@ -174,6 +172,7 @@ public class MatchService {
                 workedMatchWitchUserInfo.setUserWorked(true);
                 workedMatchWitchUserInfo.setRole(userMatch.getWorkingRol());
                 workedMatchWitchUserInfo.setPayment(userMatch.getWorkingRol().getSalary());
+                
                 
                 result.add(workedMatchWitchUserInfo);
                 
@@ -209,13 +208,16 @@ public class MatchService {
 		try {
 	        // Verificar si el partido existe antes de eliminarlo
 	        Optional<Match> matchOptional = matchRepository.findById(id);
-	        
+	        System.out.println(matchOptional.get().getLocalTeam());
+	        Match match = matchOptional.get();
+	        matchRepository.delete(match);
+	        /*
 	        if (matchOptional.isPresent()) {
 	        	//matchRepository.delete(matchOptional.get());
 	            matchRepository.deleteById(id);
 	        } else {
 	            throw new EntityNotFoundException("Match with ID " + id + " not found.");
-	        }
+	        }*/
 	    } catch (Exception e) {
 	        // Registrar el error para propósitos de depuración
 	        System.err.println("Error deleting match: " + e.getMessage());

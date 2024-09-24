@@ -19,7 +19,7 @@ export class MatchService {
   }
 
   addMatch(match: AddMatchDTO): Observable<MatchWithUserInfoDTO> {
-    return this.http.post<MatchWithUserInfoDTO>(`${this.apiURL}/matches/add-match`, match);
+    return this.http.post<MatchWithUserInfoDTO>(`${this.apiURL}/matches/add-match`, match,{ responseType: 'text' as 'json' });
   }
 
   deleteMatch(matchId: number): Observable<any> {

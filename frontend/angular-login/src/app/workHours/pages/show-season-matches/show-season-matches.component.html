@@ -4,6 +4,7 @@
         <h2> Partidos </h2>
         
         <select class="form-control box-filter" id="bag"  (change)="onSelect($event)">
+            <option  disabled selected>{{ selectedSeasonNameShow }}</option>
             <option *ngFor="let season of seasons" [value]="season.id">
                 {{ season.seasonName }}
             </option>

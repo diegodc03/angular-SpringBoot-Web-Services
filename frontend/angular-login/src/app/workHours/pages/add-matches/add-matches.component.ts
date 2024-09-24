@@ -86,7 +86,7 @@ export class AddMatchesComponent {
         this.matchService.addMatch(matchDTO).subscribe({
             next: (response) => {
                 console.log('Match added:', response);
-                this.router.navigateByUrl('/show-season-matches');
+                this.router.navigateByUrl('/work-hours/matchs-working-hours');
             },
             error: (error) => {
                 console.error('Match error:', error);
