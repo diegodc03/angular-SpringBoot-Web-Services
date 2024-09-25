@@ -113,7 +113,7 @@ public class SeasonService {
 	            match.setMatchDate(matchDate);
 	            match.setSeason(season);  // Asociar el partido con la nueva temporada
 	            
-	            if(match.getDescription().contains("CB ZAMORA VS.") || !match.getDescription().contains("VS. CB ZAMORA")) {
+	            if(match.getDescription().contains("CB ZAMORA VS.")) {
 	            	match.setIs_local(true);
 	            }else {
 	            	match.setIs_local(false);

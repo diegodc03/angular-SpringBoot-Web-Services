@@ -140,25 +140,13 @@ public class MatchService {
 
    
 
-    
-    
-    
-    
-	public List<MatchWithUserInfoDTO> getAllMatchesOfSeasonWithUserInfo(Integer seasonId, String email) {
-		// TODO Auto-generated method stub
-		List<Match> matches = matchRepository.findBySeasonIdOrderedByDate(seasonId);
-		
-		// Better in sql
-		//matches.sort(Comparator.comparing(Match::getMatchDate));
-		
-		// Buscar el usuario autenticado por su username
-        User user = userRepository.findByEmail(email)
-            .orElseThrow(() -> new RuntimeException("User not found"));
-        
-     // Lista para almacenar los resultados
+    public List<MatchWithUserInfoDTO> getMatchesWithWorkedMatches(List<Match> matches, User user){
+    	
+    	
+    	// Lista para almacenar los resultados
         List<MatchWithUserInfoDTO> result = new ArrayList<>();
-        
-     // Recorrer los partidos de la temporada
+    	
+    	//Recorrer los partidos de la temporada
         for (Match match : matches) {
             
             // Verificar si el usuario trabajó en este partido usando el repositorio de UserMatch
@@ -173,7 +161,6 @@ public class MatchService {
                 workedMatchWitchUserInfo.setRole(userMatch.getWorkingRol());
                 workedMatchWitchUserInfo.setPayment(userMatch.getWorkingRol().getSalary());
                 
-                
                 result.add(workedMatchWitchUserInfo);
                 
             } else {
@@ -186,6 +173,24 @@ public class MatchService {
             }
         }
         return result;
+    	
+    }
+    
+    
+    
+	public List<MatchWithUserInfoDTO> getAllMatchesOfSeasonWithUserInfo(Integer seasonId, String email) {
+		// TODO Auto-generated method stub
+		List<Match> matches = matchRepository.findBySeasonIdOrderedByDate(seasonId);
+		
+		
+		// Buscar el usuario autenticado por su username
+        User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        
+        
+        List<MatchWithUserInfoDTO> results = this.getMatchesWithWorkedMatches(matches, user);
+        
+        return results;
 	}
 	
 	
@@ -195,6 +200,9 @@ public class MatchService {
         matchDTO.setId(match.getId());
         matchDTO.setDate(match.getMatchDate());
         matchDTO.setDescription(match.getDescription());        // Añadir otros campos relevantes de "Match"
+        matchDTO.setAwayTeam(match.getAwayTeam());
+        matchDTO.setLocalTeam(match.getLocalTeam());
+        matchDTO.setSeasonId(match.getSeason().getId());
         return matchDTO;
     }
 
@@ -211,13 +219,7 @@ public class MatchService {
 	        System.out.println(matchOptional.get().getLocalTeam());
 	        Match match = matchOptional.get();
 	        matchRepository.delete(match);
-	        /*
-	        if (matchOptional.isPresent()) {
-	        	//matchRepository.delete(matchOptional.get());
-	            matchRepository.deleteById(id);
-	        } else {
-	            throw new EntityNotFoundException("Match with ID " + id + " not found.");
-	        }*/
+	        
 	    } catch (Exception e) {
 	        // Registrar el error para propósitos de depuración
 	        System.err.println("Error deleting match: " + e.getMessage());
@@ -225,7 +227,105 @@ public class MatchService {
 	    }
 	}
 
+
+	public List<MatchWithUserInfoDTO> getLocalMatches(Long seasonId, String email) {
+		
+		List<Match> matches = this.matchRepository.findMatchesBySeasonAndIsLocalTrueOrderedByDate(seasonId);
+		
+		// Buscar el usuario autenticado por su username
+        User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        
+        
+        List<MatchWithUserInfoDTO> results = this.getMatchesWithWorkedMatches(matches, user);
+        
+        return results;
+	}
+
+	public List<MatchWithUserInfoDTO> getAwayMatches(Long seasonId, String email) {
+		
+		List<Match> matches = this.matchRepository.findMatchesBySeasonAndIsLocalFalseOrderedByDate(seasonId);
+		
+		// Buscar el usuario autenticado por su username
+        User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        
+        
+        List<MatchWithUserInfoDTO> results = this.getMatchesWithWorkedMatches(matches, user);
+        
+        return results;
+	}
 	
+
+
+	public List<WorkedMatchWithUserInfo> getWorkedMatches(Long seasonId, String email) {
+		
+		List<Match> matches = this.matchRepository.findMatchesBySeasonAndIsLocalTrueOrderedByDate(seasonId);
+		
+		// Buscar el usuario autenticado por su username
+        User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+		
+     // Lista para almacenar los resultados
+        List<WorkedMatchWithUserInfo> result = new ArrayList<>();
+    	
+    	//Recorrer los partidos de la temporada
+        for (Match match : matches) {
+            
+            // Verificar si el usuario trabajó en este partido usando el repositorio de UserMatch
+            Optional<UserMatch> userMatchOpt = userMatchRepository.findByUserAndMatch(user, match);
+            
+            if (userMatchOpt.isPresent()) {
+                // Si el usuario trabajó en el partido, añadimos los detalles del trabajo
+            	WorkedMatchWithUserInfo workedMatchWitchUserInfo = new WorkedMatchWithUserInfo();
+                UserMatch userMatch = userMatchOpt.get();
+                workedMatchWitchUserInfo.setMatch(convertToDTO(match));
+                workedMatchWitchUserInfo.setUserWorked(true);
+                workedMatchWitchUserInfo.setRole(userMatch.getWorkingRol());
+                workedMatchWitchUserInfo.setPayment(userMatch.getWorkingRol().getSalary());
+                
+                result.add(workedMatchWitchUserInfo);
+                
+            }
+        }
+        return result;
+		
+
+
+	}
+
+
+	public List<MatchWithUserInfoDTO> getNotWorkedMatches(Long seasonId, String email) {
+		
+		List<Match> matches = this.matchRepository.findMatchesBySeasonAndIsLocalTrueOrderedByDate(seasonId);
+		
+		// Buscar el usuario autenticado por su username
+        User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+		
+     // Lista para almacenar los resultados
+        List<MatchWithUserInfoDTO> result = new ArrayList<>();
+    	
+    	//Recorrer los partidos de la temporada
+        for (Match match : matches) {
+            
+            // Verificar si el usuario trabajó en este partido usando el repositorio de UserMatch
+            Optional<UserMatch> userMatchOpt = userMatchRepository.findByUserAndMatch(user, match);
+            
+            if (!userMatchOpt.isPresent()) {
+                // Si el usuario trabajó en el partido, añadimos los detalles del trabajo
+            	MatchWithUserInfoDTO matchWithUserInfo = new MatchWithUserInfoDTO();
+                matchWithUserInfo.setMatch(convertToDTO(match));  // Convertimos el partido a DTO
+                // Si no trabajó, sólo indicamos que no trabajó en este partido
+                matchWithUserInfo.setUserWorked(false);
+             // Añadimos el objeto a la lista de resultados
+                result.add(matchWithUserInfo);
+            }
+        }
+        return result; 
+	}
+
+
 	
 	
 	

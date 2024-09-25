@@ -22,6 +22,9 @@ public class MatchDTO {
         this.id = match.getId();
         this.date = match.getMatchDate();
         this.description = match.getDescription();
+        this.awayTeam = match.getAwayTeam();
+        this.localTeam = match.getLocalTeam();
+        this.seasonId = match.getSeason().getId();
     }
     
     public MatchDTO(String id) {

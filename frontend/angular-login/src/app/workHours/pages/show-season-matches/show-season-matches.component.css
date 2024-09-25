@@ -173,3 +173,15 @@ body {
     
 
 }
+
+.filter{
+    width: 100%;
+    transition: background-color 0.3s ease;
+    margin-bottom: 30px;
+}
+
+
+#filter-bag {
+    width: 100%;
+    transition: background-color 0.3s ease;
+}

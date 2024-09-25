@@ -43,6 +43,7 @@ public class Season {
 	@JsonIgnoreProperties(value="season")
 	private List<Money> moneyRecords = new ArrayList<>();
 	
+	
 	public Long getId() {
 		return id;
 	}

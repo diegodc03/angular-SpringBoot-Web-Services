@@ -27,5 +27,22 @@ export class MatchService {
   }
 
 
+  getLocalMatchesWithUserInfo(seasonId: number):  Observable<(MatchWithUserInfoDTO | WorkedMatchWithUserInfo)[]> {
+    return this.http.get<(MatchWithUserInfoDTO | WorkedMatchWithUserInfo)[]>(`${this.apiURL}/userMatches/get-local-matches/${seasonId}`);
+  }
+
+  getAwayMatchesWithUserInfo(seasonId: number):  Observable<(MatchWithUserInfoDTO | WorkedMatchWithUserInfo)[]> {
+    return this.http.get<(MatchWithUserInfoDTO | WorkedMatchWithUserInfo)[]>(`${this.apiURL}/userMatches/get-away-matches/${seasonId}`);
+  }
+
+  getOnlyWorkedMatches(seasonId: number):  Observable<(WorkedMatchWithUserInfo)[]> {
+    return this.http.get<(WorkedMatchWithUserInfo)[]>(`${this.apiURL}/userMatches/get-only-worked-matches/${seasonId}`);
+  }
+
+  getOnlyNotWorkedMatches(seasonId: number):  Observable<(MatchWithUserInfoDTO)[]> {
+    return this.http.get<(MatchWithUserInfoDTO)[]>(`${this.apiURL}/userMatches/get-only-not-worked-matches/${seasonId}`);
+  }
+
+
 
 }

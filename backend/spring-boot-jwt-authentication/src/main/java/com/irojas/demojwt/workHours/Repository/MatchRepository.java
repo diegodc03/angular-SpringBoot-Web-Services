@@ -26,5 +26,12 @@ public interface MatchRepository extends JpaRepository<Match, Long>{
 
 	@Query("SELECT m FROM Match m WHERE m.season.id = :seasonId ORDER BY m.matchDate ASC")
 	public List<Match> findBySeasonIdOrderedByDate(@Param("seasonId") Integer seasonId);
+	
+	@Query("SELECT m FROM Match m WHERE m.season.id = :seasonId AND m.is_local = true ORDER BY m.matchDate ASC")
+	List<Match> findMatchesBySeasonAndIsLocalTrueOrderedByDate(@Param("seasonId") Long seasonId);
+
+	@Query("SELECT m FROM Match m WHERE m.season.id = :seasonId AND m.is_local = false ORDER BY m.matchDate ASC")
+	List<Match> findMatchesBySeasonAndIsLocalFalseOrderedByDate(@Param("seasonId") Long seasonId);
+
 
 }

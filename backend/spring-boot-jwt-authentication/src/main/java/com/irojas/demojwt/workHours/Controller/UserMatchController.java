@@ -22,6 +22,7 @@ import com.irojas.demojwt.workHours.ModelDTO.MatchWithUserInfoDTO;
 import com.irojas.demojwt.workHours.ModelDTO.RoleMatchPaymentRequest;
 
 import com.irojas.demojwt.workHours.ModelDTO.SeasonDTO;
+import com.irojas.demojwt.workHours.ModelDTO.WorkedMatchWithUserInfo;
 import com.irojas.demojwt.workHours.Service.MatchService;
 import com.irojas.demojwt.workHours.Service.SeasonService;
 import com.irojas.demojwt.workHours.Service.UserMatchService;
@@ -102,10 +103,63 @@ public class UserMatchController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(null);
         }
+    }
+    
+    @GetMapping("/get-local-matches/{seasonId}")
+    public ResponseEntity<List<MatchWithUserInfoDTO>> getLocalMatches(
+    		@PathVariable Long seasonId,
+            @AuthenticationPrincipal UserDetails currentUser) throws Exception{
+		try {
+			List<MatchWithUserInfoDTO> matches = matchService.getLocalMatches(seasonId, currentUser.getUsername());
+			return ResponseEntity.ok(matches);
+		}catch(Exception e) {
+			throw new Exception(e.getMessage());
+		}
+    }
+    
+    
+    @GetMapping("/get-away-matches/{seasonId}")
+    public ResponseEntity<List<MatchWithUserInfoDTO>> getAwayMatches(
+    		@PathVariable Long seasonId,
+            @AuthenticationPrincipal UserDetails currentUser) throws Exception{
+		try {
+			List<MatchWithUserInfoDTO> matches = matchService.getAwayMatches(seasonId, currentUser.getUsername());
+			return ResponseEntity.ok(matches);
+		}catch(Exception e) {
+			throw new Exception(e.getMessage());
+		}
+    }
+    
+    
+    @GetMapping("/get-only-worked-matches/{seasonId}")
+    public ResponseEntity<List<WorkedMatchWithUserInfo>> getWorkedMatches(
+    		@PathVariable Long seasonId,
+            @AuthenticationPrincipal UserDetails currentUser) throws Exception{
     	
+    	try {
+			List<WorkedMatchWithUserInfo> matches = matchService.getWorkedMatches(seasonId, currentUser.getUsername());
+			return ResponseEntity.ok(matches);
+		}catch(Exception e) {
+			throw new Exception(e.getMessage());
+		}
     	
     }
     
+    
+    
+    @GetMapping("/get-only-not-worked-matches/{seasonId}")
+    public ResponseEntity<List<MatchWithUserInfoDTO>> getNotWorkedMatches(
+    		@PathVariable Long seasonId,
+            @AuthenticationPrincipal UserDetails currentUser) throws Exception{
+    	
+    	try {
+			List<MatchWithUserInfoDTO> matches = matchService.getNotWorkedMatches(seasonId, currentUser.getUsername());
+			return ResponseEntity.ok(matches);
+		}catch(Exception e) {
+			throw new Exception(e.getMessage());
+		}
+    	
+    }
 
 
 }

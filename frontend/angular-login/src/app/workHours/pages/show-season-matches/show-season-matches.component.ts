@@ -27,6 +27,11 @@ import { MatchService } from '../../service/MatchService/match.service';
 })
 export class ShowSeasonMatchesComponent {
 
+
+
+  filters: String[] = ['Todos los Partidos', 'Partidos Locales', 'Partidos Visitantes', 'Partidos Trabajados', 'Partidos No Trabajados'];
+
+
   roleMatchPaymentRequestListDTO: RoleMatchPaymentRequestDTO[] = [];
   selectedSeasonId: number = -1;
   seasons: SeasonDTO[] = [];
@@ -37,6 +42,7 @@ export class ShowSeasonMatchesComponent {
 
   workingRoles: WorkingRoleDTO[] = [];
   selectedSeasonNameShow: string = '';
+selectedFilter: any;
   
 
   constructor(private seasonService: SeasonService,
@@ -183,6 +189,46 @@ export class ShowSeasonMatchesComponent {
       
       this.errorMessages[match.id] = 'No se puede añadir un trabajo a un partido que no ha ocurrido todavía';
       console.error(this.errorMessages[match.id]);
+    }
+  }
+
+
+  onSelectFilter($event: Event) {
+    const selectedFilter = ($event.target as HTMLSelectElement).value;
+    console.log('Filtro seleccionado:', selectedFilter);
+    this.selectedFilter = selectedFilter;
+
+    switch (selectedFilter) {
+      case 'Partidos Locales':
+        this.matchService.getLocalMatchesWithUserInfo(this.selectedSeasonId).subscribe(matches => {
+          this.matches = matches;
+          console.log('Matches loaded:', this.matches);
+        });
+        break;
+      case 'Partidos Visitantes':
+        this.matchService.getAwayMatchesWithUserInfo(this.selectedSeasonId).subscribe(matches => {
+          this.matches = matches;
+          console.log('Matches loaded:', this.matches);
+        });
+        break;
+      case 'Partidos Trabajados':
+        this.matchService.getOnlyWorkedMatches(this.selectedSeasonId).subscribe(matches => {
+          this.matches = matches;
+          console.log('Matches loaded:', this.matches);
+        });
+        break;
+      case 'Partidos No trabajados':
+        this.matchService.getOnlyNotWorkedMatches(this.selectedSeasonId).subscribe(matches => {
+          this.matches = matches;
+          console.log('Matches loaded:', this.matches);
+        });
+        break;
+      default:
+        this.loadMatchs().subscribe(matches => {
+          this.matches = matches;
+          console.log('Matches loaded:', this.matches);
+        });
+        break;
     }
   }
 

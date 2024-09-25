@@ -9,13 +9,19 @@
                 {{ season.seasonName }}
             </option>
         </select>
-        <div *ngIf="authService.isAdmin()">
-            <button (click)="addMatch()">Añadir Partido</button>
+        <div  *ngIf="authService.isAdmin()">
+            <button (click)="addMatch()" class="btn btn-success btn-sm">Añadir Partido</button>
             <!--<button (click)="addSeason()">Añadir Temporada</button>-->
         </div>
-
-
         <button *ngIf="isRoleMatchAnyRequest()" class="btn btn-success btn-sm" (click)="addWork()">Añadir Trabajo</button>
+    </div>
+
+    <div class="filter">
+        <select class="form-control box-filter" id="filter-bag"  (change)="onSelectFilter($event)">
+            <option *ngFor="let filter of filters" [value]="filter"> 
+                {{ filter }}
+            </option>
+        </select>
     </div>
 
     <div>
