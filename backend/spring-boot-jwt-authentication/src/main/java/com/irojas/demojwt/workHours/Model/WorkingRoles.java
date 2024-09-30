@@ -21,4 +21,6 @@ public enum WorkingRoles {
         return this.salary;
     }
     
+    
+    
 }

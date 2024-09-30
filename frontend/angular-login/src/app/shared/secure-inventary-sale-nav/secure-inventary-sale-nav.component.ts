@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { SecureNavComponent } from '../secure-nav/secure-nav.component';
-import { LoginService } from 'src/app/services/auth/login.service';
+import { LoginService } from 'src/app/authentication/service/loginService/login.service';
 
 @Component({
   selector: 'app-secure-inventary-sale-nav',

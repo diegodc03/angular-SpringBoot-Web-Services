@@ -1,0 +1,59 @@
+<div class="container">
+
+    <div class="upper-div">
+        <h2> Partidos </h2>
+        
+        <select class="form-control box-filter" id="bag" (change)="onSelect($event)" [ngModel]="selectedSeasonId">
+            <!-- La primera opción será la temporada seleccionada desde la URL -->
+            <option [ngValue]="null" disabled selected>{{ selectedSeasonNameShow || 'Seleccione una temporada' }}</option>
+            
+            <!-- Listar todas las temporadas -->
+            <option *ngFor="let season of seasons" [ngValue]="season.id">
+              {{ season.seasonName }}
+            </option>
+          </select>
+    </div>
+
+    <div>
+        <div> 
+            <div class="grid-words header">
+                <div class="earnings-description">Total Ganado</div>
+                <div class="match-date">A pagar</div>
+                <div class="work">Pagado</div> 
+            </div>
+        </div>
+
+        <div class="grid-words header">
+            <div class="earnings-description">{{ earnings.totalMoneyPaid }}</div>
+            <div class="match-date">{{ earnings.moneyToPay }}</div>
+            <div class="work">{{ earnings.moneyPaid }}</div>
+        </div>
+    </div>
+
+    <!-- Formulario para ingresar el pago -->
+    <form [formGroup]="addQuantityPay" (submit)="onSubmit()">
+        <p class="text-danger">{{ addQuantityPayError }}</p>
+              
+        <div class="form-css margin-css">
+            <div class="mb-3 element-css">
+                <label for="quantity" class="form-label">Cantidad Pagada</label>
+                <input formControlName="quantity" type="number" class="form-control" id="quantity">
+                    
+                <div *ngIf="addQuantityPay.get('quantity')?.invalid && (addQuantityPay.get('quantity')?.dirty || addQuantityPay.get('quantity')?.touched)" class="text-danger">
+                    <div *ngIf="addQuantityPay.get('quantity')?.errors?.['required']">
+                        El valor es requerido.
+                    </div>
+                    <div *ngIf="addQuantityPay.get('quantity')?.errors?.['max']">
+                        El valor no puede ser mayor que {{ earnings.moneyToPay }}.
+                    </div>
+                    <div *ngIf="addQuantityPay.get('quantity')?.errors?.['min']">
+                        El valor no puede ser menor que 1.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="addQuantityPay.invalid">Enviar Pago</button>
+    </form>
+
+</div>

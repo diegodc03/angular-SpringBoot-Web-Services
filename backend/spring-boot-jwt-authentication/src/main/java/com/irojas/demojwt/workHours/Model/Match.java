@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
+
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -15,20 +15,25 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="match")
-public class Match {
+@Table(name="sport_match")
+public class Match implements Comparable<Match>{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	private LocalDate matchDate;
+	
+	private String localTeam;
+	
+	private String awayTeam;
 	
 	private String description;
 	
@@ -39,10 +44,12 @@ public class Match {
 	private List<UserMatch> userMatch = new ArrayList<>();
 	
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
     @JoinColumn(name = "season_id")
     @JsonBackReference
 	private Season season;
+	
+	private boolean is_local;
 
 
 	public Long getId() {
@@ -89,10 +96,39 @@ public class Match {
 	}
 
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setDescription() {
+		this.description = (this.localTeam.toUpperCase() +" VS. "+ this.awayTeam.toUpperCase());
 	}
+
 	
+	public boolean isIs_local() {
+		return is_local;
+	}
+
+
+	public void setIs_local(boolean is_local) {
+		this.is_local = is_local;
+	}
+
+
+	public String getLocalTeam() {
+		return localTeam;
+	}
+
+
+	public void setLocalTeam(String localTeam) {
+		this.localTeam = localTeam;
+	}
+
+
+	public String getAwayTeam() {
+		return awayTeam;
+	}
+
+
+	public void setAwayTeam(String awayTeam) {
+		this.awayTeam = awayTeam;
+	}
 
 
 	public Match(Long id, LocalDate matchDate, List<UserMatch> userMatch, Season season, String description) {
@@ -103,10 +139,19 @@ public class Match {
 		this.season = season;
 		this.description = description;
 	}
+	
+	
 
 
 	public Match() {
 		super();
+	}
+
+
+	@Override
+	public int compareTo(Match o) {
+		return this.matchDate.compareTo(o.matchDate);
+		
 	}
 
 

@@ -15,6 +15,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,11 +58,10 @@ public class ControllerInventary {
 
 
 		@GetMapping("all-inventary")
-	    public ResponseEntity<List<Product>> getAllProducts(HttpServletRequest request) {
+	    public ResponseEntity<List<Product>> getAllProducts(
+	    		@AuthenticationPrincipal UserDetails currentUser) {
 			
-			String token = request.getHeader(HttpHeaders.AUTHORIZATION).substring(7);
-			String email = this.jwtTokenManager.getEmailFromToken(token); // Decodificar el token para obtener el email
-	        List<Product> products = productService.getProductsByEmail(email);
+	        List<Product> products = productService.getProductsByEmail(currentUser.getUsername());
 	        
 	        if(products != null) {
 	        	return ResponseEntity.ok(products);
@@ -75,15 +76,15 @@ public class ControllerInventary {
 	        if(product.isPresent()) {
 	        	return ResponseEntity.ok(product.get());
 	        }
-	        
 	        return product.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 	    }
 	    
 	    
 	    @GetMapping("/price-ascending")
-	    public ResponseEntity<List<Product>> getProductsByPriceAscending(HttpServletRequest request) {
+	    public ResponseEntity<List<Product>> getProductsByPriceAscending(
+	    		@AuthenticationPrincipal UserDetails currentUser) {
 	    	
-			List<Product> products = productService.getProductByPriceAscending(returnEmail(request));
+			List<Product> products = productService.getProductByPriceAscending(currentUser.getUsername());
 			if(products != null) {
 	        	return ResponseEntity.ok(products);
 	        }
@@ -92,9 +93,10 @@ public class ControllerInventary {
 	    
 	    
 	    @GetMapping("/price-descending")
-	    public ResponseEntity<List<Product>> getProductsByPriceDescending(HttpServletRequest request) {
+	    public ResponseEntity<List<Product>> getProductsByPriceDescending(
+	    		@AuthenticationPrincipal UserDetails currentUser) {
 	    	
-	    	List<Product> products = productService.getProductByPriceDescending(returnEmail(request));
+	    	List<Product> products = productService.getProductByPriceDescending(currentUser.getUsername());
 	        if(products != null) {
 	        	return ResponseEntity.ok(products);
 	        }
@@ -102,9 +104,10 @@ public class ControllerInventary {
 	    }
 	    
 	    @GetMapping("/stock-ascending")
-	    public ResponseEntity<List<Product>> getProductsByStockAscending(HttpServletRequest request) {
+	    public ResponseEntity<List<Product>> getProductsByStockAscending(
+	    		@AuthenticationPrincipal UserDetails currentUser) {
 	
-	    	List<Product> products = productService.getProductByStockAscending(returnEmail(request));
+	    	List<Product> products = productService.getProductByStockAscending(currentUser.getUsername());
 	        if(products != null) {
 	        	return ResponseEntity.ok(products);
 	        }
@@ -112,9 +115,10 @@ public class ControllerInventary {
 	    }
 	    
 	    @GetMapping("/stock-descending")
-	    public ResponseEntity<List<Product>> getProductsByStockDescending(HttpServletRequest request) {
+	    public ResponseEntity<List<Product>> getProductsByStockDescending(
+	    		@AuthenticationPrincipal UserDetails currentUser) {
 	    	
-	    	List<Product> products = productService.getProductByStockDescending(returnEmail(request));
+	    	List<Product> products = productService.getProductByStockDescending(currentUser.getUsername());
 	        if(products != null) {
 	        	return ResponseEntity.ok(products);
 	        }
@@ -126,29 +130,14 @@ public class ControllerInventary {
 			return this.jwtTokenManager.getEmailFromToken(token); // Decodificar el token para obtener el em
 	    }
 	    
-/*	    
-	    
-	    @PostMapping("/add-product-info")
-	    public ResponseEntity<String> addProduct(@RequestParam("user") String user
-	            ) throws IOException {
-
-	        System.out.println("ProductDTO: " + user);
-	        //System.out.println("File: " + file.getOriginalFilename());
-
-	        // Process the productDTO and file here
-
-	        return ResponseEntity.ok("Product added successfully");
-	    }
 
 
-	*/    
-
-	    
 	    //Correcto
 	    @PostMapping("/add-product-info")
 	    public ResponseEntity<String> addProduct(@RequestBody ProductDTO productDTO, HttpServletRequest request) {
 	    	String token = request.getHeader(HttpHeaders.AUTHORIZATION).substring(7);
 	        Product product = productService.addProduct(productDTO, token);
+	        
 	   
 	        return ResponseEntity.ok(product.getPublicId());
 	    }

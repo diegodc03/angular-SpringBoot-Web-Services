@@ -61,6 +61,10 @@ public class AuthController {
     
     
     
+    
+    
+    
+    
     @PostMapping(value = "changePassword")
     public ResponseEntity<String> changePassword(@RequestBody RequestChangePassword request, HttpServletRequest requestHeader){
     	String authorizationHeader = requestHeader.getHeader(HttpHeaders.AUTHORIZATION);
@@ -138,6 +142,7 @@ public class AuthController {
         }
         return ResponseEntity.notFound().build(); // Cambié a NOT_FOUND para indicar que el usuario no se encontró
     }
+    
     
     
     

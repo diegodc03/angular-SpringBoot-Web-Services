@@ -9,6 +9,7 @@ import java.util.function.Function;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.irojas.demojwt.Auth.Model.User;
 import com.irojas.demojwt.Auth.Service.UserService;
 
 import io.jsonwebtoken.Claims;
@@ -34,12 +35,20 @@ public class JwtService {
     }
 
     private String getToken(Map<String,Object> extraClaims, UserDetails user) {
+    	
+    	if (user instanceof User) {
+            User customUser = (User) user;
+            System.out.print(customUser.getRole().name());
+            extraClaims.put("role", customUser.getRole().name()); // Asumiendo que tienes un método getRole()
+        }
+    	
+    	
         return Jwts
             .builder()
             .setClaims(extraClaims)
             .setSubject(user.getUsername())
             .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis()+1000*60*24))
+            .setExpiration(new Date(System.currentTimeMillis()+10000*60*24))
             .signWith(getKey(), SignatureAlgorithm.HS256)
             .compact();
     }

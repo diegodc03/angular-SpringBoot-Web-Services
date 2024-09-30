@@ -1,0 +1,29 @@
+<div class="container">
+    <form [formGroup]="seasonForm" (submit)="onSubmit()">
+        <p class="text-danger">{{seasonError}}</p>
+        <div class="mb-3">
+            <label for="season" class="form-label">Select de Temporadas Ya Añadidas, no se pueden añadir</label>
+            <select formControlName="seasonId" class="form-control box-filter" id="bag">
+                <option *ngFor="let season of seasons" [value]="season.id" disabled selected>
+                    {{ season.seasonName }}
+                </option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="seasonName" class="form-label">Introducir Temporada --> Formato "AÑO/AÑO"</label>
+            <input formControlName="seasonName" type="text" class="form-control" id="season-Name" aria-describedby="usernameHelp">
+            <div *ngIf="seasonName.invalid && (seasonName.dirty || seasonName.touched)" class="text-danger">
+                <div *ngIf="seasonName.errors?.['required']">Es necesario añadir una temporada.</div>
+                <div *ngIf="seasonName.errors?.['duplicate']">Esta temporada ya ha sido añadida.</div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="file" class="form-label">Cargar archivo de texto con los partidos con el formato "Jornada 15 (3 de enero de 2025): Caja Rural CB Zamora vs. Real Betis Baloncesto"</label>
+            <input type="file" (change)="onFileChange($event)" accept=".txt" class="form-control" id="file">
+            <div *ngIf="fileError" class="text-danger">{{ fileError }}</div>
+        </div>
+            
+        <button type="submit" class="btn btn-primary">Registrar Partido</button>
+    </form>
+</div>

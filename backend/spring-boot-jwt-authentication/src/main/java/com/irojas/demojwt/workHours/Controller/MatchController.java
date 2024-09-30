@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +27,7 @@ import com.irojas.demojwt.workHours.Service.UserMatchService;
 
 
 @Controller
-@RequestMapping("/matches")
+@RequestMapping("/work-hours/matches")
 public class MatchController {
 
     private MatchService matchService;
@@ -36,32 +37,45 @@ public class MatchController {
     private UserService userService;
 
     private UserMatchService userMatchService;
+    
+    
+    
 	
 	
-    // Probar
+    public MatchController(MatchService matchService, SeasonService seasonService, UserService userService,
+			UserMatchService userMatchService) {
+		super();
+		this.matchService = matchService;
+		this.seasonService = seasonService;
+		this.userService = userService;
+		this.userMatchService = userMatchService;
+	}
+    
+    
+// OK
     @GetMapping("/all")
     public ResponseEntity<List<MatchDTO>> getAllMatches() {
         List<MatchDTO> matches = matchService.getAllMatches();
         return ResponseEntity.ok(matches);
     } 
     
-    //Probar
+// OK
     @GetMapping("/all-of-season")
-    public ResponseEntity<List<MatchDTO>> getAllMatchOfSeason(@RequestParam("season") SeasonDTO season){
-    	List<MatchDTO> matches =  matchService.getAllSeasonMatches(season);
+    public ResponseEntity<List<MatchDTO>> getAllMatchOfSeason(@RequestParam("seasonId") Long id){
+    	List<MatchDTO> matches =  matchService.getAllSeasonMatches(id);
     	return ResponseEntity.ok(matches); 
     }
     
   
 
     
-    
-    // El admin puede añadir partidos a una temporada existente
+//OK --> ONLY IT WILL PUT ADMIN AUTHORIZE YET
+
     @PostMapping("/add-match")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<String> addMatch(@RequestBody MatchDTO matchDTO, SeasonDTO season) {
+    public ResponseEntity<String> addMatch(@RequestBody MatchDTO matchDTO) {
         try {
-            matchService.addMatch(matchDTO, season);
+            matchService.addMatch(matchDTO);
             return ResponseEntity.ok("Match added successfully.");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error adding match: " + e.getMessage());
@@ -69,19 +83,33 @@ public class MatchController {
     }
     
     
-    // probar
+    @DeleteMapping("/delete-match/{matchId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<String> deleteMatch(@PathVariable Long matchId) {
+        try {
+            matchService.deleteMatch(matchId);
+            return ResponseEntity.ok("Match added successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error adding match: " + e.getMessage());
+        }
+    }
+    
+    
+    
+ //OK --> ONLY IT WILL PUT ADMIN AUTHORIZE YET
     @PostMapping("/add-season")
     @PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> addSeasonWithMatches(@RequestParam("file") MultipartFile file, SeasonDTO season){
 		try {
-            seasonService.addSeasonWithMatchesFromFile(file, season);
+             seasonService.addSeasonWithMatchesFromFile(file, season);
             return ResponseEntity.ok("Season and matches added successfully.");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error adding season: " + e.getMessage());
         }	
 	}
-	
-	
-	
+    
+    
+    
+    
 	
 }

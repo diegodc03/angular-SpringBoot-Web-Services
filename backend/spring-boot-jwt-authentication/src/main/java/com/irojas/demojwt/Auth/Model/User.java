@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.irojas.demojwt.Inventay.Model.Product;
-import com.irojas.demojwt.Inventay.Model.ProductSale;
 import com.irojas.demojwt.Inventay.Model.SaleList;
 import com.irojas.demojwt.workHours.Model.UserMatch;
 
@@ -72,9 +71,7 @@ public class User implements UserDetails {
     
     
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    //para que no coja otra vez los valores en el JSON
-    @JsonIgnoreProperties(value = "user")
+    @JsonManagedReference // Serializamos esta parte
     private List<UserMatch> userMatch = new ArrayList<>();
     
     

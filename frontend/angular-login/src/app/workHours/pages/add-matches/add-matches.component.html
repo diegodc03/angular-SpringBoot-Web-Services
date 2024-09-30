@@ -1,0 +1,38 @@
+<div class="container">
+    <form [formGroup]="matchForm" (submit)="onSubmit()">
+        <p class="text-danger">{{matchError}}</p>
+        <div class="mb-3">
+            <label for="localTeam" class="form-label">Equipo Local</label>
+            <input formControlName="localTeam" type="text" class="form-control" id="local-Team" aria-describedby="usernameHelp">
+            <div *ngIf="localTeam.invalid && (localTeam.dirty || localTeam.touched)" class="text-danger">
+                <div *ngIf="localTeam.errors?.['required']">El Equipo local es necesario.</div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="awayTeam" class="form-label">Equipo Visitante</label>
+            <input formControlName="awayTeam" type="text" class="form-control" id="away-Team">
+            <div *ngIf="awayTeam.invalid && (awayTeam.dirty || awayTeam.touched)" class="text-danger">
+                <div *ngIf="awayTeam.errors?.['required']">El Equipo visitante es necesario.</div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="date" class="form-label">Fecha del Partido</label>
+            <input formControlName="date" type="date" class="form-control" id="date">
+            <div *ngIf="date.invalid && (date.dirty || date.touched)" class="text-danger">
+                <div *ngIf="date.errors?.['required']">La fecha es necesaria.</div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="season" class="form-label">Temporada</label>
+            <select formControlName="seasonId" class="form-control box-filter" id="bag">
+                <option value="" disabled selected>Selecciona una temporada</option>
+                <option *ngFor="let season of seasons" [value]="season.id">
+                    {{ season.seasonName }}
+                </option>
+            </select>
+            
+        </div>
+            
+        <button type="submit" class="btn btn-primary">Registrar Partido</button>
+    </form>
+</div>

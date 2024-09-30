@@ -1,0 +1,66 @@
+<div class="container">
+    
+    <div class="upper-div">
+        <h2> Partidos </h2>
+        
+        <select class="form-control box-filter" id="bag"  (change)="onSelect($event)">
+            <option  disabled selected>{{ selectedSeasonNameShow }}</option>
+            <option *ngFor="let season of seasons" [value]="season.id">
+                {{ season.seasonName }}
+            </option>
+        </select>
+        <div  *ngIf="authService.isAdmin()">
+            <button (click)="addMatch()" class="btn btn-success btn-sm">Añadir Partido</button>
+            <!--<button (click)="addSeason()">Añadir Temporada</button>-->
+        </div>
+        <button *ngIf="isRoleMatchAnyRequest()" class="btn btn-success btn-sm" (click)="addWork()">Añadir Trabajo</button>
+    </div>
+
+    <div class="filter">
+        <select class="form-control box-filter" id="filter-bag"  (change)="onSelectFilter($event)">
+            <option *ngFor="let filter of filters" [value]="filter"> 
+                {{ filter }}
+            </option>
+        </select>
+    </div>
+
+    <div>
+        <div> 
+            <div class="grid-words header">
+                <div class="match-description">Partido</div>
+                <div class="match-date">Fecha</div>
+                <div class="work">Trabajado</div> 
+                <div class="acctions">Acciones</div>
+            </div>
+        </div>
+        <div *ngFor="let match of matches; let i = index" class="product-item">
+            <div class="grid-words  product-row" >
+
+                <div class="match-description">{{ match.match.description }}</div>
+                <div class="match-date">{{ match.match.date }}</div>
+                
+                <div *ngIf="match.userWorked && isWorkedMatch(match)" class="work">
+                    <div class="work-item"><strong>Trabajador:</strong> {{ match.role }}</div>
+                    <div class="work-item"><strong>Ganado:</strong> {{ match.payment | currency: 'EUR'}}</div>
+                </div>
+                <div *ngIf="!match.userWorked">
+                    <div class="work-item">No trabajado</div>
+                    <!-- Tenemos que poner para que elijan el trabajo de esa semana y que se compare si es una fecha anterior no que se pueda añadir un trabajo no empezado ya que no se puede trabauar en el fututo-->
+                </div>
+
+                <div class="acctions">
+                    <div *ngIf="!match.userWorked">
+                        <select class="btn btn-info btn-sm" id="bag"  (change)="onSelectRole($event, match.match)">
+                            <option *ngFor="let role of workingRoles" [value]="role.role">
+                                {{ role.role }} --> {{ role.salary| currency: 'EUR'}}
+                            </option>
+                        </select>
+                        <p class="text-danger">{{ errorMessages[match.match.id] }}</p> <!-- Mostrar mensaje de error específico aquí -->
+                    </div>
+                    <div *ngIf="authService.isAdmin()" class="btn btn-danger btn-sm" (click)="deleteMatch(match.match.id)">Eliminar Partido</div>
+                    <button *ngIf="match.userWorked && isWorkedMatch(match)" class="btn btn-danger btn-sm" (click)="deleteWork(match.match.id)">Eliminar Trabajo</button>   
+                </div>
+        </div>
+    </div>
+  </div>
+  
