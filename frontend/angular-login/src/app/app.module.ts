@@ -14,8 +14,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { PersonalDetailsComponent } from './authentication/pages/personal-details/personal-details.component';
-import { JwtInterceptorService } from './interceptor/jwt-interceptor.service';
-import { ErrorInterceptorService } from './interceptor/error-interceptor.service';
+import { JwtInterceptorService } from './services/interceptor/jwt-interceptor.service';
+import { ErrorInterceptorService } from './services/interceptor/error-interceptor.service';
 
 import { ReactiveFormsComponent } from './authentication/pages/reactive-forms/reactive-forms.component';
 import { IndexComponent } from './authentication/pages/index/index.component';
@@ -37,7 +37,7 @@ import { ShoppingBasketComponent } from './inventarySale/pages/sale/shopping-bas
 import { ShowProductSizes } from './inventarySale/pages/sale/show-product-sizes/show-product-sizes.component';
 import { HistorySalesViewComponent } from './inventarySale/pages/sale/history-sales-view/history-sales-view.component';
 import { ShowSaleInformationComponent } from './inventarySale/pages/sale/show-sale-information/show-sale-information.component';
-import { JwtInterceptor } from './interceptor/jwt-interceptor';
+import { JwtInterceptor } from './services/interceptor/jwt-interceptor';
 import { SecureWorkHoursLayoutComponent } from './layouts/secure-work-hours-layout/secure-work-hours-layout.component';
 import { SecureWorkHoursNavComponent } from './shared/secure-work-hours-nav/secure-work-hours-nav.component';
 import { ShowSeasonEarningsComponent } from './workHours/pages/show-season-earnings/show-season-earnings.component';
