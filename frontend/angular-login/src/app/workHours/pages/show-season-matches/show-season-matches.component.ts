@@ -13,7 +13,7 @@ import { WorkingRolesService } from '../../service/workingRolesService/working-r
 import { RoleMatchPaymentRequestDTO} from '../../modelDTO/RoleMatchPaymentRequestDTO/RoleMatchPaymentRequestDTO';
 import { EarningsService } from '../../service/earningsService/earnings.service';
 import { state } from '@angular/animations';
-import { AuthService } from 'src/app/auth/service/authService/auth.service';
+import { AuthService } from 'src/app/authentication/service/authService/auth.service';
 import { MatchService } from '../../service/MatchService/match.service';
 
 
@@ -77,7 +77,6 @@ selectedFilter: any;
       this.selectedSeasonId = seasonId;
     }
 
-
     return this.seasonService.getAllSeasons().pipe(
       switchMap(seasons => {
         this.seasons = seasons;
@@ -120,8 +119,6 @@ selectedFilter: any;
           
         }
 
-        
-
         if (this.selectedSeasonId === -1) {
           console.error('No se pudo seleccionar una temporada válida');
           return of([]); // Devuelve un observable vacío si no se seleccionó una temporada válida
@@ -129,15 +126,13 @@ selectedFilter: any;
   
         console.log('Temporada seleccionada:', this.selectedSeasonId);
      
-  
         // Aquí es donde se hace la segunda petición
         return this.matchService.getMatchesBySeasonId(this.selectedSeasonId);
       })
     );
   }
 
-
-  loadMatchs(): Observable<(MatchWithUserInfoDTO | WorkedMatchWithUserInfo)[]> {
+  loadMatches(): Observable<(MatchWithUserInfoDTO | WorkedMatchWithUserInfo)[]> {
     
     return this.matchService.getMatchesBySeasonId(this.selectedSeasonId).pipe(
       switchMap(matches => {
@@ -163,7 +158,7 @@ selectedFilter: any;
 
     this.seasonLoadService.setSeasonId(this.selectedSeasonId);
     
-    this.loadMatchs().subscribe(matches => {
+    this.loadMatches().subscribe(matches => {
       this.matches = matches
       console.log('Matches loaded:', this.matches);
     });
@@ -224,7 +219,7 @@ selectedFilter: any;
         });
         break;
       default:
-        this.loadMatchs().subscribe(matches => {
+        this.loadMatches().subscribe(matches => {
           this.matches = matches;
           console.log('Matches loaded:', this.matches);
         });
@@ -239,7 +234,7 @@ selectedFilter: any;
       switchMap(state => {
         console.log('Trabajo añadido:', state);
         this.roleMatchPaymentRequestListDTO = [];
-        return this.loadMatchs(); // Return the observable from loadData
+        return this.loadMatches(); // Return the observable from loadData
       })
     ).subscribe(matches => {
       this.matches = matches;
@@ -265,7 +260,7 @@ selectedFilter: any;
       switchMap(state => {
         console.log('Trabajo eliminado:', state);
         
-        return this.loadMatchs(); // Return the observable from loadData
+        return this.loadMatches(); // Return the observable from loadData
       
       })).subscribe(matches => {
         this.matches = matches;
@@ -302,7 +297,7 @@ selectedFilter: any;
             console.log('Match eliminado:', response);
             
             // Luego de eliminar el match, cargamos los matches nuevamente
-            return this.loadMatchs();
+            return this.loadMatches();
           })
         ).subscribe(matches => {
           this.matches = matches;
@@ -313,7 +308,7 @@ selectedFilter: any;
         next: () => {
           console.log('Match deleted');
           
-          return this.loadMatchs().subscribe(
+          return this.loadMatches().subscribe(
             matches => {
               this.matches = matches;
               console.log('Matches loaded:', this.matches);
@@ -325,7 +320,6 @@ selectedFilter: any;
         }
       });
     }
-      
   }
 
   deleteSeason(seasonId: number) {
@@ -340,4 +334,5 @@ selectedFilter: any;
   }
     
   
+
 }

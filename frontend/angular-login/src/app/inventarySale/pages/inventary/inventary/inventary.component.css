@@ -1,0 +1,182 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%; /* Ocupar toda la altura */
+    width: 100%;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 90%; /* Cambia min-width a width y ajusta al 90% */
+    margin: 0 auto; /* Centra el contenedor horizontalmente */
+    min-height: 100vh; /* Asegura que ocupe al menos el 100% de la altura de la pantalla */
+}
+
+
+/*tittle*/
+.upper-div {
+    margin-top : 30px; margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #008cba;
+    color: white;
+    border-radius: 8px;
+}
+
+.upper-div h2 {
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+.grid-words {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr 1fr 2fr; /* Define el ancho de cada columna */
+    gap: 10px; /* Espacio entre columnas */
+    align-items: center; /* Alinea los elementos verticalmente */
+    padding: 10px;
+}
+
+/* Estilos específicos para el encabezado */
+.header {
+    font-weight: bold;
+    background-color: #f5f5f5;
+    border-bottom: 2px solid #ccc;
+}
+
+
+/* Estilos para cada fila de producto */
+.product-row {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* Alinea los botones de acción */
+.product-actions {
+    display: flex;
+    gap: 5px;
+}
+
+
+.product-list {
+    margin-top: 20px;
+}
+
+.product-item {
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #ffffff;
+}
+
+
+
+.product-header div {
+    flex: 1;
+}
+
+.product-actions {
+    display: flex;
+    gap: 10px;
+}
+
+
+
+.details-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Espacio entre los elementos */
+}
+
+.product-details {
+    background-color: #f8f9fa; /* Color de fondo claro */
+    padding: 10px;
+    border-top: 1px solid #dee2e6; /* Línea superior para separar visualmente */
+    background-color: #1e8ead;
+    border-radius: 10px;
+}
+
+.tittle-details{
+    display: flex;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    justify-content: center; /* Centra horizontalmente */
+}
+
+.garment-row {
+    display: flex;
+    flex: 1 1 calc(50% - 10px); /* Dos elementos por fila, considerando el espacio de gap */
+    box-sizing: border-box;
+    border-radius: 20px;
+    
+}
+
+.garment-items {
+    
+    width: 100%;
+    border-radius: 20px;
+    background-color: #84b7c5;
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1); /* Sombra ligera para un efecto de profundidad */
+}
+
+.garment-item{
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-left: 5%;
+    margin-right: 5%;
+    border-bottom: 1px solid #dee2e6;
+}
+.margin-button{
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+
+#bag {
+    font-size: 1.2rem;
+    font-weight: bold;
+    background-color: #ff4081;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#bag:hover {
+    background-color: #ff6290;
+}
+
+
+
+
+.box-filter {
+    cursor: pointer;
+    
+    width: auto;
+    height: auto;
+
+    text-align: center;
+    display: inline-block;
+    border: 2px solid #008cba;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+    
+
+}

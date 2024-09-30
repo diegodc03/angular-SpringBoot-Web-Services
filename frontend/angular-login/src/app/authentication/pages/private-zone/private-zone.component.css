@@ -1,0 +1,45 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f4f4;
+  font-family: Arial, sans-serif;
+}
+  
+.container {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column; /* Los elementos se apilan verticalmente */
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* El contenedor ocupa todo el ancho */
+  
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra para darle un efecto de elevación */
+  border-radius: 8px; /* Bordes redondeados */
+}
+
+ 
+  .button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    background-color: #007BFF;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+
+  .button:hover {
+    background-color: #0056b3;
+  }

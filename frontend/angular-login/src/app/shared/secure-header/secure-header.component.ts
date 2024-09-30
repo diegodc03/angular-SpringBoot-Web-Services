@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { LoginService } from 'src/app/services/auth/login.service';
+import { LoginService } from 'src/app/authentication/service/loginService/login.service';
 import { Router } from '@angular/router'; // Import the Router
-import { UserService } from 'src/app/services/user/user.service';
-import { User } from 'src/app/model/user/user';
+import { UserService } from 'src/app/authentication/service/userService/user.service';
+import { User } from 'src/app/authentication/model/user/user';
 
 @Component({
   selector: 'app-secure-header',

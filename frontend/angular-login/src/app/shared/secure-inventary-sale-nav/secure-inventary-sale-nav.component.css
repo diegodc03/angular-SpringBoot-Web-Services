@@ -1,25 +1,47 @@
 nav {
-    background-color: #333;
-    color: white;
-    height: 4vh;
-  }
-  
-  nav ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  nav li {
-    display: inline;
-    margin-right: 10px;
-  }
-  
-  nav a {
-    color: white;
-    text-decoration: none;
-  }
-  
-  nav a:hover {
-    text-decoration: underline;
-  }
-  
+  background-color: #2c3e50; /* Color de fondo oscuro moderno */
+  color: white;
+  padding: 15px 0; /* Aumenta el padding para dar más espacio vertical */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para dar un efecto de elevación */
+}
+
+nav ul {
+  display: flex;
+  justify-content: center; /* Centra el menú horizontalmente */
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav li {
+  margin: 0 20px; /* Aumenta el espacio entre los enlaces */
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem; /* Tamaño de fuente */
+  font-weight: 500; /* Fuente más gruesa */
+  padding: 10px 20px; /* Padding interno de los enlaces */
+  border-radius: 5px; /* Bordes redondeados para un look más suave */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Transiciones suaves al interactuar */
+}
+
+nav a:hover {
+  background-color: #1abc9c; /* Color de fondo al pasar el mouse */
+  transform: translateY(-2px); /* Leve efecto de elevación al pasar el mouse */
+}
+
+nav a:active {
+  background-color: #16a085; /* Color de fondo al hacer clic */
+}
+
+nav li:last-child a {
+  background-color: #e74c3c; /* Botón especial para "Cerrar Sesión" */
+  padding: 10px 25px; /* Ajuste de padding para darle más tamaño */
+}
+
+nav li:last-child a:hover {
+  background-color: #c0392b; /* Color al pasar el mouse sobre "Cerrar Sesión" */
+}
