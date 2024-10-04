@@ -45,13 +45,13 @@ public class Product {
 	
 	private Double price;
 	
-	private Boolean isTshirt; // Indica si el producto tiene varias tallas
+	private Boolean haveSize; // Indica si el producto tiene varias tallas
 	
 	private int totalStock;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties(value="product")
-    private List<Garment> garments;
+    private List<SizeElement> sizeElements;
 
     private String imageName;
     
@@ -105,20 +105,20 @@ public class Product {
 	}
 
 	public Boolean getIsTshirt() {
-		return isTshirt;
+		return haveSize;
 	}
 
-	public void setIsTshirt(Boolean isTshirt) {
-		this.isTshirt = isTshirt;
+	public void setIsTshirt(Boolean haveSize) {
+		this.haveSize = haveSize;
 	}
 
 
-	public List<Garment> getGarments() {
-		return garments;
+	public List<SizeElement> getGarments() {
+		return sizeElements;
 	}
 
-	public void setGarments(List<Garment> garments) {
-		this.garments = garments;
+	public void setGarments(List<SizeElement> sizeElements) {
+		this.sizeElements = sizeElements;
 	}
 	
 	public String getImageName() {
@@ -141,14 +141,14 @@ public class Product {
 		this.user = user;
 	}
 
-	public Product(String publicId, String name, String description, Double price, Boolean isTshirt, List<Garment> garments) {
+	public Product(String publicId, String name, String description, Double price, Boolean haveSize, List<SizeElement> sizeElements) {
 		super();	
 		this.publicId = publicId;
 		this.name = name;
 		this.description = description;
 		this.price = price;
-		this.isTshirt = isTshirt;
-		this.garments = garments;
+		this.haveSize = haveSize;
+		this.sizeElements = sizeElements;
 	}
 
 	public Product() {

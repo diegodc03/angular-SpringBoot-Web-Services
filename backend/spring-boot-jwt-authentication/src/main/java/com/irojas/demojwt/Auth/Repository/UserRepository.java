@@ -9,11 +9,11 @@ import org.springframework.data.repository.query.Param;
 
 import com.irojas.demojwt.Auth.Model.User;
 
-public interface UserRepository extends JpaRepository<User,Integer> {
+public interface UserRepository extends JpaRepository<User,Long> {
     Optional<User> findByEmail(String email); 
     
     @Modifying()
     @Query("update User u set u.firstname=:firstname, u.lastname=:lastname, u.country=:country where u.id = :id")
-    void updateUser(@Param(value = "id") Integer id,   @Param(value = "firstname") String firstname, @Param(value = "lastname") String lastname , @Param(value = "country") String country);
+    void updateUser(@Param(value = "id") Long id,   @Param(value = "firstname") String firstname, @Param(value = "lastname") String lastname , @Param(value = "country") String country);
 
 }

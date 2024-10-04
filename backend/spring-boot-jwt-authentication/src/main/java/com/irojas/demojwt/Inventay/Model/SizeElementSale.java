@@ -1,15 +1,27 @@
-package com.irojas.demojwt.Inventay.ModelDTO;
+package com.irojas.demojwt.Inventay.Model;
 
 import javax.validation.constraints.NotNull;
 
-import com.irojas.demojwt.Inventay.Model.Size;
-
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public class GarmentSaleDTO {
-	
+
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name="sizeElementsSales", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
+public class SizeElementSale {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +31,6 @@ public class GarmentSaleDTO {
 	
 	private int stockSold;
 
-	
 	
 	
 	
@@ -49,12 +60,14 @@ public class GarmentSaleDTO {
 
 	
 	
-	public GarmentSaleDTO(@NotNull Size size, int stockSold) {
+	public SizeElementSale(Size size, int stockSold) {
 		super();
 		this.size = size;
 		this.stockSold = stockSold;
 	}
-
 	
+	public SizeElementSale() {
+		super();
+	}
 	
 }

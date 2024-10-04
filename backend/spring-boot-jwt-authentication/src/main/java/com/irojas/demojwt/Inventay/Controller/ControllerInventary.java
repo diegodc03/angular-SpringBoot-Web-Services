@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.irojas.demojwt.Inventay.Model.Garment;
+import com.irojas.demojwt.Inventay.Model.SizeElement;
 import com.irojas.demojwt.Inventay.Model.Product;
 import com.irojas.demojwt.Inventay.ModelDTO.ProductDTO;
 import com.irojas.demojwt.Inventay.Service.ProductService;

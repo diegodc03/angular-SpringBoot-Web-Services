@@ -6,7 +6,7 @@ import { ProductSoldDTO } from '../../../modelDTO/product-sold-dto/product-sold-
 import { SaleService } from '../../../service/sale/sale.service';
 import { CartService } from '../../../service/cartService/cart-service.service';
 import { ProductsToSaleService } from '../../../service/products-to-sale/products-to-sale.module';
-import { Garment } from '../../../model/garment/garment.module';
+import { sizeElement } from '../../../model/garment/sizeElement.module';
 
 @Component({
   selector: 'app-shopping-basket',
@@ -81,7 +81,7 @@ export class ShoppingBasketComponent {
         // Existen tallas para este producto
         // implica que hay que recorrer las tallas y sumar el stock a cada talla en productsToSale
         if(product.existanceSizes){
-          const sizesArray: Garment[] = [];
+          const sizesArray: sizeElement[] = [];
           for(let size of product.garmentsSales){
             const foundSize = products[index2].garments.find(garment => garment.size === size.size);
             if (foundSize) {
@@ -89,7 +89,7 @@ export class ShoppingBasketComponent {
               // Ahora hay que introducir el stock en el array de productsToSale
               // para que se actualice en la vista
               //hacemos un array de garment y luego lo metemos todo
-              sizesArray.push(new Garment(foundSize.id, foundSize.size, foundSize.color, foundSize.material, foundSize.stock));
+              sizesArray.push(new sizeElement(foundSize.id, foundSize.size, foundSize.color, foundSize.material, foundSize.stock));
             }
           }
           products[index2].garments = sizesArray;

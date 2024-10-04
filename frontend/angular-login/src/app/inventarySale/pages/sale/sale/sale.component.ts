@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { ProductSoldDTO } from '../../../modelDTO/product-sold-dto/product-sold-dto.module';
 import { CartService } from '../../../service/cartService/cart-service.service';
 import { GarmentSoldDtoModule } from '../../../modelDTO/garment-sold-dto/garment-sold-dto.module';
-import { Garment } from '../../../model/garment/garment.module';
+import { sizeElement } from '../../../model/garment/sizeElement.module';
 import { ProductsToSaleService } from '../../../service/products-to-sale/products-to-sale.module';
 
 @Component({
@@ -108,7 +108,7 @@ export class SaleComponent {
 
       
 
-      if(product.isTshirt){
+      if(product.haveSize){
         alert('Producto con tallas');
         // This part the user will select the size
         //this.selectedProduct = product;
@@ -140,7 +140,7 @@ export class SaleComponent {
                                         product.name, 
                                         product.price,
                                         product.price,
-                                        product.isTshirt, 
+                                        product.haveSize, 
                                         1, 
                                         product.imageName,
                                         []);
@@ -179,7 +179,7 @@ export class SaleComponent {
                                               this.products[index].name, 
                                               this.products[index].price, 
                                               0, 
-                                              this.products[index].isTshirt, 
+                                              this.products[index].haveSize, 
                                               0, 
                                               this.products[index].imageName, 
                                               selectedSizes);

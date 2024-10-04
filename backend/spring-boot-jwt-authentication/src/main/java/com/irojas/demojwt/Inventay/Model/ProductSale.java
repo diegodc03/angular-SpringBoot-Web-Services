@@ -10,7 +10,7 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.irojas.demojwt.Inventay.ModelDTO.GarmentSaleDTO;
+import com.irojas.demojwt.Inventay.ModelDTO.SizeElementSaleDTO;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -63,7 +63,7 @@ public class ProductSale {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "sale_id") // Clave foránea para conectar con ProductSale
     @JsonIgnoreProperties("garmentsSales")
-    private List<GarmentSale> garmentsSales = new ArrayList<>();
+    private List<SizeElementSale> sizeElementsSales = new ArrayList<>();
     
     
     // Getters and Setters
@@ -133,13 +133,13 @@ public class ProductSale {
 	}
 
 
-	public List<GarmentSale> getGarmentsSales() {
-		return garmentsSales;
+	public List<SizeElementSale> getGarmentsSales() {
+		return sizeElementsSales;
 	}
 
 
-	public void setGarmentsSales(List<GarmentSale> garmentsSales) {
-		this.garmentsSales = garmentsSales;
+	public void setGarmentsSales(List<SizeElementSale> sizeElementsSales) {
+		this.sizeElementsSales = sizeElementsSales;
 	}
 
 	
@@ -154,7 +154,7 @@ public class ProductSale {
 
 	public ProductSale(Integer totalStockSold, Double unitaryPrice,
 			Double totalPrice, String public_id, String productId, boolean existanceSizes,
-			List<GarmentSale> garmentsSales) {
+			List<SizeElementSale> sizeElementsSales) {
 		super();
 		this.totalStockSold = totalStockSold;
 		this.unitaryPrice = unitaryPrice;
@@ -162,7 +162,7 @@ public class ProductSale {
 		this.public_id = public_id;
 		this.productId = productId;
 		this.existanceSizes = existanceSizes;
-		this.garmentsSales = garmentsSales;
+		this.sizeElementsSales = sizeElementsSales;
 	}
 
 

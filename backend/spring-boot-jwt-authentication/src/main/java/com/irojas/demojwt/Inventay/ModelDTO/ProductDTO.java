@@ -28,7 +28,7 @@ public class ProductDTO {
 	 private Integer totalStock;
 
 	 @Valid
-	 private List<GarmentDTO> garments;
+	 private List<SizeElementDTO> garments;
 	 
 
 	public String getName() {
@@ -71,11 +71,11 @@ public class ProductDTO {
 		this.totalStock = totalStock;
 	}
 
-	public List<GarmentDTO> getGarments() {
+	public List<SizeElementDTO> getGarments() {
 		return garments;
 	}
 
-	public void setGarments(List<GarmentDTO> garments) {
+	public void setGarments(List<SizeElementDTO> garments) {
 		this.garments = garments;
 	}
 	
@@ -83,7 +83,7 @@ public class ProductDTO {
 
 	public ProductDTO(@NotNull @Size(min = 1, max = 100) String name, @Size(max = 255) String description,
 			@NotNull @DecimalMin("0.0") Double price, @NotNull Boolean isTshirt, @NotNull @Min(0) Integer totalStock,
-			@Valid List<GarmentDTO> garments) {
+			@Valid List<SizeElementDTO> garments) {
 		super();
 		this.name = name;
 		this.description = description;

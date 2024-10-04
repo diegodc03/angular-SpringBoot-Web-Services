@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Garment } from '../../../model/garment/garment.module';
+import { sizeElement } from '../../../model/garment/sizeElement.module';
 import { GarmentSoldDtoModule } from '../../../modelDTO/garment-sold-dto/garment-sold-dto.module';
 import { Router } from '@angular/router';
 
@@ -14,7 +14,7 @@ export class ShowProductSizes {
 
 
   // In the sizes array we will store the sizes of the product that we want to show
-  sizes: Garment[] = [];
+  sizes: sizeElement[] = [];
 
   sizesSold: GarmentSoldDtoModule[] = [];
   
@@ -37,7 +37,7 @@ export class ShowProductSizes {
   }
 
 
-  addToCartSize(selectedSize: Garment) {
+  addToCartSize(selectedSize: sizeElement) {
     console.log('Add to cart:', selectedSize.size);
 
     if (selectedSize.stock === 0) {

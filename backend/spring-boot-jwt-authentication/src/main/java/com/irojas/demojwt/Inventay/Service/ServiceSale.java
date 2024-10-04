@@ -13,15 +13,15 @@ import javax.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import com.irojas.demojwt.Auth.Model.User;
-import com.irojas.demojwt.Inventay.Model.Garment;
-import com.irojas.demojwt.Inventay.Model.GarmentSale;
+import com.irojas.demojwt.Inventay.Model.SizeElement;
+import com.irojas.demojwt.Inventay.Model.SizeElementSale;
 import com.irojas.demojwt.Inventay.Model.Product;
 import com.irojas.demojwt.Inventay.Model.ProductSale;
 import com.irojas.demojwt.Inventay.Model.SaleList;
-import com.irojas.demojwt.Inventay.ModelDTO.GarmentSaleDTO;
+import com.irojas.demojwt.Inventay.ModelDTO.SizeElementSaleDTO;
 import com.irojas.demojwt.Inventay.ModelDTO.SaleDTO;
 import com.irojas.demojwt.Inventay.ModelDTO.SaleListDTO;
-import com.irojas.demojwt.Inventay.Repository.GarmentRepository;
+import com.irojas.demojwt.Inventay.Repository.SizeElementRepository;
 import com.irojas.demojwt.Inventay.Repository.ProductRepository;
 import com.irojas.demojwt.Inventay.Repository.SaleListRepository;
 import com.irojas.demojwt.Inventay.Repository.SaleRepository;
@@ -150,27 +150,27 @@ public class ServiceSale {
 				// If the product has sizes, it has to delete the parts of sizes, the total stock and the total elements change when it change the sizes
 				if(productSale.isExistanceSizes() && p.getIsTshirt()) {
 					
-					List<GarmentSaleDTO> garmentsSales = saleDTO.getGarmentsSales();
+					List<SizeElementSaleDTO> garmentsSales = saleDTO.getGarmentsSales();
 		            if (garmentsSales == null || garmentsSales.isEmpty()) {
 		                throw new IllegalArgumentException("No se especificaron las tallas para la venta de prendas.");
 		            }
 		            
 		            // loop into the sizes it sold 
-		            for (GarmentSaleDTO g : garmentsSales) {
-	                    Garment garment = p.getGarments().stream()
+		            for (SizeElementSaleDTO g : garmentsSales) {
+	                    SizeElement sizeElement = p.getGarments().stream()
 	                        .filter(garm -> garm.getSize() == g.getSize())
 	                        .findFirst()
 	                        .orElseThrow(() -> new IllegalArgumentException("La talla " + g.getSize() + " no está disponible en el inventario."));
 
-	                    if (garment.getStock() < g.getStockSold()) {
+	                    if (sizeElement.getStock() < g.getStockSold()) {
 	                        throw new IllegalArgumentException("No hay suficiente stock para la talla " + g.getSize());
 	                    }
 
-	                    garment.setStock(garment.getStock() - g.getStockSold());
+	                    sizeElement.setStock(sizeElement.getStock() - g.getStockSold());
 	                    p.setTotalStock(p.getTotalStock() - g.getStockSold());
 
-	                    GarmentSale garmentSale = new GarmentSale(g.getSize(), g.getStockSold());
-	                    productSale.getGarmentsSales().add(garmentSale);
+	                    SizeElementSale sizeElementSale = new SizeElementSale(g.getSize(), g.getStockSold());
+	                    productSale.getGarmentsSales().add(sizeElementSale);
 	                }
 				}else {
 					

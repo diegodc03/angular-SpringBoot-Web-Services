@@ -99,16 +99,16 @@ export class AddProductInventaryComponent {
         name: this.addProduct.get('name')?.value,
         description: this.addProduct.get('description')?.value,
         price: this.addProduct.get('price')?.value,
-        isTshirt: this.addProduct.get('isTshirt')?.value,
+        haveSize: this.addProduct.get('isTshirt')?.value,
         totalStock: this.addProduct.get('totalStock')?.value,
         garments: this.addProduct.get('garments')?.value
       };
       
       if(productDTO.garments.length === 0){
-        productDTO.isTshirt = false;
+        productDTO.haveSize = false;
         
       }else{
-        productDTO.isTshirt = true;
+        productDTO.haveSize = true;
         productDTO.totalStock = 0;
       }
       

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.irojas.demojwt.Inventay.Model.Garment;
+import com.irojas.demojwt.Inventay.Model.SizeElement;
 import com.irojas.demojwt.Inventay.Model.Product;
 
 import jakarta.persistence.CascadeType;
@@ -49,7 +49,7 @@ public class SaleDTO {
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "sale_id") // Asocia la venta con las ventas de ropa
-    private List<GarmentSaleDTO> garmentsSales = new ArrayList<>();
+    private List<SizeElementSaleDTO> garmentsSales = new ArrayList<>();
 
 
 	public String getProductId() {
@@ -144,18 +144,18 @@ public class SaleDTO {
 	}
 
 
-	public List<GarmentSaleDTO> getGarmentsSales() {
+	public List<SizeElementSaleDTO> getGarmentsSales() {
 		return garmentsSales;
 	}
 
 
-	public void setGarmentsSales(List<GarmentSaleDTO> garmentsSales) {
+	public void setGarmentsSales(List<SizeElementSaleDTO> garmentsSales) {
 		this.garmentsSales = garmentsSales;
 	}
 
 
 	public SaleDTO(String productId,String public_id, String name, Double unitaryPrice, Double totalPrice, Integer totalStockSold,
-			String imageName, boolean existanceSizes, List<GarmentSaleDTO> garmentsSales) {
+			String imageName, boolean existanceSizes, List<SizeElementSaleDTO> garmentsSales) {
 		super();
 		this.productId = productId;
 		this.public_id = public_id;

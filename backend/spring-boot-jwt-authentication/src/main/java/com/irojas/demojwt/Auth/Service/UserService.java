@@ -1,4 +1,5 @@
 package com.irojas.demojwt.Auth.Service;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,14 +40,17 @@ public class UserService {
 	    user.setFirstname(userRequest.getFirstname());
 	    user.setLastname(userRequest.getLastname());
 	    user.setCountry(userRequest.getCountry());
-	    user.setRole(Role.USER);
+	    
+	    ArrayList<Role> roles = new ArrayList<>();
+	    roles.add(Role.USER);
+	    user.setRoles(roles);
         
         userRepository.updateUser(user.getId(), user.getFirstname(), user.getLastname(), user.getCountry());
 
         return new UserResponse("El usuario se registró satisfactoriamente");
     }
 
-	public UserDTO getUser(Integer id) {
+	public UserDTO getUser(Long id) {
 	    User user = userRepository.findById(id).orElse(null);
 
 	    if (user != null) {
@@ -86,6 +90,34 @@ public class UserService {
         }
         // Retorna null si el usuario no existe
         return null;
+    }
+	
+	
+	
+	// Añadir rol PLAYER al usuario
+    public void addPlayerRole(String email) throws Exception {
+        User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new Exception("Usuario no encontrado"));
+        
+        if (!user.getRoles().contains(Role.PLAYER)) {
+            user.getRoles().add(Role.PLAYER);  // Añadir el rol PLAYER
+            userRepository.save(user);  // Guardar cambios en la base de datos
+        } else {
+            throw new Exception("El usuario ya tiene el rol PLAYER.");
+        }
+    }
+
+    // Eliminar rol PLAYER del usuario
+    public void removePlayerRole(String email) throws Exception {
+        User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new Exception("Usuario no encontrado"));
+        
+        if (user.getRoles().contains(Role.PLAYER)) {
+            user.getRoles().remove(Role.PLAYER);  // Eliminar el rol PLAYER
+            userRepository.save(user);  // Guardar cambios en la base de datos
+        } else {
+            throw new Exception("El usuario no tiene el rol PLAYER.");
+        }
     }
 	
 	

@@ -1,0 +1,126 @@
+package com.irojas.demojwt.sport.Model;
+
+import java.time.LocalDate;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="play")
+public class Play {
+	
+	
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "fecha", nullable = false)
+    private LocalDate fecha;
+
+    @Column(name = "ubicacion")
+    private String ubicacion;
+
+    @ManyToOne
+    @JoinColumn(name = "jugador1_id", referencedColumnName = "id")
+    private Player jugador1;
+
+    @ManyToOne
+    @JoinColumn(name = "jugador2_id", referencedColumnName = "id")
+    private Player jugador2;
+
+    @ManyToOne
+    @JoinColumn(name = "jugador3_id", referencedColumnName = "id")
+    private Player jugador3;
+
+    @ManyToOne
+    @JoinColumn(name = "jugador4_id", referencedColumnName = "id")
+    private Player jugador4;
+
+    @Column(name = "ganador_equipo")
+    private String ganadorEquipo;
+
+	public LocalDate getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(LocalDate fecha) {
+		this.fecha = fecha;
+	}
+
+	public String getUbicacion() {
+		return ubicacion;
+	}
+
+	public void setUbicacion(String ubicacion) {
+		this.ubicacion = ubicacion;
+	}
+
+	public Player getJugador1() {
+		return jugador1;
+	}
+
+	public void setJugador1(Player jugador1) {
+		this.jugador1 = jugador1;
+	}
+
+	public Player getJugador2() {
+		return jugador2;
+	}
+
+	public void setJugador2(Player jugador2) {
+		this.jugador2 = jugador2;
+	}
+
+	public Player getJugador3() {
+		return jugador3;
+	}
+
+	public void setJugador3(Player jugador3) {
+		this.jugador3 = jugador3;
+	}
+
+	public Player getJugador4() {
+		return jugador4;
+	}
+
+	public void setJugador4(Player jugador4) {
+		this.jugador4 = jugador4;
+	}
+
+	public String getGanadorEquipo() {
+		return ganadorEquipo;
+	}
+
+	public void setGanadorEquipo(String ganadorEquipo) {
+		this.ganadorEquipo = ganadorEquipo;
+	}
+
+	
+	
+	public Play(LocalDate fecha, String ubicacion, Player jugador1, Player jugador2, Player jugador3, Player jugador4,
+			String ganadorEquipo) {
+		super();
+		this.fecha = fecha;
+		this.ubicacion = ubicacion;
+		this.jugador1 = jugador1;
+		this.jugador2 = jugador2;
+		this.jugador3 = jugador3;
+		this.jugador4 = jugador4;
+		this.ganadorEquipo = ganadorEquipo;
+	}
+	
+	
+	public Play() {
+		super();
+	}
+	
+    
+    
+    
+}

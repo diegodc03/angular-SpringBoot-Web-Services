@@ -3,6 +3,7 @@ package com.irojas.demojwt.Auth.Model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
@@ -42,7 +43,7 @@ public class User implements UserDetails {
     
 	@Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
     @Basic
     @Column(nullable = false)
     private String email;
@@ -54,7 +55,7 @@ public class User implements UserDetails {
     private String password;
     
     @Enumerated(EnumType.STRING) 
-    Role role;
+    List<Role> roles;
     
     
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
@@ -76,10 +77,14 @@ public class User implements UserDetails {
     
     
     
+ // Implementación de UserDetails para roles múltiples
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-      return List.of(new SimpleGrantedAuthority((role.name())));
+        return roles.stream()
+                    .map(role -> new SimpleGrantedAuthority(role.name()))
+                    .collect(Collectors.toList());
     }
+    
     @Override
     public boolean isAccountNonExpired() {
        return true;
@@ -96,10 +101,10 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getEmail() {
@@ -132,14 +137,15 @@ public class User implements UserDetails {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public Role getRole() {
-		return role;
-	}
-	public void setRole(Role role) {
-		this.role = role;
-	}
 	
 
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
 
 	public List<Product> getProducts() {
 		return products;

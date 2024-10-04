@@ -60,7 +60,12 @@ public class AuthService {
 	    user.setFirstname(request.getFirstname());
 	    user.setLastname(request.getLastname());
 	    user.setCountry(request.getCountry());
-	    user.setRole(Role.USER);
+	    
+	    ArrayList<Role> roles = new ArrayList<>();
+	    roles.add(Role.USER);
+	    user.setRoles(roles);
+	    
+	    
         
         userRepository.save(user);
 
@@ -112,17 +117,23 @@ public class AuthService {
 	}
 
     
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		
-		User userEntity = userRepository.findByEmail(email)
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        
+        User userEntity = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
-		List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
-		
-		Role rol = userEntity.getRole();
-		authorityList.add(new SimpleGrantedAuthority("ROLE_".concat(rol.name().toString())));
-		
-		return new org.springframework.security.core.userdetails.User(userEntity.getUsername(), userEntity.getPassword(),authorityList);
-	}
+
+        // Crear lista de autoridades (roles)
+        List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
+
+        // Iterar sobre los roles del usuario y agregarlos a la lista de autoridades
+        for (Role role : userEntity.getRoles()) {
+            authorityList.add(new SimpleGrantedAuthority("ROLE_" + role.name()));
+        }
+
+        // Devolver un UserDetails con username, password y las autoridades (roles)
+        return new org.springframework.security.core.userdetails.User(userEntity.getUsername(), userEntity.getPassword(), authorityList);
+    }
+
 	
 	
 	public boolean deleteUser(String token) throws UsernameNotFoundException {

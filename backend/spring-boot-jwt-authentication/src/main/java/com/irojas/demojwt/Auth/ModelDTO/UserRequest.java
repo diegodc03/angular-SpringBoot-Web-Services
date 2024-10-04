@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRequest {
-    int id;
+    Long id;
     String username;
     String firstname;
     String lastname;
     String country;
     
-	public UserRequest(int id, String username, String firstname, String lastname, String country) {
+	public UserRequest(Long id, String username, String firstname, String lastname, String country) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -25,11 +25,11 @@ public class UserRequest {
 		this.country = country;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -63,6 +63,11 @@ public class UserRequest {
 
 	public void setCountry(String country) {
 		this.country = country;
+	}
+
+	public Object getRoles() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	
