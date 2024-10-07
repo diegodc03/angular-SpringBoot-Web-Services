@@ -7,10 +7,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.irojas.demojwt.Auth.Service.UserService;
+import com.irojas.demojwt.sport.Service.PlayerService;
 
 @Controller
 @RequestMapping("/player")
@@ -19,8 +21,16 @@ public class PlayerController {
 	
 
     private UserService userService;  // Servicio que maneja la lógica de usuarios
+    private PlayerService playerService;
+    
+    
+    public PlayerController(UserService userService, PlayerService playerService) {
+		super();
+		this.userService = userService;
+		this.playerService = playerService;
+	}
 
-    // Añadir usuario como jugador
+	// Añadir usuario como jugador
     @PostMapping("/add-player")
     public ResponseEntity<String> addPlayer(
     		@AuthenticationPrincipal UserDetails currentUser) {
@@ -46,8 +56,11 @@ public class PlayerController {
     }
     
     
+    
+  //request-to-join
     @PostMapping("/request-to-join-league")
-    public ResponseEntity<String> requestToJoinLeague(){
+    public ResponseEntity<String> requestToJoinLeague(
+    		@AuthenticationPrincipal UserDetails currentUser){
     	
     	// Podria añadirse a una base de datos de request to join
     	
@@ -57,13 +70,20 @@ public class PlayerController {
     }
     
     
+    //Get-out-of-league
     @DeleteMapping("get-out-of-league")
-    public ResponseEntity<String> getOutOfLeague(){
+    public ResponseEntity<String> getOutOfLeague(
+    		@AuthenticationPrincipal UserDetails currentUser,
+    		@RequestBody Long seasonId){
     	
-    	// Salirse de la la liga
+    	
+    	this.playerService.deletePlayerOfLeague(seasonId, currentUser.getUsername());
+    	
     	return null;
     	
     }
+    
+    
     
 	
 	

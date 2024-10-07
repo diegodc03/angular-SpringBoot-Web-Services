@@ -19,7 +19,7 @@ public class Set {
 
     @ManyToOne
     @JoinColumn(name = "play_id", referencedColumnName = "id")
-    private Play partido;
+    private Play play;
 
     @Column(name = "numero_set")
     private int numeroSet;
@@ -42,11 +42,11 @@ public class Set {
 	}
 
 	public Play getPartido() {
-		return partido;
+		return play;
 	}
 
-	public void setPartido(Play partido) {
-		this.partido = partido;
+	public void setPartido(Play play) {
+		this.play = play;
 	}
 
 	public int getNumeroSet() {
@@ -79,7 +79,7 @@ public class Set {
     // Constructor
 	public Set(Play partido, int numeroSet, int juegosEquipo1, int juegosEquipo2) {
 		super();
-		this.partido = partido;
+		this.play = partido;
 		this.numeroSet = numeroSet;
 		this.juegosEquipo1 = juegosEquipo1;
 		this.juegosEquipo2 = juegosEquipo2;

@@ -1,7 +1,10 @@
 package com.irojas.demojwt.sport.Model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -25,6 +29,10 @@ public class Play {
 
     @Column(name = "ubicacion")
     private String ubicacion;
+    
+    @ManyToOne
+    @JoinColumn(name = "league", referencedColumnName = "id")
+    private League league;
 
     @ManyToOne
     @JoinColumn(name = "jugador1_id", referencedColumnName = "id")
@@ -45,6 +53,10 @@ public class Play {
     @Column(name = "ganador_equipo")
     private String ganadorEquipo;
 
+    @OneToMany(mappedBy = "play", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Set> sets = new ArrayList<>();
+    
+    
 	public LocalDate getFecha() {
 		return fecha;
 	}
@@ -100,11 +112,26 @@ public class Play {
 	public void setGanadorEquipo(String ganadorEquipo) {
 		this.ganadorEquipo = ganadorEquipo;
 	}
+	
+	public League getLeague() {
+		return league;
+	}
 
+	public void setLeague(League league) {
+		this.league = league;
+	}
 	
-	
+
+	public List<Set> getSets() {
+		return sets;
+	}
+
+	public void setSets(List<Set> sets) {
+		this.sets = sets;
+	}
+
 	public Play(LocalDate fecha, String ubicacion, Player jugador1, Player jugador2, Player jugador3, Player jugador4,
-			String ganadorEquipo) {
+			String ganadorEquipo, List<Set> sets) {
 		super();
 		this.fecha = fecha;
 		this.ubicacion = ubicacion;
@@ -113,6 +140,7 @@ public class Play {
 		this.jugador3 = jugador3;
 		this.jugador4 = jugador4;
 		this.ganadorEquipo = ganadorEquipo;
+		this.sets = sets;
 	}
 	
 	
