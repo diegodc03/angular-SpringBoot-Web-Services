@@ -14,9 +14,13 @@ import java.util.List;
 
 import com.irojas.demojwt.Auth.Model.User;
 
+
+
+
 @Entity
 @Table(name="player")
 public class Player {
+	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,5 +33,48 @@ public class Player {
 	// Relación con PlayerLeague
     @OneToMany(mappedBy = "player")
     private List<PlayerLeague> playerLeagues;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public User getUser() {
+		return User;
+	}
+
+	public void setUser(User user) {
+		User = user;
+	}
+
+	public List<PlayerLeague> getPlayerLeagues() {
+		return playerLeagues;
+	}
+
+	public void setPlayerLeagues(List<PlayerLeague> playerLeagues) {
+		this.playerLeagues = playerLeagues;
+	}
+
+	
+	
+	
+	public Player(User user, List<PlayerLeague> playerLeagues) {
+		super();
+		User = user;
+		this.playerLeagues = playerLeagues;
+	}
+	
+	
+	
+	
+    
+    
+    
+    
+    
+    
     
 }
