@@ -24,6 +24,11 @@ import { ShowSeasonEarningsComponent } from './workHours/pages/show-season-earni
 import { SecureWorkHoursLayoutComponent } from './layouts/secure-work-hours-layout/secure-work-hours-layout.component';
 import { AddMatchesComponent } from './workHours/pages/add-matches/add-matches.component';
 import { AddSeasonComponent } from './workHours/pages/add-season/add-season.component';
+import { ShowLeaguesComponent } from './sport/pages/show-leagues/show-leagues.component';
+import { ShowClasificationComponent } from './sport/pages/show-clasification/show-clasification.component';
+import { ShowLeaguesJoinedComponent } from './sport/pages/show-leagues-joined/show-leagues-joined.component';
+import { CreateMatchComponent } from './sport/pages/create-match/create-match.component';
+import { CreateLeagueComponent } from './sport/pages/create-league/create-league.component';
 
 const routes: Routes = [
   {
@@ -74,6 +79,19 @@ const routes: Routes = [
       { path: 'show-work-earnings', component: ShowSeasonEarningsComponent },
       { path: 'add-matches', component: AddMatchesComponent },
       { path: 'add-season', component: AddSeasonComponent },
+      { path: '', redirectTo: 'matchs-working-hours', pathMatch: 'full' }
+    ]
+  },
+  {
+    path: 'sports',
+    component: SecureWorkHoursLayoutComponent,
+    canActivate: [AuthGuard],
+    children: [
+      { path: 'league-to-join', component: ShowLeaguesComponent },
+      { path: 'league-joined', component: ShowLeaguesJoinedComponent },
+      { path: 'clasification', component: ShowClasificationComponent },
+      { path: 'create-match', component: CreateMatchComponent },
+      { path: 'create-league', component: CreateLeagueComponent },
       { path: '', redirectTo: 'matchs-working-hours', pathMatch: 'full' }
     ]
   },

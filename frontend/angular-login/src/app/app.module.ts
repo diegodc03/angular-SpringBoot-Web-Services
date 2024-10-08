@@ -44,6 +44,10 @@ import { ShowSeasonEarningsComponent } from './workHours/pages/show-season-earni
 import { AddMatchesComponent } from './workHours/pages/add-matches/add-matches.component';
 import { AddSeasonComponent } from './workHours/pages/add-season/add-season.component';
 import { CommonModule } from '@angular/common';
+import { ShowLeaguesComponent } from './sport/pages/show-leagues/show-leagues.component';
+import { CreateLeagueComponent } from './sport/pages/create-league/create-league.component';
+import { ShowLeaguesJoinedComponent } from './sport/pages/show-leagues-joined/show-leagues-joined.component';
+
 
 @NgModule({ declarations: [
         AppComponent,
@@ -79,7 +83,9 @@ import { CommonModule } from '@angular/common';
         SecureInventarySaleLayoutComponent,
         AddProductInventaryComponent,
         UpdateProductInventaryComponent,
-
+        ShowLeaguesComponent,
+        CreateLeagueComponent,
+        ShowLeaguesJoinedComponent,
         
     ],
     imports: [
