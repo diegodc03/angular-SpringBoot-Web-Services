@@ -27,7 +27,16 @@
                 <div class="product-name">{{ league.name }}</div>
                 
                 <div class="product-actions">
-                    <button class="btn btn-danger btn-sm" (click)="requestToJoinLeague(league.id)">Solicitud de entrada</button>
+                    <button class="btn btn-danger btn-sm" 
+                            *ngIf="league.requestToJoinLeague" 
+                            (click)="requestToJoinLeague(league.id)">
+                        Solicitud de entrada
+                    </button>
+                    <button class="btn btn-success btn-sm"
+                            *ngIf="!league.requestToJoinLeague"
+                            (click)="joinLeagueDirectly(league.id)">
+                        Unirse directamente
+                    </button>
                 </div>
             </div>
         </div>

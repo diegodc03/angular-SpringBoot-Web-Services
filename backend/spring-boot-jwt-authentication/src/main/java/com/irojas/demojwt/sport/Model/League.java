@@ -22,12 +22,16 @@ public class League {
 	@Column(name = "name")
     private String name;
 	
+	// Nueva columna para determinar si se requiere una solicitud para unirse
+    @Column(name = "require_request", nullable = false)
+    private boolean requireRequest;
+	
 	@OneToMany(mappedBy = "league")
 	private List<Play> matchPlayed = new ArrayList<>();;
 	
 	// Relación con PlayerLeague
     @OneToMany(mappedBy = "league")
-    private List<PlayerLeague> playerLeagues = new ArrayList<>();;
+    private List<PlayerLeague> playerLeagues = new ArrayList<>();
 
     
     
