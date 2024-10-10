@@ -25,7 +25,7 @@ import { SecureWorkHoursLayoutComponent } from './layouts/secure-work-hours-layo
 import { AddMatchesComponent } from './workHours/pages/add-matches/add-matches.component';
 import { AddSeasonComponent } from './workHours/pages/add-season/add-season.component';
 import { ShowLeaguesComponent } from './sport/pages/show-leagues/show-leagues.component';
-import { ShowClasificationComponent } from './sport/pages/show-clasification/show-clasification.component';
+import { ShowLeagueInformationComponent } from './sport/pages/show-league-information/show-clasification.component';
 import { ShowLeaguesJoinedComponent } from './sport/pages/show-leagues-joined/show-leagues-joined.component';
 import { CreateMatchComponent } from './sport/pages/create-match/create-match.component';
 import { CreateLeagueComponent } from './sport/pages/create-league/create-league.component';
@@ -89,7 +89,7 @@ const routes: Routes = [
     children: [
       { path: 'league-to-join', component: ShowLeaguesComponent },
       { path: 'league-joined', component: ShowLeaguesJoinedComponent },
-      { path: 'clasification', component: ShowClasificationComponent },
+      { path: 'league-information', component: ShowLeagueInformationComponent },
       { path: 'create-match', component: CreateMatchComponent },
       { path: 'create-league', component: CreateLeagueComponent },
       { path: '', redirectTo: 'matchs-working-hours', pathMatch: 'full' }

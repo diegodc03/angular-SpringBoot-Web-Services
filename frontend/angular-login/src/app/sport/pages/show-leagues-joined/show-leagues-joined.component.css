@@ -35,7 +35,7 @@ html, body {
 
 .grid-words {
     display: grid;
-    grid-template-columns: 2fr 2fr; /* Define el ancho de cada columna */
+    grid-template-columns: 2fr ; /* Define el ancho de cada columna */
     gap: 10px; /* Espacio entre columnas */
     align-items: center; /* Alinea los elementos verticalmente */
     padding: 10px;

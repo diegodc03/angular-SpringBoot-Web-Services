@@ -9,12 +9,28 @@ import { LeagueService } from '../../service/leagueService/league.service';
 })
 export class ShowLeaguesComponent {
   
-  constructor(private leagueService: LeagueService) { }
+  constructor(private leagueService: LeagueService) { 
+
+    
+  }
+
+
+  ngOnInit(): void {
+    
+    this.leagueService.chargeLeagues().subscribe(
+        leagues => {
+            this.leagues = leagues;
+        }
+    );
+
+  }
 
 
   leagues: LeagueDTOModule[] = [];
-
   selectedFilter: String = '';
+
+
+  
 
 
   applyFilter() {

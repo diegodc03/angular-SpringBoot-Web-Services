@@ -7,11 +7,26 @@
         </div>
     </div>
     
+    <div class="league-information">
+        <!-- Aqui vamos a poner la informacion sobre la liga, es decir, partidos jugados en total, mejor jugador por estadisticas y demas -->
+        <!-- Esto todo va a ser en league-inforamtionDTO -->
+        
+
+
+    </div>
+
+
 
     <select class="form-control box-filter" id="filterSelect" [(ngModel)]="selectedFilter" (change)="applyFilter()">
         <option value="none">Filtro  </option>
-        <option value="price-ascending">Alfabeticamente mayor a menor</option>
+        <option value="name-descending">Alfabeticamente mayor a menor</option>
         <option value="price-descending">Mas gente</option>
+        <option value="match-descending">Mas partidos Jugados</option>
+        <option value="match-ascending">Menos partidos Jugados</option>
+        <option value="points-descending">Mas puntos</option>
+        <option value="points-ascending">Menos puntos</option>
+        <option value="games-descending">Mas juegos Ganados</option>
+        <option value="games-ascending">menos juegos Ganados</option>
     </select>
 
     <div class="product-list">
@@ -24,21 +39,14 @@
         <div *ngFor="let league of leagues; let i = index" class="product-item">
             <div class="grid-words  product-row" >
 
-                <div class="product-name">{{ league.name }}</div>
                 
-                <div class="product-actions">
-                    <button class="btn btn-danger btn-sm" 
-                            *ngIf="league.requestToJoinLeague" 
-                            (click)="requestToJoinLeague(league.id)">
-                        Solicitud de entrada
-                    </button>
-                    <button class="btn btn-success btn-sm"
-                            *ngIf="!league.requestToJoinLeague"
-                            (click)="joinLeagueDirectly(league.id)">
-                        Unirse directamente
-                    </button>
-                </div>
+                
+
+               
             </div>
         </div>
-    </div>   
-</div>
+    </div>
+    
+      
+    
+  </div>

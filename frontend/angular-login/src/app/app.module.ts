@@ -47,7 +47,7 @@ import { CommonModule } from '@angular/common';
 import { ShowLeaguesComponent } from './sport/pages/show-leagues/show-leagues.component';
 import { CreateLeagueComponent } from './sport/pages/create-league/create-league.component';
 import { ShowLeaguesJoinedComponent } from './sport/pages/show-leagues-joined/show-leagues-joined.component';
-
+import { ShowLeagueInformationComponent } from './sport/pages/show-league-information/show-clasification.component';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -86,7 +86,7 @@ import { ShowLeaguesJoinedComponent } from './sport/pages/show-leagues-joined/sh
         ShowLeaguesComponent,
         CreateLeagueComponent,
         ShowLeaguesJoinedComponent,
-        
+        ShowLeagueInformationComponent,
     ],
     imports: [
         BrowserModule,

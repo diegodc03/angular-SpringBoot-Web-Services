@@ -9,15 +9,28 @@ import { Injectable } from '@angular/core';
     CommonModule
   ]
 })*/
-export class LeagueDTOModule {
 
+export class BaseLeagueDTO {
   id: number;
   name: string;
+
+  constructor(id: number, name: string) {
+    this.id = id;
+    this.name = name;
+  }
+}
+
+
+
+
+
+export class LeagueDTOModule extends BaseLeagueDTO{
+
   requestToJoinLeague: boolean;
 
   constructor(id: number, name: string, requestToJoinLeague: boolean) {
-    this.id = id;
-    this.name = name;
+    
+    super(id, name);
     this.requestToJoinLeague = requestToJoinLeague;
   }
 

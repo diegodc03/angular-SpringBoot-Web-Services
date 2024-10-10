@@ -22,6 +22,8 @@ public class LeagueService {
         try {
             League league = new League();
             league.setName(leagueDTO.getName());
+            league.setRequireRequest(leagueDTO.isRequireRequest());            
+            
             leagueRepository.save(league);
       
         } catch (Exception e) {

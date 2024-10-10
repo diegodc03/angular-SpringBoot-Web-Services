@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { LeagueDTOModule } from '../../modelDTO/league-dto/league-dto.module';
+import { BaseLeagueDTO, LeagueDTOModule } from '../../modelDTO/league-dto/league-dto.module';
+import { LeagueService } from '../../service/leagueService/league.service';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-show-leagues-joined',
@@ -9,8 +13,31 @@ import { LeagueDTOModule } from '../../modelDTO/league-dto/league-dto.module';
 export class ShowLeaguesJoinedComponent {
 
 
+
   selectedFilter: string = '';
-  leagues: LeagueDTOModule[] = [];
+  leagues: BaseLeagueDTO[] = [];
+
+  constructor(
+      private leagueService: LeagueService,
+      private http: HttpClient,
+      private router: Router) { }
+
+  ngOnInit(): void {
+    
+    this.leagueService.chargeLeaguesUserJoined().subscribe(
+        leagues => {
+            this.leagues = leagues;
+        }
+    );
+
+  }
+
+
+  leagueInformation() {
+    this.router.navigate(['/league-information']);
+  }
+
+
 
   showLeague(arg0: any) {
     throw new Error('Method not implemented.');

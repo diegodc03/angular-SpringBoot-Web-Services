@@ -66,19 +66,35 @@ public class League {
 	public void setPlayerLeagues(List<PlayerLeague> playerLeagues) {
 		this.playerLeagues = playerLeagues;
 	}
+	
+	public boolean isRequireRequest() {
+		return requireRequest;
+	}
 
-	public League(Long id, String name, List<Play> matchPlayed, List<PlayerLeague> playerLeagues) {
-	super();
+	public void setRequireRequest(boolean requireRequest) {
+		this.requireRequest = requireRequest;
+	}
+
+	
+    
+	public League(Long id, String name, boolean requireRequest, List<Play> matchPlayed,
+			List<PlayerLeague> playerLeagues) {
+		super();
 		this.id = id;
 		this.name = name;
+		this.requireRequest = requireRequest;
 		this.matchPlayed = matchPlayed;
 		this.playerLeagues = playerLeagues;
 	}
-    
-    
-	public League( String name, List<Play> matchPlayed, List<PlayerLeague> playerLeagues) {
+
+	
+
+	public League( String name, boolean requireRequest, List<Play> matchPlayed,
+			List<PlayerLeague> playerLeagues) {
 		super();
+
 		this.name = name;
+		this.requireRequest = requireRequest;
 		this.matchPlayed = matchPlayed;
 		this.playerLeagues = playerLeagues;
 	}

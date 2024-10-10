@@ -2,6 +2,9 @@
 
     <div class="upper-div ">
         <h2> Ligas </h2>
+        <div routerLink="/sports/exit-league" id="bag">
+            Salise de la liga
+        </div>
     </div>
     
 
@@ -15,24 +18,11 @@
         <div> 
             <div class="grid-words header">
                 <div class="product-name">Ligas</div>
-                <div class="product-actions">Acciones</div>
             </div>
         </div>
-        <div *ngFor="let league of leagues; let i = index" class="product-item">
-            
+        <div *ngFor="let league of leagues; let i = index" class="product-item" (click)="leagueInformation()">
             <div class="grid-words  product-row" >
-
                 <div class="product-name">{{ league.name }}</div>
-
-                <div class="actions">
-                    <div class="product-actions">
-                        <button class="btn btn-danger btn-sm" (click)="showLeague(league.id)">Mostrar Liga</button>
-                    </div>
-    
-                    <div class="product-actions">
-                        <button class="btn btn-danger btn-sm" (click)="leagueExit(league.id)">Salirse de la liga</button>
-                    </div>
-                </div>  
             </div>
         </div>
     </div>

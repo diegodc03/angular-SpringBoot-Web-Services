@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { BaseLeagueDTO, LeagueDTOModule } from '../../modelDTO/league-dto/league-dto.module';
 
 
 @Injectable({
@@ -21,6 +22,14 @@ export class LeagueService {
       return this.http.post(`/api/leagues/join/${leagueId}`, {});
   }
 
+  chargeLeagues(): Observable<LeagueDTOModule[]> {
+    return this.http.get<LeagueDTOModule[]>('/leagues/get-all-leagues');
+  }
+
+
+  chargeLeaguesUserJoined(): Observable<BaseLeagueDTO[]> {
+    return this.http.get<BaseLeagueDTO[]>('/leagues/get-leagues-joined');
+  }
 
 
 
