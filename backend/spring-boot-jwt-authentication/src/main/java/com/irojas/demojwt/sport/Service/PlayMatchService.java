@@ -81,7 +81,7 @@ public class PlayMatchService {
             List<Set> sets = playMatchDTO.getSets().stream()
             	    .map(setDTO -> {
             	        Set set = new Set();
-            	        set.setPartido(play);  // Asocia el set con el partido correspondiente
+            	        set.setPlay(play);  // Asocia el set con el partido correspondiente
             	        set.setNumeroSet(setDTO.getNumeroSet());
             	        set.setJuegosEquipo1(setDTO.getJuegosEquipo1());
             	        set.setJuegosEquipo2(setDTO.getJuegosEquipo2());

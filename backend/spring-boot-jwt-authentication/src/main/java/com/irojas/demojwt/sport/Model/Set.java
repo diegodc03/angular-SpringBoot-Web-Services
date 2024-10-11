@@ -33,6 +33,18 @@ public class Set {
     
     
     // Getters y setters
+	
+	
+    
+    // Constructor
+	public Set(Play partido, int numeroSet, int juegosEquipo1, int juegosEquipo2) {
+		super();
+		this.play = partido;
+		this.numeroSet = numeroSet;
+		this.juegosEquipo1 = juegosEquipo1;
+		this.juegosEquipo2 = juegosEquipo2;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -41,11 +53,11 @@ public class Set {
 		this.id = id;
 	}
 
-	public Play getPartido() {
+	public Play getPlay() {
 		return play;
 	}
 
-	public void setPartido(Play play) {
+	public void setPlay(Play play) {
 		this.play = play;
 	}
 
@@ -75,19 +87,21 @@ public class Set {
 
 	
 	
-    
-    // Constructor
-	public Set(Play partido, int numeroSet, int juegosEquipo1, int juegosEquipo2) {
+	public Set() {
 		super();
-		this.play = partido;
+	}
+
+	public Set(Long id, Play play, int numeroSet, int juegosEquipo1, int juegosEquipo2) {
+		super();
+		this.id = id;
+		this.play = play;
 		this.numeroSet = numeroSet;
 		this.juegosEquipo1 = juegosEquipo1;
 		this.juegosEquipo2 = juegosEquipo2;
 	}
 	
-	public Set() {
-		super();
-	}
+	
+	
     
     
     

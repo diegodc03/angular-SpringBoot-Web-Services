@@ -1,71 +1,109 @@
 package com.irojas.demojwt.sport.ModelDTO;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.irojas.demojwt.sport.Model.Play;
-import com.irojas.demojwt.sport.Model.PlayerLeague;
+import com.irojas.demojwt.sport.Model.League;
+import com.irojas.demojwt.sport.Model.Player;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 public class PlayerLeagueDTO {
 
-
-	private Long id;
-    private String name;
-	private boolean requireRequest;
-	private List<Play> matchPlayed = new ArrayList<>();
-	private List<PlayerLeague> playerLeagues = new ArrayList<>();
+    private Long id;
+    private Long player;
+	private Long league;
+	private int partidosGanados;
+    private int partidosPerdidos;
+    private int partidosJugados;
+    private int juegosGanados;
+    private int juegosPerdidos;
+    private int juegosTotales;
+    private int puntosClasificacion;
 	
-	public Long getId() {
+    
+    
+    public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name;
+	public Long getPlayer() {
+		return player;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setPlayer(Long player) {
+		this.player = player;
 	}
-	public boolean isRequireRequest() {
-		return requireRequest;
+	public Long getLeague() {
+		return league;
 	}
-	public void setRequireRequest(boolean requireRequest) {
-		this.requireRequest = requireRequest;
+	public void setLeague(long leagueId) {
+		this.league = leagueId;
 	}
-	public List<Play> getMatchPlayed() {
-		return matchPlayed;
+	public int getPartidosGanados() {
+		return partidosGanados;
 	}
-	public void setMatchPlayed(List<Play> matchPlayed) {
-		this.matchPlayed = matchPlayed;
+	public void setPartidosGanados(int partidosGanados) {
+		this.partidosGanados = partidosGanados;
 	}
-	public List<PlayerLeague> getPlayerLeagues() {
-		return playerLeagues;
+	public int getPartidosPerdidos() {
+		return partidosPerdidos;
 	}
-	public void setPlayerLeagues(List<PlayerLeague> playerLeagues) {
-		this.playerLeagues = playerLeagues;
+	public void setPartidosPerdidos(int partidosPerdidos) {
+		this.partidosPerdidos = partidosPerdidos;
+	}
+	public int getPartidosJugados() {
+		return partidosJugados;
+	}
+	public void setPartidosJugados(int partidosJugados) {
+		this.partidosJugados = partidosJugados;
+	}
+	public int getJuegosGanados() {
+		return juegosGanados;
+	}
+	public void setJuegosGanados(int juegosGanados) {
+		this.juegosGanados = juegosGanados;
+	}
+	public int getJuegosPerdidos() {
+		return juegosPerdidos;
+	}
+	public void setJuegosPerdidos(int juegosPerdidos) {
+		this.juegosPerdidos = juegosPerdidos;
+	}
+	public int getJuegosTotales() {
+		return juegosTotales;
+	}
+	public void setJuegosTotales(int juegosTotales) {
+		this.juegosTotales = juegosTotales;
+	}
+	public int getPuntosClasificacion() {
+		return puntosClasificacion;
+	}
+	public void setPuntosClasificacion(int puntosClasificacion) {
+		this.puntosClasificacion = puntosClasificacion;
 	}
 	
 	
-	
-	public PlayerLeagueDTO(Long id, String name, boolean requireRequest, List<Play> matchPlayed,
-			List<PlayerLeague> playerLeagues) {
+	public PlayerLeagueDTO(Long id, Long playerId, Long leagueId, int partidosGanados, int partidosPerdidos,
+			int partidosJugados, int juegosGanados, int juegosPerdidos, int juegosTotales, int puntosClasificacion) {
 		super();
 		this.id = id;
-		this.name = name;
-		this.requireRequest = requireRequest;
-		this.matchPlayed = matchPlayed;
-		this.playerLeagues = playerLeagues;
+		this.player = playerId;
+		this.league = leagueId;
+		this.partidosGanados = partidosGanados;
+		this.partidosPerdidos = partidosPerdidos;
+		this.partidosJugados = partidosJugados;
+		this.juegosGanados = juegosGanados;
+		this.juegosPerdidos = juegosPerdidos;
+		this.juegosTotales = juegosTotales;
+		this.puntosClasificacion = puntosClasificacion;
 	}
+
 	
-	
-	
+    
 	
 	
 }

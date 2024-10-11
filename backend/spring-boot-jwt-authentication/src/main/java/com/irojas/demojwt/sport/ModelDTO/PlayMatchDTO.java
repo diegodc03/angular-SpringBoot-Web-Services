@@ -150,6 +150,24 @@ public class PlayMatchDTO {
 		this.jugador4Id = jugador4Id;
 		this.ganadorEquipo = ganadorEquipo;
 	}
+    
+    
+    
+
+	public PlayMatchDTO(Long id, LocalDate fecha, String ubicacion, Long leagueId, Long jugador1Id, Long jugador2Id,
+			Long jugador3Id, Long jugador4Id, String ganadorEquipo, List<SetDTO> sets) {
+		super();
+		this.id = id;
+		this.fecha = fecha;
+		this.ubicacion = ubicacion;
+		this.leagueId = leagueId;
+		this.jugador1Id = jugador1Id;
+		this.jugador2Id = jugador2Id;
+		this.jugador3Id = jugador3Id;
+		this.jugador4Id = jugador4Id;
+		this.ganadorEquipo = ganadorEquipo;
+		this.sets = sets;
+	}
 
 	public PlayMatchDTO() {
     	super();

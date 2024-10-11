@@ -54,8 +54,18 @@ public class SetDTO {
 		this.juegosEquipo1 = juegosEquipo1;
 		this.juegosEquipo2 = juegosEquipo2;
 	}
+	
+	
 
 	
+	public SetDTO(Long id, int numeroSet, int juegosEquipo1, int juegosEquipo2) {
+		super();
+		this.id = id;
+		this.numeroSet = numeroSet;
+		this.juegosEquipo1 = juegosEquipo1;
+		this.juegosEquipo2 = juegosEquipo2;
+	}
+
 	public SetDTO() {
 		super();
 	}

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.irojas.demojwt.sport.ModelDTO.LeagueDTO;
-import com.irojas.demojwt.sport.ModelDTO.PlayerLeagueDTO;
+import com.irojas.demojwt.sport.ModelDTO.League2DTO;
 import com.irojas.demojwt.sport.Service.LeagueService;
 
 public class LeagueController {
@@ -91,13 +91,13 @@ public class LeagueController {
     
     
     @GetMapping("/get-league-info")
-    public ResponseEntity<PlayerLeagueDTO> getLeagueInfo(
+    public ResponseEntity<League2DTO> getLeagueInfo(
     		@AuthenticationPrincipal UserDetails currentUser,
     		@RequestBody Long leagueId){
     	
     	try {
-    		PlayerLeagueDTO playerLeagueDTO = leagueService.getLeagueInfo(leagueId);
-        	return ResponseEntity.ok(playerLeagueDTO);
+    		League2DTO league2DTO = leagueService.getLeagueInfo(leagueId);
+        	return ResponseEntity.ok(league2DTO);
         }catch(Exception e) {
         	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
