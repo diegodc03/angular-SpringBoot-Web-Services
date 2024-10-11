@@ -45,14 +45,16 @@ public class LeagueDTO {
 	}
 	
 	
+	
+	public LeagueDTO(Long id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
 	public LeagueDTO() {
 		super();
 	}
 	
-	
-	
-    
-    
-    
+	  
     
 }
