@@ -1,5 +1,7 @@
 package com.irojas.demojwt.sport.Controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,31 +28,28 @@ public class LeagueController {
 	
 	// Get League
 	@GetMapping("/get-all-leagues")
-	public ResponseEntity<String> getAllLeagues(
-            @AuthenticationPrincipal UserDetails currentUser,
-            @RequestBody LeagueDTO leagueDTO) {
+	public ResponseEntity<List<LeagueDTO>> getAllLeagues(
+            @AuthenticationPrincipal UserDetails currentUser) {
 
 
         try {
-        	leagueService.getAllLeagues(leagueDTO, currentUser.getUsername());
-        	return ResponseEntity.ok("La liga ha sido creada");
+        	List<LeagueDTO> leagues = leagueService.getAllLeagues(currentUser.getUsername());
+        	return ResponseEntity.ok(leagues);
         }catch(Exception e) {
-        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 	
 	
 	@GetMapping("/get-leagues-joined")
-	public ResponseEntity<String> getLeaguesJoined(
-            @AuthenticationPrincipal UserDetails currentUser,
-            @RequestBody LeagueDTO leagueDTO) {
-
+	public ResponseEntity<List<LeagueDTO>> getLeaguesJoined(
+            @AuthenticationPrincipal UserDetails currentUser) {
 
         try {
-        	leagueService.getLeaguesJoined(leagueDTO, currentUser.getUsername());
-        	return ResponseEntity.ok("La liga ha sido creada");
+        	List<LeagueDTO> leaguesJoined = leagueService.getLeaguesJoined(currentUser.getUsername());
+        	return ResponseEntity.ok(leaguesJoined);
         }catch(Exception e) {
-        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 	
@@ -61,7 +60,6 @@ public class LeagueController {
     public ResponseEntity<String> createLeague(
             @AuthenticationPrincipal UserDetails currentUser,
             @RequestBody LeagueDTO leagueDTO) {
-
 
         try {
         	leagueService.createLeague(leagueDTO);

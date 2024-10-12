@@ -1,0 +1,23 @@
+/* Aseguramos que el contenedor ocupe toda la pantalla */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Hace que el contenedor ocupe toda la pantalla */
+}
+
+.content {
+    flex: 1; /* Hace que este elemento crezca para llenar el espacio restante */
+}
+
+/* Estilo del footer */
+footer {
+    background-color: black;
+    height: 8vh;
+    color: white;
+}

@@ -76,13 +76,16 @@ public class LeagueService {
 
 
 
-	public LeagueDTO getAllLeagues(LeagueDTO leagueDTO, String string) {
+	public List<LeagueDTO> getAllLeagues( String string) {
 		// TODO Auto-generated method stub
 		try {
-			Optional<League> optLeague = this.leagueRepository.findById(leagueDTO.getId());
-			if(optLeague.isPresent()) {
-				LeagueDTO returnleagueDTO = new LeagueDTO(optLeague.get().getId(), optLeague.get().getName(), optLeague.get().isRequireRequest());
-				return returnleagueDTO;
+			List<League> leagues = leagueRepository.findAll();
+			
+			if(leagues != null) {
+				return leagues.stream()
+						.map(l -> 
+						new LeagueDTO(l.getId(), l.getName(), l.isRequireRequest())).collect(Collectors.toList());
+						
 			}
 			return null;
 			
@@ -93,7 +96,7 @@ public class LeagueService {
 
 
 
-	public List<LeagueDTO> getLeaguesJoined(LeagueDTO leagueDTO, String email) {
+	public List<LeagueDTO> getLeaguesJoined(String email) {
 		// TODO Auto-generated method stub
 		try {
 			User user = userRepository.findByEmail(email)

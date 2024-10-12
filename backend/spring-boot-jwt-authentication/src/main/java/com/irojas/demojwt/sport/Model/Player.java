@@ -28,7 +28,7 @@ public class Player {
 	
 	@OneToOne
 	@JoinColumn(name="user_id", referencedColumnName="id",nullable=false)
-	private User User;
+	private User user;
 	
 	// Relación con PlayerLeague
     @OneToMany(mappedBy = "player")
@@ -43,11 +43,11 @@ public class Player {
 	}
 
 	public User getUser() {
-		return User;
+		return user;
 	}
 
 	public void setUser(User user) {
-		User = user;
+		this.user = user;
 	}
 
 	public List<PlayerLeague> getPlayerLeagues() {
@@ -63,7 +63,7 @@ public class Player {
 	
 	public Player(User user, List<PlayerLeague> playerLeagues) {
 		super();
-		User = user;
+		this.user = user;
 		this.playerLeagues = playerLeagues;
 	}
 	

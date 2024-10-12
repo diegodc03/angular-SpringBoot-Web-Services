@@ -23,28 +23,23 @@ import { MatchDTOModule } from '../match-dto/match-dto.module';
   }
 
 
-  export class BaseIdLeagueDTO extends BaseLeagueDTO {
-
-    id: number;
-
-    constructor(id: number, name: string) {
-      super(name);
-      this.id = id;
-      
-    }
-  }
 
 
   export class LeagueDTOModule extends BaseLeagueDTO{
-
+    
+    id: number;
     requestToJoinLeague: boolean;
 
-    constructor(name: string, requestToJoinLeague: boolean) {
+    constructor(name: string, id:number, requestToJoinLeague: boolean) {
       
       super(name);
+      this.id = id;
       this.requestToJoinLeague = requestToJoinLeague;
     }
   }
+
+
+  
 
 
   export class LeagueWithPlayersDTO extends BaseLeagueDTO{

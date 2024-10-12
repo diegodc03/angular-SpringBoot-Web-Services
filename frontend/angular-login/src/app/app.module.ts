@@ -48,6 +48,8 @@ import { ShowLeaguesComponent } from './sport/pages/show-leagues/show-leagues.co
 import { CreateLeagueComponent } from './sport/pages/create-league/create-league.component';
 import { ShowLeaguesJoinedComponent } from './sport/pages/show-leagues-joined/show-leagues-joined.component';
 import { ShowLeagueInformationComponent } from './sport/pages/show-league-information/show-clasification.component';
+import { SecureSportsLayoutComponent } from './layouts/secure-sports-layout/secure-sports-layout.component';
+import { SecureSportNavComponent } from "./shared/secure-sport-nav/secure-sport-nav.component";
 
 @NgModule({ declarations: [
         AppComponent,
@@ -87,15 +89,17 @@ import { ShowLeagueInformationComponent } from './sport/pages/show-league-inform
         CreateLeagueComponent,
         ShowLeaguesJoinedComponent,
         ShowLeagueInformationComponent,
+        SecureSportsLayoutComponent,
     ],
     imports: [
-        BrowserModule,
-        AppRoutingModule,
-        ReactiveFormsModule,
-        FormsModule,
-        HttpClientModule,
-        CommonModule
-      ],
+    BrowserModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule,
+    CommonModule,
+    SecureSportNavComponent
+],
       providers: [
         {provide:HTTP_INTERCEPTORS,useClass:JwtInterceptorService,multi:true},
         {provide:HTTP_INTERCEPTORS,useClass:ErrorInterceptorService,multi:true},

@@ -29,6 +29,7 @@ import { ShowLeagueInformationComponent } from './sport/pages/show-league-inform
 import { ShowLeaguesJoinedComponent } from './sport/pages/show-leagues-joined/show-leagues-joined.component';
 import { CreateMatchComponent } from './sport/pages/create-match/create-match.component';
 import { CreateLeagueComponent } from './sport/pages/create-league/create-league.component';
+import { SecureSportsLayoutComponent } from './layouts/secure-sports-layout/secure-sports-layout.component';
 
 const routes: Routes = [
   {
@@ -84,7 +85,7 @@ const routes: Routes = [
   },
   {
     path: 'sports',
-    component: SecureWorkHoursLayoutComponent,
+    component: SecureSportsLayoutComponent,
     canActivate: [AuthGuard],
     children: [
       { path: 'league-to-join', component: ShowLeaguesComponent },

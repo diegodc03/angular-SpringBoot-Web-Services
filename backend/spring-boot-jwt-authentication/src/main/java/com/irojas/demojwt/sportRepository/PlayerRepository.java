@@ -11,7 +11,9 @@ import com.irojas.demojwt.sport.Model.Player;
 @Repository
 public interface PlayerRepository extends JpaRepository<Player, Long>{
 
-	public Optional<Player> findByUserId(Long id);
+	Optional<Player> findByUserId(Long id);
+
+	
 	
 	
 	
