@@ -40,6 +40,7 @@ export class ShowLeaguesComponent {
 
 
   requestToJoinLeague(leagueId: number) {
+
     this.leagueService.requestToJoin(leagueId).subscribe(
         response => {
             alert(response.message || 'Solicitud enviada con éxito.');
@@ -53,7 +54,12 @@ export class ShowLeaguesComponent {
 
 
 joinLeagueDirectly(leagueId: number) {
-    this.leagueService.joinLeagueDirectly(leagueId).subscribe({
+
+    const leagueIdDTOModule = {
+        leagueId: leagueId
+    };
+
+    this.leagueService.joinLeagueDirectly(leagueIdDTOModule).subscribe({
         next: (response) => {
             alert(response || 'Unido a la liga con éxito.');
         },

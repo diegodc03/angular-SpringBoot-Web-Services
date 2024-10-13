@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateMatchComponent } from './create-match.component';
+import { CreatePadelMatchComponent } from './create-padel-match.component';
 
 describe('CreateMatchComponent', () => {
-  let component: CreateMatchComponent;
-  let fixture: ComponentFixture<CreateMatchComponent>;
+  let component: CreatePadelMatchComponent;
+  let fixture: ComponentFixture<CreatePadelMatchComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CreateMatchComponent]
+      imports: [CreatePadelMatchComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CreateMatchComponent);
+    fixture = TestBed.createComponent(CreatePadelMatchComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

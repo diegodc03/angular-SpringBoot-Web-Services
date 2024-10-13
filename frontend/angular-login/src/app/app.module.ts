@@ -50,6 +50,7 @@ import { ShowLeaguesJoinedComponent } from './sport/pages/show-leagues-joined/sh
 import { ShowLeagueInformationComponent } from './sport/pages/show-league-information/show-clasification.component';
 import { SecureSportsLayoutComponent } from './layouts/secure-sports-layout/secure-sports-layout.component';
 import { SecureSportNavComponent } from "./shared/secure-sport-nav/secure-sport-nav.component";
+import { CreatePadelMatchComponent } from './sport/pages/create-padel-match/create-padel-match.component';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -90,7 +91,9 @@ import { SecureSportNavComponent } from "./shared/secure-sport-nav/secure-sport-
         ShowLeaguesJoinedComponent,
         ShowLeagueInformationComponent,
         SecureSportsLayoutComponent,
-        SecureSportNavComponent
+        SecureSportNavComponent,
+        CreatePadelMatchComponent,
+
     ],
     imports: [
     BrowserModule,

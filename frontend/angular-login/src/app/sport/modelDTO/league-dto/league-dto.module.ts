@@ -35,6 +35,19 @@ import { MatchDTOModule } from '../match-dto/match-dto.module';
   }
 
 
+  export class ShowLeagueDTO extends BaseLeagueDTO{
+
+    id: number;
+
+
+    constructor(name: string, id:number) {
+      
+      super(name);
+      this.id = id;
+    }
+  }
+
+
 
 
   export class LeagueDTOModule extends BaseLeagueDTO{

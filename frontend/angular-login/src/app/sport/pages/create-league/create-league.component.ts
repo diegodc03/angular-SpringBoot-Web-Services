@@ -27,6 +27,7 @@ export class CreateLeagueComponent {
 
       const leagueData = this.addLeague.value;
       const createLeagueDTO: CreateLeagueDTO = { name: leagueData.name, requestToJoinLeague: leagueData.requiresRequest };
+      
       this.leagueService.createLeague(createLeagueDTO).subscribe({
         next: (response) => {
             console.log('league added:', response);

@@ -27,7 +27,7 @@ import { AddSeasonComponent } from './workHours/pages/add-season/add-season.comp
 import { ShowLeaguesComponent } from './sport/pages/show-leagues/show-leagues.component';
 import { ShowLeagueInformationComponent } from './sport/pages/show-league-information/show-clasification.component';
 import { ShowLeaguesJoinedComponent } from './sport/pages/show-leagues-joined/show-leagues-joined.component';
-import { CreateMatchComponent } from './sport/pages/create-match/create-match.component';
+import {  CreatePadelMatchComponent } from './sport/pages/create-padel-match/create-padel-match.component';
 import { CreateLeagueComponent } from './sport/pages/create-league/create-league.component';
 import { SecureSportsLayoutComponent } from './layouts/secure-sports-layout/secure-sports-layout.component';
 
@@ -91,7 +91,7 @@ const routes: Routes = [
       { path: 'league-to-join', component: ShowLeaguesComponent },
       { path: 'league-joined', component: ShowLeaguesJoinedComponent },
       { path: 'league-information', component: ShowLeagueInformationComponent },
-      { path: 'create-match', component: CreateMatchComponent },
+      { path: 'create-match', component: CreatePadelMatchComponent },
       { path: 'create-league', component: CreateLeagueComponent },
       { path: '', redirectTo: 'matchs-working-hours', pathMatch: 'full' }
     ]

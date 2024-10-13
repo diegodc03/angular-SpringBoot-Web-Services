@@ -39,19 +39,49 @@ public class PlayerService {
 	}
 
 
-	public String deletePlayerOfLeague(Long leagueId, String email) {
+	public void deletePlayerOfLeague(Long leagueId, String email) {
 		
+		User user = userRepository.findByEmail(email)
+	            .orElseThrow(() -> new UserNotFoundException("User not found"));
+	    
+	    Player player = playerRepository.findByUserId(user.getId())
+	            .orElseThrow(() -> new PlayerNotFoundException("Player not found"));
+	    
+	    League league = leagueRepository.findById(leagueId)
+	            .orElseThrow(() -> new LeagueNotFoundException("League not found"));
 		
-		
-		return null;
+	 // Busca la relación PlayerLeague
+	    Optional<PlayerLeague> playerLeagueOptional = playerLeagueRepository.findByPlayerAndLeague(player, league);
+	    
+	    if (playerLeagueOptional.isPresent()) {
+	        // Si existe, obtén la relación PlayerLeague
+	        //PlayerLeague playerLeague = playerLeagueOptional.get();
+	        
+	        // Elimina la relación PlayerLeague de la base de datos
+	        //playerLeagueRepository.delete(playerLeague);
+	        
+	    	// Si existe, obtén la relación PlayerLeague
+	        PlayerLeague playerLeague = playerLeagueOptional.get();
+	        
+	        // Elimina la relación de la lista del jugador
+	        player.getPlayerLeagues().remove(playerLeague);
+	        
+	        playerRepository.save(player);
+	        // Si está configurado correctamente, esto debería eliminar la relación en cascada
+	        // No es necesario guardar el jugador, a menos que hayas cambiado el estado de otra propiedad.
+	        
+	     
+	    } else {
+	        throw new RuntimeException("Player is not part of this league");
+	    }
 	}
 
 
 	
 	
 	// Tengo que poner un tipo de error para que devuelva ese tipo y no uno tipico
-	public void joinLeague(String username, Long leagueId) {
-	    User user = userRepository.findByEmail(username)
+	public void joinLeague(String email, Long leagueId) {
+	    User user = userRepository.findByEmail(email)
 	            .orElseThrow(() -> new UserNotFoundException("User not found"));
 	    
 	    Player player = playerRepository.findByUserId(user.getId())
