@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Service;
+
 import com.irojas.demojwt.Auth.Model.User;
 import com.irojas.demojwt.Auth.Repository.UserRepository;
 import com.irojas.demojwt.sport.Model.League;
@@ -21,6 +23,8 @@ import com.irojas.demojwt.sportRepository.LeagueRepository;
 import com.irojas.demojwt.sportRepository.PlayerLeagueRepository;
 import com.irojas.demojwt.sportRepository.PlayerRepository;
 
+
+@Service
 public class LeagueService {
 	
 	private LeagueRepository leagueRepository;

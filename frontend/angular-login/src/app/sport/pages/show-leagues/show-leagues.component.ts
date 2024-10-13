@@ -51,17 +51,27 @@ export class ShowLeaguesComponent {
     );
 }
 
+
 joinLeagueDirectly(leagueId: number) {
-    this.leagueService.joinLeagueDirectly(leagueId).subscribe(
-        response => {
-            alert(response.message || 'Te has unido a la liga exitosamente.');
+    this.leagueService.joinLeagueDirectly(leagueId).subscribe({
+        next: (response) => {
+            alert(response || 'Unido a la liga con éxito.');
         },
-        error => {
-            console.error('Error al unirse a la liga:', error);
-            alert('Error al unirse a la liga. Por favor, inténtelo de nuevo.');
+        error: (error) => {
+            console.error("Error al unirse a la liga:", error);
+
+            // Mostrar un mensaje de error personalizado
+            if (error.status === 404) {
+                alert("No se encontró el usuario, jugador o liga.");
+            } else if (error.status === 409) {
+                alert("El jugador ya es parte de esta liga.");
+            } else {
+                alert("Error inesperado al unirse a la liga.");
+            }
         }
-    );
+    });
 }
+
 
 
   

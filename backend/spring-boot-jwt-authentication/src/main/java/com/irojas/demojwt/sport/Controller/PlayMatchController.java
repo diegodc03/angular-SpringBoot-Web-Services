@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.irojas.demojwt.sport.Model.Play;
 import com.irojas.demojwt.sport.ModelDTO.PlayMatchDTO;
 import com.irojas.demojwt.sport.Service.PlayMatchService;
 
 @Controller
+@RequestMapping("/sport")
 public class PlayMatchController {
 
 	private PlayMatchService playMatchService;

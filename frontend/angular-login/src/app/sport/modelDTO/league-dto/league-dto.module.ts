@@ -24,6 +24,18 @@ import { MatchDTOModule } from '../match-dto/match-dto.module';
 
 
 
+  export class CreateLeagueDTO extends BaseLeagueDTO{
+
+    requestToJoinLeague: string;
+
+    constructor(name: string, requestToJoinLeague: string) {
+      super(name);
+      this.requestToJoinLeague = requestToJoinLeague;
+    }
+  }
+
+
+
 
   export class LeagueDTOModule extends BaseLeagueDTO{
     

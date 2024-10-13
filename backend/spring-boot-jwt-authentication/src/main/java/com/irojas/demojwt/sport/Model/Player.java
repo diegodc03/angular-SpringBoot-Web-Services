@@ -1,5 +1,6 @@
 package com.irojas.demojwt.sport.Model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,6 +11,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.irojas.demojwt.Auth.Model.User;
@@ -31,8 +33,10 @@ public class Player {
 	private User user;
 	
 	// Relación con PlayerLeague
-    @OneToMany(mappedBy = "player")
-    private List<PlayerLeague> playerLeagues;
+	@OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<PlayerLeague> playerLeagues = new ArrayList<>();
+
+
 
 	public Long getId() {
 		return id;
@@ -65,6 +69,10 @@ public class Player {
 		super();
 		this.user = user;
 		this.playerLeagues = playerLeagues;
+	}
+
+	public Player() {
+		// TODO Auto-generated constructor stub
 	}
 	
 	

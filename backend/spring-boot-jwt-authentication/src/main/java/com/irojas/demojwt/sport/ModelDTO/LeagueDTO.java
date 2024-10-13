@@ -8,7 +8,7 @@ public class LeagueDTO {
 	
 	private Long id;
     private String name;
-    private boolean requireRequest; // Nuevo campo
+    private boolean requestToJoinLeague; // Nuevo campo
     
     public Long getId() {
 		return id;
@@ -23,10 +23,10 @@ public class LeagueDTO {
 		this.name = name;
 	}
 	public boolean isRequireRequest() {
-		return requireRequest;
+		return requestToJoinLeague;
 	}
 	public void setRequireRequest(boolean requireRequest) {
-		this.requireRequest = requireRequest;
+		this.requestToJoinLeague = requireRequest;
 	}
 	
 	
@@ -34,14 +34,14 @@ public class LeagueDTO {
 		super();
 		this.id = id;
 		this.name = name;
-		this.requireRequest = requireRequest;
+		this.requestToJoinLeague = requireRequest;
 	}
 
 	
 	public LeagueDTO(String name, boolean requireRequest) {
 		super();
 		this.name = name;
-		this.requireRequest = requireRequest;
+		this.requestToJoinLeague = requireRequest;
 	}
 	
 	

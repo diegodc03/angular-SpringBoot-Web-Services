@@ -22,6 +22,8 @@ import com.irojas.demojwt.Auth.ModelDTO.LoginRequest;
 import com.irojas.demojwt.Auth.ModelDTO.RegisterRequest;
 import com.irojas.demojwt.Auth.Repository.UserRepository;
 import com.irojas.demojwt.Jwt.JwtService;
+import com.irojas.demojwt.sport.Model.Player;
+import com.irojas.demojwt.sportRepository.PlayerRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,14 +36,20 @@ public class AuthService {
     private PasswordEncoder passwordEncoder;
     private AuthenticationManager authenticationManager;
     
+    
+ // tengo que añadir rol player
+    private PlayerRepository playerRepository;
+    
+    
 
-    public AuthService(UserRepository userRepository, JwtService jwtService, PasswordEncoder passwordEncoder,
-			AuthenticationManager authenticationManager) {
+	public AuthService(UserRepository userRepository, JwtService jwtService, PasswordEncoder passwordEncoder,
+			AuthenticationManager authenticationManager, PlayerRepository playerRepository) {
 		super();
 		this.userRepository = userRepository;
 		this.jwtService = jwtService;
 		this.passwordEncoder = passwordEncoder;
 		this.authenticationManager = authenticationManager;
+		this.playerRepository = playerRepository;
 	}
 
 	public AuthResponse login(LoginRequest request) {
@@ -65,10 +73,14 @@ public class AuthService {
 	    roles.add(Role.USER);
 	    user.setRoles(roles);
 	    
+	    Player player = new Player();
+	    player.setUser(user);
 	    
         
+	    
+	    
         userRepository.save(user);
-
+        playerRepository.save(player);
         return new AuthResponse(jwtService.getToken(user));
     }
     

@@ -15,7 +15,7 @@ import com.irojas.demojwt.Auth.Service.UserService;
 import com.irojas.demojwt.sport.Service.PlayerService;
 
 @Controller
-@RequestMapping("/player")
+@RequestMapping("/sport/player")
 public class PlayerController {
 	
 	
@@ -68,6 +68,20 @@ public class PlayerController {
     	
     	return null;
     }
+    
+    
+    @PostMapping("/join-league")
+    public ResponseEntity<String> joinLeague(
+    		@AuthenticationPrincipal UserDetails currentUser,
+    		@RequestBody Long leagueId){
+		
+    	this.playerService.joinLeague(currentUser.getUsername(),leagueId);
+    	return ResponseEntity.ok("Successfully joined the league.");
+    	
+    }
+    
+    
+    
     
     
     //Get-out-of-league

@@ -4,8 +4,6 @@ import { LoginService } from 'src/app/authentication/service/loginService/login.
 
 @Component({
   selector: 'app-secure-sport-nav',
-  standalone: true,
-  imports: [],
   templateUrl: './secure-sport-nav.component.html',
   styleUrl: './secure-sport-nav.component.css'
 })

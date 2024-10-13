@@ -90,6 +90,7 @@ import { SecureSportNavComponent } from "./shared/secure-sport-nav/secure-sport-
         ShowLeaguesJoinedComponent,
         ShowLeagueInformationComponent,
         SecureSportsLayoutComponent,
+        SecureSportNavComponent
     ],
     imports: [
     BrowserModule,
@@ -98,7 +99,7 @@ import { SecureSportNavComponent } from "./shared/secure-sport-nav/secure-sport-
     FormsModule,
     HttpClientModule,
     CommonModule,
-    SecureSportNavComponent
+    
 ],
       providers: [
         {provide:HTTP_INTERCEPTORS,useClass:JwtInterceptorService,multi:true},

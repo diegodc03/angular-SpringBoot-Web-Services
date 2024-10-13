@@ -145,8 +145,24 @@ public class PlayerLeague {
 		this.puntosClasificacion = puntosClasificacion;
 	}
 
+	public PlayerLeague(Player player, League league) {
+		super();
+		this.player = player;
+		this.league = league;
+		this.juegosGanados = 0;
+		this.juegosPerdidos = 0;
+		this.juegosTotales = 0;
+		
+		this.partidosGanados = 0;
+		this.partidosJugados = 0;
+		this.partidosPerdidos = 0;
+		
+		this.puntosClasificacion = 0;
+	}
+	
 	public PlayerLeague() {
 		super();
+
 		this.juegosGanados = 0;
 		this.juegosPerdidos = 0;
 		this.juegosTotales = 0;
