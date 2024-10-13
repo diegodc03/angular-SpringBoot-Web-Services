@@ -9,13 +9,13 @@ import { HttpClient } from '@angular/common/http';
 })
 export class PlayerService {
 
-  private apiURL = "http://localhost:8080/player";
+  private apiURL = "http://localhost:8080/sport/player";
 
   constructor(private http: HttpClient) { }
 
   getPlayers(leagueId: number): Observable<PlayerDTOModule[]> {
 
-    return this.http.get<PlayerDTOModule[]>(`${this.apiURL}/all-players`, { params: { leagueId: leagueId } });
+    return this.http.get<PlayerDTOModule[]>(`${this.apiURL}/get-all-players/${leagueId}`);
   }
 
   

@@ -19,7 +19,7 @@
                 <div class="product-name">Acciones</div>
             </div>
         </div>
-        <div *ngFor="let league of leagues; let i = index" class="product-item" (click)="leagueInformation()">
+        <div *ngFor="let league of leagues; let i = index" class="product-item" (click)="leagueInformation(league.id)">
             <div class="grid-words  product-row" >
                 <div class="product-name">{{ league.name }}</div>
                 

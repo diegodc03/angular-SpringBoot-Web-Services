@@ -32,7 +32,7 @@ public class PlayMatchDTO {
 
     private Long jugador4Id;
 
-    private String ganadorEquipo;
+
     
     private List<SetDTO> sets;
     
@@ -101,14 +101,6 @@ public class PlayMatchDTO {
 		this.jugador4Id = jugador4Id;
 	}
 
-	public String getGanadorEquipo() {
-		return ganadorEquipo;
-	}
-
-	public void setGanadorEquipo(String ganadorEquipo) {
-		this.ganadorEquipo = ganadorEquipo;
-	}
-
 	public List<SetDTO> getSets() {
 		return sets;
 	}
@@ -121,7 +113,7 @@ public class PlayMatchDTO {
 	
 	
 	public PlayMatchDTO(LocalDate fecha, String ubicacion, Long leagueId, Long jugador1Id, Long jugador2Id,
-			Long jugador3Id, Long jugador4Id, String ganadorEquipo, List<SetDTO> sets) {
+			Long jugador3Id, Long jugador4Id, List<SetDTO> sets) {
 		super();
 		this.fecha = fecha;
 		this.ubicacion = ubicacion;
@@ -130,7 +122,7 @@ public class PlayMatchDTO {
 		this.jugador2Id = jugador2Id;
 		this.jugador3Id = jugador3Id;
 		this.jugador4Id = jugador4Id;
-		this.ganadorEquipo = ganadorEquipo;
+
 		this.sets = sets;
 	}
 	
@@ -138,7 +130,7 @@ public class PlayMatchDTO {
     
    
     public PlayMatchDTO(Long id, LocalDate fecha, String ubicacion, Long leagueId, Long jugador1Id, Long jugador2Id,
-			Long jugador3Id, Long jugador4Id, String ganadorEquipo) {
+			Long jugador3Id, Long jugador4Id) {
 		super();
 		this.id = id;
 		this.fecha = fecha;
@@ -148,14 +140,14 @@ public class PlayMatchDTO {
 		this.jugador2Id = jugador2Id;
 		this.jugador3Id = jugador3Id;
 		this.jugador4Id = jugador4Id;
-		this.ganadorEquipo = ganadorEquipo;
+	
 	}
     
     
     
 
 	public PlayMatchDTO(Long id, LocalDate fecha, String ubicacion, Long leagueId, Long jugador1Id, Long jugador2Id,
-			Long jugador3Id, Long jugador4Id, String ganadorEquipo, List<SetDTO> sets) {
+			Long jugador3Id, Long jugador4Id, List<SetDTO> sets) {
 		super();
 		this.id = id;
 		this.fecha = fecha;
@@ -165,7 +157,7 @@ public class PlayMatchDTO {
 		this.jugador2Id = jugador2Id;
 		this.jugador3Id = jugador3Id;
 		this.jugador4Id = jugador4Id;
-		this.ganadorEquipo = ganadorEquipo;
+		
 		this.sets = sets;
 	}
 

@@ -1,6 +1,8 @@
 package com.irojas.demojwt.sport.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import com.irojas.demojwt.Auth.Repository.UserRepository;
 import com.irojas.demojwt.sport.Model.League;
 import com.irojas.demojwt.sport.Model.Player;
 import com.irojas.demojwt.sport.Model.PlayerLeague;
+import com.irojas.demojwt.sport.ModelDTO.PlayerDTO;
 import com.irojas.demojwt.sport.exception.ExceptionClass.LeagueNotFoundException;
 import com.irojas.demojwt.sport.exception.ExceptionClass.PlayerAlreadyInLeagueException;
 import com.irojas.demojwt.sport.exception.ExceptionClass.PlayerNotFoundException;
@@ -101,6 +104,30 @@ public class PlayerService {
 	    
 	    playerRepository.save(player);
 	   
+	}
+
+
+	public List<PlayerDTO> getAllPlayers(Long leagueId) {
+		// TODO Auto-generated method stub
+		League league = leagueRepository.findById(leagueId)
+				.orElseThrow(() -> new LeagueNotFoundException("League not found"));
+		
+		List<PlayerLeague> playerLeagues = playerLeagueRepository.findByLeague(league);
+		
+		// Extraer los jugadores de la lista de PlayerLeague
+	    /*List<Player> players = playerLeagues.stream()
+	            .map(PlayerLeague::getPlayer) // Mapear a jugadores
+	            .collect(Collectors.toList()); // Recoger en una lista*/
+		
+		// Extraer los jugadores y convertir a PlayerDTO
+	    List<PlayerDTO> playerDTOs = playerLeagues.stream()
+	            .map(playerLeague -> {
+	                Player player = playerLeague.getPlayer(); // Obtener el jugador
+	                return new PlayerDTO(player.getId(), player.getUser().getFirstname()); // Asumiendo que quieres el nombre del usuario
+	            })
+	            .collect(Collectors.toList()); // Recoger en una lista
+
+	    return playerDTOs; // Devolver la lista de DTOs
 	}
 	
 	

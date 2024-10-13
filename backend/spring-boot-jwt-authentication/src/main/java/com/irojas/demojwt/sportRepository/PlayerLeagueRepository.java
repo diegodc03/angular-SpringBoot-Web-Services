@@ -15,4 +15,6 @@ public interface PlayerLeagueRepository extends JpaRepository<PlayerLeague, Long
 	
 	public List<PlayerLeague> findByPlayerId(Long playerId);
 	
+	public List<PlayerLeague> findByLeague(League League);
+	
 }

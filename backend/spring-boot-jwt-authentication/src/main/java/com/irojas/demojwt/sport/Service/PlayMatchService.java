@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.irojas.demojwt.sport.Model.Equipo;
 import com.irojas.demojwt.sport.Model.League;
 import com.irojas.demojwt.sport.Model.Play;
 import com.irojas.demojwt.sport.Model.Player;
@@ -75,8 +76,9 @@ public class PlayMatchService {
             play.setJugador3(playerRepository.findById(playMatchDTO.getJugador3Id()).orElse(null));
             play.setJugador4(playerRepository.findById(playMatchDTO.getJugador4Id()).orElse(null));
 
-            play.setGanadorEquipo(playMatchDTO.getGanadorEquipo());
-             
+            //play.setGanadorEquipo(playMatchDTO.getGanadorEquipo());
+            int setEquipo1=0;
+            int setEquipo2=0;
             
             List<Set> sets = playMatchDTO.getSets().stream()
             	    .map(setDTO -> {
@@ -85,10 +87,26 @@ public class PlayMatchService {
             	        set.setNumeroSet(setDTO.getNumeroSet());
             	        set.setJuegosEquipo1(setDTO.getJuegosEquipo1());
             	        set.setJuegosEquipo2(setDTO.getJuegosEquipo2());
+            	        
             	        return set;
             	    })
             	    .collect(Collectors.toList());
 
+            for(Set set: sets) {
+            	
+            	if(set.getJuegosEquipo1() > set.getJuegosEquipo2()) {
+            		setEquipo1=setEquipo1+1;
+            	}else {
+            		setEquipo2=setEquipo2+1;
+            	}
+            }
+            
+            if(setEquipo1 > setEquipo2) {
+            	play.setGanadorEquipo(Equipo.EQUIPO1);
+            }else {
+            	play.setGanadorEquipo(Equipo.EQUIPO2);
+            }
+            
             play.setSets(sets);  // Asocia la lista de sets al partido
             
             this.updateStadisticsOfPlayers(play);
@@ -224,7 +242,7 @@ public class PlayMatchService {
                 play.setJugador3(playerRepository.findById(playMatchDTO.getJugador3Id()).orElse(null));
                 play.setJugador4(playerRepository.findById(playMatchDTO.getJugador4Id()).orElse(null));
 
-                play.setGanadorEquipo(playMatchDTO.getGanadorEquipo());
+                //play.setGanadorEquipo(playMatchDTO.getGanadorEquipo());
 
                 return playRepository.save(play);
         	}

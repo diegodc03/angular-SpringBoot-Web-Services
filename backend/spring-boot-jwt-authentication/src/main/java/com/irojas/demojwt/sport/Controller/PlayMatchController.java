@@ -18,7 +18,7 @@ import com.irojas.demojwt.sport.ModelDTO.PlayMatchDTO;
 import com.irojas.demojwt.sport.Service.PlayMatchService;
 
 @Controller
-@RequestMapping("/sport")
+@RequestMapping("/sport/playMatch")
 public class PlayMatchController {
 
 	private PlayMatchService playMatchService;
@@ -102,6 +102,10 @@ public class PlayMatchController {
           return ResponseEntity.badRequest().body(null);
       }
     }
+    
+    
+    
+   
 		
 	
 	

@@ -15,8 +15,8 @@ export class LeagueService {
 
   apiURL: string = 'http://localhost:8080/sport';
 
-
   
+
   chargeLeagues(): Observable<LeagueDTOModule[]> {
     return this.http.get<LeagueDTOModule[]>(`${this.apiURL}/league/get-all-leagues`);
   }

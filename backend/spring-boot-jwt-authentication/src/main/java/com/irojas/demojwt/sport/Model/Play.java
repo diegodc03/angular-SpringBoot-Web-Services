@@ -51,7 +51,7 @@ public class Play {
     private Player jugador4;
 
     @Column(name = "ganador_equipo")
-    private String ganadorEquipo;
+    private Equipo ganadorEquipo;
 
     @OneToMany(mappedBy = "play", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Set> sets = new ArrayList<>();
@@ -116,11 +116,11 @@ public class Play {
 		this.jugador4 = jugador4;
 	}
 
-	public String getGanadorEquipo() {
+	public Equipo getGanadorEquipo() {
 		return ganadorEquipo;
 	}
 
-	public void setGanadorEquipo(String ganadorEquipo) {
+	public void setGanadorEquipo(Equipo ganadorEquipo) {
 		this.ganadorEquipo = ganadorEquipo;
 	}
 	
@@ -142,7 +142,7 @@ public class Play {
 	}
 
 	public Play(LocalDate fecha, String ubicacion, Player jugador1, Player jugador2, Player jugador3, Player jugador4,
-			String ganadorEquipo, List<Set> sets) {
+			Equipo ganadorEquipo, List<Set> sets) {
 		super();
 		this.fecha = fecha;
 		this.ubicacion = ubicacion;

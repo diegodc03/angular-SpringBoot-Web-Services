@@ -4,6 +4,8 @@ import { LeagueService } from '../../service/leagueService/league.service';
 import { PlayMatchService } from '../../service/playMatchService/play-match.service';
 import { PlayerService } from '../../service/playerService/player.service';
 import {  PlayerDTOModule } from '../../modelDTO/player-dto/player-dto.module';
+import { LeagueIdService } from '../../service/league-id.service';
+import { MatchDTOModule } from '../../modelDTO/match-dto/match-dto.module';
 
 @Component({
   selector: 'app-create-padel-match',
@@ -12,8 +14,8 @@ import {  PlayerDTOModule } from '../../modelDTO/player-dto/player-dto.module';
 })
 export class CreatePadelMatchComponent {
 
-  
-  leagues = []; // Cargar las ligas desde el servicio
+  leagueId: number = this.leagueIdService.getLeagueId();
+ 
   availablePlayers: PlayerDTOModule[] = []; // Cargar los jugadores desde el servicio
   addPlayMatchError = '';
   addPlayMatchForm: FormGroup;
@@ -22,7 +24,8 @@ export class CreatePadelMatchComponent {
     private fb: FormBuilder,
     private playerService: PlayerService,
     private leagueService: LeagueService,
-    private playMatchService: PlayMatchService
+    private playMatchService: PlayMatchService,
+    private leagueIdService: LeagueIdService
   ) {
 
     this.addPlayMatchForm = this.fb.group({
@@ -67,7 +70,21 @@ export class CreatePadelMatchComponent {
 
   onSubmit() {
     if (this.addPlayMatchForm.valid) {
-      this.playMatchService.addPlayMatch(this.addPlayMatchForm.value).subscribe({
+
+      const matchDTO: MatchDTOModule = new MatchDTOModule(
+        0,
+        this.addPlayMatchForm.value.fecha,
+        this.addPlayMatchForm.value.ubicacion,
+        this.leagueId,
+        this.addPlayMatchForm.value.jugador1,
+        this.addPlayMatchForm.value.jugador2,
+        this.addPlayMatchForm.value.jugador3,
+        this.addPlayMatchForm.value.jugador4,
+        this.addPlayMatchForm.value.sets
+      );
+
+
+      this.playMatchService.addPlayMatch(matchDTO).subscribe({
         next: (response) => {
           // Manejar la respuesta
           console.log('Match added:', response);
@@ -83,7 +100,7 @@ export class CreatePadelMatchComponent {
 
 
   private loadPlayers() {
-    this.playerService.getPlayers(4).subscribe(data => {
+    this.playerService.getPlayers(this.leagueId).subscribe(data => {
       this.availablePlayers = data;
     });
   }

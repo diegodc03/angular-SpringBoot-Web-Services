@@ -3,6 +3,7 @@ import { BaseLeagueDTO, LeagueDTOModule, ShowLeagueDTO } from '../../modelDTO/le
 import { LeagueService } from '../../service/leagueService/league.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { LeagueIdService } from '../../service/league-id.service';
 
 
 @Component({
@@ -13,18 +14,21 @@ import { Router } from '@angular/router';
 export class ShowLeaguesJoinedComponent {
 
 
-
+ 
 
   selectedFilter: string = '';
   leagues: ShowLeagueDTO[] = [];
 
   constructor(
+      private leagueIdService: LeagueIdService, 
       private leagueService: LeagueService,
       private http: HttpClient,
       private router: Router) { }
 
   ngOnInit(): void {
     
+    
+
     this.leagueService.chargeLeaguesUserJoined().subscribe(
         leagues => {
             this.leagues = leagues;
@@ -34,7 +38,9 @@ export class ShowLeaguesJoinedComponent {
   }
 
 
-  leagueInformation() {
+  leagueInformation(leagueId: number) {
+    this.leagueIdService.setLeagueId(leagueId);
+
     this.router.navigate(['/sports/league-information']);
   }
 
