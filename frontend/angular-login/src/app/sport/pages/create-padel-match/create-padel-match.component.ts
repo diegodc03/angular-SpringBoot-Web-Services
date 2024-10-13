@@ -80,6 +80,7 @@ export class CreatePadelMatchComponent {
         this.addPlayMatchForm.value.jugador2,
         this.addPlayMatchForm.value.jugador3,
         this.addPlayMatchForm.value.jugador4,
+        '',
         this.addPlayMatchForm.value.sets
       );
 

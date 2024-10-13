@@ -9,12 +9,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.irojas.demojwt.sport.ModelDTO.LeagueDTO;
-import com.irojas.demojwt.sport.ModelDTO.League2DTO;
+import com.irojas.demojwt.sport.ModelDTO.LeagueInformationDTO;
 import com.irojas.demojwt.sport.Service.LeagueService;
 
 @Controller
@@ -92,14 +93,14 @@ public class LeagueController {
     }
     
     
-    @GetMapping("/get-league-info")
-    public ResponseEntity<League2DTO> getLeagueInfo(
+    @GetMapping("/get-league-information/{leagueId}")
+    public ResponseEntity<LeagueInformationDTO> getLeagueInfo(
     		@AuthenticationPrincipal UserDetails currentUser,
-    		@RequestBody Long leagueId){
+    		@PathVariable Long leagueId){
     	
     	try {
-    		League2DTO league2DTO = leagueService.getLeagueInfo(leagueId);
-        	return ResponseEntity.ok(league2DTO);
+    		LeagueInformationDTO leagueInformationDTO = leagueService.getLeagueInfo(leagueId);
+        	return ResponseEntity.ok(leagueInformationDTO);
         }catch(Exception e) {
         	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }

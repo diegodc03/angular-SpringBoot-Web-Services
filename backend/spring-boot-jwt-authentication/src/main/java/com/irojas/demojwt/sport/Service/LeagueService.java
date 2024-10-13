@@ -17,7 +17,7 @@ import com.irojas.demojwt.sport.Model.Set;
 import com.irojas.demojwt.sport.ModelDTO.LeagueDTO;
 import com.irojas.demojwt.sport.ModelDTO.PlayMatchDTO;
 import com.irojas.demojwt.sport.ModelDTO.PlayerLeagueDTO;
-import com.irojas.demojwt.sport.ModelDTO.League2DTO;
+import com.irojas.demojwt.sport.ModelDTO.LeagueInformationDTO;
 import com.irojas.demojwt.sport.ModelDTO.SetDTO;
 import com.irojas.demojwt.sportRepository.LeagueRepository;
 import com.irojas.demojwt.sportRepository.PlayerLeagueRepository;
@@ -132,7 +132,7 @@ public class LeagueService {
 
 
 
-	public League2DTO getLeagueInfo(Long leagueId) {
+	public LeagueInformationDTO getLeagueInfo(Long leagueId) {
 		// TODO Auto-generated method stub
 		try {
 			 League league = this.leagueRepository.findById(leagueId)
@@ -149,6 +149,7 @@ public class LeagueService {
 		                        play.getJugador2().getId(),
 		                        play.getJugador3() != null ? play.getJugador3().getId() : null,
 		                        play.getJugador4() != null ? play.getJugador4().getId() : null,
+		                        play.getGanadorEquipo().toString(),
 		                        play.getSets().stream()
 		                                .map(set -> new SetDTO(
 		                                        set.getId(),
@@ -176,8 +177,8 @@ public class LeagueService {
 		                ))
 		                .collect(Collectors.toList());
 
-		        // Crear el League2DTO con toda la información
-		        return new League2DTO(
+		        // Crear el LeagueInformationDTO con toda la información
+		        return new LeagueInformationDTO(
 		                league.getId(),
 		                league.getName(),
 		                league.isRequireRequest(),

@@ -67,20 +67,23 @@ import { MatchDTOModule } from '../match-dto/match-dto.module';
   
 
 
-  export class LeagueWithPlayersDTO extends BaseLeagueDTO{
+  export class LeagueInforamationDTO extends BaseLeagueDTO{
     
     id: number
+    requestToJoinLeague: boolean;
     players: PlayerLeaguesdtoModule[]; // Lista con la información de clasificación de cada jugador
     matchs: MatchDTOModule[];
 
     constructor(
       id: number,
       name: string,
+      requestToJoinLeague: boolean,
       matchs: MatchDTOModule[],
       players: PlayerLeaguesdtoModule[]
     ) {
       super(name);
       this.id = id;
+      this.requestToJoinLeague = requestToJoinLeague;
       this.matchs = matchs;
       this.players = players;
     }

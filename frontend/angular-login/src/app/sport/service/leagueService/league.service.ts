@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { BaseLeagueDTO, CreateLeagueDTO, LeagueDTOModule, ShowLeagueDTO } from '../../modelDTO/league-dto/league-dto.module';
+import { BaseLeagueDTO, CreateLeagueDTO, LeagueDTOModule, LeagueInforamationDTO, ShowLeagueDTO } from '../../modelDTO/league-dto/league-dto.module';
 import { LeagueIdDTOModule } from '../../modelDTO/league-id-dto/league-id-dto.module';
 
 
@@ -61,6 +61,11 @@ export class LeagueService {
       body: deletePlayer,  // Envía el objeto directamente
       responseType: 'text' as 'json'
     });
+  }
+
+
+  getLeagueInformation(leagueId: number): Observable<LeagueInforamationDTO> {
+    return this.http.get<LeagueInforamationDTO>(`${this.apiURL}/get-league-information/${leagueId}`);
   }
 
 }

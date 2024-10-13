@@ -20,6 +20,7 @@ export class MatchDTOModule {
   jugador2Id: number;
   jugador3Id: number;
   jugador4Id: number;
+  ganadorEquipo: string
   sets: SetDTOModule[];
 
   constructor(
@@ -31,6 +32,7 @@ export class MatchDTOModule {
     jugador2Id: number,
     jugador3Id: number,
     jugador4Id: number,
+    ganadorEquipo: string,
     sets: SetDTOModule[]
   ) {
     this.id = id;
@@ -41,6 +43,7 @@ export class MatchDTOModule {
     this.jugador2Id = jugador2Id;
     this.jugador3Id = jugador3Id;
     this.jugador4Id = jugador4Id;
+    this.ganadorEquipo = ganadorEquipo;
     this.sets = sets;
   }
 

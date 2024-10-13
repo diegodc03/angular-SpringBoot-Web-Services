@@ -12,7 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
-public class League2DTO extends LeagueDTO{
+public class LeagueInformationDTO extends LeagueDTO{
 
 
 
@@ -36,9 +36,9 @@ public class League2DTO extends LeagueDTO{
 	
 	
 	
-	public League2DTO(Long id, String name, boolean requireRequest, List<PlayMatchDTO> matchPlayed,
+	public LeagueInformationDTO(Long id, String name, boolean requestToJoinLeague, List<PlayMatchDTO> matchPlayed,
 			List<PlayerLeagueDTO> playerLeagues) {
-		super(id, name, requireRequest);
+		super(id, name, requestToJoinLeague);
 		this.matchPlayed = matchPlayed;
 		this.playerLeagues = playerLeagues;
 	}
