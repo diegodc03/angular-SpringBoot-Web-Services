@@ -1,6 +1,5 @@
 package com.irojas.demojwt.Inventay.Model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 

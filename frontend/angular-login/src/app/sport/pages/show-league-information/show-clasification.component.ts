@@ -13,6 +13,8 @@ import { PlayerLeaguesdtoModule } from '../../modelDTO/player-leaguesdto/player-
 })
 export class ShowLeagueInformationComponent {
 
+view: string = 'clasification'; //Por defecto mostramos la clasificación
+
 league: LeagueInforamationDTO | undefined;
 leagueId: number;
 
@@ -25,7 +27,6 @@ constructor(private leagueService: LeagueService,
 ) { 
   this.leagueId = this.leagueIdService.getLeagueId();
 }
-
 
 
 ngOnInit(): void {
@@ -41,22 +42,28 @@ applyFilter() {
 
 
 
-getInformation() {
+  getInformation() {
 
-  this.leagueService.getLeagueInformation(this.leagueId).subscribe({
-    next: (response) => {
-      this.league= response;
-      this.players = this.league.players;
-      this.matchs = this.league.matchs;
+    this.leagueService.getLeagueInformation(this.leagueId).subscribe({
+      next: (response) => {
+        this.league= response;
+        this.players = this.league.players;
+        this.matchs = this.league.matchs;
 
-    },
-    error: (error) => {
-      alert('Error al cargar la información de la liga');
-    }
-  });
+        //Cogemos a partir de players el id del usuario y ponemos guardamos en un array los datos de los jugadores
+        
+
+      },
+      error: (error) => {
+        alert('Error al cargar la información de la liga');
+      }
+    });
+  }
 
 
-}
+  switchView(view: string) {
+    this.view = view;
+  }
 
 
 }

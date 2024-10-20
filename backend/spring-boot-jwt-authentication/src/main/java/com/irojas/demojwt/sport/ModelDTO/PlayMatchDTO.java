@@ -16,23 +16,17 @@ import jakarta.persistence.ManyToOne;
 public class PlayMatchDTO {
 
 		
-	private Long id;
-
-    private LocalDate fecha;
-
-    private String ubicacion;
-    
-    private Long leagueId;
-
-    private Long jugador1Id;
-
-    private Long jugador2Id;
-
-    private Long jugador3Id;
-
-    private Long jugador4Id;
-    
-    private String ganadorEquipo;
+	 private Long id;
+	 private LocalDate fecha;
+	 private String ubicacion;
+	 private Long leagueId;
+	    
+	 private PlayerDTO jugador1;
+	 private PlayerDTO jugador2;
+	 private PlayerDTO jugador3;
+	 private PlayerDTO jugador4;
+	   
+	 private String ganadorEquipo;
 
 
     
@@ -70,37 +64,37 @@ public class PlayMatchDTO {
 	public void setLeagueId(Long leagueId) {
 		this.leagueId = leagueId;
 	}
-
-	public Long getJugador1Id() {
-		return jugador1Id;
+	
+	public PlayerDTO getJugador1() {
+		return jugador1;
 	}
 
-	public void setJugador1Id(Long jugador1Id) {
-		this.jugador1Id = jugador1Id;
+	public void setJugador1(PlayerDTO jugador1) {
+		this.jugador1 = jugador1;
 	}
 
-	public Long getJugador2Id() {
-		return jugador2Id;
+	public PlayerDTO getJugador2() {
+		return jugador2;
 	}
 
-	public void setJugador2Id(Long jugador2Id) {
-		this.jugador2Id = jugador2Id;
+	public void setJugador2(PlayerDTO jugador2) {
+		this.jugador2 = jugador2;
 	}
 
-	public Long getJugador3Id() {
-		return jugador3Id;
+	public PlayerDTO getJugador3() {
+		return jugador3;
 	}
 
-	public void setJugador3Id(Long jugador3Id) {
-		this.jugador3Id = jugador3Id;
+	public void setJugador3(PlayerDTO jugador3) {
+		this.jugador3 = jugador3;
 	}
 
-	public Long getJugador4Id() {
-		return jugador4Id;
+	public PlayerDTO getJugador4() {
+		return jugador4;
 	}
 
-	public void setJugador4Id(Long jugador4Id) {
-		this.jugador4Id = jugador4Id;
+	public void setJugador4(PlayerDTO jugador4) {
+		this.jugador4 = jugador4;
 	}
 
 	public List<SetDTO> getSets() {
@@ -120,16 +114,16 @@ public class PlayMatchDTO {
 		this.ganadorEquipo = ganadorEquipo;
 	}
 
-	public PlayMatchDTO(LocalDate fecha, String ubicacion, Long leagueId, Long jugador1Id, Long jugador2Id,
-			Long jugador3Id, Long jugador4Id, String ganadorEquipo, List<SetDTO> sets) {
+	public PlayMatchDTO(LocalDate fecha, String ubicacion, Long leagueId, PlayerDTO jugador1Id, PlayerDTO jugador2Id,
+			PlayerDTO jugador3Id, PlayerDTO jugador4Id, String ganadorEquipo, List<SetDTO> sets) {
 		super();
 		this.fecha = fecha;
 		this.ubicacion = ubicacion;
 		this.leagueId = leagueId;
-		this.jugador1Id = jugador1Id;
-		this.jugador2Id = jugador2Id;
-		this.jugador3Id = jugador3Id;
-		this.jugador4Id = jugador4Id;
+		this.jugador1 = jugador1Id;
+		this.jugador2 = jugador2Id;
+		this.jugador3 = jugador3Id;
+		this.jugador4 = jugador4Id;
 		this.ganadorEquipo = ganadorEquipo;
 
 		this.sets = sets;
@@ -138,17 +132,17 @@ public class PlayMatchDTO {
     
     
    
-    public PlayMatchDTO(Long id, LocalDate fecha, String ubicacion, Long leagueId, Long jugador1Id, Long jugador2Id,
-			Long jugador3Id, Long jugador4Id, String ganadorEquipo) {
+    public PlayMatchDTO(Long id, LocalDate fecha, String ubicacion, Long leagueId, PlayerDTO jugador1Id, PlayerDTO jugador2Id,
+    		PlayerDTO jugador3Id, PlayerDTO jugador4Id, String ganadorEquipo) {
 		super();
 		this.id = id;
 		this.fecha = fecha;
 		this.ubicacion = ubicacion;
 		this.leagueId = leagueId;
-		this.jugador1Id = jugador1Id;
-		this.jugador2Id = jugador2Id;
-		this.jugador3Id = jugador3Id;
-		this.jugador4Id = jugador4Id;
+		this.jugador1 = jugador1Id;
+		this.jugador2 = jugador2Id;
+		this.jugador3 = jugador3Id;
+		this.jugador4 = jugador4Id;
 		this.ganadorEquipo = ganadorEquipo;
 
 	}
@@ -156,17 +150,17 @@ public class PlayMatchDTO {
     
     
 
-	public PlayMatchDTO(Long id, LocalDate fecha, String ubicacion, Long leagueId, Long jugador1Id, Long jugador2Id,
-			Long jugador3Id, Long jugador4Id, String ganadorEquipo, List<SetDTO> sets) {
+	public PlayMatchDTO(Long id, LocalDate fecha, String ubicacion, Long leagueId, PlayerDTO jugador1Id, PlayerDTO jugador2Id,
+			PlayerDTO jugador3Id, PlayerDTO jugador4Id, String ganadorEquipo, List<SetDTO> sets) {
 		super();
 		this.id = id;
 		this.fecha = fecha;
 		this.ubicacion = ubicacion;
 		this.leagueId = leagueId;
-		this.jugador1Id = jugador1Id;
-		this.jugador2Id = jugador2Id;
-		this.jugador3Id = jugador3Id;
-		this.jugador4Id = jugador4Id;
+		this.jugador1 = jugador1Id;
+		this.jugador2 = jugador2Id;
+		this.jugador3 = jugador3Id;
+		this.jugador4 = jugador4Id;
 		this.ganadorEquipo = ganadorEquipo;
 		this.sets = sets;
 	}

@@ -71,10 +71,10 @@ public class PlayMatchService {
             }*/
             
             // Asignar jugadores
-            play.setJugador1(playerRepository.findById(playMatchDTO.getJugador1Id()).orElse(null));
-            play.setJugador2(playerRepository.findById(playMatchDTO.getJugador2Id()).orElse(null));
-            play.setJugador3(playerRepository.findById(playMatchDTO.getJugador3Id()).orElse(null));
-            play.setJugador4(playerRepository.findById(playMatchDTO.getJugador4Id()).orElse(null));
+            play.setJugador1(playerRepository.findById(playMatchDTO.getJugador1().getId()).orElse(null));
+            play.setJugador2(playerRepository.findById(playMatchDTO.getJugador2().getId()).orElse(null));
+            play.setJugador3(playerRepository.findById(playMatchDTO.getJugador3().getId()).orElse(null));
+            play.setJugador4(playerRepository.findById(playMatchDTO.getJugador4().getId()).orElse(null));
 
             //play.setGanadorEquipo(playMatchDTO.getGanadorEquipo());
             int setEquipo1=0;
@@ -237,10 +237,10 @@ public class PlayMatchService {
                 league.ifPresent(play::setLeague);
 
                 // Asignar jugadores
-                play.setJugador1(playerRepository.findById(playMatchDTO.getJugador1Id()).orElse(null));
-                play.setJugador2(playerRepository.findById(playMatchDTO.getJugador2Id()).orElse(null));
-                play.setJugador3(playerRepository.findById(playMatchDTO.getJugador3Id()).orElse(null));
-                play.setJugador4(playerRepository.findById(playMatchDTO.getJugador4Id()).orElse(null));
+                play.setJugador1(playerRepository.findById(playMatchDTO.getJugador1().getId()).orElse(null));
+                play.setJugador2(playerRepository.findById(playMatchDTO.getJugador2().getId()).orElse(null));
+                play.setJugador3(playerRepository.findById(playMatchDTO.getJugador3().getId()).orElse(null));
+                play.setJugador4(playerRepository.findById(playMatchDTO.getJugador4().getId()).orElse(null));
 
                 //play.setGanadorEquipo(playMatchDTO.getGanadorEquipo());
 
