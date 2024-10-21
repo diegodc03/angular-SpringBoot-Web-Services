@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { PlayerLeaguesdtoModule } from '../player-leaguesdto/player-leaguesdto.module';
 import { Match } from 'src/app/workHours/model/match/Match';
-import { MatchDTOModule } from '../match-dto/match-dto.module';
+import { PlayMatchDTOWithPlayers } from '../match-dto/match-dto.module';
 
 /*
 @NgModule({
@@ -72,13 +72,13 @@ import { MatchDTOModule } from '../match-dto/match-dto.module';
     id: number
     requestToJoinLeague: boolean;
     players: PlayerLeaguesdtoModule[]; // Lista con la información de clasificación de cada jugador
-    matchs: MatchDTOModule[];
+    matchs: PlayMatchDTOWithPlayers[];
 
     constructor(
       id: number,
       name: string,
       requestToJoinLeague: boolean,
-      matchs: MatchDTOModule[],
+      matchs: PlayMatchDTOWithPlayers[],
       players: PlayerLeaguesdtoModule[]
     ) {
       super(name);

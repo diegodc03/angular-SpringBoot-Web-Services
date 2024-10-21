@@ -5,7 +5,7 @@ import { PlayMatchService } from '../../service/playMatchService/play-match.serv
 import { PlayerService } from '../../service/playerService/player.service';
 import {  PlayerDTOModule } from '../../modelDTO/player-dto/player-dto.module';
 import { LeagueIdService } from '../../service/league-id.service';
-import { MatchDTOModule } from '../../modelDTO/match-dto/match-dto.module';
+import { PlayMatchDTOWithIds } from '../../modelDTO/match-dto/match-dto.module';
 
 @Component({
   selector: 'app-create-padel-match',
@@ -71,19 +71,20 @@ export class CreatePadelMatchComponent {
   onSubmit() {
     if (this.addPlayMatchForm.valid) {
 
-      const matchDTO: MatchDTOModule = new MatchDTOModule(
+      const matchDTO: PlayMatchDTOWithIds = new PlayMatchDTOWithIds(
         0,
         this.addPlayMatchForm.value.fecha,
         this.addPlayMatchForm.value.ubicacion,
         this.leagueId,
+        '',
+        this.addPlayMatchForm.value.sets,
         this.addPlayMatchForm.value.jugador1,
         this.addPlayMatchForm.value.jugador2,
         this.addPlayMatchForm.value.jugador3,
         this.addPlayMatchForm.value.jugador4,
-        '',
-        this.addPlayMatchForm.value.sets
       );
 
+      console.log('MatchDTO:', matchDTO);
 
       this.playMatchService.addPlayMatch(matchDTO).subscribe({
         next: (response) => {

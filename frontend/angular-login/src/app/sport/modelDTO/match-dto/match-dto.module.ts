@@ -11,16 +11,12 @@ import { PlayerDTOModule } from '../player-dto/player-dto.module';
     CommonModule
   ]
 })*/
-export class MatchDTOModule { 
+export class BaseDTOModule { 
 
   id: number;
   fecha: Date;
   ubicacion: string;
   leagueId: number;
-  jugador1: PlayerDTOModule;
-  jugador2: PlayerDTOModule;
-  jugador3: PlayerDTOModule;
-  jugador4: PlayerDTOModule;
   ganadorEquipo: string
   sets: SetDTOModule[];
 
@@ -29,10 +25,6 @@ export class MatchDTOModule {
     fecha: Date,
     ubicacion: string,
     leagueId: number,
-    jugador1: PlayerDTOModule,
-    jugador2: PlayerDTOModule,
-    jugador3: PlayerDTOModule,
-    jugador4: PlayerDTOModule,
     ganadorEquipo: string,
     sets: SetDTOModule[]
   ) {
@@ -40,13 +32,73 @@ export class MatchDTOModule {
     this.fecha = fecha;
     this.ubicacion = ubicacion;
     this.leagueId = leagueId;
-    this.jugador1 = jugador1;
-    this.jugador2 = jugador2;
-    this.jugador3 = jugador3;
-    this.jugador4 = jugador4;
     this.ganadorEquipo = ganadorEquipo;
     this.sets = sets;
   }
 
+
+}
+
+
+export class PlayMatchDTOWithIds extends BaseDTOModule{
+  
+  jugador1Id: number
+  jugador2Id: number
+  jugador3Id: number
+  jugador4Id: number
+  
+  
+  constructor(
+    id: number,
+    fecha: Date,
+    ubicacion: string,
+    leagueId: number,
+    ganadorEquipo: string,
+    sets: SetDTOModule[],
+    jugador1: number,
+    jugador2: number,
+    jugador3: number,
+    jugador4: number,
+
+  ) {
+    super(id, fecha, ubicacion, leagueId, ganadorEquipo, sets);
+
+    this.jugador1Id = jugador1;
+    this.jugador2Id = jugador2;
+    this.jugador3Id = jugador3;
+    this.jugador4Id = jugador4;
+
+  }
+}
+
+
+
+
+
+export class PlayMatchDTOWithPlayers extends BaseDTOModule{
+
+  jugador1: PlayerDTOModule;
+  jugador2: PlayerDTOModule;
+  jugador3: PlayerDTOModule;
+  jugador4: PlayerDTOModule;
+
+  constructor(
+    id: number,
+    fecha: Date,
+    ubicacion: string,
+    leagueId: number,
+    ganadorEquipo: string,
+    sets: SetDTOModule[],
+    jugador1: PlayerDTOModule,
+    jugador2: PlayerDTOModule,
+    jugador3: PlayerDTOModule,
+    jugador4: PlayerDTOModule
+  ) {
+    super(id, fecha, ubicacion, leagueId, ganadorEquipo, sets);
+    this.jugador1 = jugador1;
+    this.jugador2 = jugador2;
+    this.jugador3 = jugador3;
+    this.jugador4 = jugador4;
+  }
 
 }

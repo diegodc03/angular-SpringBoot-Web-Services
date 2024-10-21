@@ -16,15 +16,15 @@ public class LeagueInformationDTO extends LeagueDTO{
 
 
 
-	private List<PlayMatchDTO> matchPlayed = new ArrayList<>();
+	private List<PlayMatchDTOWithPlayers> matchPlayed = new ArrayList<>();
 	private List<PlayerLeagueDTO> playerLeagues = new ArrayList<>();
 	
 
 	
-	public List<PlayMatchDTO> getMatchPlayed() {
+	public List<PlayMatchDTOWithPlayers> getMatchPlayed() {
 		return matchPlayed;
 	}
-	public void setMatchPlayed(List<PlayMatchDTO> matchPlayed) {
+	public void setMatchPlayed(List<PlayMatchDTOWithPlayers> matchPlayed) {
 		this.matchPlayed = matchPlayed;
 	}
 	public List<PlayerLeagueDTO> getPlayerLeagues() {
@@ -36,7 +36,7 @@ public class LeagueInformationDTO extends LeagueDTO{
 	
 	
 	
-	public LeagueInformationDTO(Long id, String name, boolean requestToJoinLeague, List<PlayMatchDTO> matchPlayed,
+	public LeagueInformationDTO(Long id, String name, boolean requestToJoinLeague, List<PlayMatchDTOWithPlayers> matchPlayed,
 			List<PlayerLeagueDTO> playerLeagues) {
 		super(id, name, requestToJoinLeague);
 		this.matchPlayed = matchPlayed;

@@ -3,8 +3,9 @@ import { PlayMatchService } from '../../service/playMatchService/play-match.serv
 import { LeagueService } from '../../service/leagueService/league.service';
 import { LeagueIdService } from '../../service/league-id.service';
 import { LeagueInforamationDTO } from '../../modelDTO/league-dto/league-dto.module';
-import { MatchDTOModule } from '../../modelDTO/match-dto/match-dto.module';
+
 import { PlayerLeaguesdtoModule } from '../../modelDTO/player-leaguesdto/player-leaguesdto.module';
+import { PlayMatchDTOWithPlayers } from '../../modelDTO/match-dto/match-dto.module';
 
 @Component({
   selector: 'app-show-clasification',
@@ -20,7 +21,7 @@ leagueId: number;
 
 
 players: PlayerLeaguesdtoModule[] = []; 
-matchs: MatchDTOModule[] = [];
+matchs: PlayMatchDTOWithPlayers[] = [];
 
 constructor(private leagueService: LeagueService,
       private leagueIdService: LeagueIdService
@@ -31,6 +32,7 @@ constructor(private leagueService: LeagueService,
 
 ngOnInit(): void {
   this.getInformation();
+  
 
 }
 
@@ -43,15 +45,13 @@ applyFilter() {
 
 
   getInformation() {
-
+    console.log('leagueId:', this.leagueId);
     this.leagueService.getLeagueInformation(this.leagueId).subscribe({
       next: (response) => {
         this.league= response;
         this.players = this.league.players;
         this.matchs = this.league.matchs;
-
         //Cogemos a partir de players el id del usuario y ponemos guardamos en un array los datos de los jugadores
-        
 
       },
       error: (error) => {

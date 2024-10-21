@@ -1,4 +1,12 @@
-<div class="container">
+
+    <div class="product-list">
+
+      
+    
+ 
+
+
+  <div class="container">
 
     <div class="upper-div ">
         <h2> Ligas </h2>
@@ -29,37 +37,7 @@
         <option value="games-ascending">menos juegos Ganados</option>
     </select>
 
-    <div class="product-list">
-        <div> 
-            <div class="grid-words header">
-                <div class="product-name">Ligas</div>
-                <div class="product-actions">Estadisiticas</div>
-            </div>
-        </div>
-        
 
-        <div class="product-item">
-            <div *ngFor="let player of players; let i = index" >
-                <div class="grid-words  product-row" >
-                    
-                </div>
-            </div>
-
-            <div >
-
-            </div>
-
-        </div>
-        
-    </div>
-    
-      
-    
-  </div>
-
-
-
-  <div>
     <!-- Botones para cambiar entre vistas -->
     <button (click)="switchView('clasificacion')">Ver Clasificación</button>
     <button (click)="switchView('partidos')">Ver Partidos</button>

@@ -13,9 +13,8 @@ import com.irojas.demojwt.Auth.Repository.UserRepository;
 import com.irojas.demojwt.sport.Model.League;
 import com.irojas.demojwt.sport.Model.Player;
 import com.irojas.demojwt.sport.Model.PlayerLeague;
-import com.irojas.demojwt.sport.Model.Set;
 import com.irojas.demojwt.sport.ModelDTO.LeagueDTO;
-import com.irojas.demojwt.sport.ModelDTO.PlayMatchDTO;
+import com.irojas.demojwt.sport.ModelDTO.PlayMatchDTOWithPlayers;
 import com.irojas.demojwt.sport.ModelDTO.PlayerDTO;
 import com.irojas.demojwt.sport.ModelDTO.PlayerLeagueDTO;
 import com.irojas.demojwt.sport.ModelDTO.LeagueInformationDTO;
@@ -106,7 +105,7 @@ public class LeagueService {
 		try {
 			User user = userRepository.findByEmail(email)
 					.orElseThrow(() -> new RuntimeException("Player not found"));
-		
+			
 	        // Busca el jugador a partir del username.
 	        Player player = playerRepository.findByUserId(user.getId())
 	            .orElseThrow(() -> new RuntimeException("Player not found"));
@@ -140,16 +139,12 @@ public class LeagueService {
 					 .orElseThrow(() -> new RuntimeException("league not found"));
 			
 			 // Convertir lista de partidos a MatchDTO
-			 List<PlayMatchDTO> matches = league.getMatchPlayed().stream()
-					    .map(play -> new PlayMatchDTO(
+			 List<PlayMatchDTOWithPlayers> matches = league.getMatchPlayed().stream()
+					    .map(play -> new PlayMatchDTOWithPlayers(
 					        play.getId(),
 					        play.getFecha(),
 					        play.getUbicacion(),
 					        play.getLeague().getId(),
-					        new PlayerDTO(play.getJugador1().getId(), play.getJugador1().getUser().getFirstname()),
-					        new PlayerDTO(play.getJugador2().getId(), play.getJugador2().getUser().getFirstname()),
-					        play.getJugador3() != null ? new PlayerDTO(play.getJugador3().getId(), play.getJugador3().getUser().getFirstname()) : null,
-					        play.getJugador4() != null ? new PlayerDTO(play.getJugador4().getId(), play.getJugador4().getUser().getFirstname()) : null,
 					        play.getGanadorEquipo().toString(),
 					        play.getSets().stream()
 					            .map(set -> new SetDTO(
@@ -157,8 +152,11 @@ public class LeagueService {
 					                set.getNumeroSet(),
 					                set.getJuegosEquipo1(),
 					                set.getJuegosEquipo2()
-					            ))
-					            .collect(Collectors.toList())
+					            )).collect(Collectors.toList()),
+					        new PlayerDTO(play.getJugador1().getId(), play.getJugador1().getUser().getFirstname()),
+					        new PlayerDTO(play.getJugador2().getId(), play.getJugador2().getUser().getFirstname()),
+					        play.getJugador3() != null ? new PlayerDTO(play.getJugador3().getId(), play.getJugador3().getUser().getFirstname()) : null,
+					        play.getJugador4() != null ? new PlayerDTO(play.getJugador4().getId(), play.getJugador4().getUser().getFirstname()) : null
 					    ))
 					    .collect(Collectors.toList());
 

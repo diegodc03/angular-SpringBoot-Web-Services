@@ -12,7 +12,9 @@ import com.irojas.demojwt.sport.Model.Play;
 import com.irojas.demojwt.sport.Model.Player;
 import com.irojas.demojwt.sport.Model.PlayerLeague;
 import com.irojas.demojwt.sport.Model.Set;
-import com.irojas.demojwt.sport.ModelDTO.PlayMatchDTO;
+import com.irojas.demojwt.sport.ModelDTO.BasePlayMatchDTO;
+import com.irojas.demojwt.sport.ModelDTO.PlayMatchDTOWithIds;
+import com.irojas.demojwt.sport.ModelDTO.PlayMatchDTOWithPlayers;
 import com.irojas.demojwt.sport.ModelDTO.SetDTO;
 import com.irojas.demojwt.sportRepository.LeagueRepository;
 import com.irojas.demojwt.sportRepository.PlayRepository;
@@ -54,7 +56,7 @@ public class PlayMatchService {
     }
 
 
-	public void addPlayMatch(PlayMatchDTO playMatchDTO) {
+	public void addPlayMatch(PlayMatchDTOWithIds playMatchDTO) {
 		try {
             Play play = new Play();
             play.setFecha(playMatchDTO.getFecha());
@@ -71,10 +73,10 @@ public class PlayMatchService {
             }*/
             
             // Asignar jugadores
-            play.setJugador1(playerRepository.findById(playMatchDTO.getJugador1().getId()).orElse(null));
-            play.setJugador2(playerRepository.findById(playMatchDTO.getJugador2().getId()).orElse(null));
-            play.setJugador3(playerRepository.findById(playMatchDTO.getJugador3().getId()).orElse(null));
-            play.setJugador4(playerRepository.findById(playMatchDTO.getJugador4().getId()).orElse(null));
+            play.setJugador1(playerRepository.findById(playMatchDTO.getJugador1Id()).orElse(null));
+            play.setJugador2(playerRepository.findById(playMatchDTO.getJugador2Id()).orElse(null));
+            play.setJugador3(playerRepository.findById(playMatchDTO.getJugador3Id()).orElse(null));
+            play.setJugador4(playerRepository.findById(playMatchDTO.getJugador4Id()).orElse(null));
 
             //play.setGanadorEquipo(playMatchDTO.getGanadorEquipo());
             int setEquipo1=0;
@@ -93,7 +95,6 @@ public class PlayMatchService {
             	    .collect(Collectors.toList());
 
             for(Set set: sets) {
-            	
             	if(set.getJuegosEquipo1() > set.getJuegosEquipo2()) {
             		setEquipo1=setEquipo1+1;
             	}else {
@@ -223,7 +224,7 @@ public class PlayMatchService {
 	}
 	
 	
-	public Play updatePlayMatch(PlayMatchDTO playMatchDTO) {
+	public Play updatePlayMatch(PlayMatchDTOWithPlayers playMatchDTO) {
         Optional<Play> optionalPlay = playRepository.findById(playMatchDTO.getId());
 
         try {
@@ -252,5 +253,12 @@ public class PlayMatchService {
         }
 
         
+	}
+
+
+	public void addPlayMatch1(BasePlayMatchDTO playMatchDTO) {
+		// TODO Auto-generated method stub
+		System.out.println("hola");
+		
 	}
 }

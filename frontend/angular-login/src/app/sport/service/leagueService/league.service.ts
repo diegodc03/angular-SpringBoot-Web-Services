@@ -65,7 +65,7 @@ export class LeagueService {
 
 
   getLeagueInformation(leagueId: number): Observable<LeagueInforamationDTO> {
-    return this.http.get<LeagueInforamationDTO>(`${this.apiURL}/get-league-information/${leagueId}`);
+    return this.http.get<LeagueInforamationDTO>(`${this.apiURL}/league/get-league-information/${leagueId}`);
   }
 
 }

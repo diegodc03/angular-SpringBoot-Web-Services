@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.irojas.demojwt.sport.Model.Play;
-import com.irojas.demojwt.sport.ModelDTO.PlayMatchDTO;
+import com.irojas.demojwt.sport.ModelDTO.BasePlayMatchDTO;
+import com.irojas.demojwt.sport.ModelDTO.PlayMatchDTOWithIds;
+import com.irojas.demojwt.sport.ModelDTO.PlayMatchDTOWithPlayers;
 import com.irojas.demojwt.sport.Service.PlayMatchService;
 
 @Controller
@@ -62,8 +64,9 @@ public class PlayMatchController {
 	// Add match to a league
 	@PostMapping("add-play-match")
 	public ResponseEntity<String> addPlayMatch(
-			@AuthenticationPrincipal UserDetails currentUser,
-			@RequestBody PlayMatchDTO playMatchDTO){
+			@RequestBody PlayMatchDTOWithIds playMatchDTO,
+			@AuthenticationPrincipal UserDetails currentUser
+			){
 			
 		try {
 			playMatchService.addPlayMatch(playMatchDTO);
@@ -72,7 +75,6 @@ public class PlayMatchController {
            return ResponseEntity.badRequest().body("Error adding season: " + e.getMessage());
        }	
 	}
-	
 	
 	
 	@DeleteMapping("delete-play-match")
@@ -94,7 +96,7 @@ public class PlayMatchController {
     @PutMapping("update-match")
     public ResponseEntity<Play> updatePlayMatch(
             @AuthenticationPrincipal UserDetails currentUser,
-            @RequestBody PlayMatchDTO playMatchDTO) {
+            @RequestBody PlayMatchDTOWithPlayers playMatchDTO) {
 
        try {
 			return ResponseEntity.ok(playMatchService.updatePlayMatch(playMatchDTO));
