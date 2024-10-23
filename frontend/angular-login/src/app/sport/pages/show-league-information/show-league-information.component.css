@@ -32,151 +32,192 @@ html, body {
     margin: 0;
     font-size: 1.8rem;
 }
-
-.grid-words {
-    display: grid;
-    grid-template-columns: 2fr 2fr; /* Define el ancho de cada columna */
-    gap: 10px; /* Espacio entre columnas */
-    align-items: center; /* Alinea los elementos verticalmente */
-    padding: 10px;
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
-/* Estilos específicos para el encabezado */
-.header {
-    font-weight: bold;
-    background-color: #f5f5f5;
-    border-bottom: 2px solid #ccc;
-}
-
-
-/* Estilos para cada fila de producto */
-.product-row {
-    border-bottom: 1px solid #e0e0e0;
-}
-
-/* Alinea los botones de acción */
-.product-actions {
-    display: flex;
-    gap: 5px;
-}
-
-
-.product-list {
-    margin-top: 20px;
-}
-
-.product-item {
-    border: 1px solid #dee2e6;
-    border-radius: 4px;
-    margin-bottom: 10px;
-    padding: 10px;
-    background-color: #ffffff;
-}
-
-
-
-.product-header div {
-    flex: 1;
-}
-
-.product-actions {
-    display: flex;
-    gap: 10px;
-}
-
-
-
-.details-content {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px; /* Espacio entre los elementos */
-}
-
-.product-details {
-    background-color: #f8f9fa; /* Color de fondo claro */
-    padding: 10px;
-    border-top: 1px solid #dee2e6; /* Línea superior para separar visualmente */
-    background-color: #1e8ead;
-    border-radius: 10px;
-}
-
-.tittle-details{
-    display: flex;
-    color: #ffffff;
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    justify-content: center; /* Centra horizontalmente */
-}
-
-.garment-row {
-    display: flex;
-    flex: 1 1 calc(50% - 10px); /* Dos elementos por fila, considerando el espacio de gap */
-    box-sizing: border-box;
-    border-radius: 20px;
-    
-}
-
-.garment-items {
-    
-    width: 100%;
-    border-radius: 20px;
-    background-color: #84b7c5;
-    padding: 10px;
-    border: 1px solid #dee2e6;
-    border-radius: 4px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1); /* Sombra ligera para un efecto de profundidad */
-}
-
-.garment-item{
-    font-weight: bold;
+.upper-div {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
-    margin-left: 5%;
-    margin-right: 5%;
-    border-bottom: 1px solid #dee2e6;
+    margin-bottom: 20px;
 }
-.margin-button{
-    width: 100%;
-    margin-top: 20px;
-    margin-bottom: 30px;
-    display: flex;
-    justify-content: center;
-}
-
 
 #bag {
-    font-size: 1.2rem;
-    font-weight: bold;
-    background-color: #ff4081;
-    padding: 10px 20px;
-    border-radius: 20px;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
     cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.table-container {
+    margin-top: 20px;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table thead {
+    background-color: #007bff;
+    color: white;
+}
+
+table th, table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #dddddd;
+}
+
+.player-name {
+    text-align: left;
+    padding-left: 20px;
+}
+
+.btn-view {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.btn-view:hover {
+    background-color: #0056b3;
+}
+
+.view-buttons {
+    margin: 20px 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.upper-div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#bag {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Nueva clase para alinear filtro y botones */
+.filter-buttons-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Tres columnas iguales */
+    gap: 10px; /* Espacio entre los elementos */
+    width: 100%; /* Asegura que ocupe todo el ancho disponible */
+    padding: 10px;
+}
+
+@media (max-width: 768px) {
+    .filter-buttons-container {
+        grid-template-columns: 1fr; /* Una sola columna en pantallas pequeñas */
+    }
+}
+
+
+.form-control.box-filter {
+    width: 100%; /* Asegura que el select ocupe todo su columna */
+}
+
+.btn-view {
+    width: 100%; /* Asegura que los botones ocupen todo su columna */
+    padding: 10px;
+    background-color: #007b9e; /* Color del botón */
+    color: white;
+    border: none;
+    border-radius: 5px;
     transition: background-color 0.3s ease;
 }
 
-#bag:hover {
-    background-color: #ff6290;
+.btn-view:hover {
+    background-color: #005f80; /* Color al hacer hover */
 }
 
 
-
-
-.box-filter {
-    cursor: pointer;
-    
-    width: auto;
-    height: auto;
-
-    text-align: center;
-    display: inline-block;
-    border: 2px solid #008cba;
-    border-radius: 15px;
+.table-container {
+    margin-top: 20px;
+    border-radius: 5px;
     overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-weight: bold;
-    
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table thead {
+    background-color: #007bff;
+    color: white;
+}
+
+table th, table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #dddddd;
+}
+
+.player-name {
+    text-align: left;
+    padding-left: 20px;
+}
+
+
+.grid-words {
+    display: grid;
+    gap: 10px; /* Espacio entre los elementos */
+
+    grid-template-columns: 1fr 2fr 2fr 2fr 2fr 2fr 2fr 1fr; /* 8 columnas: la segunda columna es más ancha */
+    
+    align-items: center; /* Alinea verticalmente el contenido */
+    padding: 10px; /* Espaciado interno */
+}
+
+
+.grid-words.header {
+    font-weight: bold; /* Estilo de encabezado */
+    background-color: #007b9e; /* Color para el encabezado */
+    color: white; /* Color de texto */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+.grid-words.row {
+    background-color: #f3f3f3; /* Color de fondo de la fila */
+    border: 1px solid #ddd; /* Borde de la fila */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px; /* Espaciado interno */
+    cursor: pointer; /* Cursor de puntero en hover */
+}
+
+.grid-words.row:hover {
+    background-color: #e0e0e0; /* Efecto hover para las filas */
+}
+
+/* Estilos adicionales si necesitas ajustar más */
+.player-name {
+    text-align: left; /* Alineación a la izquierda */
+    padding-left: 20px; /* Espaciado interno a la izquierda */
 }

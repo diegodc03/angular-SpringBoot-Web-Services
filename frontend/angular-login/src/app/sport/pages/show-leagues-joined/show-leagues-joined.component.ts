@@ -41,7 +41,7 @@ export class ShowLeaguesJoinedComponent {
   leagueInformation(leagueId: number) {
     this.leagueIdService.setLeagueId(leagueId);
 
-    this.router.navigate(['/sports/league-information']);
+    this.router.navigate(['/sports/league-information', leagueId]);
   }
 
 

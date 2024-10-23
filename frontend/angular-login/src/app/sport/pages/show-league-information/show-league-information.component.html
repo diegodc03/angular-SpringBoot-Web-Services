@@ -1,63 +1,84 @@
-
-    <div class="product-list">
-
-      
-    
- 
-
-
-  <div class="container">
-
-    <div class="upper-div ">
-        <h2> Ligas </h2>
-        <div routerLink="/sports/create-match" id="bag">
-            Añadir Partido
-        </div>
-    </div>
-    
-    <div class="league-information">
-        <!-- Aqui vamos a poner la informacion sobre la liga, es decir, partidos jugados en total, mejor jugador por estadisticas y demas -->
-        <!-- Esto todo va a ser en league-inforamtionDTO -->
-        
-
-
-    </div>
-
-
-
-    <select class="form-control box-filter" id="filterSelect" [(ngModel)]="selectedFilter" (change)="applyFilter()">
-        <option value="none">Filtro  </option>
-        <option value="name-descending">Alfabeticamente mayor a menor</option>
-        <option value="price-descending">Mas gente</option>
-        <option value="match-descending">Mas partidos Jugados</option>
-        <option value="match-ascending">Menos partidos Jugados</option>
-        <option value="points-descending">Mas puntos</option>
-        <option value="points-ascending">Menos puntos</option>
-        <option value="games-descending">Mas juegos Ganados</option>
-        <option value="games-ascending">menos juegos Ganados</option>
-    </select>
-
-
-    <!-- Botones para cambiar entre vistas -->
-    <button (click)="switchView('clasificacion')">Ver Clasificación</button>
-    <button (click)="switchView('partidos')">Ver Partidos</button>
-  
-    <!-- Contenedor para la Clasificación -->
-    <div *ngIf="view === 'clasificacion'">
-      <h2>Clasificación</h2>
-      <div *ngFor="let player of league?.players">
-        <!-- Aquí iteras sobre los jugadores para mostrar la clasificación -->
-        <p>{{ player.id }} - Puntos: {{ player.puntosClasificacion }}</p>
+<div class="container">
+  <div class="upper-div">
+      <h2>Ligas</h2>
+      <div routerLink="/sports/create-match" id="bag">
+          Añadir Partido
       </div>
-    </div>
-  
-    <!-- Contenedor para los Partidos -->
-    <div *ngIf="view === 'partidos'">
-      <h2>Partidos Jugados</h2>
-      <div *ngFor="let match of league?.matchs">
-        <!-- Aquí iteras sobre los partidos jugados -->
-        <p>{{ match.jugador1.name }} {{match.jugador2.name}} vs {{ match.jugador3.name }} {{match.jugador4.name}} - Resultado: {{ match.ganadorEquipo }}</p>
-      </div>
-    </div>
   </div>
+
+  <div class="league-information">
+      <!-- Información sobre la liga -->
+  </div>
+
+  <!-- Contenedor para alinear Filtro y Botones -->
+  <div class="filter-buttons-container">
+    <select class="form-control box-filter" id="filterSelect" [(ngModel)]="selectedFilter" (change)="applyFilter()">
+      <option value="name-descending">Nombre alfabéticamente mayor a menor</option>
+      <option value="price-descending">Más partidos ganados</option>
+      <option value="match-descending">Más partidos Jugados</option>
+      <option value="match-ascending">Menos partidos Jugados</option>
+      <option value="points-descending">Más puntos</option>
+      <option value="points-ascending">Menos puntos</option>
+      <option value="games-descending">Más juegos Ganados</option>
+      <option value="games-ascending">Menos juegos Ganados</option>
+    </select>
   
+
+      <!-- Botones para cambiar entre vistas -->
+      <button (click)="switchView('clasificacion')" class="btn-view">Ver Clasificación</button>
+      <button (click)="switchView('partidos')" class="btn-view">Ver Partidos</button>
+  </div>
+
+  <!-- Tabla para la Clasificación -->
+<div *ngIf="view === 'clasificacion'" class="table-container">
+    <h2>Clasificación</h2>
+
+    <div class="grid-words grid-clasification header">
+        <span>ID</span>
+        <span>Nombre</span>
+        <span>Partidos Ganados</span>
+        <span>Partidos Perdidos</span>
+        <span>Partidos Jugados</span>
+        <span>Juegos Ganados</span>
+        <span>Juegos Perdidos</span>
+        <span>Puntos</span>
+    </div>
+
+    <div *ngFor="let player of players" class="grid-words row">
+        <span>{{ player.player }}</span>
+        <span class="player-name">{{ player.playerName }}</span>
+        <span>{{ player.partidosGanados }}</span>
+        <span>{{ player.partidosPerdidos }}</span>
+        <span>{{ player.partidosJugados }}</span>
+        <span>{{ player.juegosGanados }}</span>
+        <span>{{ player.juegosPerdidos }}</span>
+        <span>{{ player.puntosClasificacion }}</span>
+    </div>
+</div>
+
+<!-- Partidos Jugados -->
+<div *ngIf="view === 'partidos'" class="table-container">
+    <h2>Partidos Jugados</h2>
+
+    <div class="grid-words grid-matches header">
+        <span>Fecha</span>
+        <span>Jugador 1</span>
+        <span>Jugador 2</span>
+        <span>Jugador 3</span>
+        <span>Jugador 4</span>
+        <span>Ganador</span>
+        <span>Acciones</span>
+    </div>
+
+    <div *ngFor="let match of matchs" class="grid-words row">
+        <span>{{ match.fecha }}</span>
+        <span>{{ match.jugador1.name }}</span>
+        <span>{{ match.jugador2.name }}</span>
+        <span>{{ match.jugador3.name }}</span>
+        <span>{{ match.jugador4.name }}</span>
+        <span>{{ match.ganadorEquipo }}</span>
+        <span class="view-match btn-view"  (click)="goToMatchDetail(match.id)">Ver Partido</span>
+    </div>
+</div>
+
+</div>

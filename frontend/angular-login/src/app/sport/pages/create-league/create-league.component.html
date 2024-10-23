@@ -15,6 +15,22 @@
                 </div>    
             </div>
 
+            <div class="mb-3 element-css">
+                <label for="leagueType" class="form-label">Tipo de Liga</label>
+                <select formControlName="leagueType" class="form-control" id="leagueType">
+                    <option value="" disabled selected>Seleccione una liga</option>
+                    <option value="padel">Padel</option>
+                    <option value="tennis">Tenis</option>
+                    <!-- Puedes añadir más opciones según tus necesidades -->
+                </select>
+                <div *ngIf="addLeague.get('leagueType')?.invalid && (addLeague.get('leagueType')?.dirty || addLeague.get('leagueType')?.touched)" class="text-danger">
+                    <div *ngIf="addLeague.get('leagueType')?.errors?.['required']">
+                        El tipo de liga es necesario
+                    </div>
+                </div>
+            </div>
+
+
             <!-- Checkbox para definir si la liga requiere solicitud de acceso -->
             <div class="mb-3 element-css">
                 <label for="requiresRequest" class="form-label">¿Requiere solicitud para unirse?</label>

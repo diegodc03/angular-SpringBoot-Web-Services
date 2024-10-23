@@ -8,9 +8,9 @@ import { LeagueIdService } from '../../service/league-id.service';
 import { PlayMatchDTOWithIds } from '../../modelDTO/match-dto/match-dto.module';
 
 @Component({
-  selector: 'app-create-padel-match',
-  templateUrl: './create-padel-match.component.html',
-  styleUrl: './create-padel-match.component.css'
+  selector: 'app-create-padel-tennis-match',
+  templateUrl: './create-padel-tennis-match.component.html',
+  styleUrl: './create-padel-tennis-match.component.css'
 })
 export class CreatePadelMatchComponent {
 
@@ -33,8 +33,8 @@ export class CreatePadelMatchComponent {
       ubicacion: ['', Validators.required],
       jugador1: ['', Validators.required],
       jugador2: ['', Validators.required],
-      jugador3: ['', Validators.required],
-      jugador4: ['', Validators.required],
+      jugador3: [''],
+      jugador4: [''],
       sets: this.fb.array([])
     });
 
@@ -48,6 +48,8 @@ export class CreatePadelMatchComponent {
   get sets(): FormArray {
     return this.addPlayMatchForm.get('sets') as FormArray;
   }
+
+  
 
   addSet() {
     this.sets.push(

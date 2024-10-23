@@ -36,9 +36,9 @@ public class LeagueInformationDTO extends LeagueDTO{
 	
 	
 	
-	public LeagueInformationDTO(Long id, String name, boolean requestToJoinLeague, List<PlayMatchDTOWithPlayers> matchPlayed,
+	public LeagueInformationDTO(Long id, String name, String leagueType, boolean requestToJoinLeague, List<PlayMatchDTOWithPlayers> matchPlayed,
 			List<PlayerLeagueDTO> playerLeagues) {
-		super(id, name, requestToJoinLeague);
+		super(id, name, leagueType,requestToJoinLeague);
 		this.matchPlayed = matchPlayed;
 		this.playerLeagues = playerLeagues;
 	}

@@ -2,6 +2,7 @@ package com.irojas.demojwt.sport.Service;
 
 
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.irojas.demojwt.Auth.Model.User;
 import com.irojas.demojwt.Auth.Repository.UserRepository;
 import com.irojas.demojwt.sport.Model.League;
+import com.irojas.demojwt.sport.Model.LeagueType;
 import com.irojas.demojwt.sport.Model.Player;
 import com.irojas.demojwt.sport.Model.PlayerLeague;
 import com.irojas.demojwt.sport.ModelDTO.LeagueDTO;
@@ -48,6 +50,7 @@ public class LeagueService {
         try {
             League league = new League();
             league.setName(leagueDTO.getName());
+            league.setLeagueType(LeagueType.valueOf(leagueDTO.getLeagueType()));
             league.setRequireRequest(leagueDTO.isRequireRequest());            
             
             leagueRepository.save(league);
@@ -88,11 +91,12 @@ public class LeagueService {
 			if(leagues != null) {
 				return leagues.stream()
 						.map(l -> 
-						new LeagueDTO(l.getId(), l.getName(), l.isRequireRequest())).collect(Collectors.toList());
+						new LeagueDTO(l.getId(), l.getName(), l.getLeagueType().toString(), l.isRequireRequest())).collect(Collectors.toList());
 						
 			}
-			return null;
-			
+			else {
+				throw new RuntimeException("Failed to get all leagues the league ");
+			}
 		}catch(Exception e){
 			throw new RuntimeException("Failed to get all leagues the league ", e);
 		}
@@ -120,6 +124,7 @@ public class LeagueService {
 	                return new LeagueDTO(
 	                    league.getId(),
 	                    league.getName(),
+	                    league.getLeagueType().toString(),
 	                    league.isRequireRequest()
 	                );
 	            })
@@ -165,6 +170,7 @@ public class LeagueService {
 		                .map(playerLeague -> new PlayerLeagueDTO(
 		                        playerLeague.getId(),
 		                        playerLeague.getPlayer().getId(),
+		                        playerLeague.getPlayer().getUser().getFirstname(),
 		                        playerLeague.getLeague().getId(),
 		                        playerLeague.getPartidosGanados(),
 		                        playerLeague.getPartidosPerdidos(),
@@ -174,12 +180,17 @@ public class LeagueService {
 		                        playerLeague.getJuegosTotales(),
 		                        playerLeague.getPuntosClasificacion()
 		                ))
+		                .sorted(Comparator.comparingInt(PlayerLeagueDTO::getPuntosClasificacion).reversed()
+		                        .thenComparing(Comparator.comparingInt(PlayerLeagueDTO::getPartidosGanados).reversed()
+		                        .thenComparing(Comparator.comparingInt(PlayerLeagueDTO::getPartidosJugados).reversed()
+		                        .thenComparing(Comparator.comparingInt(PlayerLeagueDTO::getJuegosGanados).reversed()))))
 		                .collect(Collectors.toList());
 
 		        // Crear el LeagueInformationDTO con toda la información
 		        return new LeagueInformationDTO(
 		                league.getId(),
 		                league.getName(),
+		                league.getLeagueType().toString(),
 		                league.isRequireRequest(),
 		                matches,
 		                playerLeagues

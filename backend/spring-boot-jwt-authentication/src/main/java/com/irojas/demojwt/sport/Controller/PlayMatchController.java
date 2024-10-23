@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -59,6 +60,21 @@ public class PlayMatchController {
 		return ResponseEntity.ok(matches);
 	}
 	
+	
+	@GetMapping("get-match-by-id/{matchId}")
+	public ResponseEntity<PlayMatchDTOWithPlayers> getMatch(
+			@PathVariable Long matchId,
+			@AuthenticationPrincipal UserDetails currentUser){
+		
+		try {
+			PlayMatchDTOWithPlayers play = this.playMatchService.getMatchById(matchId);
+					
+			
+			return ResponseEntity.ok(play);
+		}catch(Exception e) {
+			return ResponseEntity.badRequest().body(null);
+		}	
+	}
 	
 	
 	// Add match to a league

@@ -1,0 +1,27 @@
+
+<div class="container">
+
+
+
+    <h2>Partido</h2>
+    <div class="match-details">
+    <p><strong>ID:</strong> {{ match.id }}</p>
+    <p><strong>Fecha:</strong> {{ match.fecha | date }}</p>
+    <p><strong>Ubicación:</strong> {{ match.ubicacion }}</p>
+    <p><strong>Ganador:</strong> {{ match.ganadorEquipo }}</p>
+    
+    <h3>Jugadores:</h3>
+    <ul>
+        <li class="equipo1">{{ match.jugador1.name }} / {{ match.jugador2.name }} (Equipo 1)</li>
+        <li class="equipo2">{{ match.jugador3.name }} / {{ match.jugador4.name }} (Equipo 2)</li>
+    </ul>
+
+    <h3>Sets:</h3>
+    <ul class="set-details">
+        <li *ngFor="let set of match.sets">
+        <strong>Set {{ set.numeroSet }}:</strong> 
+        {{ set.juegosEquipo1 }} - {{ set.juegosEquipo2 }}
+        </li>
+    </ul>
+    </div>
+</div>

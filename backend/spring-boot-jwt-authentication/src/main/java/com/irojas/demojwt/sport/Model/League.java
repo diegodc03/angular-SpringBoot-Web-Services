@@ -1,6 +1,9 @@
 package com.irojas.demojwt.sport.Model;
 
 
+
+
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +26,8 @@ public class League {
 	
 	@Column(name = "name")
     private String name;
+	
+	private LeagueType leagueType;
 	
 	// Nueva columna para determinar si se requiere una solicitud para unirse
     @Column(name = "require_request", nullable = false)
@@ -76,14 +81,23 @@ public class League {
 	public void setRequireRequest(boolean requireRequest) {
 		this.requireRequest = requireRequest;
 	}
+    
+	public LeagueType getLeagueType() {
+		return leagueType;
+	}
+
+	public void setLeagueType(LeagueType leagueType) {
+		this.leagueType = leagueType;
+	}
 
 	
-    
-	public League(Long id, String name, boolean requireRequest, List<Play> matchPlayed,
+	
+	public League(Long id, String name,  LeagueType leagueType, boolean requireRequest, List<Play> matchPlayed,
 			List<PlayerLeague> playerLeagues) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.leagueType = leagueType;
 		this.requireRequest = requireRequest;
 		this.matchPlayed = matchPlayed;
 		this.playerLeagues = playerLeagues;
@@ -91,11 +105,12 @@ public class League {
 
 	
 
-	public League( String name, boolean requireRequest, List<Play> matchPlayed,
+	public League( String name, LeagueType leagueType, boolean requireRequest, List<Play> matchPlayed,
 			List<PlayerLeague> playerLeagues) {
 		super();
 
 		this.name = name;
+		this.leagueType = leagueType;
 		this.requireRequest = requireRequest;
 		this.matchPlayed = matchPlayed;
 		this.playerLeagues = playerLeagues;

@@ -14,6 +14,7 @@ public class PlayerLeagueDTO {
 
     private Long id;
     private Long player;
+    private String playerName;
 	private Long league;
 	private int partidosGanados;
     private int partidosPerdidos;
@@ -87,6 +88,18 @@ public class PlayerLeagueDTO {
 	}
 	
 	
+	
+	public String getPlayerName() {
+		return playerName;
+	}
+	public void setPlayerName(String playerName) {
+		this.playerName = playerName;
+	}
+	public void setLeague(Long league) {
+		this.league = league;
+	}
+	
+	
 	public PlayerLeagueDTO(Long id, Long playerId, Long leagueId, int partidosGanados, int partidosPerdidos,
 			int partidosJugados, int juegosGanados, int juegosPerdidos, int juegosTotales, int puntosClasificacion) {
 		super();
@@ -101,7 +114,27 @@ public class PlayerLeagueDTO {
 		this.juegosTotales = juegosTotales;
 		this.puntosClasificacion = puntosClasificacion;
 	}
+	
+	
+	public PlayerLeagueDTO(Long id, Long player, String playerName, Long league, int partidosGanados,
+			int partidosPerdidos, int partidosJugados, int juegosGanados, int juegosPerdidos, int juegosTotales,
+			int puntosClasificacion) {
+		super();
+		this.id = id;
+		this.player = player;
+		this.playerName = playerName;
+		this.league = league;
+		this.partidosGanados = partidosGanados;
+		this.partidosPerdidos = partidosPerdidos;
+		this.partidosJugados = partidosJugados;
+		this.juegosGanados = juegosGanados;
+		this.juegosPerdidos = juegosPerdidos;
+		this.juegosTotales = juegosTotales;
+		this.puntosClasificacion = puntosClasificacion;
+	}
 
+	
+	
 	
     
 	

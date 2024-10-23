@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreatePadelMatchComponent } from './create-padel-match.component';
+import { CreatePadelMatchComponent } from './create-padel-tennis-match.component';
 
 describe('CreateMatchComponent', () => {
   let component: CreatePadelMatchComponent;

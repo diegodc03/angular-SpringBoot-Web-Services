@@ -26,10 +26,13 @@ import { PlayMatchDTOWithPlayers } from '../match-dto/match-dto.module';
 
   export class CreateLeagueDTO extends BaseLeagueDTO{
 
+    leagueType: string;
     requestToJoinLeague: string;
 
-    constructor(name: string, requestToJoinLeague: string) {
+
+    constructor(name: string, leagueType: string, requestToJoinLeague: string) {
       super(name);
+      this.leagueType = leagueType;
       this.requestToJoinLeague = requestToJoinLeague;
     }
   }
@@ -53,12 +56,14 @@ import { PlayMatchDTOWithPlayers } from '../match-dto/match-dto.module';
   export class LeagueDTOModule extends BaseLeagueDTO{
     
     id: number;
+    leagueType: string;
     requestToJoinLeague: boolean;
 
-    constructor(name: string, id:number, requestToJoinLeague: boolean) {
+    constructor(id:number, name: string, leagueType: string, requestToJoinLeague: boolean) {
       
       super(name);
       this.id = id;
+      this.leagueType = leagueType;
       this.requestToJoinLeague = requestToJoinLeague;
     }
   }
@@ -70,21 +75,21 @@ import { PlayMatchDTOWithPlayers } from '../match-dto/match-dto.module';
   export class LeagueInforamationDTO extends BaseLeagueDTO{
     
     id: number
-    requestToJoinLeague: boolean;
-    players: PlayerLeaguesdtoModule[]; // Lista con la información de clasificación de cada jugador
-    matchs: PlayMatchDTOWithPlayers[];
+    requireRequest: boolean;
+    playerLeagues: PlayerLeaguesdtoModule[]; // Lista con la información de clasificación de cada jugador
+    matchPlayed: PlayMatchDTOWithPlayers[];
 
     constructor(
       id: number,
       name: string,
-      requestToJoinLeague: boolean,
-      matchs: PlayMatchDTOWithPlayers[],
-      players: PlayerLeaguesdtoModule[]
+      matchPlayed: PlayMatchDTOWithPlayers[],
+      playerLeagues: PlayerLeaguesdtoModule[],
+      requireRequest: boolean,
     ) {
       super(name);
       this.id = id;
-      this.requestToJoinLeague = requestToJoinLeague;
-      this.matchs = matchs;
-      this.players = players;
+      this.matchPlayed = matchPlayed;
+      this.playerLeagues = playerLeagues;
+      this.requireRequest = requireRequest;
     }
   }

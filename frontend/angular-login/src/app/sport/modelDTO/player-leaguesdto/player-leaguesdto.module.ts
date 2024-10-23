@@ -13,8 +13,9 @@ export class PlayerLeaguesdtoModule {
 
 
     id: number;
-    playerId: number; // Referencia al ID del jugador
-    leagueId: number; // Referencia al ID de la liga
+    player: number; // Referencia al ID del jugador
+    playerName: String;
+    league: number; // Referencia al ID de la liga
     partidosGanados: number;
     partidosPerdidos: number;
     partidosJugados: number;
@@ -25,8 +26,9 @@ export class PlayerLeaguesdtoModule {
   
     constructor(
       id: number,
-      playerId: number,
-      leagueId: number,
+      player: number,
+      playerName: String,
+      league: number,
       partidosGanados: number,
       partidosPerdidos: number,
       partidosJugados: number,
@@ -36,8 +38,9 @@ export class PlayerLeaguesdtoModule {
       puntosClasificacion: number
     ) {
       this.id = id;
-      this.playerId = playerId;
-      this.leagueId = leagueId;
+      this.player = player;
+      this.playerName = playerName;
+      this.league = league;
       this.partidosGanados = partidosGanados;
       this.partidosPerdidos = partidosPerdidos;
       this.partidosJugados = partidosJugados;

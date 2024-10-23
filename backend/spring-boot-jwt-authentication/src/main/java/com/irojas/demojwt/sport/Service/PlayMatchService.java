@@ -15,7 +15,9 @@ import com.irojas.demojwt.sport.Model.Set;
 import com.irojas.demojwt.sport.ModelDTO.BasePlayMatchDTO;
 import com.irojas.demojwt.sport.ModelDTO.PlayMatchDTOWithIds;
 import com.irojas.demojwt.sport.ModelDTO.PlayMatchDTOWithPlayers;
+import com.irojas.demojwt.sport.ModelDTO.PlayerDTO;
 import com.irojas.demojwt.sport.ModelDTO.SetDTO;
+import com.irojas.demojwt.sport.exception.ExceptionClass.UserNotFoundException;
 import com.irojas.demojwt.sportRepository.LeagueRepository;
 import com.irojas.demojwt.sportRepository.PlayRepository;
 import com.irojas.demojwt.sportRepository.PlayerLeagueRepository;
@@ -259,6 +261,39 @@ public class PlayMatchService {
 	public void addPlayMatch1(BasePlayMatchDTO playMatchDTO) {
 		// TODO Auto-generated method stub
 		System.out.println("hola");
+		
+	}
+
+
+	public PlayMatchDTOWithPlayers getMatchById(Long matchId) {
+		Play play = this.playRepository.findMatchById(matchId)
+				.orElseThrow(() -> new UserNotFoundException("User not found"));
+		
+		// Mapear manualmente los atributos de "play" a un nuevo objeto de tipo "PlayMatchDTOWithPlayers"
+		List <SetDTO> setDTO = play.getSets().stream()
+				.map(p -> new SetDTO(
+						p.getId(),
+						p.getNumeroSet(),
+						p.getJuegosEquipo1(),
+						p.getJuegosEquipo2())).collect(Collectors.toList());
+				
+		
+		
+		PlayMatchDTOWithPlayers playMatchDTO = new PlayMatchDTOWithPlayers(
+		    play.getId(),                          // ID del partido
+		    play.getFecha(),                       // Fecha del partido
+		    play.getUbicacion(),                   // Ubicación del partido
+		    play.getLeague().getId(),              // ID de la liga (suponiendo que Play tiene una relación con League)
+		    play.getGanadorEquipo().toString(),               // Equipo ganador
+		    setDTO,                        // Sets del partido (suponiendo que ya es una lista de SetDTO)
+		    new PlayerDTO(play.getJugador1().getId(), play.getJugador1().getUser().getFirstname()), // Jugador 1
+		    new PlayerDTO(play.getJugador2().getId(), play.getJugador2().getUser().getFirstname()), // Jugador 2
+		    new PlayerDTO(play.getJugador3().getId(), play.getJugador3().getUser().getFirstname()), // Jugador 3
+		    new PlayerDTO(play.getJugador4().getId(), play.getJugador4().getUser().getFirstname())  // Jugador 4
+		);
+
+		// Devuelves el DTO convertido
+		return playMatchDTO;
 		
 	}
 }
