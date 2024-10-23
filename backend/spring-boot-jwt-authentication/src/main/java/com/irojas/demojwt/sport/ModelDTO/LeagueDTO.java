@@ -55,11 +55,13 @@ public class LeagueDTO {
 	
 	
 	
-	public LeagueDTO(Long id, String name) {
+	public LeagueDTO(Long id, String name, String leagueType) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.leagueType = leagueType;
 	}
+	
 	public LeagueDTO() {
 		super();
 	}

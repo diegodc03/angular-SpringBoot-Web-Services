@@ -50,7 +50,7 @@ import { ShowLeaguesJoinedComponent } from './sport/pages/show-leagues-joined/sh
 import { ShowLeagueInformationComponent } from './sport/pages/show-league-information/show-clasification.component';
 import { SecureSportsLayoutComponent } from './layouts/secure-sports-layout/secure-sports-layout.component';
 import { SecureSportNavComponent } from "./shared/secure-sport-nav/secure-sport-nav.component";
-import { CreatePadelMatchComponent } from './sport/pages/create-padel-tennis-match/create-padel-tennis-match.component';
+import { CreatePadelMatchComponent } from './sport/pages/create-padel-match/create-padel-match.component';
 import { ShowMatchesComponent } from './sport/pages/show-matches/show-matches.component';
 import { CreateTennisMatchComponent } from './sport/pages/create-tennis-match/create-tennis-match.component';
 
@@ -96,7 +96,8 @@ import { CreateTennisMatchComponent } from './sport/pages/create-tennis-match/cr
         SecureSportNavComponent,
         CreatePadelMatchComponent,
         ShowMatchesComponent,
-        CreateTennisMatchComponent,
+        CreateTennisMatchComponent
+
         
     ],
     imports: [

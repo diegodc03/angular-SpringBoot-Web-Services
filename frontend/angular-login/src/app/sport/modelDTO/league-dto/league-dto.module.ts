@@ -75,6 +75,7 @@ import { PlayMatchDTOWithPlayers } from '../match-dto/match-dto.module';
   export class LeagueInforamationDTO extends BaseLeagueDTO{
     
     id: number
+    leagueType: string;
     requireRequest: boolean;
     playerLeagues: PlayerLeaguesdtoModule[]; // Lista con la información de clasificación de cada jugador
     matchPlayed: PlayMatchDTOWithPlayers[];
@@ -82,12 +83,14 @@ import { PlayMatchDTOWithPlayers } from '../match-dto/match-dto.module';
     constructor(
       id: number,
       name: string,
+      leagueType: string,
       matchPlayed: PlayMatchDTOWithPlayers[],
       playerLeagues: PlayerLeaguesdtoModule[],
       requireRequest: boolean,
     ) {
       super(name);
       this.id = id;
+      this.leagueType = leagueType;
       this.matchPlayed = matchPlayed;
       this.playerLeagues = playerLeagues;
       this.requireRequest = requireRequest;

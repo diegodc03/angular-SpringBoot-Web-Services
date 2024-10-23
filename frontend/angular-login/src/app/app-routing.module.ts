@@ -27,10 +27,11 @@ import { AddSeasonComponent } from './workHours/pages/add-season/add-season.comp
 import { ShowLeaguesComponent } from './sport/pages/show-leagues/show-leagues.component';
 import { ShowLeagueInformationComponent } from './sport/pages/show-league-information/show-clasification.component';
 import { ShowLeaguesJoinedComponent } from './sport/pages/show-leagues-joined/show-leagues-joined.component';
-import {  CreatePadelMatchComponent } from './sport/pages/create-padel-tennis-match/create-padel-tennis-match.component';
+import {  CreatePadelMatchComponent } from './sport/pages/create-padel-match/create-padel-match.component';
 import { CreateLeagueComponent } from './sport/pages/create-league/create-league.component';
 import { SecureSportsLayoutComponent } from './layouts/secure-sports-layout/secure-sports-layout.component';
 import { ShowMatchesComponent } from './sport/pages/show-matches/show-matches.component';
+import { CreateTennisMatchComponent } from './sport/pages/create-tennis-match/create-tennis-match.component';
 
 const routes: Routes = [
   {
@@ -92,10 +93,11 @@ const routes: Routes = [
       { path: 'league-to-join', component: ShowLeaguesComponent },
       { path: 'league-joined', component: ShowLeaguesJoinedComponent },
       { path: 'league-information/:leagueId', component: ShowLeagueInformationComponent },
-      { path: 'create-match', component: CreatePadelMatchComponent },
+      { path: 'create-padel-match', component: CreatePadelMatchComponent },
       { path: 'create-league', component: CreateLeagueComponent },
       { path: '', redirectTo: 'matchs-working-hours', pathMatch: 'full' },
-      { path: 'show-match/:id', component: ShowMatchesComponent }
+      { path: 'show-match/:id', component: ShowMatchesComponent },
+      { path: 'create-tennis-match', component: CreateTennisMatchComponent }
     ]
   },
   { path: '**', redirectTo: '' }

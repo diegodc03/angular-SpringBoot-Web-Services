@@ -1,89 +1,82 @@
-
 <div class="container">
     <form [formGroup]="addPlayMatchForm" (ngSubmit)="onSubmit()">
-        <p class="text-danger">{{ addPlayMatchError }}</p>
-
-        <div class="form-css margin-css">
-            <!-- Fecha del partido -->
-            <div class="mb-3 element-css">
-                <label for="fecha" class="form-label">Fecha</label>
-                <input formControlName="fecha" type="date" class="form-control" id="fecha">
-                <div *ngIf="addPlayMatchForm.get('fecha')?.invalid && (addPlayMatchForm.get('fecha')?.dirty || addPlayMatchForm.get('fecha')?.touched)" class="text-danger">
-                    <div *ngIf="addPlayMatchForm.get('fecha')?.errors?.['required']">
-                        La fecha es requerida.
-                    </div>
-                </div>
+      <p class="text-danger">{{ addPlayMatchError }}</p>
+      
+      <div class="form-css margin-css">
+        
+        <!-- Fecha del partido -->
+        <div class="mb-3 element-css">
+          <label for="fecha" class="form-label">Fecha</label>
+          <input formControlName="fecha" type="date" class="form-control" id="fecha">
+          <div *ngIf="addPlayMatchForm.get('fecha')?.invalid && (addPlayMatchForm.get('fecha')?.dirty || addPlayMatchForm.get('fecha')?.touched)" class="text-danger">
+            <div *ngIf="addPlayMatchForm.get('fecha')?.errors?.['required']">
+              La fecha es requerida.
             </div>
-
-            <!-- Ubicación del partido -->
-            <div class="mb-3 element-css">
-                <label for="ubicacion" class="form-label">Ubicación</label>
-                <input formControlName="ubicacion" type="text" class="form-control" id="ubicacion">
-                <div *ngIf="addPlayMatchForm.get('ubicacion')?.invalid && (addPlayMatchForm.get('ubicacion')?.dirty || addPlayMatchForm.get('ubicacion')?.touched)" class="text-danger">
-                    <div *ngIf="addPlayMatchForm.get('ubicacion')?.errors?.['required']">
-                        La ubicación es requerida.
-                    </div>
-                </div>
-            </div>
-
-            <!-- Checkbox para elegir si es un partido de 4 jugadores -->
-            <div class="mb-3">
-                <label>
-                    <input type="checkbox" formControlName="isFourPlayers" (change)="toggleFourPlayers()">
-                    ¿Partido de 4 jugadores?
-                </label>
-            </div>
-
-            <!-- Selección de Jugadores -->
-            <div class="mb-3 element-css">
-                <label class="form-label">Jugadores del equipo A</label>
-                <select formControlName="jugador1" class="form-select">
-                    <option *ngFor="let player of availablePlayers" [value]="player.id" [disabled]="isPlayerSelected(player.id)">
-                        {{ player.name }}
-                    </option>
-                </select>
-                <select formControlName="jugador2" class="form-select">
-                    <option *ngFor="let player of availablePlayers" [value]="player.id" [disabled]="isPlayerSelected(player.id)">
-                        {{ player.name }}
-                    </option>
-                </select>
-            </div>
-
-           
-            <div *ngIf="addPlayMatchForm.get('isFourPlayers')?.value">
-                <label for="jugador3">Jugador 3</label>
-                <select formControlName="jugador3" class="form-select">
-                    <option *ngFor="let player of availablePlayers" [value]="player.id" [disabled]="isPlayerSelected(player.id)">
-                        {{ player.name }}
-                    </option>
-                </select>
-
-                <label for="jugador4">Jugador 4</label>
-                <select formControlName="jugador4" class="form-select">
-                    <option *ngFor="let player of availablePlayers" [value]="player.id" [disabled]="isPlayerSelected(player.id)">
-                        {{ player.name }}
-                    </option>
-                </select>
-            </div>
-
-            <!-- Sets -->
-            <div formArrayName="sets" class="margin-css">
-                <div *ngFor="let set of sets.controls; let i = index" [formGroupName]="i" class="mb-3 set-row">
-                    <label for="numeroSet-{{i}}" class="form-label">Número de Set</label>
-                    <input formControlName="numeroSet" type="number" class="form-control" id="numeroSet-{{i}}">
-
-                    <label for="juegosEquipo1-{{i}}" class="form-label">Juegos Equipo A</label>
-                    <input formControlName="juegosEquipo1" type="number" class="form-control" id="juegosEquipo1-{{i}}">
-
-                    <label for="juegosEquipo2-{{i}}" class="form-label">Juegos Equipo B</label>
-                    <input formControlName="juegosEquipo2" type="number" class="form-control" id="juegosEquipo2-{{i}}">
-
-                    <button type="button" (click)="removeSet(i)" class="btn btn-danger mt-2">Eliminar Set</button>
-                </div>
-            </div>
-
-            <button type="button" (click)="addSet()" class="btn btn-primary margin-css">Añadir Set</button>
-            <button type="submit" class="btn btn-primary margin-css">Guardar Partido</button>
+          </div>
         </div>
+    
+        <!-- Ubicación del partido -->
+        <div class="mb-3 element-css">
+          <label for="ubicacion" class="form-label">Ubicación</label>
+          <input formControlName="ubicacion" type="text" class="form-control" id="ubicacion">
+          <div *ngIf="addPlayMatchForm.get('ubicacion')?.invalid && (addPlayMatchForm.get('ubicacion')?.dirty || addPlayMatchForm.get('ubicacion')?.touched)" class="text-danger">
+            <div *ngIf="addPlayMatchForm.get('ubicacion')?.errors?.['required']">
+              La ubicación es requerida.
+            </div>
+          </div>
+        </div>
+        
+  
+        <!-- Selección de Jugadores -->
+        <div class="mb-3 element-css">
+          <label class="form-label">Jugadores del equipo A</label>
+          <select formControlName="jugador1" class="form-select">
+            <option *ngFor="let player of availablePlayers" [value]="player.id" [disabled]="isPlayerSelected(player.id)">
+              {{ player.name }}
+            </option>
+          </select>
+          <select formControlName="jugador2" class="form-select">
+            <option *ngFor="let player of availablePlayers" [value]="player.id" [disabled]="isPlayerSelected(player.id)">
+              {{ player.name }}
+            </option>
+          </select>
+        </div>
+        
+
+        <!-- Añadir un ngIf para comprobar si se quiere dobles o singles-->
+        <div class="mb-3 element-css">
+          <label class="form-label">Jugadores del equipo B</label>
+          <select formControlName="jugador3" class="form-select">
+            <option *ngFor="let player of availablePlayers" [value]="player.id" [disabled]="isPlayerSelected(player.id)">
+              {{ player.name }}
+            </option>
+          </select>
+          <select formControlName="jugador4" class="form-select">
+            <option *ngFor="let player of availablePlayers" [value]="player.id" [disabled]="isPlayerSelected(player.id)">
+              {{ player.name }}
+            </option>
+          </select>
+        </div>
+    
+        <!-- Sets -->
+        <div formArrayName="sets" class="margin-css">
+          <div *ngFor="let set of sets.controls; let i = index" [formGroupName]="i" class="mb-3 set-row">
+            <label for="numeroSet-{{i}}" class="form-label">Número de Set</label>
+            <input formControlName="numeroSet" type="number" class="form-control" id="numeroSet-{{i}}">
+            
+            <label for="juegosEquipo1-{{i}}" class="form-label">Juegos Equipo A</label>
+            <input formControlName="juegosEquipo1" type="number" class="form-control" id="juegosEquipo1-{{i}}">
+    
+            <label for="juegosEquipo2-{{i}}" class="form-label">Juegos Equipo B</label>
+            <input formControlName="juegosEquipo2" type="number" class="form-control" id="juegosEquipo2-{{i}}">
+            
+            <button type="button" (click)="removeSet(i)" class="btn btn-danger mt-2">Eliminar Set</button>
+          </div>
+        </div>
+        
+        <button type="button" (click)="addSet()" class="btn btn-primary margin-css">Añadir Set</button>
+        <button type="submit" class="btn btn-primary margin-css">Guardar Partido</button>
+      </div>
     </form>
-</div>
+  </div>
+    

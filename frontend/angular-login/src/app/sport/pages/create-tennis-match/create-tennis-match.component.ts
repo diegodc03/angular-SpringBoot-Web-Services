@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { PlayMatchDTOWithIds } from '../../modelDTO/match-dto/match-dto.module';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { PlayerDTOModule } from '../../modelDTO/player-dto/player-dto.module';
+import { PlayerService } from '../../service/playerService/player.service';
 import { LeagueService } from '../../service/leagueService/league.service';
 import { PlayMatchService } from '../../service/playMatchService/play-match.service';
 import { LeagueIdService } from '../../service/league-id.service';
-import { PlayerService } from '../../service/playerService/player.service';
-import { PlayerDTOModule } from '../../modelDTO/player-dto/player-dto.module';
 
 @Component({
   selector: 'app-create-tennis-match',
@@ -13,8 +13,6 @@ import { PlayerDTOModule } from '../../modelDTO/player-dto/player-dto.module';
   styleUrl: './create-tennis-match.component.css'
 })
 export class CreateTennisMatchComponent {
-
-  isFourPlayers: boolean = false;
   
   leagueId: number = this.leagueIdService.getLeagueId();
  
@@ -103,23 +101,11 @@ export class CreateTennisMatchComponent {
     }
   }
 
-    // Método para cambiar entre 2 y 4 jugadores
-    toggleFourPlayers() {
-      this.isFourPlayers = !this.isFourPlayers;
-      if (!this.isFourPlayers) {
-        // Si desactivamos el juego de 4 jugadores, limpiamos jugador3 y jugador4
-        this.addPlayMatchForm.get('jugador3')?.reset();
-        this.addPlayMatchForm.get('jugador4')?.reset();
-      }
-    }
+
 
   private loadPlayers() {
     this.playerService.getPlayers(this.leagueId).subscribe(data => {
       this.availablePlayers = data;
     });
   }
-
-  
-
-
 }
