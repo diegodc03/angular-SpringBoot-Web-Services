@@ -13,12 +13,12 @@ import { LeagueIdService } from '../../service/league-id.service';
   styleUrl: './create-tennis-match.component.css'
 })
 export class CreateTennisMatchComponent {
-  
+
   leagueId: number = this.leagueIdService.getLeagueId();
- 
   availablePlayers: PlayerDTOModule[] = []; // Cargar los jugadores desde el servicio
   addPlayMatchError = '';
   addPlayMatchForm: FormGroup;
+  isDoubles: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -32,24 +32,35 @@ export class CreateTennisMatchComponent {
       fecha: ['', Validators.required],
       ubicacion: ['', Validators.required],
       jugador1: ['', Validators.required],
-      jugador2: ['', Validators.required],
-      jugador3: [''],
-      jugador4: [''],
-      sets: this.fb.array([])
+      jugador2: [{ value: '', disabled: true }], // Inicialmente deshabilitado
+      jugador3: ['', Validators.required],
+      jugador4: [{ value: '', disabled: true }], // Inicialmente deshabilitado
+      sets: this.fb.array([]),
+      isDoubles: [false] // Control para el checkbox
     });
-
   }
 
   ngOnInit() {
-   
     this.loadPlayers();
+
+    // Escucha los cambios en el valor de isDoubles para habilitar/deshabilitar jugadores 2 y 4
+    this.addPlayMatchForm.get('isDoubles')?.valueChanges.subscribe((isDoubles: boolean) => {
+      this.isDoubles = isDoubles;
+
+      if (isDoubles) {
+        this.addPlayMatchForm.get('jugador2')?.enable(); // Habilitar jugador 2
+        this.addPlayMatchForm.get('jugador4')?.enable(); // Habilitar jugador 4
+      } else {
+        this.addPlayMatchForm.get('jugador2')?.disable(); // Deshabilitar jugador 2
+        this.addPlayMatchForm.get('jugador4')?.disable(); // Deshabilitar jugador 4
+        this.addPlayMatchForm.patchValue({ jugador2: '', jugador4: '' }); // Limpiar valores si es singles
+      }
+    });
   }
 
   get sets(): FormArray {
     return this.addPlayMatchForm.get('sets') as FormArray;
   }
-
-  
 
   addSet() {
     this.sets.push(
@@ -72,7 +83,6 @@ export class CreateTennisMatchComponent {
 
   onSubmit() {
     if (this.addPlayMatchForm.valid) {
-
       const matchDTO: PlayMatchDTOWithIds = new PlayMatchDTOWithIds(
         0,
         this.addPlayMatchForm.value.fecha,
@@ -97,11 +107,9 @@ export class CreateTennisMatchComponent {
           this.addPlayMatchError = error.message;
           console.error('Match error:', error);
         }
-    });
+      });
     }
   }
-
-
 
   private loadPlayers() {
     this.playerService.getPlayers(this.leagueId).subscribe(data => {

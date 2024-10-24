@@ -154,6 +154,17 @@ public class Play {
 		this.sets = sets;
 	}
 	
+	public Play(LocalDate fecha, String ubicacion, Player jugador1, Player jugador3,
+			Equipo ganadorEquipo, List<Set> sets) {
+		super();
+		this.fecha = fecha;
+		this.ubicacion = ubicacion;
+		this.jugador1 = jugador1;
+		this.jugador3 = jugador3;
+		this.ganadorEquipo = ganadorEquipo;
+		this.sets = sets;
+	}
+	
 	
 	public Play() {
 		super();

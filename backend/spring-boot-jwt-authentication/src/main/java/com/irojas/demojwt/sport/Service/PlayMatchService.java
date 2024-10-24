@@ -76,9 +76,16 @@ public class PlayMatchService {
             
             // Asignar jugadores
             play.setJugador1(playerRepository.findById(playMatchDTO.getJugador1Id()).orElse(null));
-            play.setJugador2(playerRepository.findById(playMatchDTO.getJugador2Id()).orElse(null));
+            
+            if(playMatchDTO.getJugador2Id() != null) {
+            	play.setJugador2(playerRepository.findById(playMatchDTO.getJugador2Id()).orElse(null));
+            }
+            
             play.setJugador3(playerRepository.findById(playMatchDTO.getJugador3Id()).orElse(null));
-            play.setJugador4(playerRepository.findById(playMatchDTO.getJugador4Id()).orElse(null));
+            if(playMatchDTO.getJugador4Id() != null) {
+            	play.setJugador2(playerRepository.findById(playMatchDTO.getJugador4Id()).orElse(null));
+            }
+            
 
             //play.setGanadorEquipo(playMatchDTO.getGanadorEquipo());
             int setEquipo1=0;
@@ -147,9 +154,13 @@ public class PlayMatchService {
 	
 	public void updateStadisticsOfPlayers(Play play) {
 		this.updateStadisticsOfUnitaryPlayer(play.getJugador1(), true, play.getSets(), play.getLeague());
-		this.updateStadisticsOfUnitaryPlayer(play.getJugador2(), true, play.getSets(), play.getLeague());
+		
+		if(play.getJugador2() != null) {
+		this.updateStadisticsOfUnitaryPlayer(play.getJugador2(), true, play.getSets(), play.getLeague());}
 		this.updateStadisticsOfUnitaryPlayer(play.getJugador3(), false, play.getSets(), play.getLeague());
-		this.updateStadisticsOfUnitaryPlayer(play.getJugador4(), false, play.getSets(), play.getLeague());
+		
+		if(play.getJugador4() != null) {
+		this.updateStadisticsOfUnitaryPlayer(play.getJugador4(), false, play.getSets(), play.getLeague());}
 	}
 	
 	

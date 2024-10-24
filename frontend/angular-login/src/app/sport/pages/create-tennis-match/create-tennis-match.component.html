@@ -26,38 +26,52 @@
           </div>
         </div>
         
+      <!-- Checkbox para Dobles -->
+        <div class="mb-3">
+            <input type="checkbox" formControlName="isDoubles" id="isDoubles" class="form-check-input">
+            <label for="isDoubles" class="form-check-label">¿Es un partido de dobles?</label>
+        </div>
   
-        <!-- Selección de Jugadores -->
+        <!-- Jugador 1 (Equipo A) -->
         <div class="mb-3 element-css">
-          <label class="form-label">Jugadores del equipo A</label>
-          <select formControlName="jugador1" class="form-select">
+            <label for="jugador1" class="form-label">Jugador 1 (Equipo A)</label>
+            <select formControlName="jugador1" class="form-select">
             <option *ngFor="let player of availablePlayers" [value]="player.id" [disabled]="isPlayerSelected(player.id)">
-              {{ player.name }}
+                {{ player.name }}
             </option>
-          </select>
-          <select formControlName="jugador2" class="form-select">
-            <option *ngFor="let player of availablePlayers" [value]="player.id" [disabled]="isPlayerSelected(player.id)">
-              {{ player.name }}
-            </option>
-          </select>
+            </select>
         </div>
-        
 
-        <!-- Añadir un ngIf para comprobar si se quiere dobles o singles-->
-        <div class="mb-3 element-css">
-          <label class="form-label">Jugadores del equipo B</label>
-          <select formControlName="jugador3" class="form-select">
+        <!-- Jugador 2 (Equipo A) - Aparece si es dobles -->
+        <div *ngIf="isDoubles" class="mb-3 element-css">
+            <label for="jugador2" class="form-label">Jugador 2 (Equipo A)</label>
+            <select formControlName="jugador2" class="form-select">
             <option *ngFor="let player of availablePlayers" [value]="player.id" [disabled]="isPlayerSelected(player.id)">
-              {{ player.name }}
+                {{ player.name }}
             </option>
-          </select>
-          <select formControlName="jugador4" class="form-select">
-            <option *ngFor="let player of availablePlayers" [value]="player.id" [disabled]="isPlayerSelected(player.id)">
-              {{ player.name }}
-            </option>
-          </select>
+            </select>
         </div>
-    
+
+        <!-- Jugador 3 (Equipo B) -->
+        <div class="mb-3 element-css">
+            <label for="jugador3" class="form-label">Jugador 3 (Equipo B)</label>
+            <select formControlName="jugador3" class="form-select">
+            <option *ngFor="let player of availablePlayers" [value]="player.id" [disabled]="isPlayerSelected(player.id)">
+                {{ player.name }}
+            </option>
+            </select>
+        </div>
+
+        <!-- Jugador 4 (Equipo B) - Aparece si es dobles -->
+        <div *ngIf="isDoubles" class="mb-3 element-css">
+            <label for="jugador4" class="form-label">Jugador 4 (Equipo B)</label>
+            <select formControlName="jugador4" class="form-select">
+            <option *ngFor="let player of availablePlayers" [value]="player.id" [disabled]="isPlayerSelected(player.id)">
+                {{ player.name }}
+            </option>
+            </select>
+        </div>
+
         <!-- Sets -->
         <div formArrayName="sets" class="margin-css">
           <div *ngFor="let set of sets.controls; let i = index" [formGroupName]="i" class="mb-3 set-row">

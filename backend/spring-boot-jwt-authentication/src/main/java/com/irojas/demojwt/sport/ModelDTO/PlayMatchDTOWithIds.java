@@ -51,6 +51,13 @@ public class PlayMatchDTOWithIds extends BasePlayMatchDTO{
 			this.jugador4Id = jugador4Id;
 		}
 	    
+	    public PlayMatchDTOWithIds(Long id, LocalDate fecha, String ubicacion, Long leagueId, String ganadorEquipo, List<SetDTO> sets, Long jugador1Id,  Long jugador3Id) {
+	    	super(id, fecha, ubicacion, leagueId, ganadorEquipo, sets);
+			this.jugador1Id = jugador1Id;
+			this.jugador3Id = jugador3Id;
+	    }
+	    
+	    
 	    public PlayMatchDTOWithIds() {
 	        super();
 	    }
