@@ -12,10 +12,22 @@
     
     <h3>Jugadores:</h3>
     <ul>
-        <li class="equipo1">{{ match.jugador1.name }} / {{ match.jugador2.name }} (Equipo 1)</li>
-        <li class="equipo2">{{ match.jugador3.name }} / {{ match.jugador4.name }} (Equipo 2)</li>
+        <!-- Mostrar solo los dos jugadores si es un partido con dos jugadores -->
+        <li *ngIf="match.jugador2 == null " class="equipo1">
+            {{ match.jugador1.name }} Equipo 1 / {{ match.jugador3.name }} Equipo 2
+        </li>
+    
+        <!-- Mostrar los dos equipos si es un partido con cuatro jugadores -->
+        <ng-container *ngIf="match.jugador2 != null">
+            <li class="equipo1">
+                {{ match.jugador1.name }} / {{ match.jugador2.name }} (Equipo 1)
+            </li>
+            <li class="equipo2">
+                {{ match.jugador3.name }} / {{ match.jugador4.name }} (Equipo 2)
+            </li>
+        </ng-container>
     </ul>
-
+    
     <h3>Sets:</h3>
     <ul class="set-details">
         <li *ngFor="let set of match.sets">

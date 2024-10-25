@@ -32,6 +32,8 @@ import { CreateLeagueComponent } from './sport/pages/create-league/create-league
 import { SecureSportsLayoutComponent } from './layouts/secure-sports-layout/secure-sports-layout.component';
 import { ShowMatchesComponent } from './sport/pages/show-matches/show-matches.component';
 import { CreateTennisMatchComponent } from './sport/pages/create-tennis-match/create-tennis-match.component';
+import { ChangePasswordOutOfSessionComponent } from './authentication/pages/change-password-out-of-session/change-password-out-of-session.component';
+import { ChangePasswordOutOfSessionInputComponent } from './authentication/pages/change-password-out-of-session-input/change-password-out-of-session-input.component';
 
 const routes: Routes = [
   {
@@ -41,7 +43,9 @@ const routes: Routes = [
       { path: 'login', component: LoginComponent },
       { path: 'register', component: ReactiveFormsComponent },
       { path: '', redirectTo: 'login', pathMatch: 'full' },
-      { path: 'index', component: IndexComponent }
+      { path: 'index', component: IndexComponent },
+      { path: 'changePasswordOut', component: ChangePasswordOutOfSessionComponent },
+      { path: 'changePasswordOutOfSession', component: ChangePasswordOutOfSessionInputComponent }
     ]
   },
   {

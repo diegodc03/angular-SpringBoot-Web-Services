@@ -79,7 +79,7 @@ public class LeagueController {
     
     
     //Create League
-    @PostMapping("/delete-league")
+    @DeleteMapping("/delete-league")
     public ResponseEntity<String> deleteLeague(
     		@AuthenticationPrincipal UserDetails currentUser,
     		@RequestBody Long leagueId){
@@ -104,7 +104,6 @@ public class LeagueController {
         }catch(Exception e) {
         	return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
-    
     
     }
     

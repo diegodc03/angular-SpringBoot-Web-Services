@@ -13,11 +13,11 @@ export class ReactiveFormsComponent implements OnInit {
   registrationError: string = "";
   registerForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
-    firstname: ['', Validators.required],
-    lastname: ['', Validators.required],
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
     country: ['', Validators.required],
-    password: ['', Validators.required,     
-    ]
+    password1: ['', Validators.required],
+    password2: ['', Validators.required] 
   });
 
   constructor(
@@ -32,20 +32,24 @@ export class ReactiveFormsComponent implements OnInit {
     return this.registerForm.controls.email;
   }
 
-  get firstname() {
-    return this.registerForm.controls.firstname;
+  get firstName() {
+    return this.registerForm.controls.firstName;
   }
 
-  get lastname() {
-    return this.registerForm.controls.lastname;
+  get lastName() {
+    return this.registerForm.controls.lastName;
   }
 
   get country() {
     return this.registerForm.controls.country;
   }
 
-  get password() {
-    return this.registerForm.controls.password;
+  get password1() {
+    return this.registerForm.controls.password1;
+  }
+
+  get password2() {
+    return this.registerForm.controls.password2;
   }
 
   onSubmit() {

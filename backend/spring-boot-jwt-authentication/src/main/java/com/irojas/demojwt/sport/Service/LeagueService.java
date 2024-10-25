@@ -159,8 +159,8 @@ public class LeagueService {
 					                set.getJuegosEquipo2()
 					            )).collect(Collectors.toList()),
 					        new PlayerDTO(play.getJugador1().getId(), play.getJugador1().getUser().getFirstname()),
-					        new PlayerDTO(play.getJugador2().getId(), play.getJugador2().getUser().getFirstname()),
-					        play.getJugador3() != null ? new PlayerDTO(play.getJugador3().getId(), play.getJugador3().getUser().getFirstname()) : null,
+					        play.getJugador2() != null ? new PlayerDTO(play.getJugador2().getId(), play.getJugador2().getUser().getFirstname()) : null,
+					        new PlayerDTO(play.getJugador3().getId(), play.getJugador3().getUser().getFirstname()),
 					        play.getJugador4() != null ? new PlayerDTO(play.getJugador4().getId(), play.getJugador4().getUser().getFirstname()) : null
 					    ))
 					    .collect(Collectors.toList());

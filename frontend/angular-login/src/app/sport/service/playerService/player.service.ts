@@ -14,7 +14,6 @@ export class PlayerService {
   constructor(private http: HttpClient) { }
 
   getPlayers(leagueId: number): Observable<PlayerDTOModule[]> {
-
     return this.http.get<PlayerDTOModule[]>(`${this.apiURL}/get-all-players/${leagueId}`);
   }
 

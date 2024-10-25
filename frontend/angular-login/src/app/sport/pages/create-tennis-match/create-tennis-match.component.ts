@@ -6,6 +6,7 @@ import { PlayerService } from '../../service/playerService/player.service';
 import { LeagueService } from '../../service/leagueService/league.service';
 import { PlayMatchService } from '../../service/playMatchService/play-match.service';
 import { LeagueIdService } from '../../service/league-id.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-tennis-match',
@@ -25,7 +26,8 @@ export class CreateTennisMatchComponent {
     private playerService: PlayerService,
     private leagueService: LeagueService,
     private playMatchService: PlayMatchService,
-    private leagueIdService: LeagueIdService
+    private leagueIdService: LeagueIdService,
+    private router: Router
   ) {
 
     this.addPlayMatchForm = this.fb.group({
@@ -83,6 +85,13 @@ export class CreateTennisMatchComponent {
 
   onSubmit() {
     if (this.addPlayMatchForm.valid) {
+
+       // Verificar si hay al menos un set agregado en el FormArray
+       if (this.sets.length <= 0) {
+        alert('No se puede crear un partido sin sets');
+        return;
+      }
+
       const matchDTO: PlayMatchDTOWithIds = new PlayMatchDTOWithIds(
         0,
         this.addPlayMatchForm.value.fecha,
@@ -100,12 +109,13 @@ export class CreateTennisMatchComponent {
 
       this.playMatchService.addPlayMatch(matchDTO).subscribe({
         next: (response) => {
-          // Manejar la respuesta
-          console.log('Match added:', response);
+          alert('Partido creado correctamente');
+          this.router.navigate(['sports/league-information', this.leagueId]);
+          
         },
         error: (error) => {
           this.addPlayMatchError = error.message;
-          console.error('Match error:', error);
+          alert('Error al crear el partido');
         }
       });
     }

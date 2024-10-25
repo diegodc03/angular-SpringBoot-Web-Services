@@ -15,8 +15,8 @@ import { ActivatedRoute, Router } from '@angular/router';
   })
   export class ShowLeagueInformationComponent {
 
-  view: string = 'partidos'; //Por defecto mostramos la clasificación
 
+  view: string = 'clasification'; 
   league: LeagueInforamationDTO | undefined;
   leagueId: number;
   selectedFilter:  string = 'points-descending';
@@ -24,14 +24,15 @@ import { ActivatedRoute, Router } from '@angular/router';
   players: PlayerLeaguesdtoModule[] = []; 
   matchs: PlayMatchDTOWithPlayers[] = [];
 
+
   constructor(private leagueService: LeagueService,
         private leagueIdService: LeagueIdService,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private playMatchService: PlayMatchService
 
   ) { 
     this.leagueId = this.leagueIdService.getLeagueId();
-    this.view = 'clasification';
   }
 
 
@@ -39,7 +40,6 @@ import { ActivatedRoute, Router } from '@angular/router';
   ngOnInit(): void {
     // Suscribirse a los parámetros de la URL
     
-
     this.route.params.subscribe(params => {
       // Obtener el leagueId desde los parámetros de la URL
       this.leagueId = +params['leagueId']; // '+' convierte el parámetro string en número
@@ -49,10 +49,17 @@ import { ActivatedRoute, Router } from '@angular/router';
         alert('No se encontró el ID de la liga.');
       }
     });
-    //this.view = 'clasification';
+
     this.applyFilter();
   
   }
+
+
+  // Método para verificar si hay al menos un partido con 4 jugadores
+  hasFourPlayers(): boolean {
+    return this.matchs.some(match => match.jugador2 && match.jugador4);
+  }
+
 
 
   applyFilter() {
@@ -86,30 +93,21 @@ import { ActivatedRoute, Router } from '@angular/router';
         // Orden por defecto, por ejemplo, podrías no hacer nada o volver a la orden original.
         break;
     }
-
   }
-
-  
-
 
 
     getInformation() {
-      console.log('leagueId:', this.leagueId);
+
       this.leagueService.getLeagueInformation(this.leagueId).subscribe({
         next: (response) => {
           this.league= response;
           this.players = this.league.playerLeagues;
           this.matchs = this.league.matchPlayed
-          console.log("players", this.players);
-          console.log("match", this.matchs)
-          //Cogemos a partir de players el id del usuario y ponemos guardamos en un array los datos de los jugadores
-
-          // Verificamos si los datos de la liga están presentes y luego cambiamos la vista
-        // Cambia la vista a 'clasificacion' si hay datos de jugadores o partidos
-        if (this.players.length > 0 || this.matchs.length > 0) {
-          this.switchView('clasificacion');  // Cambia la vista a 'clasificacion'
-        }
-
+ 
+          // Cambia la vista a 'clasificacion' si hay datos de jugadores o partidos
+          if (this.players.length > 0 || this.matchs.length > 0) {
+            this.switchView('clasificacion');  // Cambia la vista a 'clasificacion'
+          }
         },
         error: (error) => {
           alert('Error al cargar la información de la liga');
@@ -138,4 +136,18 @@ import { ActivatedRoute, Router } from '@angular/router';
     }
   }
 
+
+  deleteMatch(matchId: number) {
+    this.playMatchService.deletePlayMatch(matchId).subscribe({
+      next: (response) => {
+        alert(response);
+        this.getInformation();
+      },
+      error: (error) => {
+        alert('Error al eliminar el partido');
+    }
+    });
+  
   }
+
+}

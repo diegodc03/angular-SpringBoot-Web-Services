@@ -53,6 +53,8 @@ import { SecureSportNavComponent } from "./shared/secure-sport-nav/secure-sport-
 import { CreatePadelMatchComponent } from './sport/pages/create-padel-match/create-padel-match.component';
 import { ShowMatchesComponent } from './sport/pages/show-matches/show-matches.component';
 import { CreateTennisMatchComponent } from './sport/pages/create-tennis-match/create-tennis-match.component';
+import { ChangePasswordOutOfSessionComponent } from './authentication/pages/change-password-out-of-session/change-password-out-of-session.component';
+import { ChangePasswordOutOfSessionInputComponent } from './authentication/pages/change-password-out-of-session-input/change-password-out-of-session-input.component';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -96,7 +98,9 @@ import { CreateTennisMatchComponent } from './sport/pages/create-tennis-match/cr
         SecureSportNavComponent,
         CreatePadelMatchComponent,
         ShowMatchesComponent,
-        CreateTennisMatchComponent
+        CreateTennisMatchComponent,
+        ChangePasswordOutOfSessionComponent,
+        ChangePasswordOutOfSessionInputComponent
 
         
     ],

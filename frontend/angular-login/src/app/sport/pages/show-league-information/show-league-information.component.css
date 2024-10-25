@@ -142,15 +142,26 @@ table th, table td {
     width: 100%; /* Asegura que el select ocupe todo su columna */
 }
 
-.btn-view {
-    width: 100%; /* Asegura que los botones ocupen todo su columna */
-    padding: 10px;
-    background-color: #007b9e; /* Color del botón */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+.actions-column {
+    display: flex;
+    gap: 10px; /* Espacio entre botones */
 }
+
+.btn-view, .btn-danger {
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+}
+
+.btn-view {
+    background-color: #007bff; /* Azul */
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Rojo */
+}
+
 
 .btn-view:hover {
     background-color: #005f80; /* Color al hacer hover */
@@ -197,27 +208,40 @@ table th, table td {
 }
 
 
+/* Estilo para los partidos con 2 jugadores */
+.grid-2-players {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 1fr 1fr 1fr 1fr 2fr; /* Solo 5 columnas */
+    align-items: center;
+    padding: 10px;
+}
+
+/* Estilo para los partidos con 4 jugadores */
+.grid-4-players {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 2fr; /* 7 columnas */
+    align-items: center;
+    padding: 10px;
+}
+
+/* Header con columnas extra si hay 4 jugadores */
 .grid-words.header {
-    font-weight: bold; /* Estilo de encabezado */
-    background-color: #007b9e; /* Color para el encabezado */
-    color: white; /* Color de texto */
-    border-radius: 5px; /* Bordes redondeados */
+    font-weight: bold;
+    background-color: #007b9e;
+    color: white;
+    border-radius: 5px;
 }
 
 .grid-words.row {
-    background-color: #f3f3f3; /* Color de fondo de la fila */
-    border: 1px solid #ddd; /* Borde de la fila */
-    border-radius: 5px; /* Bordes redondeados */
-    padding: 10px; /* Espaciado interno */
-    cursor: pointer; /* Cursor de puntero en hover */
+    background-color: #f3f3f3;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
 }
 
 .grid-words.row:hover {
-    background-color: #e0e0e0; /* Efecto hover para las filas */
-}
-
-/* Estilos adicionales si necesitas ajustar más */
-.player-name {
-    text-align: left; /* Alineación a la izquierda */
-    padding-left: 20px; /* Espaciado interno a la izquierda */
+    background-color: #e0e0e0;
 }

@@ -12,9 +12,10 @@ export class CreateLeagueComponent {
   addLeagueSuccess: String = "";  
   addLegueError: String = "";
   addLeague: FormGroup;
-selectedFilter: any;
+
   
-  constructor(private fb: FormBuilder, private leagueService: LeagueService) {
+  constructor(private fb: FormBuilder, 
+            private leagueService: LeagueService) {
     this.addLeague = this.fb.group({
       name: ['', Validators.required],
       leagueType:['', Validators.required],
@@ -23,8 +24,6 @@ selectedFilter: any;
   }
   
   onSubmit() {
-    console.log('Form value:', this.addLeague.value);
-    console.log('Form valid:', this.addLeague.valid);
 
     if (this.addLeague.valid) {
 
@@ -33,23 +32,20 @@ selectedFilter: any;
       
       this.leagueService.createLeague(createLeagueDTO).subscribe({
         next: (response) => {
-            console.log('league added:', response);
+            alert(response || 'League created successfully.');
             this.addLeagueSuccess = 'League created successfully.';
             
         },
         error: (error) => {
-            console.error('Match error:', error);
+            alert('Error during league creation. Please try again.');
             this.addLegueError = 'Error during league creation. Please try again.';
         }
         });
-      // Aquí puedes enviar leagueData a tu servicio para crear la liga.
-      // Asegúrate de que el backend esté preparado para recibir el campo requiresRequest.
-      console.log('League data:', leagueData);
+
     } else {
       this.addLegueError = 'Por favor, complete todos los campos requeridos.';
     }
   }
-
 
 
 }

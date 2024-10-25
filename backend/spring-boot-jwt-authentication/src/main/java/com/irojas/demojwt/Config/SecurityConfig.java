@@ -53,10 +53,13 @@ public class SecurityConfig {
               authRequest
                 .requestMatchers("/auth/login").permitAll()
                 .requestMatchers("/auth/register").permitAll()
+                .requestMatchers("/auth/confirmation/**").permitAll()
+                .requestMatchers("/auth/changePassword/**").permitAll()
                 .requestMatchers("/api/**").authenticated()
                 .requestMatchers("/inventary/**").authenticated()
                 .requestMatchers("/sale/**").authenticated()
                 .requestMatchers("/work-hours/**").authenticated()
+     
                 .anyRequest().authenticated()
                 )
             .sessionManagement(sessionManager->

@@ -93,10 +93,10 @@ public class PlayMatchController {
 	}
 	
 	
-	@DeleteMapping("delete-play-match")
+	@DeleteMapping("delete-play-match/{matchId}")
 	public ResponseEntity<String> deleteMatchOfLeague(
 			@AuthenticationPrincipal UserDetails currentUser,
-			@RequestBody Long matchId){
+			@PathVariable Long matchId){
 		
 		try {
 			playMatchService.deletePlayMatch(matchId);

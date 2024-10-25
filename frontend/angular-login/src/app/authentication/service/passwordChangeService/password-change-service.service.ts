@@ -10,6 +10,8 @@ import { HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class PasswordChangeServiceService {
+  
+  
   private apiUrl = `${environment.urlHost}auth/changePassword`;
   constructor(private http: HttpClient, private loginService: LoginService) { }
 
@@ -59,13 +61,44 @@ export class PasswordChangeServiceService {
     if (newPassword !== confirmPassword) {
       return false;
     }
-    /*
-    if (newPassword.length < 8) {
-      return 'La contraseña debe tener al menos 8 caracteres';
-    }*/
+
     return true;
   }
 
 
+  sendEmailchangePasswordOutOfSession(payload: { email: string; }) {
+    const email = payload.email;
+    return this.http.post(`${this.apiUrl}/send-email-to-change-password`, { email }).subscribe({
+      next: (response: any) => {
+        if (response) {
+          //this.errorMessage = response;
+          console.error('Error:', response);
+        }
+      },
+      error: (error: String) => {
+        console.error('No se ha conseguido cambiar la contraseña:', error);
+        // Maneja el error (p.ej., redirige al usuario al login)
+      }
+    });
+  }
+
+
+  changePasswordOutOfSession(payload: { newPassword: string; confirmPassword: string; }) {
+    const newPassword = payload.newPassword;
+    const confirmPassword = payload.confirmPassword;
+
+    return this.http.post(`${this.apiUrl}/change-password-out-of-session`, {confirmPassword , newPassword}).subscribe({
+      next: (response: any) => {
+        if (response) {
+          //this.errorMessage = response;
+          console.error('Error:', response);
+        }
+      },
+      error: (error: String) => {
+        console.error('No se ha conseguido cambiar la contraseña:', error);
+        // Maneja el error (p.ej., redirige al usuario al login)
+      }
+    });
+  }
 
 }

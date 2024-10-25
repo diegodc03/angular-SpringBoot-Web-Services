@@ -56,28 +56,42 @@
 </div>
 
 <!-- Partidos Jugados -->
+<!-- Partidos Jugados -->
 <div *ngIf="view === 'partidos'" class="table-container">
     <h2>Partidos Jugados</h2>
 
-    <div class="grid-words grid-matches header">
+    <!-- Encabezado -->
+    <div class="grid-words grid-matches header"
+         [ngClass]="{'grid-2-players': !hasFourPlayers(), 'grid-4-players': hasFourPlayers()}">
         <span>Fecha</span>
-        <span>Jugador 1</span>
-        <span>Jugador 2</span>
-        <span>Jugador 3</span>
-        <span>Jugador 4</span>
+        <span>Jugador 1 </span>
+        <span>Jugador 2 </span>
+        <ng-container *ngIf="hasFourPlayers()">
+            <span>Jugador 3</span>
+            <span>Jugador 4</span>
+        </ng-container>
         <span>Ganador</span>
         <span>Acciones</span>
     </div>
 
-    <div *ngFor="let match of matchs" class="grid-words row">
+    <!-- Filas de partidos -->
+    <div *ngFor="let match of matchs" class="grid-words row"
+         [ngClass]="{'grid-2-players': !match.jugador2, 'grid-4-players': match.jugador2}">
         <span>{{ match.fecha }}</span>
         <span>{{ match.jugador1.name }}</span>
-        <span>{{ match.jugador2.name }}</span>
         <span>{{ match.jugador3.name }}</span>
-        <span>{{ match.jugador4.name }}</span>
+        <ng-container *ngIf="match.jugador2">
+            <span>{{ match.jugador2.name }}</span>
+            <span>{{ match.jugador4.name }}</span>
+        </ng-container>
         <span>{{ match.ganadorEquipo }}</span>
-        <span class="view-match btn-view"  (click)="goToMatchDetail(match.id)">Ver Partido</span>
+        <div class="actions-column">
+            <span class="view-match btn-view" (click)="goToMatchDetail(match.id)">Ver Partido</span>
+            <span class="view-match btn-danger" (click)="deleteMatch(match.id)">Eliminar Partido</span>
+        </div>
+        
     </div>
 </div>
+
 
 </div>

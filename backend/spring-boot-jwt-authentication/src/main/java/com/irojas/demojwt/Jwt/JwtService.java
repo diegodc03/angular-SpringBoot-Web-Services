@@ -1,6 +1,7 @@
 package com.irojas.demojwt.Jwt;
 
 import java.security.Key;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import com.irojas.demojwt.Auth.Model.Role;
+
 @Service
 public class JwtService {
 

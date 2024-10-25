@@ -13,9 +13,6 @@ import { LeagueIdService } from '../../service/league-id.service';
 })
 export class ShowLeaguesJoinedComponent {
 
-
- 
-
   selectedFilter: string = '';
   leagues: ShowLeagueDTO[] = [];
 
@@ -25,31 +22,23 @@ export class ShowLeaguesJoinedComponent {
       private http: HttpClient,
       private router: Router) { }
 
+
   ngOnInit(): void {
     
-    
-
     this.leagueService.chargeLeaguesUserJoined().subscribe(
         leagues => {
             this.leagues = leagues;
         }
     );
-
   }
 
 
   leagueInformation(leagueId: number) {
     this.leagueIdService.setLeagueId(leagueId);
-
     this.router.navigate(['/sports/league-information', leagueId]);
   }
 
 
-
-  showLeague(arg0: any) {
-    throw new Error('Method not implemented.');
-  }
-  
   leagueExit(leagueId: number) {
 
     const LeagueIdDTOModule = {
@@ -61,14 +50,10 @@ export class ShowLeaguesJoinedComponent {
             alert(response || 'Salida de la liga con éxito.');
         },
         error: (error) => {
-            console.error('Error al salir de la liga:', error);
             alert('Error al salir de la liga. Por favor, inténtelo de nuevo.');
         }
     });
   }
-  
-  applyFilter() {
-    throw new Error('Method not implemented.');
-  }
+
 
 }

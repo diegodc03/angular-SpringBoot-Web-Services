@@ -34,8 +34,6 @@ export class ShowMatchesComponent {
   }
 
   ngOnInit(): void {
-    // Llama a getMatchInformation pasando el matchId
-    console.log("ID del partido:", this.matchId);
     this.getMatchInformation(this.matchId);
   }
 
@@ -45,10 +43,9 @@ export class ShowMatchesComponent {
     this.playMatchService.getMatchInformation(matchId).subscribe({
       next: (response) => {
         this.match = response;
-        console.log("Partido:", this.match);
       },
       error: (error) => {
-        console.log("Error al obtener el partido", error);
+        alert('Error al obtener la información del partido. Por favor, inténtelo de nuevo.');
       }
     });
   }

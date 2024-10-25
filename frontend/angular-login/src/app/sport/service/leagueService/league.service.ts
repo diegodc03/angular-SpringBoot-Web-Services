@@ -28,7 +28,6 @@ export class LeagueService {
 
 
   createLeague(createLeagueDTO: CreateLeagueDTO): Observable<string> {
-    console.log('createLeagueDTO:', createLeagueDTO);
     return this.http.post<string>(`${this.apiURL}/league/create-league`, createLeagueDTO,{ responseType: 'text' as 'json' });
   }
 
@@ -38,7 +37,6 @@ export class LeagueService {
   }
 
   joinLeagueDirectly(leagueId: LeagueIdDTOModule): Observable<String> {
-      console.log('leagueId:', leagueId);
       return this.http.post<String>(`${this.apiURL}/player/join-league`, leagueId,{
 
         responseType: 'text' as 'json' 
@@ -54,8 +52,6 @@ export class LeagueService {
 
 
   exitLeague(deletePlayer: LeagueIdDTOModule): Observable<string> {
-
-    console.log('deletePlayer:', deletePlayer);
 
     return this.http.delete<string>(`${this.apiURL}/player/get-out-of-league`, {
       body: deletePlayer,  // Envía el objeto directamente

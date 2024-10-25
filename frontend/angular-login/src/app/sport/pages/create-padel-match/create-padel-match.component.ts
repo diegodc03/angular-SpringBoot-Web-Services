@@ -6,6 +6,7 @@ import { PlayerService } from '../../service/playerService/player.service';
 import {  PlayerDTOModule } from '../../modelDTO/player-dto/player-dto.module';
 import { LeagueIdService } from '../../service/league-id.service';
 import { PlayMatchDTOWithIds } from '../../modelDTO/match-dto/match-dto.module';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-padel-match',
@@ -15,7 +16,6 @@ import { PlayMatchDTOWithIds } from '../../modelDTO/match-dto/match-dto.module';
 export class CreatePadelMatchComponent {
 
   leagueId: number = this.leagueIdService.getLeagueId();
- 
   availablePlayers: PlayerDTOModule[] = []; // Cargar los jugadores desde el servicio
   addPlayMatchError = '';
   addPlayMatchForm: FormGroup;
@@ -25,7 +25,8 @@ export class CreatePadelMatchComponent {
     private playerService: PlayerService,
     private leagueService: LeagueService,
     private playMatchService: PlayMatchService,
-    private leagueIdService: LeagueIdService
+    private leagueIdService: LeagueIdService,
+    private router: Router
   ) {
 
     this.addPlayMatchForm = this.fb.group({
@@ -33,9 +34,9 @@ export class CreatePadelMatchComponent {
       ubicacion: ['', Validators.required],
       jugador1: ['', Validators.required],
       jugador2: ['', Validators.required],
-      jugador3: [''],
-      jugador4: [''],
-      sets: this.fb.array([])
+      jugador3: ['', Validators.required],
+      jugador4: ['', Validators.required],
+      sets: this.fb.array([Validators.required]),
     });
 
   }
@@ -71,33 +72,39 @@ export class CreatePadelMatchComponent {
   }
 
   onSubmit() {
-    if (this.addPlayMatchForm.valid) {
+      if (this.addPlayMatchForm.valid) {
 
-      const matchDTO: PlayMatchDTOWithIds = new PlayMatchDTOWithIds(
-        0,
-        this.addPlayMatchForm.value.fecha,
-        this.addPlayMatchForm.value.ubicacion,
-        this.leagueId,
-        '',
-        this.addPlayMatchForm.value.sets,
-        this.addPlayMatchForm.value.jugador1,
-        this.addPlayMatchForm.value.jugador2,
-        this.addPlayMatchForm.value.jugador3,
-        this.addPlayMatchForm.value.jugador4,
-      );
+        // Verificar si hay al menos un set agregado en el FormArray
+        if (this.sets.length <= 0) {
+          console.log('No se puede crear un partido sin sets');
+          alert('No se puede crear un partido sin sets');
+          return;
+        }
 
-      console.log('MatchDTO:', matchDTO);
+        const matchDTO: PlayMatchDTOWithIds = new PlayMatchDTOWithIds(
+          0,
+          this.addPlayMatchForm.value.fecha,
+          this.addPlayMatchForm.value.ubicacion,
+          this.leagueId,
+          '',
+          this.addPlayMatchForm.value.sets,
+          this.addPlayMatchForm.value.jugador1,
+          this.addPlayMatchForm.value.jugador2,
+          this.addPlayMatchForm.value.jugador3,
+          this.addPlayMatchForm.value.jugador4,
+        );
 
       this.playMatchService.addPlayMatch(matchDTO).subscribe({
         next: (response) => {
-          // Manejar la respuesta
-          console.log('Match added:', response);
+          alert(response);
+          this.router.navigate(['sports/league-information', this.leagueId]);
+            
         },
         error: (error) => {
           this.addPlayMatchError = error.message;
-          console.error('Match error:', error);
+          alert('Error al crear el partido');
         }
-    });
+      });
     }
   }
 
@@ -108,4 +115,5 @@ export class CreatePadelMatchComponent {
       this.availablePlayers = data;
     });
   }
+
 }
