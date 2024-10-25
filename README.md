@@ -84,5 +84,5 @@ Para garantizar la seguridad de la aplicación y sus datos:
 
 Para cualquier consulta o información adicional sobre la aplicación, por favor contacta a:
 
-- **Email**: [tu-email@dominio.com](diegodecastro@usal.es)
+- **Email**: [(diegodecastro@usal.es]
 
