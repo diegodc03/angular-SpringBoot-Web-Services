@@ -53,8 +53,8 @@
       </div>
     
     
-    <div formArrayName="garments">
-        <div *ngFor="let garment of garments.controls; let i = index" [formGroupName]="i" class="mb-3 garment-row">
+    <div formArrayName="sizeElements">
+        <div *ngFor="let garment of sizeElements.controls; let i = index" [formGroupName]="i" class="mb-3 garment-row">
           <label for="size-{{i}}" class="form-label">Talla</label>
           <input formControlName="size" type="text" class="form-control" id="size-{{i}}">
           <label for="color-{{i}}" class="form-label">Color</label>

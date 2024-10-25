@@ -24,6 +24,16 @@ import { ShowSeasonEarningsComponent } from './workHours/pages/show-season-earni
 import { SecureWorkHoursLayoutComponent } from './layouts/secure-work-hours-layout/secure-work-hours-layout.component';
 import { AddMatchesComponent } from './workHours/pages/add-matches/add-matches.component';
 import { AddSeasonComponent } from './workHours/pages/add-season/add-season.component';
+import { ShowLeaguesComponent } from './sport/pages/show-leagues/show-leagues.component';
+import { ShowLeagueInformationComponent } from './sport/pages/show-league-information/show-clasification.component';
+import { ShowLeaguesJoinedComponent } from './sport/pages/show-leagues-joined/show-leagues-joined.component';
+import {  CreatePadelMatchComponent } from './sport/pages/create-padel-match/create-padel-match.component';
+import { CreateLeagueComponent } from './sport/pages/create-league/create-league.component';
+import { SecureSportsLayoutComponent } from './layouts/secure-sports-layout/secure-sports-layout.component';
+import { ShowMatchesComponent } from './sport/pages/show-matches/show-matches.component';
+import { CreateTennisMatchComponent } from './sport/pages/create-tennis-match/create-tennis-match.component';
+import { ChangePasswordOutOfSessionComponent } from './authentication/pages/change-password-out-of-session/change-password-out-of-session.component';
+import { ChangePasswordOutOfSessionInputComponent } from './authentication/pages/change-password-out-of-session-input/change-password-out-of-session-input.component';
 
 const routes: Routes = [
   {
@@ -33,7 +43,9 @@ const routes: Routes = [
       { path: 'login', component: LoginComponent },
       { path: 'register', component: ReactiveFormsComponent },
       { path: '', redirectTo: 'login', pathMatch: 'full' },
-      { path: 'index', component: IndexComponent }
+      { path: 'index', component: IndexComponent },
+      { path: 'changePasswordOut', component: ChangePasswordOutOfSessionComponent },
+      { path: 'changePasswordOutOfSession', component: ChangePasswordOutOfSessionInputComponent }
     ]
   },
   {
@@ -75,6 +87,21 @@ const routes: Routes = [
       { path: 'add-matches', component: AddMatchesComponent },
       { path: 'add-season', component: AddSeasonComponent },
       { path: '', redirectTo: 'matchs-working-hours', pathMatch: 'full' }
+    ]
+  },
+  {
+    path: 'sports',
+    component: SecureSportsLayoutComponent,
+    canActivate: [AuthGuard],
+    children: [
+      { path: 'league-to-join', component: ShowLeaguesComponent },
+      { path: 'league-joined', component: ShowLeaguesJoinedComponent },
+      { path: 'league-information/:leagueId', component: ShowLeagueInformationComponent },
+      { path: 'create-padel-match', component: CreatePadelMatchComponent },
+      { path: 'create-league', component: CreateLeagueComponent },
+      { path: '', redirectTo: 'matchs-working-hours', pathMatch: 'full' },
+      { path: 'show-match/:id', component: ShowMatchesComponent },
+      { path: 'create-tennis-match', component: CreateTennisMatchComponent }
     ]
   },
   { path: '**', redirectTo: '' }

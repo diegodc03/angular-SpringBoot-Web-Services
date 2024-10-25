@@ -1,3 +1,43 @@
-div {
-    margin: 15px;
-}
+.summary-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+
+  .container{
+    margin-top: 20px;
+  }
+  
+  h2 {
+    text-align: center;
+    color: #2c3e50;
+  }
+  
+  .section-card {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 15px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .section-card h3 {
+    margin-top: 0;
+    color: #3498db;
+  }
+  
+  .section-card p {
+    color: #6c757d;
+  }
+  
+  .section-card ul {
+    padding-left: 20px;
+  }
+  
+  .section-card ul li {
+    color: #555;
+  }
+  

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Product } from '../../../model/product/product.module' // Ajusta la ruta según tu estructura de carpetas
 import { InventaryService } from "../../../service/inventary/inventary.service";
 import { ActivatedRoute, Router } from '@angular/router';
-import { Garment } from '../../../model/garment/garment.module'; // Ajusta la ruta según tu estructura de carpetas
+import { sizeElement } from '../../../model/garment/sizeElement.module'; // Ajusta la ruta según tu estructura de carpetas
 
 @Component({
   selector: 'app-show-product-inventary',
@@ -31,7 +31,7 @@ export class ShowProductInventaryComponent {
       price: [0],
       totalStock: [0],
       isTshirt: [false],
-      garments: this.fb.array([])
+      sizeElements: this.fb.array([])
     });
   }
 
@@ -45,7 +45,7 @@ export class ShowProductInventaryComponent {
       price: [0],
       totalStock: [0],
       isTshirt: [false],
-      garments: this.fb.array([]) // Initialize the FormArray here
+      sizeElements: this.fb.array([]) // Initialize the FormArray here
     });
   
     this.loadProductData();
@@ -68,12 +68,12 @@ export class ShowProductInventaryComponent {
           description: product.description,
           price: product.price,
           totalStock: product.totalStock,
-          isTshirt: product.isTshirt
+          isTshirt: product.haveSize
         });
   
         console.log('Form after patchValue:', this.showProductForm.value);
   
-        if (product.isTshirt) {
+        if (product.haveSize) {
           console.log("Producto es una camiseta");
           console.log(product.garments);
           this.setGarments(product.garments);

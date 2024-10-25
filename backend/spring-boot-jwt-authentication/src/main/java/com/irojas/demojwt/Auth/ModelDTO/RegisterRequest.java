@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RegisterRequest {
     String email;
-    String firstname;
-    String lastname;
+    String firstName;
+    String lastName;
     String country;
     String password;
     
@@ -33,16 +33,16 @@ public class RegisterRequest {
 		this.password = password;
 	}
 	public String getFirstname() {
-		return firstname;
+		return firstName;
 	}
 	public void setFirstname(String firstname) {
-		this.firstname = firstname;
+		this.firstName = firstname;
 	}
 	public String getLastname() {
-		return lastname;
+		return lastName;
 	}
 	public void setLastname(String lastname) {
-		this.lastname = lastname;
+		this.lastName = lastname;
 	}
 	public String getCountry() {
 		return country;
@@ -53,12 +53,12 @@ public class RegisterRequest {
 	
 	
 	
-	public RegisterRequest(String email, String firstname, String lastname, String country, String password) {
+	public RegisterRequest(String email, String firstName, String lastName, String country, String password) {
 		super();
 		this.email = email;
 		this.password = password;
-		this.firstname = firstname;
-		this.lastname = lastname;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.country = country;
 	}
 	

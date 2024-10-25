@@ -1,6 +1,6 @@
 import { Inject, NgModule, Optional } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Garment } from '../../model/garment/garment.module';
+import { sizeElement } from '../../model/garment/sizeElement.module';
 import { GarmentSoldDtoModule } from '../garment-sold-dto/garment-sold-dto.module';
 
 
@@ -34,7 +34,7 @@ export class ProductSoldDTO {
               @Inject(Boolean) existanceSizes: boolean, 
               @Inject(Number) totalStockSold: number, 
               @Inject(String) imageName: String,
-              @Inject(Garment) garmentsSales: GarmentSoldDtoModule[]) {
+              @Inject(sizeElement) garmentsSales: GarmentSoldDtoModule[]) {
     this.productId = productId;
     this.public_id = public_id;
     this.name = name;

@@ -5,13 +5,16 @@ import { Observable, of,  throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { LoginService} from 'src/app/authentication/service/loginService/login.service';
 import { HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PasswordChangeServiceService {
+  
+  
   private apiUrl = `${environment.urlHost}auth/changePassword`;
-  constructor(private http: HttpClient, private loginService: LoginService) { }
+  constructor(private http: HttpClient, private loginService: LoginService, private router: Router) { }
 
   changePassword(payload: { currentPassword: string, newPassword: string, confirmPassword: string }): Observable<any> {
     // Validación local antes de enviar al backend
@@ -59,13 +62,45 @@ export class PasswordChangeServiceService {
     if (newPassword !== confirmPassword) {
       return false;
     }
-    /*
-    if (newPassword.length < 8) {
-      return 'La contraseña debe tener al menos 8 caracteres';
-    }*/
+
     return true;
   }
 
 
+  sendEmailchangePasswordOutOfSession(payload: { email: string; }) {
+    const email = payload.email;
+    console.log('Email:', email);
+    return this.http.post(`${this.apiUrl}/send-email-to-change-password`, { email },  { responseType: 'text' as 'json' }).subscribe({
+      next: (response: any) => {
+        if (response) {
+          this.router.navigate(['/login']);
+        }
+      },
+      error: (error: String) => {
+        console.error('No se ha conseguido cambiar la contraseña:', error);
+        // Maneja el error (p.ej., redirige al usuario al login)
+      }
+    });
+  }
+
+
+  changePasswordOutOfSession(payload: { newPassword: string; confirmPassword: string; token: string; }) {
+    const newPassword = payload.newPassword;
+    const confirmPassword = payload.confirmPassword;
+    const token = payload.token;
+
+    return this.http.post(`${this.apiUrl}/change-password-out-of-session`, {token, confirmPassword , newPassword},  { responseType: 'text' as 'json' }).subscribe({
+      next: (response: any) => {
+        if (response) {
+          //this.errorMessage = response;
+          this.router.navigate(['/login']);
+        }
+      },
+      error: (error: String) => {
+        console.error('No se ha conseguido cambiar la contraseña:', error);
+        // Maneja el error (p.ej., redirige al usuario al login)
+      }
+    });
+  }
 
 }

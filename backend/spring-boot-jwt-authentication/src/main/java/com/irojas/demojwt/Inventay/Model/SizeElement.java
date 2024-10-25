@@ -25,8 +25,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="garments", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
-public class Garment {
+@Table(name="sizeElement", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"})})
+public class SizeElement {
 	
 	 @Id
 	 @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,9 +42,9 @@ public class Garment {
 	 private Integer stock;
 
 	 @ManyToOne
-	 @JoinColumn(name = "garments")
+	 @JoinColumn(name = "sizeElements")
 	 @JsonManagedReference
-	 @JsonIgnoreProperties(value="garments")
+	 @JsonIgnoreProperties(value="sizeElements")
 	 private Product product;
 
 	
@@ -91,7 +91,7 @@ public class Garment {
 	}
 
 	
-	public Garment(Size size, String color, String material, Integer stock, Product product) {
+	public SizeElement(Size size, String color, String material, Integer stock, Product product) {
 		super();
 		this.size = size;
 		this.color = color;
@@ -100,7 +100,7 @@ public class Garment {
 		this.product = product;
 	}
 
-	public Garment() {
+	public SizeElement() {
 		// TODO Auto-generated constructor stub
 	}
 

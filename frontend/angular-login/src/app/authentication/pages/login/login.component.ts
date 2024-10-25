@@ -10,6 +10,7 @@ import { LoginRequest } from 'src/app/authentication/modelDTO/loginRequest';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+
   
   loginError:string="";
   loginSuccess: String="";
@@ -72,5 +73,11 @@ export class LoginComponent implements OnInit {
       alert("Error al ingresar los datos.");
     }
   }
+
+
+  olvidarPassword() {
+    this.router.navigate(['/changePasswordOut']);
+  }
+
 
 }

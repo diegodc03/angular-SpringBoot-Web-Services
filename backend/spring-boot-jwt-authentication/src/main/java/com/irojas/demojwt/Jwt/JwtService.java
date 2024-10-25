@@ -1,10 +1,14 @@
 package com.irojas.demojwt.Jwt;
 
 import java.security.Key;
+
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -17,6 +21,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import com.irojas.demojwt.Auth.Model.Role;
 
 @Service
 public class JwtService {
@@ -38,8 +43,17 @@ public class JwtService {
     	
     	if (user instanceof User) {
             User customUser = (User) user;
-            System.out.print(customUser.getRole().name());
-            extraClaims.put("role", customUser.getRole().name()); // Asumiendo que tienes un método getRole()
+            //System.out.print(customUser.getRole().name());
+         
+            // Extraer todos los roles del usuario y ponerlos en los extraClaims
+            List<Role> roles = customUser.getRoles();
+            
+            // Convertimos los roles a una lista de cadenas y los añadimos a los extraClaims
+            List<String> rolesList = roles.stream()
+                                          .map(Role::name)
+                                          .collect(Collectors.toList());
+            
+            extraClaims.put("roles", rolesList); // Añadimos todos los roles
         }
     	
     	

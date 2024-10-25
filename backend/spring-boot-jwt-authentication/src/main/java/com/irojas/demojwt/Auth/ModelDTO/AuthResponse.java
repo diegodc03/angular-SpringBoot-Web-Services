@@ -10,10 +10,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuthResponse {
-    String token;
+    
+	private String token; // Token JWT
+    private String message; // Mensaje adicional (opcional)
     
     public AuthResponse(String token) {
         this.token = token;
+    }
+    
+    public AuthResponse(String token, String message) {
+        this.token = token;
+        this.message = message;
     }
 
 	public String getToken() {

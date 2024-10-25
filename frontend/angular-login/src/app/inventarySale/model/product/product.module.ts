@@ -1,6 +1,6 @@
 import { Inject, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Garment } from "../garment/garment.module";
+import { sizeElement } from "../garment/sizeElement.module";
 
 
 @NgModule({
@@ -15,10 +15,10 @@ export class Product {
   name: string;
   description: string;
   price: number;
-  isTshirt: boolean;
+  haveSize: boolean;
   totalStock: number;
   imageName: String;
-  garments: Garment[];
+  garments: sizeElement[];
 
   
 
@@ -26,15 +26,15 @@ export class Product {
               @Inject(String) name: string, 
               @Inject(String) description: string, 
               @Inject(Number) price: number, 
-              @Inject(Boolean) isTshirt: boolean, 
+              @Inject(Boolean) haveSize: boolean, 
               @Inject(Number) totalStock: number, 
               @Inject(String) imageName: String,
-              @Inject(Garment) garments: Garment[]) {
+              @Inject(sizeElement) garments: sizeElement[]) {
     this.publicId = publicId;
     this.name = name;
     this.description = description;
     this.price = price;
-    this.isTshirt = isTshirt;
+    this.haveSize = haveSize;
     this.totalStock = totalStock;
     this.imageName = imageName;
     this.garments = garments;

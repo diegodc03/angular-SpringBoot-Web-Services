@@ -1,0 +1,37 @@
+<div class="container">
+
+    <div class="upper-div ">
+        <h2> Ligas </h2>
+        
+    </div>
+    
+    <!--
+    <select class="form-control box-filter" id="filterSelect" [(ngModel)]="selectedFilter" (change)="applyFilter()">
+        <option value="none">Filtro  </option>
+        <option value="price-ascending">Alfabeticamente mayor a menor</option>
+        <option value="price-descending">Mas gente</option>
+    </select>
+-->
+
+    <div class="product-list">
+        <div> 
+            <div class="grid-words header">
+                <div class="product-name">Ligas</div>
+                <div class="product-name">Acciones</div>
+            </div>
+        </div>
+        <div *ngFor="let league of leagues; let i = index" class="product-item" (click)="leagueInformation(league.id)">
+            <div class="grid-words  product-row" >
+                <div class="product-name">{{ league.name }}</div>
+                
+                <div class="product-actions">
+                    <button class="btn btn-danger btn-sm" 
+                            (click)="leagueExit(league.id)">
+                        Salirse de la liga
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>    
+</div>

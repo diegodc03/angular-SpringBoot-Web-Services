@@ -18,12 +18,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.irojas.demojwt.Auth.Model.User;
 import com.irojas.demojwt.Auth.ModelDTO.UserDTO;
-import com.irojas.demojwt.Inventay.Model.Garment;
+import com.irojas.demojwt.Inventay.Model.SizeElement;
 import com.irojas.demojwt.Inventay.Model.Product;
 import com.irojas.demojwt.Inventay.Model.Size;
-import com.irojas.demojwt.Inventay.ModelDTO.GarmentDTO;
+import com.irojas.demojwt.Inventay.ModelDTO.SizeElementDTO;
 import com.irojas.demojwt.Inventay.ModelDTO.ProductDTO;
-import com.irojas.demojwt.Inventay.Repository.GarmentRepository;
+import com.irojas.demojwt.Inventay.Repository.SizeElementRepository;
 import com.irojas.demojwt.Inventay.Repository.ProductRepository;
 import com.irojas.demojwt.Jwt.JwtTokenManager;
 
@@ -34,10 +34,10 @@ public class ProductService {
 	
 	private ProductRepository productRepository;
 	private JwtTokenManager jwtTokenManager;
-	private GarmentRepository tshirtRepository;
+	private SizeElementRepository tshirtRepository;
 	private static String IMAGE_DIRECTORY = "src//main//resources//static/uploads/";
 	
-	public ProductService (ProductRepository productRepository, GarmentRepository tshirtRepository, JwtTokenManager jwtTokenManager) {
+	public ProductService (ProductRepository productRepository, SizeElementRepository tshirtRepository, JwtTokenManager jwtTokenManager) {
 		this.productRepository = productRepository;
 		this.tshirtRepository = tshirtRepository;
 		this.jwtTokenManager = jwtTokenManager;
@@ -120,26 +120,26 @@ public class ProductService {
 	        // in lambda can use a variable created out of lambda if is not final. we can use a array
 	        if(productDTO.getIsTshirt() && productDTO.getGarments() != null) {
 	
-	        	List<Garment> garments = productDTO.getGarments().stream().map(tshirtDTO -> {
+	        	List<SizeElement> sizeElements = productDTO.getGarments().stream().map(tshirtDTO -> {
 		            stock[0] += tshirtDTO.getStock();   
 
-	        		Garment garment = new Garment();
+	        		SizeElement sizeElement = new SizeElement();
 	        		
 	        		
 	        		Size size = Size.valueOf(tshirtDTO.getSize().toUpperCase());
 		            if(size != null) {
-		            	garment.setSize(size);
+		            	sizeElement.setSize(size);
 		            }
-		            garment.setColor(tshirtDTO.getColor());
-		            garment.setMaterial(tshirtDTO.getMaterial());
-		            garment.setStock(tshirtDTO.getStock());
-		            garment.setProduct(product);
-		            return garment;
+		            sizeElement.setColor(tshirtDTO.getColor());
+		            sizeElement.setMaterial(tshirtDTO.getMaterial());
+		            sizeElement.setStock(tshirtDTO.getStock());
+		            sizeElement.setProduct(product);
+		            return sizeElement;
 		            
 		        }).collect(Collectors.toList());
 	        	
 	        	product.setTotalStock(stock[0]);
-		        product.setGarments(garments);
+		        product.setGarments(sizeElements);
 	        }else {
 	        	product.setGarments(new ArrayList<>());
 	        }
@@ -213,30 +213,30 @@ public class ProductService {
 		        	
 		        	// Add the thirts added
 		        	// this garments have not been updated yet
-			        List<Garment> existingTshirts = product.getGarments();
+			        List<SizeElement> existingTshirts = product.getGarments();
 		        	
 		            // Procesar cada tshirtDTO recibido
-		            for (GarmentDTO garmentDTO : productDetailsDTO.getGarments()) {
+		            for (SizeElementDTO sizeElementDTO : productDetailsDTO.getGarments()) {
 		            	
-		            	Garment garment = existingTshirts.stream()
-		                        .filter(g -> g.getSize().equals(Size.valueOf(garmentDTO.getSize().toUpperCase())))
+		            	SizeElement sizeElement = existingTshirts.stream()
+		                        .filter(g -> g.getSize().equals(Size.valueOf(sizeElementDTO.getSize().toUpperCase())))
 		                        .findFirst()
-		                        .orElse(new Garment());
+		                        .orElse(new SizeElement());
 		            	
 		            	
-		            	Size size = Size.valueOf(garmentDTO.getSize().toUpperCase());
-		                garment.setSize(size);
-		                garment.setColor(garmentDTO.getColor());
-		                garment.setMaterial(garmentDTO.getMaterial());
-		                garment.setStock(garmentDTO.getStock());
-		                garment.setProduct(product);
+		            	Size size = Size.valueOf(sizeElementDTO.getSize().toUpperCase());
+		                sizeElement.setSize(size);
+		                sizeElement.setColor(sizeElementDTO.getColor());
+		                sizeElement.setMaterial(sizeElementDTO.getMaterial());
+		                sizeElement.setStock(sizeElementDTO.getStock());
+		                sizeElement.setProduct(product);
 		            
 		                
-		                totalStock += garmentDTO.getStock();
+		                totalStock += sizeElementDTO.getStock();
 		                
 		                // if the garment exists, update the variables, but if not exists add it in the array
-		                if (!existingTshirts.contains(garment)) {
-		                    existingTshirts.add(garment);
+		                if (!existingTshirts.contains(sizeElement)) {
+		                    existingTshirts.add(sizeElement);
 		                }
 		            }
 		            // Limpiar las camisetas que ya no están presentes en los detalles del producto

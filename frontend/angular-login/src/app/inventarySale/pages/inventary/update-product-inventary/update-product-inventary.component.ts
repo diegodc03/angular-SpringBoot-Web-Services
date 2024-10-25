@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { InventaryService } from "../../../service/inventary/inventary.service";
 import { ActivatedRoute, Router } from '@angular/router';
-import { Garment } from '../../../model/garment/garment.module';
+import { sizeElement } from '../../../model/garment/sizeElement.module';
 import { ProductDTO } from '../../../modelDTO/product-dto/product-dto.module';
 @Component({
   selector: 'app-update-product-inventary',
@@ -29,7 +29,7 @@ export class UpdateProductInventaryComponent implements OnInit {
       price: [null, [Validators.required, Validators.min(1)]],
       totalStock: [{ value: '', disabled: false }, Validators.required, Validators.min(0)],
       isTshirt: [false],
-      garments: this.fb.array([])
+      sizeElements: this.fb.array([])
     });
   }
 
@@ -43,24 +43,24 @@ export class UpdateProductInventaryComponent implements OnInit {
       price: [0, [Validators.required, Validators.min(0)]],
       totalStock: [{ value: 0, disabled: true }, Validators.required],
       isTshirt: [false],
-      garments: this.fb.array([]) // Initialize the FormArray here
+      sizeElements: this.fb.array([]) // Initialize the FormArray here
     });
   
     this.loadProductData();
     this.onChangesTshirt();
   }
 
-  get garments() {
-    return this.updateProductForm.get('garments') as FormArray;
+  get sizeElements() {
+    return this.updateProductForm.get('sizeElements') as FormArray;
   }
 
   removeGarment(index: number): void {
-    this.garments.removeAt(index);
+    this.sizeElements.removeAt(index);
     this.updateTotalStock();
   }
 
   updateTotalStock(): void {
-    const totalStock = this.garments.controls.reduce((acc, control) => acc + control.value.stock, 0);
+    const totalStock = this.sizeElements.controls.reduce((acc, control) => acc + control.value.stock, 0);
     this.updateProductForm.patchValue({ totalStock });
   }
 
@@ -75,12 +75,12 @@ export class UpdateProductInventaryComponent implements OnInit {
           description: product.description,
           price: product.price,
           totalStock: product.totalStock,
-          isTshirt: product.isTshirt
+          isTshirt: product.haveSize
         });
   
         console.log('Form after patchValue:', this.updateProductForm.value);
   
-        if (product.isTshirt) {
+        if (product.haveSize) {
           console.log("Producto es una camiseta");
           console.log(product.garments);
           this.setGarments(product.garments);
@@ -113,7 +113,7 @@ export class UpdateProductInventaryComponent implements OnInit {
   
 
   addGarment(): void {
-    this.garments.push(this.fb.group({
+    this.sizeElements.push(this.fb.group({
       size: ['', Validators.required],
       color: ['', Validators.required],
       material: ['', Validators.required],
@@ -125,12 +125,12 @@ export class UpdateProductInventaryComponent implements OnInit {
     this.updateProductForm.get('isTshirt')?.valueChanges.subscribe(value => {
       if (value) {
         this.updateProductForm.get('totalStock')?.disable();
-        if (this.garments.length === 0) {
+        if (this.sizeElements.length === 0) {
           this.addGarment();
         }
       } else {
         this.updateProductForm.get('totalStock')?.enable();
-        this.garments.clear();
+        this.sizeElements.clear();
         this.updateTotalStock();
       }
     });
@@ -140,12 +140,12 @@ export class UpdateProductInventaryComponent implements OnInit {
     const isTshirt = this.updateProductForm.get('isTshirt')?.value;
     if (isTshirt) {
       this.updateProductForm.get('totalStock')?.disable();
-      if (this.garments.length === 0) {
+      if (this.sizeElements.length === 0) {
         this.addGarment();
       }
     } else {
       this.updateProductForm.get('totalStock')?.enable();
-      this.garments.clear();
+      this.sizeElements.clear();
       this.updateTotalStock();
     }
   }

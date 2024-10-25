@@ -1,0 +1,52 @@
+<div class="container">
+
+    <form class="s" [formGroup]="addLeague" (ngSubmit)="onSubmit()">
+         <p class="text-danger">{{ addLegueError }}</p>
+         <p class="text-success">{{ addLeagueSuccess }}</p>
+        <div class="form-css margin-css">
+        
+            <div class="mb-3 element-css">
+                <label for="name" class="form-label">Nombre</label>
+                <input formControlName="name" type="text" class="form-control" id="name">
+                <div *ngIf="addLeague.get('name')?.invalid && (addLeague.get('name')?.dirty || addLeague.get('name')?.touched)" class="text-danger">
+                    <div *ngIf="addLeague.get('name')?.errors?.['required']">
+                        El nombre de la liga es necesario
+                    </div>
+                </div>    
+            </div>
+
+            <div class="mb-3 element-css">
+                <label for="leagueType" class="form-label">Tipo de Liga</label>
+                <select formControlName="leagueType" class="form-control" id="leagueType">
+                    <option value="" disabled selected>Seleccione una liga</option>
+                    <option value="padel">Padel</option>
+                    <option value="tenis">Tenis</option>
+                    <!-- Puedes añadir más opciones según tus necesidades -->
+                </select>
+                <div *ngIf="addLeague.get('leagueType')?.invalid && (addLeague.get('leagueType')?.dirty || addLeague.get('leagueType')?.touched)" class="text-danger">
+                    <div *ngIf="addLeague.get('leagueType')?.errors?.['required']">
+                        El tipo de liga es necesario
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Checkbox para definir si la liga requiere solicitud de acceso -->
+            <div class="mb-3 element-css">
+                <label for="requiresRequest" class="form-label">¿Requiere solicitud para unirse?</label>
+                <input 
+                    type="checkbox" 
+                    formControlName="onChangeRequiresRequest" 
+                    id="requiresRequest" 
+                    class="form-check-input"
+                    (change)="onChangeRequiresRequest($event)">
+                    
+            </div>
+            
+            <!-- Pedir o no solicitud para entrar a la iliga -->
+            <button type="submit" class="btn btn-primary margin-css">Guardar Producto</button>
+  
+        </div>
+      
+    </form>
+  </div>

@@ -1,0 +1,97 @@
+<div class="container">
+  <div class="upper-div">
+      <h2>Ligas</h2>
+      
+      <button (click)="createMatch()" class="btn btn-primary">Crear Partido</button>
+  </div>
+
+  <div class="league-information">
+      <!-- Información sobre la liga -->
+  </div>
+
+  <!-- Contenedor para alinear Filtro y Botones -->
+  <div class="filter-buttons-container">
+    <select class="form-control box-filter" id="filterSelect" [(ngModel)]="selectedFilter" (change)="applyFilter()">
+      <option value="name-descending">Nombre alfabéticamente mayor a menor</option>
+      <option value="price-descending">Más partidos ganados</option>
+      <option value="match-descending">Más partidos Jugados</option>
+      <option value="match-ascending">Menos partidos Jugados</option>
+      <option value="points-descending">Más puntos</option>
+      <option value="points-ascending">Menos puntos</option>
+      <option value="games-descending">Más juegos Ganados</option>
+      <option value="games-ascending">Menos juegos Ganados</option>
+    </select>
+  
+
+      <!-- Botones para cambiar entre vistas -->
+      <button (click)="switchView('clasificacion')" class="btn-view">Ver Clasificación</button>
+      <button (click)="switchView('partidos')" class="btn-view">Ver Partidos</button>
+  </div>
+
+  <!-- Tabla para la Clasificación -->
+<div *ngIf="view === 'clasificacion'" class="table-container">
+    <h2>Clasificación</h2>
+
+    <div class="grid-words grid-clasification header">
+        <span>ID</span>
+        <span>Nombre</span>
+        <span>Partidos Ganados</span>
+        <span>Partidos Perdidos</span>
+        <span>Partidos Jugados</span>
+        <span>Juegos Ganados</span>
+        <span>Juegos Perdidos</span>
+        <span>Puntos</span>
+    </div>
+
+    <div *ngFor="let player of players" class="grid-words row">
+        <span>{{ player.player }}</span>
+        <span class="player-name">{{ player.playerName }}</span>
+        <span>{{ player.partidosGanados }}</span>
+        <span>{{ player.partidosPerdidos }}</span>
+        <span>{{ player.partidosJugados }}</span>
+        <span>{{ player.juegosGanados }}</span>
+        <span>{{ player.juegosPerdidos }}</span>
+        <span>{{ player.puntosClasificacion }}</span>
+    </div>
+</div>
+
+<!-- Partidos Jugados -->
+<!-- Partidos Jugados -->
+<div *ngIf="view === 'partidos'" class="table-container">
+    <h2>Partidos Jugados</h2>
+
+    <!-- Encabezado -->
+    <div class="grid-words grid-matches header"
+         [ngClass]="{'grid-2-players': !hasFourPlayers(), 'grid-4-players': hasFourPlayers()}">
+        <span>Fecha</span>
+        <span>Jugador 1 </span>
+        <span>Jugador 2 </span>
+        <ng-container *ngIf="hasFourPlayers()">
+            <span>Jugador 3</span>
+            <span>Jugador 4</span>
+        </ng-container>
+        <span>Ganador</span>
+        <span>Acciones</span>
+    </div>
+
+    <!-- Filas de partidos -->
+    <div *ngFor="let match of matchs" class="grid-words row"
+         [ngClass]="{'grid-2-players': !match.jugador2, 'grid-4-players': match.jugador2}">
+        <span>{{ match.fecha }}</span>
+        <span>{{ match.jugador1.name }}</span>
+        <span>{{ match.jugador3.name }}</span>
+        <ng-container *ngIf="match.jugador2">
+            <span>{{ match.jugador2.name }}</span>
+            <span>{{ match.jugador4.name }}</span>
+        </ng-container>
+        <span>{{ match.ganadorEquipo }}</span>
+        <div class="actions-column">
+            <span class="view-match btn-view" (click)="goToMatchDetail(match.id)">Ver Partido</span>
+            <span class="view-match btn-danger" (click)="deleteMatch(match.id)">Eliminar Partido</span>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>

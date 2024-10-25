@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
     CommonModule
   ]
 })
-export class Garment { 
+export class sizeElement { 
 
   id: number;
   size: string;

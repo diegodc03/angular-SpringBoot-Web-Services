@@ -44,6 +44,17 @@ import { ShowSeasonEarningsComponent } from './workHours/pages/show-season-earni
 import { AddMatchesComponent } from './workHours/pages/add-matches/add-matches.component';
 import { AddSeasonComponent } from './workHours/pages/add-season/add-season.component';
 import { CommonModule } from '@angular/common';
+import { ShowLeaguesComponent } from './sport/pages/show-leagues/show-leagues.component';
+import { CreateLeagueComponent } from './sport/pages/create-league/create-league.component';
+import { ShowLeaguesJoinedComponent } from './sport/pages/show-leagues-joined/show-leagues-joined.component';
+import { ShowLeagueInformationComponent } from './sport/pages/show-league-information/show-clasification.component';
+import { SecureSportsLayoutComponent } from './layouts/secure-sports-layout/secure-sports-layout.component';
+import { SecureSportNavComponent } from "./shared/secure-sport-nav/secure-sport-nav.component";
+import { CreatePadelMatchComponent } from './sport/pages/create-padel-match/create-padel-match.component';
+import { ShowMatchesComponent } from './sport/pages/show-matches/show-matches.component';
+import { CreateTennisMatchComponent } from './sport/pages/create-tennis-match/create-tennis-match.component';
+import { ChangePasswordOutOfSessionComponent } from './authentication/pages/change-password-out-of-session/change-password-out-of-session.component';
+import { ChangePasswordOutOfSessionInputComponent } from './authentication/pages/change-password-out-of-session-input/change-password-out-of-session-input.component';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -79,17 +90,29 @@ import { CommonModule } from '@angular/common';
         SecureInventarySaleLayoutComponent,
         AddProductInventaryComponent,
         UpdateProductInventaryComponent,
+        ShowLeaguesComponent,
+        CreateLeagueComponent,
+        ShowLeaguesJoinedComponent,
+        ShowLeagueInformationComponent,
+        SecureSportsLayoutComponent,
+        SecureSportNavComponent,
+        CreatePadelMatchComponent,
+        ShowMatchesComponent,
+        CreateTennisMatchComponent,
+        ChangePasswordOutOfSessionComponent,
+        ChangePasswordOutOfSessionInputComponent
 
         
     ],
     imports: [
-        BrowserModule,
-        AppRoutingModule,
-        ReactiveFormsModule,
-        FormsModule,
-        HttpClientModule,
-        CommonModule
-      ],
+    BrowserModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule,
+    CommonModule,
+    
+],
       providers: [
         {provide:HTTP_INTERCEPTORS,useClass:JwtInterceptorService,multi:true},
         {provide:HTTP_INTERCEPTORS,useClass:ErrorInterceptorService,multi:true},

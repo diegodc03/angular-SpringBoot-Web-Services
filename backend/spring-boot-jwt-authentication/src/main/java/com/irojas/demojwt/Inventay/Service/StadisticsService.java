@@ -56,8 +56,8 @@ public class StadisticsService {
     public List<Map<String, Object>> getSizeData() {
         return saleListRepository.findAll().stream()
                 .flatMap(ps -> ps.getGarmentsSales().stream())
-                .collect(Collectors.groupingBy(GarmentSale::getSize,
-                       Collectors.summingInt(GarmentSale::getStockSold)))
+                .collect(Collectors.groupingBy(SizeElementSale::getSize,
+                       Collectors.summingInt(SizeElementSale::getStockSold)))
                 .entrySet().stream()
                 .map(entry -> Map.of("name", entry.getKey().toString(), "value", entry.getValue()))
                 .collect(Collectors.toList());
