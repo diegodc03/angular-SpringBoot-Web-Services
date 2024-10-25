@@ -20,6 +20,7 @@ public class Set {
     @ManyToOne
     @JoinColumn(name = "play_id", referencedColumnName = "id")
     private Play play;
+    
 
     @Column(name = "numero_set")
     private int numeroSet;

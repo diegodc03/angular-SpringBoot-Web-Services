@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { LeagueDTOModule } from '../../modelDTO/league-dto/league-dto.module';
 import { LeagueService } from '../../service/leagueService/league.service';
+import { LeagueIdDTOModule } from '../../modelDTO/league-id-dto/league-id-dto.module';
 
 @Component({
   selector: 'app-show-leagues',
@@ -21,21 +22,24 @@ export class ShowLeaguesComponent {
         this.leagueService.chargeLeagues().subscribe(
             leagues => {
                 this.leagues = leagues;
+                console.log(leagues);
             }
         );
     }
 
 
     requestToJoinLeague(leagueId: number) {
+        
+        const leagueIdDTO = new LeagueIdDTOModule(leagueId);
 
-        this.leagueService.requestToJoin(leagueId).subscribe(
-            response => {
-                alert(response.message || 'Solicitud enviada con éxito.');
+        this.leagueService.requestToJoin(leagueIdDTO).subscribe({
+            next: (response) => {
+                alert(response || 'Solicitud enviada con éxito.');
             },
-            error => {
+            error:  (error) =>{
                 alert('Error al enviar la solicitud. Por favor, inténtelo de nuevo.');
             }
-        );
+        });
     }
 
 

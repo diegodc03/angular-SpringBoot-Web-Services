@@ -10,4 +10,6 @@ import com.irojas.demojwt.sport.Model.TemporaryLeague;
 @Repository
 public interface TemporaryLeagueRepository extends JpaRepository<TemporaryLeague, Long>{
 	Optional<TemporaryLeague> findByEmail(String email);
+
+	Optional<TemporaryLeague> findByToken(String token);
 }

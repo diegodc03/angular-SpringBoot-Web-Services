@@ -32,13 +32,12 @@ public class PlayerController {
 
     private UserService userService;  // Servicio que maneja la lógica de usuarios
     private PlayerService playerService;
-    private LeagueService leagueService;
+
     
-    public PlayerController(UserService userService, PlayerService playerService, LeagueService leagueService) {
+    public PlayerController(UserService userService, PlayerService playerService) {
 		super();
 		this.userService = userService;
 		this.playerService = playerService;
-		this.leagueService = leagueService;
 	}
 
 	// Añadir usuario como jugador
@@ -74,14 +73,28 @@ public class PlayerController {
     		@AuthenticationPrincipal UserDetails currentUser,
     		@RequestBody LeagueIdDTO leagueId){
     	
-    	leagueService.saveTemporaryUserRequest(currentUser.getUsername(), leagueId.getLeagueId());
+    	playerService.saveTemporaryUserRequest(currentUser.getUsername(), leagueId.getLeagueId());
     	
     	
     	
     	// enviar un mensaje al admin para añadirlo
     	
-    	return null;
+    	return ResponseEntity.ok("request-sent");
     }
+    
+    @GetMapping("/accept-to-join-league")
+    public ResponseEntity<String> acceptToJoinLeague(
+    		@RequestParam String token){
+    	
+    	playerService.acceptRequestToJoinLeague(token);
+    	
+
+    	// enviar un mensaje al admin para añadirlo
+    	
+    	return ResponseEntity.ok("request-aprove");
+    }
+    
+    
     
     
     

@@ -45,18 +45,18 @@ public class LeagueService {
 	private PlayerRepository playerRepository;
 	private UserRepository userRepository;
 	private PlayerLeagueRepository playerLeagueRepository;
-	private TemporaryLeagueRepository temporaryLeagueRepository;
+
 	
 	private LeagueService(LeagueRepository leagueRepository, 
 						PlayerRepository playerRepository, 
 						UserRepository userRepository, 
-						PlayerLeagueRepository playerLeagueRepository,
-						TemporaryLeagueRepository temporaryLeagueRepository) {
+						PlayerLeagueRepository playerLeagueRepository
+						 ) {
 		this.leagueRepository = leagueRepository;
 		this.playerRepository = playerRepository;
 		this.userRepository = userRepository;
 		this.playerLeagueRepository = playerLeagueRepository;
-		this.temporaryLeagueRepository = temporaryLeagueRepository;
+
 	}
 	
 	
@@ -220,56 +220,5 @@ public class LeagueService {
 
 
 
-	public void saveTemporaryUserRequest(String username, Long leagueId) {
-		// TODO Auto-generated method stub
-		temporaryLeagueRepository.save(new TemporaryLeague(username, leagueId));
-		
-		String message = "Quiere aceptar al usuario"+username;
-		
-		sendRegisterEmail("diegodecm03@gmail.com", "Añadir Usuario a la liga", message);
-	}
-
 	
-	
-	public int sendRegisterEmail(String mailReceiver, String subject, String messageToSend) {
-	    
-	    String sender = "diegodecm03@gmail.com";
-	    String mailKey = "epio uzfq mwwh gvaa";  // Clave de la cuenta de Gmail
-
-	    // Configuración de propiedades para la conexión SMTP
-	    Properties props = System.getProperties();
-	    props.put("mail.smtp.host", "smtp.gmail.com");  // El servidor SMTP de Google
-	    props.put("mail.smtp.user", sender);            // El usuario
-	    props.put("mail.smtp.auth", "true");            // Usar autenticación mediante usuario y clave
-	    props.put("mail.smtp.starttls.enable", "true"); // Para conectar de manera segura al servidor SMTP
-	    props.put("mail.smtp.port", "587");             // El puerto SMTP seguro de Google
-
-	    // Crear la sesión con autenticación
-	    Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-	        @Override
-	        protected PasswordAuthentication getPasswordAuthentication() {  // Nombre correcto del método
-	            return new PasswordAuthentication(sender, mailKey);
-	        }
-	    });
-	    
-	    try {
-	        // Crear el mensaje
-	        MimeMessage message = new MimeMessage(session);
-	        message.setFrom(new InternetAddress(sender));
-	        message.addRecipient(Message.RecipientType.TO, new InternetAddress(mailReceiver)); // Destinatario
-	        message.setSubject(subject);
-	        message.setText(messageToSend);
-
-	        // Enviar el mensaje
-	        Transport transport = session.getTransport("smtp");
-	        transport.connect("smtp.gmail.com", sender, mailKey);
-	        transport.sendMessage(message, message.getAllRecipients());
-	        transport.close();
-	        return 0; // Éxito
-	    } 
-	    catch (Exception e) {
-	        e.printStackTrace();  
-	        return 1; // Error
-	    }
-	}
 }

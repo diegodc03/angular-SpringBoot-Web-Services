@@ -55,6 +55,7 @@ public class SecurityConfig {
                 .requestMatchers("/auth/register").permitAll()
                 .requestMatchers("/auth/confirmation/**").permitAll()
                 .requestMatchers("/auth/changePassword/**").permitAll()
+                .requestMatchers("/sport/player/accept-to-join-league").permitAll()
                 .requestMatchers("/api/**").authenticated()
                 .requestMatchers("/inventary/**").authenticated()
                 .requestMatchers("/sale/**").authenticated()

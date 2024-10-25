@@ -27,13 +27,13 @@ import { PlayMatchDTOWithPlayers } from '../match-dto/match-dto.module';
   export class CreateLeagueDTO extends BaseLeagueDTO{
 
     leagueType: string;
-    requestToJoinLeague: string;
+    requireRequest: boolean;
 
 
-    constructor(name: string, leagueType: string, requestToJoinLeague: string) {
+    constructor(name: string, leagueType: string, requestToJoinLeague: boolean) {
       super(name);
       this.leagueType = leagueType;
-      this.requestToJoinLeague = requestToJoinLeague;
+      this.requireRequest = requestToJoinLeague;
     }
   }
 
@@ -57,14 +57,14 @@ import { PlayMatchDTOWithPlayers } from '../match-dto/match-dto.module';
     
     id: number;
     leagueType: string;
-    requestToJoinLeague: boolean;
+    requireRequest: boolean;
 
-    constructor(id:number, name: string, leagueType: string, requestToJoinLeague: boolean) {
+    constructor(id:number, name: string, leagueType: string, requireRequest: boolean) {
       
       super(name);
       this.id = id;
       this.leagueType = leagueType;
-      this.requestToJoinLeague = requestToJoinLeague;
+      this.requireRequest = requireRequest;
     }
   }
 

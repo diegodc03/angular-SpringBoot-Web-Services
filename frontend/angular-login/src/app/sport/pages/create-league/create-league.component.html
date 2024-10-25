@@ -20,7 +20,7 @@
                 <select formControlName="leagueType" class="form-control" id="leagueType">
                     <option value="" disabled selected>Seleccione una liga</option>
                     <option value="padel">Padel</option>
-                    <option value="tennis">Tenis</option>
+                    <option value="tenis">Tenis</option>
                     <!-- Puedes añadir más opciones según tus necesidades -->
                 </select>
                 <div *ngIf="addLeague.get('leagueType')?.invalid && (addLeague.get('leagueType')?.dirty || addLeague.get('leagueType')?.touched)" class="text-danger">
@@ -36,9 +36,11 @@
                 <label for="requiresRequest" class="form-label">¿Requiere solicitud para unirse?</label>
                 <input 
                     type="checkbox" 
-                    formControlName="requiresRequest" 
+                    formControlName="onChangeRequiresRequest" 
                     id="requiresRequest" 
-                    class="form-check-input">
+                    class="form-check-input"
+                    (change)="onChangeRequiresRequest($event)">
+                    
             </div>
             
             <!-- Pedir o no solicitud para entrar a la iliga -->

@@ -32,8 +32,8 @@ export class LeagueService {
   }
 
 
-  requestToJoin(leagueId: number): Observable<any> {
-    return this.http.post(`/api/leagues/request-to-join/${leagueId}`, {});
+  requestToJoin(leagueIdDTO: LeagueIdDTOModule): Observable<String> {
+    return this.http.post<String>(`${this.apiURL}/player/request-to-join-league`, leagueIdDTO, { responseType: 'text' as 'json' });
   }
 
   joinLeagueDirectly(leagueId: LeagueIdDTOModule): Observable<String> {

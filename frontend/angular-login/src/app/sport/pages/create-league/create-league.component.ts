@@ -12,6 +12,7 @@ export class CreateLeagueComponent {
   addLeagueSuccess: String = "";  
   addLegueError: String = "";
   addLeague: FormGroup;
+  requiresRequest: boolean = false;
 
   
   constructor(private fb: FormBuilder, 
@@ -28,8 +29,7 @@ export class CreateLeagueComponent {
     if (this.addLeague.valid) {
 
       const leagueData = this.addLeague.value;
-      const createLeagueDTO: CreateLeagueDTO = { name: leagueData.name, leagueType: leagueData.leagueType , requestToJoinLeague: leagueData.requiresRequest };
-      
+      const createLeagueDTO: CreateLeagueDTO = { name: leagueData.name, leagueType: leagueData.leagueType , requireRequest: this.requiresRequest };
       this.leagueService.createLeague(createLeagueDTO).subscribe({
         next: (response) => {
             alert(response || 'League created successfully.');
@@ -45,6 +45,15 @@ export class CreateLeagueComponent {
     } else {
       this.addLegueError = 'Por favor, complete todos los campos requeridos.';
     }
+  }
+
+
+  onChangeRequiresRequest(event: Event) {
+    // Obtenemos el valor actual del checkbox
+    const isChecked = (event.target as HTMLInputElement).checked;
+    this.requiresRequest = isChecked;
+    this.addLeague.patchValue({ requiresRequest: isChecked });
+
   }
 
 
