@@ -17,9 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.irojas.demojwt.Auth.Service.UserService;
 import com.irojas.demojwt.sport.Model.Player;
+import com.irojas.demojwt.sport.Model.TemporaryLeague;
 import com.irojas.demojwt.sport.ModelDTO.LeagueIdDTO;
 import com.irojas.demojwt.sport.ModelDTO.PlayerDTO;
+import com.irojas.demojwt.sport.Service.LeagueService;
 import com.irojas.demojwt.sport.Service.PlayerService;
+import com.irojas.demojwt.sportRepository.TemporaryLeagueRepository;
 
 @Controller
 @RequestMapping("/sport/player")
@@ -29,12 +32,13 @@ public class PlayerController {
 
     private UserService userService;  // Servicio que maneja la lógica de usuarios
     private PlayerService playerService;
+    private LeagueService leagueService;
     
-    
-    public PlayerController(UserService userService, PlayerService playerService) {
+    public PlayerController(UserService userService, PlayerService playerService, LeagueService leagueService) {
 		super();
 		this.userService = userService;
 		this.playerService = playerService;
+		this.leagueService = leagueService;
 	}
 
 	// Añadir usuario como jugador
@@ -67,14 +71,19 @@ public class PlayerController {
   //request-to-join
     @PostMapping("/request-to-join-league")
     public ResponseEntity<String> requestToJoinLeague(
-    		@AuthenticationPrincipal UserDetails currentUser){
+    		@AuthenticationPrincipal UserDetails currentUser,
+    		@RequestBody LeagueIdDTO leagueId){
     	
-    	// Podria añadirse a una base de datos de request to join
+    	leagueService.saveTemporaryUserRequest(currentUser.getUsername(), leagueId.getLeagueId());
+    	
+    	
     	
     	// enviar un mensaje al admin para añadirlo
     	
     	return null;
     }
+    
+    
     
     
     @PostMapping("/join-league")

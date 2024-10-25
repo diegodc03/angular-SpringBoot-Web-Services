@@ -3,18 +3,19 @@ package com.irojas.demojwt.Auth.ModelDTO;
 public class RequestChangePasswordOutOfSession {
 
 	
-	String currentPassword;
+	String confirmPassword;
 	String newPassword;
-	String email;
+	String token;
 
 
 	
 
-	public String getCurrentPassword() {
-		return currentPassword;
+	
+	public String getConfirmPassword() {
+		return confirmPassword;
 	}
-	public void setCurrentPassword(String currentPassword) {
-		this.currentPassword = currentPassword;
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 	public String getNewPassword() {
 		return newPassword;
@@ -23,19 +24,18 @@ public class RequestChangePasswordOutOfSession {
 		this.newPassword = newPassword;
 	}
 	
-
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
+	}
 	
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public RequestChangePasswordOutOfSession(String email, String currentPassword, String newPassword) {
+	public RequestChangePasswordOutOfSession(String token, String newPassword, String confirmPassword) {
 		super();
-		this.currentPassword = currentPassword;
+		this.confirmPassword = confirmPassword;
 		this.newPassword = newPassword;
-		this.email = email;
+		this.token = token;
 
 
 	}

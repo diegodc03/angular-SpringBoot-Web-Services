@@ -1,39 +1,48 @@
 
-<p *ngIf="!userLoginOn" class="alert alert-danger">Usuario NO autenticado</p>
-<p *ngIf="userLoginOn" class="alert alert-success">Usuario Autenticado</p>
 
-<div class="card ">
-    <div class="card-header">
-        Datos Personales
-    </div>
-    <div class="card-body m-0">
-        <app-personal-details></app-personal-details>
-    </div>
+<div class="container">
+        
+   
+    <h2>Resumen de la Aplicación</h2>
+    <p>Esta aplicación está diseñada para gestionar el flujo de trabajo y las ventas de una empresa, proporcionando herramientas clave como autenticación de usuarios, gestión de inventario y ventas, y registro de horas laborales. A continuación, se detallan las principales secciones de la aplicación:</p>
+    
+    <p *ngIf="!userLoginOn" class="alert alert-danger">Usuario NO autenticado</p>
+    <p *ngIf="userLoginOn" class="alert alert-success">Usuario Autenticado</p>
+    
 
-</div>
-<div class="card">
-    <div class="card-header">
-        Perfil Profesional
+    <div class="section-card">
+      <h3>1. Autenticación</h3>
+      <p>La sección de autenticación permite a los usuarios iniciar sesión de forma segura, registrar nuevos usuarios y, en algunos casos, recuperar sus credenciales mediante un flujo de recuperación de contraseñas. Esta sección se compone de los siguientes elementos:</p>
+      <ul>
+        <li><strong>Inicio de Sesión:</strong> Permite a los usuarios existentes acceder a la plataforma con sus credenciales.</li>
+        <li><strong>Registro:</strong> Opción para que nuevos usuarios se registren, con validación de datos como correo y contraseña.</li>
+        <li><strong>Recuperación de Contraseña:</strong> Envía instrucciones al correo electrónico registrado para recuperar el acceso.</li>
+      </ul>
+      <p>Esta sección asegura que solo usuarios autorizados accedan a las funciones internas de la aplicación.</p>
     </div>
-    <div class="card-body m-0">
-
+    
+    <div class="section-card">
+      <h3>2. Inventario y Ventas</h3>
+      <p>En la sección de inventario y ventas, los administradores pueden gestionar productos y realizar un seguimiento detallado de las ventas. Las funcionalidades principales incluyen:</p>
+      <ul>
+        <li><strong>Visualización del Inventario:</strong> Muestra una lista de productos disponibles, junto con detalles como nombre, cantidad y precio.</li>
+        <li><strong>Gestión de Productos:</strong> Permite agregar, actualizar o eliminar productos, manteniendo la base de datos del inventario actualizada.</li>
+        <li><strong>Registro de Ventas:</strong> Proporciona opciones para realizar ventas, registrando información de cliente y detalles de productos vendidos.</li>
+        <li><strong>Reportes de Ventas:</strong> Genera informes sobre las ventas realizadas, ayudando en la toma de decisiones de inventario y ventas futuras.</li>
+      </ul>
+      <p>Este módulo es clave para la gestión de inventarios y el flujo de ventas en tiempo real, ayudando a optimizar los recursos y controlar el stock.</p>
     </div>
-</div>
-<div class="card">
-    <div class="card-header">
-        Datos Académicos
+    
+    <div class="section-card">
+      <h3>3. Horas de Trabajo</h3>
+      <p>La sección de horas de trabajo permite a los empleados registrar sus horas diarias, ver el historial de asistencia y calcular el tiempo trabajado. Las características incluyen:</p>
+      <ul>
+        <li><strong>Registro de Horas:</strong> Los empleados pueden ingresar las horas de entrada y salida, almacenando esta información para futuros cálculos.</li>
+        <li><strong>Resumen de Horas Trabajadas:</strong> Los empleados pueden revisar las horas trabajadas en un periodo específico, ideal para revisión y control personal.</li>
+        <li><strong>Reportes de Asistencia:</strong> Los administradores pueden generar reportes para analizar las horas trabajadas por el personal y gestionar horarios.</li>
+        <li><strong>Notificaciones:</strong> Se envían alertas en caso de horas extra o en caso de ausencias no registradas.</li>
+      </ul>
+      <p>Esta funcionalidad es ideal para empresas que desean optimizar la productividad y asegurarse de que los empleados cumplan con su horario laboral.</p>
     </div>
-    <div class="card-body m-0">
-
-    </div>
-
-</div>
-
-<div class="card">
-    <div class="card-header">
-        Experiencia Laboral
-    </div>
-    <div class="card-body m-0">
-
-    </div>
-</div>
+  </div>
+  

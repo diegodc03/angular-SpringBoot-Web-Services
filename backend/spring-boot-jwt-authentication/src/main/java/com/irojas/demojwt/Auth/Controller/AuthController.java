@@ -29,6 +29,7 @@ import com.irojas.demojwt.Auth.ModelDTO.LoginRequest;
 import com.irojas.demojwt.Auth.ModelDTO.RegisterRequest;
 import com.irojas.demojwt.Auth.ModelDTO.RequestChangePassword;
 import com.irojas.demojwt.Auth.ModelDTO.RequestChangePasswordOutOfSession;
+import com.irojas.demojwt.Auth.ModelDTO.RequestChangePasswordOutOfSessionEmail;
 import com.irojas.demojwt.Auth.ModelDTO.UserDTO;
 import com.irojas.demojwt.Auth.ModelDTO.UserRegisterDTO;
 import com.irojas.demojwt.Auth.Service.AuthService;
@@ -143,7 +144,7 @@ public class AuthController {
     public ResponseEntity<String> changePasswordOutOfSession(@RequestBody RequestChangePasswordOutOfSession request, HttpServletRequest requestHeader){
     	
     	
-    	 if (authService.changePasswordOut(request.getEmail(), request.getCurrentPassword(), request.getNewPassword())) {
+    	 if (authService.changePasswordOut(request.getToken(), request.getNewPassword(), request.getConfirmPassword())) {
     	        return ResponseEntity.ok("Password changed successfully");
     	 }
     	 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized: Invalid token or password");
@@ -151,7 +152,7 @@ public class AuthController {
   
     
     @PostMapping(value = "changePassword/send-email-to-change-password")
-    public ResponseEntity<String> sendEmailTochangePasswordOutOfSession(@RequestBody RequestChangePasswordOutOfSession request, HttpServletRequest requestHeader){
+    public ResponseEntity<String> sendEmailTochangePasswordOutOfSession(@RequestBody RequestChangePasswordOutOfSessionEmail request, HttpServletRequest requestHeader){
     	
    	 if (authService.sendEmailTochangePasswordOut(request.getEmail())) {
    	        return ResponseEntity.ok("Email send succesfully");

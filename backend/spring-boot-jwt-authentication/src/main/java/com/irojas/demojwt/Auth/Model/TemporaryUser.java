@@ -210,6 +210,12 @@ public class TemporaryUser {
 				this.password = password;
 				this.roles = roles;
 			}
+			
+			public TemporaryUser(String email, String token) {
+				super();
+				this.email = email;
+				this.token = token;
+			}
 
 	
 	

@@ -183,30 +183,34 @@ public class AuthService {
     
     
 
-    public boolean changePasswordOut(String email,String currentPassword, String newPassword) {
+    public boolean changePasswordOut(String token,String newPassword, String confirmPassword) {
 		
 
-    		
-    	Optional<User> optionalUser = userRepository.findByEmail(email);
-    	
-    	if(optionalUser.isPresent()) {
-    		//Usuario existente y token valido
-    		    		
-    		User user = optionalUser.get();
-    		
-    		Authentication auth = authenticate(user.getUsername(), user.getPassword());
-    		
-    		if(auth != null) {
-    			user.setPassword(passwordEncoder.encode(newPassword));
-        		
-        		userRepository.save(user);
-        		
-        		return true;
-    		}
+    	if (newPassword == confirmPassword) {
     		return false;
-    		
     	}
-   	    return false;
+    		
+    	TemporaryUser tempUser = temporaryUserRepository.findByToken(token)
+    			 .orElseThrow(() -> new RuntimeException("token not found"));
+    	
+    	
+    	User user = userRepository.findByEmail(tempUser.getEmail())
+   			 .orElseThrow(() -> new RuntimeException("user not found"));
+    	
+    		
+    	Authentication auth = authenticate(user.getUsername(), user.getPassword());
+    		
+    	if(auth != null) {
+    		user.setPassword(passwordEncoder.encode(newPassword));
+        	
+        	userRepository.save(user);
+        	temporaryUserRepository.delete(tempUser);
+        	return true;
+    	}
+    	return false;
+    		
+    	
+   	    
     }
     
     
@@ -385,6 +389,8 @@ public TemporaryUser saveTemporaryUser(UserRegisterDTO registerDTO) {
 	    }
 	}
 
+	
+	
 
 	
 	public void deleteTempUser(String token) {
@@ -399,6 +405,8 @@ public TemporaryUser saveTemporaryUser(UserRegisterDTO registerDTO) {
 		    }
 		}
 	}
+	
+	
 	
 	
 	
@@ -445,7 +453,10 @@ public TemporaryUser saveTemporaryUser(UserRegisterDTO registerDTO) {
 
 	public boolean sendEmailTochangePasswordOut(String email) {
 		// TODO Auto-generated method stub
-		String url = "http://localhost:4200/changePasswordOutOfSession";
+		String token =  UUID.randomUUID().toString();
+		String url = "http://localhost:4200/changePasswordOutOfSession?token="+token;
+		temporaryUserRepository.save(new TemporaryUser(email,token));
+		
 		sendRegisterEmail(email, "Cambio de contraseña", url);
 		
 		return true;

@@ -12,4 +12,5 @@ public interface TemporaryUserRepository extends JpaRepository<TemporaryUser, Lo
 
 	Optional<TemporaryUser> findByEmail(String email);
 	
+	Optional<TemporaryUser> findByToken(String token);
 }
